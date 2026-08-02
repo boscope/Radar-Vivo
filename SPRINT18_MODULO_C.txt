@@ -1,0 +1,452 @@
+import AdminCard from "@/components/admin/AdminCard";
+import AdminSidebar from "@/components/admin/AdminSidebar";
+
+export default function AdminPage() {
+  return (
+    <main className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar />
+
+      <div className="flex-1">
+
+        <div className="max-w-7xl mx-auto p-8">
+
+          <h1 className="text-5xl font-bold">
+            Painel Administrativo
+          </h1>
+
+          <p className="text-gray-600 mt-4">
+            Gerencie toda a plataforma Radar Vivo.
+          </p>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mt-12">
+
+            <AdminCard
+              title="Usuários"
+              value="128"
+              description="Usuários cadastrados"
+            />
+
+            <AdminCard
+              title="Assinantes"
+              value="24"
+              description="Clientes ativos"
+            />
+
+            <AdminCard
+              title="Relatórios"
+              value="534"
+              description="Relatórios gerados"
+            />
+
+            <AdminCard
+              title="Empresas"
+              value="891"
+              description="Empresas analisadas"
+            />
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+  );
+}
+const items = [
+  "Dashboard",
+  "Usuários",
+  "Planos",
+  "Relatórios",
+  "Empresas",
+  "Configurações",
+];
+
+export default function AdminSidebar() {
+  return (
+    <aside className="w-72 min-h-screen bg-slate-900 text-white p-8">
+
+      <h2 className="text-3xl font-bold mb-10">
+        Radar Vivo
+      </h2>
+
+      <nav className="space-y-2">
+
+        {items.map((item) => (
+          <div
+            key={item}
+            className="rounded-xl px-4 py-3 cursor-pointer hover:bg-slate-800 transition"
+          >
+            {item}
+          </div>
+        ))}
+
+      </nav>
+
+    </aside>
+  );
+}
+type Props={
+title:string;
+value:string;
+description:string;
+};
+
+export default function AdminCard({
+title,
+value,
+description
+}:Props){
+
+return(
+
+<div className="rounded-2xl border bg-white shadow-sm p-6">
+
+<p className="text-gray-500 text-sm">
+
+{title}
+
+</p>
+
+<h2 className="text-4xl font-bold mt-3">
+
+{value}
+
+</h2>
+
+<p className="text-gray-500 mt-4">
+
+{description}
+
+</p>
+
+</div>
+
+);
+
+}
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { supabase } from "@/lib/supabase";
+import { getCompanies } from "@/lib/services/company-service";
+
+import type { Company } from "@/types/company";
+
+import DashboardHeader from "@/components/dashboard/DashboardHeader";
+import DashboardStats from "@/components/dashboard/DashboardStats";
+import CompaniesTable from "@/components/dashboard/CompaniesTable";
+
+export default function DashboardPage() {
+
+  const router = useRouter();
+
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  async function sair() {
+    await supabase.auth.signOut();
+    router.push("/login");
+  }
+
+  useEffect(() => {
+
+    async function carregar() {
+
+      try {
+
+        const data = await getCompanies();
+        setCompanies(data);
+
+      } catch (error) {
+
+        console.error(error);
+
+      } finally {
+
+        setLoading(false);
+
+      }
+
+    }
+
+    carregar();
+
+  }, []);
+
+  return (
+
+    <main className="min-h-screen bg-black text-white">
+
+      <div className="max-w-7xl mx-auto p-8">
+
+        <DashboardHeader
+          onLogout={sair}
+        />
+
+        <DashboardStats
+          companies={companies}
+        />
+
+        <CompaniesTable
+          companies={companies}
+          loading={loading}
+        />
+
+      </div>
+
+    </main>
+
+  );
+
+}import ExecutiveReportView from "@/components/report/ExecutiveReportView";
+import PdfPreview from "@/components/pdf/PdfPreview";
+import ReportActions from "@/components/report/ReportActions";
+import ReportIndex from "@/components/report/ReportIndex";
+import ReportFooter from "@/components/report/ReportFooter";
+import { mockExecutiveReport } from "@/lib/report/mock-report";
+
+export default function ReportPage(){
+
+    return(
+
+        <main className="max-w-7xl mx-auto px-6 py-8 space-y-8">
+
+            <div>
+
+                <h1 className="text-4xl font-bold">
+
+                    Relatório Executivo
+
+                </h1>
+
+                <p className="text-gray-500 mt-2">
+
+                    Pré-visualização completa do relatório que será exportado em PDF.
+
+                </p>
+
+            </div>
+
+            <ReportIndex/>
+
+            <ExecutiveReportView
+                report={mockExecutiveReport}
+            />
+
+            <ReportActions/>
+
+            <PdfPreview/>
+
+            <ReportFooter/>
+
+        </main>
+
+    );
+
+}
+import {
+  findGoogleCompany,
+} from "@/lib/google";
+
+import {
+  googleCompanyToCollector,
+} from "./google-adapter";
+
+import {
+  collectGoogle,
+} from "./google-collector";
+
+import {
+  collectWebsite,
+} from "./site-collector";
+
+import type {
+  CompanyData,
+} from "./types";
+
+import {
+  analyzeCompany,
+} from "@/lib/intelligence";
+
+import {
+  enrichCompanyIntelligence,
+} from "@/lib/intelligence/core/company-intelligence";
+
+export async function collectCompanyData(
+  company: string
+): Promise<CompanyData> {
+
+  const googleReal =
+    await findGoogleCompany(company);
+
+  const googleData =
+    googleReal
+      ? googleCompanyToCollector(googleReal)
+      : await collectGoogle(company);
+
+  const websiteData =
+    await collectWebsite(company);
+
+  const analysis = {
+
+    companyName: company,
+
+    city: googleData.city,
+
+    category: googleData.category,
+
+    website: websiteData.website,
+
+    googleBusiness: true,
+
+    instagram: undefined,
+
+    facebook: undefined,
+
+    hasWhatsapp:
+      googleData.hasWhatsapp ?? false,
+
+    hasSeo:
+      websiteData.hasSeo ?? false,
+
+    hasGoogleAds: false,
+
+    hasMetaAds: false,
+
+    hasAutomation: false,
+
+  };
+
+  const intelligence =
+    analyzeCompany(analysis);
+
+  const companyData = {
+
+    companyName: company,
+
+    website: websiteData.website,
+
+    cnpj: undefined,
+
+    googleMapsUrl:
+      googleData.googleMapsUrl,
+
+    city: googleData.city,
+
+    category: googleData.category,
+
+    phone: googleData.phone,
+
+    email: undefined,
+
+    instagram: undefined,
+
+    facebook: undefined,
+
+    googleRating:
+      googleData.googleRating,
+
+    googleReviews:
+      googleData.googleReviews,
+
+    hasWebsite:
+      websiteData.hasWebsite ?? false,
+
+    hasSeo:
+      websiteData.hasSeo ?? false,
+
+    hasWhatsapp:
+      googleData.hasWhatsapp ?? false,
+
+    intelligence,
+
+  };
+
+  return await enrichCompanyIntelligence(companyData);
+
+}
+import type { TechnologyResult } from "../technology/contracts";
+import type { OpportunityScore } from "./contracts";
+
+export function calculateOpportunityScore(
+  tech: TechnologyResult
+): OpportunityScore {
+
+  let score = 0;
+
+  const positives: string[] = [];
+  const negatives: string[] = [];
+
+  if (tech.frameworks.length) {
+    score += 20;
+    positives.push("Framework moderno");
+  } else {
+    negatives.push("Framework não identificado");
+  }
+
+  if (tech.analytics.length) {
+    score += 15;
+    positives.push("Analytics instalado");
+  } else {
+    negatives.push("Sem Analytics");
+  }
+
+  if (tech.marketing.length) {
+    score += 15;
+    positives.push("Ferramentas de marketing");
+  } else {
+    negatives.push("Sem automação de marketing");
+  }
+
+  if (tech.chats.length) {
+    score += 10;
+    positives.push("Chat online");
+  }
+
+  if (tech.ecommerce.length) {
+    score += 15;
+    positives.push("Possui e-commerce");
+  }
+
+  if (tech.cms.length) {
+    score += 10;
+  }
+
+  if (tech.libraries.length) {
+    score += 5;
+  }
+
+  if (tech.infrastructure.length) {
+    score += 10;
+  }
+
+  if (score > 100) score = 100;
+
+  const level =
+    score >= 70
+      ? "Alto"
+      : score >= 40
+      ? "Médio"
+      : "Baixo";
+
+  return {
+    score,
+    level,
+    positives,
+    negatives,
+    technologies: tech,
+  };
+}
+import { fetchHtml } from "./fetch-html";
+import { runTechnologyRules } from "./rule-engine";
+
+export async function analyzeTechnologies(url: string) {
+  const html = await fetchHtml(url);
+  return runTechnologyRules(html);
+}
+
+export { runTechnologyRules };

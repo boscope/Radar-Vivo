@@ -1,0 +1,373 @@
+import {
+  findGoogleCompany,
+} from "@/lib/google";
+
+import {
+  googleCompanyToCollector,
+} from "./google-adapter";
+
+import {
+  collectGoogle,
+} from "./google-collector";
+
+import {
+  collectWebsite,
+} from "./site-collector";
+
+import type {
+  CompanyData,
+} from "./types";
+
+import {
+  analyzeCompany,
+} from "@/lib/intelligence";
+
+export async function collectCompanyData(
+  company: string
+): Promise<CompanyData> {
+
+  const googleReal =
+    await findGoogleCompany(company);
+
+  const googleData =
+    googleReal
+      ? googleCompanyToCollector(googleReal)
+      : await collectGoogle(company);
+
+  const websiteData =
+    await collectWebsite(company);
+
+  const analysis = {
+
+    companyName: company,
+
+    city: googleData.city,
+
+    category: googleData.category,
+
+    website: websiteData.website,
+
+    googleBusiness: true,
+
+    instagram: undefined,
+
+    facebook: undefined,
+
+    hasWhatsapp:
+      googleData.hasWhatsapp ?? false,
+
+    hasSeo:
+      websiteData.hasSeo ?? false,
+
+    hasGoogleAds: false,
+
+    hasMetaAds: false,
+
+    hasAutomation: false,
+
+  };
+
+  const intelligence =
+    analyzeCompany(analysis);
+
+  return {
+
+    companyName: company,
+
+    website: websiteData.website,
+
+    cnpj: undefined,
+
+    googleMapsUrl:
+      googleData.googleMapsUrl,
+
+    city: googleData.city,
+
+    category: googleData.category,
+
+    phone: googleData.phone,
+
+    email: undefined,
+
+    instagram: undefined,
+
+    facebook: undefined,
+
+    googleRating:
+      googleData.googleRating,
+
+    googleReviews:
+      googleData.googleReviews,
+
+    hasWebsite:
+      websiteData.hasWebsite ?? false,
+
+    hasSeo:
+      websiteData.hasSeo ?? false,
+
+    hasWhatsapp:
+      googleData.hasWhatsapp ?? false,
+
+    intelligence,
+
+  };
+
+}
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+
+import OpportunityCard from "@/components/scanner/OpportunityCard";
+
+import {
+  collectCompanyData,
+  type CompanyData,
+} from "@/lib/collector";
+
+type Props = {
+  params: Promise<{
+    empresa: string;
+  }>;
+};
+
+export default function ScannerResultPage({
+  params,
+}: Props) {
+
+  const [empresa, setEmpresa] =
+    useState("Empresa");
+
+  const [company, setCompany] =
+    useState<CompanyData | null>(null);
+
+  useEffect(() => {
+
+    async function carregar() {
+
+      const { empresa } =
+        await params;
+
+      const nomeEmpresa =
+        decodeURIComponent(empresa);
+
+      setEmpresa(nomeEmpresa);
+
+      const data =
+        await collectCompanyData(nomeEmpresa);
+
+      setCompany(data);
+
+    }
+
+    carregar();
+
+  }, [params]);
+
+  if (!company) {
+
+    return (
+
+      <main className="min-h-screen bg-black text-white flex items-center justify-center">
+
+        Carregando análise...
+
+      </main>
+
+    );
+
+  }
+
+  return (
+
+    <main className="min-h-screen bg-black text-white">
+
+      <div className="max-w-6xl mx-auto p-10">
+
+        <Link
+          href="/scanner"
+          className="text-green-400 hover:text-green-300"
+        >
+          ← Nova análise
+        </Link>
+
+        <h1 className="text-5xl font-bold mt-6">
+
+          {empresa}
+
+        </h1>
+
+        <p className="text-zinc-400 mt-2">
+
+          Resultado da análise inteligente
+
+        </p>
+
+        <div className="mt-10">
+
+          <OpportunityCard
+
+            priority={
+              company.intelligence.score.priority
+            }
+
+            service={
+              company.intelligence
+                .commercial
+                .recommendedServices[0] ??
+              "Nenhum"
+            }
+
+            probability={80}
+
+            monthlyLoss={
+              company.intelligence
+                .score
+                .estimatedRevenue
+            }
+
+          />
+
+        </div>
+
+        <div className="bg-zinc-900 rounded-xl p-8 mt-10">
+
+          <h2 className="text-2xl font-bold mb-6">
+
+            🎯 Serviços Recomendados
+
+          </h2>
+
+          <ul className="space-y-4">
+
+            {company.intelligence
+              .commercial
+              .recommendedServices
+              .map((item, index) => (
+
+                <li key={index}>
+
+                  ✅ {item}
+
+                </li>
+
+              ))}
+
+          </ul>
+
+        </div>
+
+        <div className="bg-zinc-900 rounded-xl p-8 mt-10">
+
+          <h2 className="text-2xl font-bold mb-6">
+
+            Diagnóstico Inteligente
+
+          </h2>
+
+          <ul className="space-y-4">
+
+            {company.intelligence
+              .diagnosis
+              .weaknesses
+              .map((item, index) => (
+
+                <li key={index}>
+
+                  ⚠️ {item}
+
+                </li>
+
+              ))}
+
+          </ul>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  );
+
+}import type { TechnologyResult } from "../technology/contracts";
+import type { OpportunityScore } from "./contracts";
+
+export function calculateOpportunityScore(
+  tech: TechnologyResult
+): OpportunityScore {
+
+  let score = 0;
+
+  const positives: string[] = [];
+  const negatives: string[] = [];
+
+  if (tech.frameworks.length) {
+    score += 20;
+    positives.push("Framework moderno");
+  } else {
+    negatives.push("Framework não identificado");
+  }
+
+  if (tech.analytics.length) {
+    score += 15;
+    positives.push("Analytics instalado");
+  } else {
+    negatives.push("Sem Analytics");
+  }
+
+  if (tech.marketing.length) {
+    score += 15;
+    positives.push("Ferramentas de marketing");
+  } else {
+    negatives.push("Sem automação de marketing");
+  }
+
+  if (tech.chats.length) {
+    score += 10;
+    positives.push("Chat online");
+  }
+
+  if (tech.ecommerce.length) {
+    score += 15;
+    positives.push("Possui e-commerce");
+  }
+
+  if (tech.cms.length) {
+    score += 10;
+  }
+
+  if (tech.libraries.length) {
+    score += 5;
+  }
+
+  if (tech.infrastructure.length) {
+    score += 10;
+  }
+
+  if (score > 100) score = 100;
+
+  const level =
+    score >= 70
+      ? "Alto"
+      : score >= 40
+      ? "Médio"
+      : "Baixo";
+
+  return {
+    score,
+    level,
+    positives,
+    negatives,
+    technologies: tech,
+  };
+}
+import { fetchHtml } from "./fetch-html";
+import { runTechnologyRules } from "./rule-engine";
+
+export async function analyzeTechnologies(url: string) {
+  const html = await fetchHtml(url);
+  return runTechnologyRules(html);
+}
+
+export { runTechnologyRules };

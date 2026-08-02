@@ -1,0 +1,309 @@
+import AdminCard from "@/components/admin/AdminCard";
+import AdminSidebar from "@/components/admin/AdminSidebar";
+
+export default function AdminPage() {
+  return (
+    <main className="min-h-screen bg-slate-100 flex">
+
+      <AdminSidebar />
+
+      <div className="flex-1">
+
+        <div className="max-w-7xl mx-auto p-8">
+
+          <h1 className="text-5xl font-bold">
+            Painel Administrativo
+          </h1>
+
+          <p className="text-gray-600 mt-4">
+            Gerencie toda a plataforma Radar Vivo.
+          </p>
+
+          <div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mt-12">
+
+            <AdminCard
+              title="Usuários"
+              value="128"
+              description="Usuários cadastrados"
+            />
+
+            <AdminCard
+              title="Assinantes"
+              value="24"
+              description="Clientes ativos"
+            />
+
+            <AdminCard
+              title="Relatórios"
+              value="534"
+              description="Relatórios gerados"
+            />
+
+            <AdminCard
+              title="Empresas"
+              value="891"
+              description="Empresas analisadas"
+            />
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+  );
+}
+export default function UsersPage(){
+
+const users=[
+{name:"Bosco",plan:"PRO",status:"Ativo"},
+{name:"Empresa Demo",plan:"Starter",status:"Teste"},
+{name:"Radar Vivo",plan:"Enterprise",status:"Ativo"},
+];
+
+return(
+
+<div className="p-10">
+
+<h1 className="text-4xl font-bold mb-8">
+
+Usuários
+
+</h1>
+
+<div className="bg-white rounded-2xl shadow">
+
+<table className="w-full">
+
+<thead className="bg-slate-100">
+
+<tr>
+
+<th className="text-left p-4">Nome</th>
+<th className="text-left p-4">Plano</th>
+<th className="text-left p-4">Status</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{users.map((u)=>(
+<tr
+key={u.name}
+className="border-t"
+>
+
+<td className="p-4">{u.name}</td>
+<td className="p-4">{u.plan}</td>
+<td className="p-4">{u.status}</td>
+
+</tr>
+))}
+
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+);
+
+}
+export default function Plans(){
+
+return(
+
+<div className="p-10">
+
+<h1 className="text-4xl font-bold">
+
+Planos
+
+</h1>
+
+<div className="grid md:grid-cols-3 gap-6 mt-10">
+
+<div className="bg-white rounded-2xl shadow p-6">
+<h2 className="text-2xl font-bold">Starter</h2>
+<p className="mt-4">Ideal para pequenos negócios.</p>
+</div>
+
+<div className="bg-white rounded-2xl shadow p-6">
+<h2 className="text-2xl font-bold">PRO</h2>
+<p className="mt-4">Plano recomendado.</p>
+</div>
+
+<div className="bg-white rounded-2xl shadow p-6">
+<h2 className="text-2xl font-bold">Enterprise</h2>
+<p className="mt-4">Grandes empresas.</p>
+</div>
+
+</div>
+
+</div>
+
+);
+
+}
+export default function Companies(){
+
+return(
+
+<div className="p-10">
+
+<h1 className="text-4xl font-bold">
+
+Empresas Monitoradas
+
+</h1>
+
+<div className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mt-10">
+
+{Array.from({length:8}).map((_,i)=>(
+
+<div
+key={i}
+className="bg-white rounded-2xl shadow p-6"
+>
+
+<h2 className="font-bold">
+
+Empresa {i+1}
+
+</h2>
+
+<p className="text-gray-500 mt-2">
+
+Monitoramento ativo
+
+</p>
+
+</div>
+
+))}
+
+</div>
+
+</div>
+
+);
+
+}
+export default function Settings(){
+
+return(
+
+<div className="p-10">
+
+<h1 className="text-4xl font-bold">
+
+Configurações
+
+</h1>
+
+<div className="bg-white rounded-2xl shadow p-8 mt-10">
+
+<p>
+
+Aqui ficarão as configurações globais do Radar Vivo.
+
+</p>
+
+</div>
+
+</div>
+
+);
+
+}
+import Link from "next/link";
+
+const menu=[
+
+["Dashboard","/admin"],
+["Usuários","/admin/users"],
+["Planos","/admin/plans"],
+["Empresas","/admin/companies"],
+["Configurações","/admin/settings"],
+
+];
+
+export default function AdminSidebar(){
+
+return(
+
+<aside className="w-72 bg-slate-900 text-white min-h-screen p-8">
+
+<h2 className="text-3xl font-bold mb-12">
+
+Radar Vivo
+
+</h2>
+
+<nav className="space-y-3">
+
+{menu.map(([name,url])=>(
+
+<Link
+key={name}
+href={url}
+className="block rounded-xl px-4 py-3 hover:bg-slate-800 transition"
+>
+
+{name}
+
+</Link>
+
+))}
+
+</nav>
+
+</aside>
+
+);
+
+}
+type Props={
+title:string;
+value:string;
+description:string;
+};
+
+export default function AdminCard({
+title,
+value,
+description
+}:Props){
+
+return(
+
+<div className="rounded-2xl border bg-white shadow-sm p-6">
+
+<p className="text-gray-500 text-sm">
+
+{title}
+
+</p>
+
+<h2 className="text-4xl font-bold mt-3">
+
+{value}
+
+</h2>
+
+<p className="text-gray-500 mt-4">
+
+{description}
+
+</p>
+
+</div>
+
+);
+
+}
