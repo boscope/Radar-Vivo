@@ -4,71 +4,17 @@ import { useState } from "react";
 
 export default function ScannerPage() {
   const [empresa, setEmpresa] = useState("");
-  const [analisando, setAnalisando] = useState(false);
 
-  async function analisar() {
+  function analisar() {
 
     if (!empresa.trim()) {
       alert("Digite uma empresa.");
       return;
     }
 
-    setAnalisando(true);
-
-    // Simulação da análise
-    setTimeout(() => {
-
-      window.location.href =
-        "/scanner/result/" +
-        encodeURIComponent(empresa.trim());
-
-    }, 3000);
-
-  }
-
-  if (analisando) {
-
-    return (
-
-      <main className="min-h-screen bg-black text-white flex items-center justify-center">
-
-        <div className="text-center">
-
-          <div className="text-7xl animate-pulse">
-            🔎
-          </div>
-
-          <h1 className="text-4xl font-bold mt-8">
-            Radar Vivo
-          </h1>
-
-          <p className="text-zinc-400 mt-4">
-            Analisando empresa...
-          </p>
-
-          <div className="mt-10 space-y-3 text-left inline-block">
-
-            <p>✅ Procurando Site...</p>
-
-            <p>✅ Verificando Google...</p>
-
-            <p>✅ Analisando SEO...</p>
-
-            <p>✅ Procurando Instagram...</p>
-
-            <p>✅ Procurando Facebook...</p>
-
-            <p>✅ Calculando Índice RV...</p>
-
-            <p>🤖 IA montando diagnóstico...</p>
-
-          </div>
-
-        </div>
-
-      </main>
-
-    );
+    window.location.href =
+      "/scanner/result/" +
+      encodeURIComponent(empresa.trim());
 
   }
 
