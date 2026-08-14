@@ -27,17 +27,17 @@ export default function HeroSection(){
 
                 <div className="mt-12 flex gap-5 flex-wrap">
 
-                    <button className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-200 transition">
+                    <a href="/scanner" className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-200 transition">
 
                         Testar Gratuitamente
 
-                    </button>
+                    </a>
 
-                    <button className="border border-slate-500 px-8 py-4 rounded-xl hover:bg-slate-900 transition">
+                    <a href="/scanner" className="border border-slate-500 px-8 py-4 rounded-xl hover:bg-slate-900 transition">
 
                         Ver Demonstração
 
-                    </button>
+                    </a>
 
                 </div>
 

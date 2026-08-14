@@ -100,12 +100,11 @@ plan.highlight
 
 </ul>
 
-<button className="mt-10 w-full rounded-xl bg-slate-900 text-white py-4 font-bold hover:bg-slate-800 transition">
+<a href="/scanner" className="mt-10 w-full block text-center rounded-xl bg-slate-900 text-white py-4 font-bold hover:bg-slate-800 transition">
 
 Começar
 
-</button>
-
+</a>
 </div>
 
 ))}

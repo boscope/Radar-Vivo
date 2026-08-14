@@ -5,6 +5,8 @@ import Link from "next/link";
 
 import OpportunityCard from "@/components/scanner/OpportunityCard";
 
+import LeadCapture from "@/components/scanner/LeadCapture";
+
 import type {
   CompanyData,
 } from "@/lib/collector";
@@ -184,6 +186,24 @@ export default function ScannerResultPage({
                 .score
                 .estimatedRevenue
             }
+
+          />
+
+        </div>
+
+        <div className="mt-10">
+
+          <LeadCapture
+
+            company={company.companyName}
+
+            city={company.city}
+
+            category={company.category}
+
+            score={company.intelligence.score.score}
+
+            priority={company.intelligence.score.priority}
 
           />
 

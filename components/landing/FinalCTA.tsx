@@ -22,17 +22,17 @@ Analise empresas, descubra tecnologias e encontre clientes com muito mais veloci
 
 <div className="mt-14 flex flex-wrap justify-center gap-6">
 
-<button className="bg-white text-slate-900 px-10 py-5 rounded-xl font-bold hover:bg-slate-200 transition">
+<a href="/scanner" className="bg-white text-slate-900 px-10 py-5 rounded-xl font-bold hover:bg-slate-200 transition">
 
 Criar Conta Gratuita
 
-</button>
+</a>
 
-<button className="border border-slate-600 px-10 py-5 rounded-xl hover:bg-slate-900 transition">
+<a href="/scanner" className="border border-slate-600 px-10 py-5 rounded-xl hover:bg-slate-900 transition">
 
 Agendar Demonstração
 
-</button>
+</a>
 
 </div>
 
