@@ -1,27 +1,16 @@
 import { getCompanies } from "../../repositories/company-repository";
+import { calculateRadarScore } from "../score/radar-score";
 
 export async function getCompanyRanking() {
 
   const companies = await getCompanies();
 
   return companies
-    .map((company: any) => {
-
-      const score =
-        typeof company.radar === "number"
-          ? company.radar
-          : company.score ?? 75;
-
-      return {
-
-        company,
-
-        radar: score
-
-      };
-
-    })
-
-    .sort((a, b) => b.radar - a.radar);
+    .map((company: any) => ({
+      ...company,
+      radar:
+        calculateRadarScore(company)
+    }))
+    .sort((a: any, b: any) => b.radar.score - a.radar.score);
 
 }

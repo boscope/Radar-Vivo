@@ -1,35 +1,37 @@
-import { generateReports } from "../../src/core/engines/report/report-engine";
+import { Report } from "@/src/core/engines/report/report-engine";
 
-export default async function ReportList() {
-  const reports = await generateReports();
+type Props = {
+  reports: Report[];
+};
+
+export function ReportList({ reports }: Props) {
 
   return (
-    <div className="bg-white rounded-2xl shadow p-6">
-      <h2 className="text-2xl font-bold mb-6">
-        Relatórios Gerados
-      </h2>
+    <div className="space-y-5">
 
-      <div className="space-y-5">
-        {reports.map((report) => (
-          <div
-            key={report.id}
-            className="border rounded-xl p-4"
-          >
-            <div className="flex justify-between">
-              <h3 className="font-bold">{report.company}</h3>
-              <span>Score {report.score}</span>
-            </div>
+      {reports.map((report) => (
 
-            <p className="text-gray-600 mt-2">
-              {report.classification}
-            </p>
+        <div
+          key={report.id}
+          className="rounded-xl border border-white/10 bg-white/5 p-5"
+        >
 
-            <p className="text-xs text-gray-400 mt-2">
-              {report.generatedAt}
-            </p>
-          </div>
-        ))}
-      </div>
+          <h3 className="text-lg font-semibold">
+            {report.company?.name ?? "Empresa"}
+          </h3>
+
+          <p className="text-sm text-white/60">
+            {report.company?.city ?? ""}
+            {report.company?.state
+              ? ` - ${report.company.state}`
+              : ""}
+          </p>
+
+        </div>
+
+      ))}
+
     </div>
   );
+
 }

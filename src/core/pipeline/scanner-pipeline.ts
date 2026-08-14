@@ -1,5 +1,4 @@
-import { scanCompanies } from "../services/google-scanner";
-import { analyzeCompany } from "../intelligence/intelligence-engine";
+import { scanCompanies } from "@/src/core/services/google-scanner";
 
 export async function executeScannerPipeline(
   city: string,
@@ -7,30 +6,22 @@ export async function executeScannerPipeline(
   category: string
 ) {
 
-  const companies = await scanCompanies(
+  const result = await scanCompanies(
     city,
     state,
     category
   );
 
-  return companies.map(company => {
+  return {
 
-    const intelligence = analyzeCompany(company);
+    companies: result.companies,
 
-    return {
+    repositoryTotal: result.repositoryTotal,
 
-      ...company,
+    opportunitiesGenerated: result.companies.length,
 
-      intelligence,
+    opportunities: result.companies
 
-      validated: true,
-
-      duplicated: false,
-
-      importedAt: new Date().toISOString()
-
-    };
-
-  });
+  };
 
 }

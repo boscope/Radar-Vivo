@@ -1,19 +1,22 @@
-import { getCompanyRanking } from "../ranking/ranking-engine";
-import { getBestOpportunities } from "../opportunity/opportunity-engine";
-import { getNotifications } from "../notification/notification-engine";
-import { generateReports } from "../report/report-engine";
+import {getCompanyRanking} from "../ranking/ranking-engine";
+import {getBestOpportunities} from "../opportunity/opportunity-engine";
+import {getNotifications} from "../notification/notification-engine";
+import {generateReports} from "../report/report-engine";
 
-export async function buildRadarIntelligence() {
-  const companies = await getCompanyRanking();
-  const opportunities = await getBestOpportunities();
-  const notifications = await getNotifications();
-  const reports = await generateReports();
+export function buildRadarIntelligence(){
 
-  return {
-    companies,
-    opportunities,
-    notifications,
-    reports,
-    generatedAt: new Date().toISOString(),
-  };
+return{
+
+companies:getCompanyRanking(),
+
+opportunities:getBestOpportunities(),
+
+notifications:getNotifications(),
+
+reports:generateReports(),
+
+generatedAt:new Date().toISOString()
+
+};
+
 }

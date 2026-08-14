@@ -1,8 +1,38 @@
 import { getCompanyRanking } from "../../engines/ranking/ranking-engine";
 import { generateOpportunity } from "../opportunities/opportunity-engine-v2";
 import { generateCommercialAnalysis } from "./commercial-analysis";
+import { getStoredOpportunities } from "@/src/core/services/opportunity-service";
 
 export async function getDashboardData() {
+
+  const stored = await getStoredOpportunities();
+
+  if (stored.length > 0) {
+
+    return {
+
+      totalCompanies: stored.length,
+
+      critical: stored.filter(o => o.priority === "CRITICA").length,
+
+      high: stored.filter(o => o.priority === "ALTA").length,
+
+      medium: stored.filter(o => o.priority === "MEDIA").length,
+
+      low: stored.filter(o => o.priority === "BAIXA").length,
+
+      opportunities: stored.map(item => ({
+        ...item,
+        analysis: {
+          score: item.probability,
+          probability: item.probability,
+          recommendation: item.nextAction
+        }
+      }))
+
+    };
+
+  }
 
   const companies = await getCompanyRanking();
 

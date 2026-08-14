@@ -1,10 +1,10 @@
 import { SearchCompany } from "./search-engine";
-import { DuckDuckGoProvider } from "./duckduckgo-provider";
+import { OpenStreetMapProvider } from "./providers/osm/openstreetmap-provider";
 
 export class SearchManager {
 
   private providers = [
-    new DuckDuckGoProvider()
+    new OpenStreetMapProvider()
   ];
 
   async search(
@@ -25,7 +25,10 @@ export class SearchManager {
           category
         );
 
-        results.push(...response);
+        console.log("[SEARCH MANAGER] Provider retornou:", response.length);
+      console.log("[SEARCH MANAGER] Primeiro resultado:", response[0]);
+      results.push(...response);
+      console.log("[SEARCH MANAGER] Total acumulado:", results.length);
 
       } catch (error) {
 
@@ -38,6 +41,7 @@ export class SearchManager {
 
     }
 
+    console.log("[SEARCH MANAGER] RETORNANDO:", results.length);
     return results;
 
   }
