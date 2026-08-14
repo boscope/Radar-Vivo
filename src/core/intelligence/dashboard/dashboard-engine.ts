@@ -1,11 +1,11 @@
 import { getCompanyRanking } from "../../engines/ranking/ranking-engine";
 import { generateOpportunity } from "../opportunities/opportunity-engine-v2";
 import { generateCommercialAnalysis } from "./commercial-analysis";
-import { getStoredOpportunities } from "@/src/core/services/opportunity-service";
+import { getOpportunities } from "@/src/core/services/opportunity-service";
 
 export async function getDashboardData() {
 
-  const stored = await getStoredOpportunities();
+  const stored = await getOpportunities();
 
   if (stored.length > 0) {
 

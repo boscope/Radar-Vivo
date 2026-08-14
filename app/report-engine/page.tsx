@@ -1,21 +1,26 @@
 import { ReportList } from "../../components/report/ReportList";
+import { generateReports } from "@/src/core/engines/report/report-engine";
 
-export default function ReportEngine(){
+export const dynamic = "force-dynamic";
 
-return(
+export default async function ReportEngine() {
 
-<div className="min-h-screen bg-slate-100 p-10">
+  const reports = await generateReports();
 
-<h1 className="text-5xl font-bold mb-10">
+  return (
 
-Report Engine
+    <div className="min-h-screen bg-slate-100 p-10">
 
-</h1>
+      <h1 className="text-5xl font-bold mb-10">
 
-<ReportList/>
+        Report Engine
 
-</div>
+      </h1>
 
-);
+      <ReportList reports={reports} />
+
+    </div>
+
+  );
 
 }

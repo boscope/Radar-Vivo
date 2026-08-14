@@ -75,7 +75,7 @@ out center tags;
 
         const companies: SearchCompany[] =
           elements
-            .map((element) => {
+            .map((element): SearchCompany | null => {
 
               const tags =
                 element.tags ?? {};
