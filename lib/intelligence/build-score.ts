@@ -3,49 +3,65 @@ import type {
   RadarScore,
 } from "./types";
 
+function detectGaps(company: CompanyAnalysis) {
+  return {
+    website: !company.website,
+    seo: !company.hasSeo,
+    whatsapp: !company.hasWhatsapp,
+    googleBusiness: !company.googleBusiness,
+    instagram: !company.instagram,
+    facebook: !company.facebook,
+    automation: !company.hasAutomation,
+    googleAds: !company.hasGoogleAds,
+    metaAds: !company.hasMetaAds,
+  };
+}
+
 export function buildScore(
   company: CompanyAnalysis
 ): RadarScore {
 
-  let score = 100;
+  const gaps = detectGaps(company);
 
   //--------------------------------------------------
   // Presença Digital
   //--------------------------------------------------
 
-  if (!company.website)
+  let score = 100;
+
+  if (gaps.website)
     score -= 20;
 
-  if (!company.googleBusiness)
+  if (gaps.googleBusiness)
     score -= 15;
 
-  if (!company.instagram)
+  if (gaps.instagram)
     score -= 8;
 
-  if (!company.facebook)
+  if (gaps.facebook)
     score -= 5;
 
   //--------------------------------------------------
   // Marketing
   //--------------------------------------------------
 
-  if (!company.hasSeo)
+  if (gaps.seo)
     score -= 15;
 
-  if (!company.hasGoogleAds)
+  if (gaps.googleAds)
     score -= 10;
 
-  if (!company.hasMetaAds)
+  if (gaps.metaAds)
     score -= 8;
 
   //--------------------------------------------------
   // Atendimento
   //--------------------------------------------------
 
-  if (!company.hasWhatsapp)
+  if (gaps.whatsapp)
     score -= 5;
 
-  if (!company.hasAutomation)
+  if (gaps.automation)
     score -= 14;
 
   //--------------------------------------------------
@@ -79,17 +95,49 @@ export function buildScore(
   }
 
   //--------------------------------------------------
-  // Potencial Financeiro
+  // Chance de Fechamento (estimativa baseada nos
+  // sinais reais detectados - nunca um número fixo)
   //--------------------------------------------------
 
+  const sinaisFavoraveis =
+    Number(gaps.website) +
+    Number(gaps.seo) +
+    Number(gaps.whatsapp) +
+    Number(gaps.googleBusiness) +
+    Number(gaps.instagram) +
+    Number(gaps.facebook);
+
+  const closingProbability = Math.min(
+    85,
+    Math.round(25 + sinaisFavoraveis * 10)
+  );
+
+  //--------------------------------------------------
+  // Potencial Mensal (estimativa por item faltante -
+  // pior cenário informado ao cliente como "potencial")
+  //--------------------------------------------------
+
+  const itensFaltantes =
+    Number(gaps.website) +
+    Number(gaps.seo) +
+    Number(gaps.whatsapp) +
+    Number(gaps.automation) +
+    Number(gaps.googleAds) +
+    Number(gaps.metaAds) +
+    Number(gaps.googleBusiness) +
+    Number(gaps.instagram) +
+    Number(gaps.facebook);
+
   const estimatedRevenue =
-    (100 - score) * 400;
+    itensFaltantes * 300;
 
   return {
 
     score,
 
     priority,
+
+    closingProbability,
 
     estimatedRevenue,
 

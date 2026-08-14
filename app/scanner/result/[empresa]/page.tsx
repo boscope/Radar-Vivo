@@ -173,7 +173,11 @@ export default function ScannerResultPage({
               "Nenhum"
             }
 
-            probability={80}
+            probability={
+              company.intelligence
+                .score
+                .closingProbability
+            }
 
             monthlyLoss={
               company.intelligence

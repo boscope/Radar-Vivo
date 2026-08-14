@@ -52,7 +52,7 @@ export default function OpportunityCard({
 
         <div>
           <p className="text-zinc-400">
-            Perda Mensal Estimada
+            Potencial Mensal (R$)
           </p>
 
           <p className="text-2xl font-bold text-red-400">
@@ -64,6 +64,10 @@ export default function OpportunityCard({
         </div>
 
       </div>
+
+      <p className="text-zinc-500 text-sm mt-6 border-t border-zinc-800 pt-4">
+        Estimativas geradas a partir dos dados coletados (site, SEO, WhatsApp, Google Business e redes). A chance e o potencial variam conforme a resposta da empresa.
+      </p>
 
     </div>
   );

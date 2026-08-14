@@ -36,6 +36,8 @@ export interface RadarScore {
     | "Média"
     | "Baixa";
 
+  closingProbability: number;
+
   estimatedRevenue: number;
 
 }
