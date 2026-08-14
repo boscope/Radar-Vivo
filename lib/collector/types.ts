@@ -12,6 +12,12 @@ export interface GoogleData {
 
   phone?: string;
 
+  email?: string;
+
+  cnpj?: string;
+
+  website?: string;
+
   googleMapsUrl?: string;
 
   googleRating?: number;
@@ -71,6 +77,14 @@ export interface WebsiteData {
   responseTime?: number;
 
   performanceScore?: number;
+
+  hasWhatsapp?: boolean;
+
+  instagram?: string;
+
+  facebook?: string;
+
+  whatsapp?: string;
 
 }
 

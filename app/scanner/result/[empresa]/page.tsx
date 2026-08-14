@@ -5,9 +5,8 @@ import Link from "next/link";
 
 import OpportunityCard from "@/components/scanner/OpportunityCard";
 
-import {
-  collectCompanyData,
-  type CompanyData,
+import type {
+  CompanyData,
 } from "@/lib/collector";
 
 type Props = {
@@ -26,6 +25,8 @@ export default function ScannerResultPage({
   const [company, setCompany] =
     useState<CompanyData | null>(null);
 
+  const [erro, setErro] = useState<string | null>(null);
+
   useEffect(() => {
 
     async function carregar() {
@@ -38,16 +39,85 @@ export default function ScannerResultPage({
 
       setEmpresa(nomeEmpresa);
 
-      const data =
-        await collectCompanyData(nomeEmpresa);
+      try {
 
-      setCompany(data);
+        const response =
+          await fetch(
+            "/api/analyze",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                input: nomeEmpresa,
+              }),
+            }
+          );
+
+        if (!response.ok) {
+
+          const payload =
+            await response.json();
+
+          setErro(
+            payload?.error ??
+            "Não foi possível analisar a empresa."
+          );
+
+          return;
+
+        }
+
+        const data =
+          await response.json();
+
+        setCompany(data);
+
+      } catch {
+
+        setErro(
+          "Não foi possível analisar a empresa."
+        );
+
+      }
 
     }
 
     carregar();
 
   }, [params]);
+
+  if (erro) {
+
+    return (
+
+      <main className="min-h-screen bg-black text-white flex items-center justify-center">
+
+        <div className="max-w-lg text-center px-6">
+
+          <h1 className="text-3xl font-bold mb-4">
+            Não foi possível analisar
+          </h1>
+
+          <p className="text-zinc-400 mb-8">
+            {erro}
+          </p>
+
+          <Link
+            href="/scanner"
+            className="inline-block bg-green-500 hover:bg-green-400 transition text-black font-bold py-3 px-6 rounded-lg"
+          >
+            ← Tentar outra empresa
+          </Link>
+
+        </div>
+
+      </main>
+
+    );
+
+  }
 
   if (!company) {
 
