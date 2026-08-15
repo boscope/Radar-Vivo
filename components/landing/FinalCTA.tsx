@@ -35,9 +35,13 @@ Analisar uma empresa
 
 </div>
 
-<div className="border-t border-slate-800 mt-20 pt-8 text-slate-500 text-sm">
+<div className="border-t border-slate-800 mt-20 pt-8 text-slate-500 text-sm flex flex-wrap justify-center gap-6">
 
-© Radar Vivo • Inteligência Comercial com IA
+<p>© Radar Vivo • Inteligência Comercial com IA</p>
+
+<a href="/admin/leads" className="hover:text-slate-300 transition">Painel</a>
+
+<a href="/admin" className="hover:text-slate-300 transition">Admin</a>
 
 </div>
 
