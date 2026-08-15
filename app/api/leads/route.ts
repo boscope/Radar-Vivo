@@ -22,9 +22,9 @@ export async function POST(request: Request) {
       );
     }
 
-    const digits = normalizeWhatsapp(whatsapp);
+    const digits = whatsapp ? normalizeWhatsapp(whatsapp) : "";
 
-    if (digits.length < 10 || digits.length > 13) {
+    if (digits && (digits.length < 10 || digits.length > 13)) {
       return NextResponse.json(
         { error: "Informe um WhatsApp válido com DDD (ex.: 11999998888)." },
         { status: 400 }
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
 
     const lead = await createLead({
       name,
-      whatsapp: digits,
+      whatsapp: digits || "Sem contato",
       company: company || "Não informada",
       city: body?.city ?? undefined,
       category: body?.category ?? undefined,

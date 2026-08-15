@@ -1,5 +1,16 @@
 import { supabase } from "@/lib/supabase";
 
+export const PIPELINE_STAGES = [
+  "Novo",
+  "Contato feito",
+  "Reunião",
+  "Proposta enviada",
+  "Fechado",
+  "Perdido",
+] as const;
+
+export type PipelineStage = (typeof PIPELINE_STAGES)[number];
+
 export type Lead = {
   id?: string;
   name: string;
@@ -9,7 +20,7 @@ export type Lead = {
   category?: string;
   score?: number;
   priority?: string;
-  status?: string;
+  status?: PipelineStage;
   created_at?: string;
 };
 
@@ -51,4 +62,35 @@ export async function listLeads() {
   }
 
   return data ?? [];
+}
+
+export async function updateLeadStatus(
+  id: string,
+  status: PipelineStage
+) {
+  const { data, error } = await supabase
+    .from("leads")
+    .update({ status })
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("[LEADS] Erro ao atualizar status:", error);
+    throw new Error(error.message);
+  }
+
+  return data;
+}
+
+export async function deleteLead(id: string) {
+  const { error } = await supabase
+    .from("leads")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error("[LEADS] Erro ao excluir:", error);
+    throw new Error(error.message);
+  }
 }

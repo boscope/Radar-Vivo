@@ -3,9 +3,10 @@ import Link from "next/link";
 const menu=[
 
 ["Dashboard","/admin"],
+["Pipeline","/admin/leads"],
+["Empresas","/admin/companies"],
 ["Usuários","/admin/users"],
 ["Planos","/admin/plans"],
-["Empresas","/admin/companies"],
 ["Configurações","/admin/settings"],
 
 ];

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 
 type Company = {
   name: string;
@@ -27,6 +26,10 @@ export default function BuscaMassaPage() {
   const [carregando, setCarregando] = useState(false);
 
   const [erro, setErro] = useState<string | null>(null);
+
+  const [salvos, setSalvos] = useState<string[]>([]);
+
+  const [salvando, setSalvando] = useState<string | null>(null);
 
   const [resultado, setResultado] = useState<{
     total: number;
@@ -73,6 +76,53 @@ export default function BuscaMassaPage() {
 
   }
 
+  async function salvarNoPipeline(company: Company) {
+
+    setSalvando(company.name);
+
+    setErro(null);
+
+    try {
+
+      const response = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: company.phone
+            ? `Contato · ${company.name}`
+            : company.name,
+          whatsapp: company.phone
+            ? company.phone.replace(/\D/g, "")
+            : "",
+          company: company.name,
+          city: company.city ?? null,
+          category: company.category ?? null,
+          score: company.opportunityScore ?? null,
+          priority: company.priority ?? null,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErro(data?.error ?? "Erro ao salvar no pipeline.");
+        return;
+      }
+
+      setSalvos((atual) => [...atual, company.name]);
+
+    } catch {
+
+      setErro("Erro de conexão.");
+
+    } finally {
+
+      setSalvando(null);
+
+    }
+
+  }
+
   const melhores =
     resultado?.companies.filter(
       (c) => c.priority === "Muito Alta" || c.priority === "Alta"
@@ -84,12 +134,12 @@ export default function BuscaMassaPage() {
 
       <div className="max-w-6xl mx-auto p-10">
 
-        <Link
+        <a
           href="/"
           className="text-green-400 hover:text-green-300"
         >
           ← Início
-        </Link>
+        </a>
 
         <h1 className="text-5xl font-bold mt-6">
           🎯 Busca de Oportunidades
@@ -276,6 +326,22 @@ export default function BuscaMassaPage() {
                       >
                         Analisar
                       </a>
+
+                      <button
+                        onClick={() => salvarNoPipeline(company)}
+                        disabled={salvando === company.name}
+                        className={`text-xs px-3 py-2 rounded-lg font-bold transition disabled:opacity-50 ${
+                          salvos.includes(company.name)
+                            ? "bg-emerald-600 text-white"
+                            : "bg-slate-800 hover:bg-slate-700"
+                        }`}
+                      >
+                        {salvos.includes(company.name)
+                          ? "✅ No pipeline"
+                          : salvando === company.name
+                            ? "Salvando..."
+                            : "📥 Salvar no pipeline"}
+                      </button>
 
                     </div>
 
