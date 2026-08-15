@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import { executeScannerPipeline } from "@/src/core/pipeline/scanner-pipeline";
+import {
+  makeExternalId,
+  getCapturedIds,
+} from "@/lib/services/company-db-service";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +31,21 @@ export async function POST(request: Request) {
 
     const result = await executeScannerPipeline(city, state, category);
 
+    const externalIds = (result.companies ?? []).map((company: any) =>
+      makeExternalId(company.name, company.city, company.state)
+    );
+
+    const capturadas = await getCapturedIds(externalIds);
+
     const ranked = (result.companies ?? [])
+      .filter((company: any) => {
+        const id = makeExternalId(
+          company.name,
+          company.city,
+          company.state
+        );
+        return !capturadas.has(id);
+      })
       .map((company: any) => {
 
         const semSite = !company.url;
@@ -44,12 +62,22 @@ export async function POST(request: Request) {
         if (score >= 70) priority = "Alta";
         if (score >= 85) priority = "Muito Alta";
 
-        return { ...company, opportunityScore: score, priority };
+        return {
+          ...company,
+          externalId: makeExternalId(
+            company.name,
+            company.city,
+            company.state
+          ),
+          opportunityScore: score,
+          priority,
+        };
       })
       .sort((a: any, b: any) => b.opportunityScore - a.opportunityScore);
 
     return NextResponse.json({
       total: ranked.length,
+      totalEncontradas: (result.companies ?? []).length,
       state,
       city,
       category,

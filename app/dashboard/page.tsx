@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { supabase } from "@/lib/supabase";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import { getCompanies } from "@/lib/services/company-service";
-
 import type { Company } from "@/types/company";
 
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
@@ -20,8 +19,9 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   async function sair() {
-    await supabase.auth.signOut();
+    await createSupabaseBrowserClient().auth.signOut();
     router.push("/login");
+    router.refresh();
   }
 
   useEffect(() => {

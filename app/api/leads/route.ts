@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { createLead, listLeads } from "@/lib/services/leads-service";
+import { markCaptured } from "@/lib/services/company-db-service";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 
@@ -14,6 +16,7 @@ export async function POST(request: Request) {
     const name: string = (body?.name ?? "").toString().trim();
     const whatsapp: string = (body?.whatsapp ?? "").toString().trim();
     const company: string = (body?.company ?? "").toString().trim();
+    const externalId: string = (body?.externalId ?? "").toString().trim();
 
     if (!name || name.length < 2) {
       return NextResponse.json(
@@ -31,15 +34,30 @@ export async function POST(request: Request) {
       );
     }
 
+    const supabase = await createSupabaseServerClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const ownerId = user?.id ?? null;
+
     const lead = await createLead({
       name,
       whatsapp: digits || "Sem contato",
       company: company || "Não informada",
       city: body?.city ?? undefined,
+      state: body?.state ?? undefined,
       category: body?.category ?? undefined,
       score: body?.score ?? undefined,
       priority: body?.priority ?? undefined,
+      owner_id: ownerId ?? undefined,
+      external_id: externalId || undefined,
     });
+
+    if (externalId && ownerId) {
+      await markCaptured(externalId, ownerId);
+    }
 
     return NextResponse.json({ success: true, lead });
   } catch (error) {
@@ -54,7 +72,14 @@ export async function POST(request: Request) {
 
 export async function GET() {
   try {
-    const leads = await listLeads();
+    const supabase = await createSupabaseServerClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const leads = await listLeads(user?.id);
+
     return NextResponse.json({ leads });
   } catch (error) {
     console.error("[API LEADS]", error);

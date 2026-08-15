@@ -16,7 +16,7 @@ export async function executeScannerPipeline(
 
     companies: result.companies,
 
-    repositoryTotal: result.repositoryTotal,
+    saved: result.saved,
 
     opportunitiesGenerated: result.companies.length,
 

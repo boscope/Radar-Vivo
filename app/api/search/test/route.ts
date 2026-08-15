@@ -17,8 +17,6 @@ export async function POST(req: NextRequest) {
 
     total: result.companies.length,
 
-    repositoryTotal: result.repositoryTotal,
-
     companies: result.companies
 
   });

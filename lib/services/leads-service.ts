@@ -1,4 +1,5 @@
 import { supabase } from "@/lib/supabase";
+import { releaseCompany } from "./company-db-service";
 
 export const PIPELINE_STAGES = [
   "Novo",
@@ -17,10 +18,14 @@ export type Lead = {
   whatsapp: string;
   company: string;
   city?: string;
+  state?: string;
   category?: string;
   score?: number;
   priority?: string;
   status?: PipelineStage;
+  owner_id?: string;
+  company_id?: string;
+  external_id?: string;
   created_at?: string;
 };
 
@@ -34,10 +39,14 @@ export async function createLead(
       whatsapp: lead.whatsapp,
       company: lead.company,
       city: lead.city ?? null,
+      state: lead.state ?? null,
       category: lead.category ?? null,
       score: lead.score ?? null,
       priority: lead.priority ?? null,
       status: lead.status ?? "Novo",
+      owner_id: lead.owner_id ?? null,
+      company_id: lead.company_id ?? null,
+      external_id: lead.external_id ?? null,
     })
     .select()
     .single();
@@ -50,11 +59,17 @@ export async function createLead(
   return data;
 }
 
-export async function listLeads() {
-  const { data, error } = await supabase
+export async function listLeads(ownerId?: string) {
+  let query = supabase
     .from("leads")
     .select("*")
     .order("created_at", { ascending: false });
+
+  if (ownerId) {
+    query = query.eq("owner_id", ownerId);
+  }
+
+  const { data, error } = await query;
 
   if (error) {
     console.error("[LEADS] Erro ao listar:", error);
@@ -66,11 +81,12 @@ export async function listLeads() {
 
 export async function updateLeadStatus(
   id: string,
-  status: PipelineStage
+  status: PipelineStage,
+  externalId?: string
 ) {
   const { data, error } = await supabase
     .from("leads")
-    .update({ status })
+    .update({ status, updated_at: new Date().toISOString() })
     .eq("id", id)
     .select()
     .single();
@@ -80,10 +96,14 @@ export async function updateLeadStatus(
     throw new Error(error.message);
   }
 
+  if (status === "Perdido" && externalId) {
+    await releaseCompany(externalId);
+  }
+
   return data;
 }
 
-export async function deleteLead(id: string) {
+export async function deleteLead(id: string, externalId?: string) {
   const { error } = await supabase
     .from("leads")
     .delete()
@@ -92,5 +112,9 @@ export async function deleteLead(id: string) {
   if (error) {
     console.error("[LEADS] Erro ao excluir:", error);
     throw new Error(error.message);
+  }
+
+  if (externalId) {
+    await releaseCompany(externalId);
   }
 }

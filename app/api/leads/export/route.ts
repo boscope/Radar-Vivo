@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { listLeads } from "@/lib/services/leads-service";
+import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 export const dynamic = "force-dynamic";
 
@@ -13,7 +14,13 @@ function escapeCsv(value: unknown): string {
 
 export async function GET() {
   try {
-    const leads = await listLeads();
+    const supabase = await createSupabaseServerClient();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    const leads = await listLeads(user?.id);
 
     const headers = [
       "Nome",

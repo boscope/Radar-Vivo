@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -12,6 +12,8 @@ export default function RegisterPage() {
 
   async function cadastrar(e: React.FormEvent) {
     e.preventDefault();
+
+    const supabase = createSupabaseBrowserClient();
 
     const { error } = await supabase.auth.signUp({
       email,
@@ -23,7 +25,7 @@ export default function RegisterPage() {
       return;
     }
 
-    alert("Cadastro realizado com sucesso!");
+    alert("Cadastro realizado com sucesso! Verifique seu e-mail.");
 
     router.push("/login");
   }

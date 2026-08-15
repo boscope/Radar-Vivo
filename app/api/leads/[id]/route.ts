@@ -17,6 +17,7 @@ export async function PATCH(
     const body = await request.json();
 
     const status: string = (body?.status ?? "").toString().trim();
+    const externalId: string = (body?.externalId ?? "").toString().trim();
 
     if (!status || !PIPELINE_STAGES.includes(status as any)) {
       return NextResponse.json(
@@ -25,7 +26,7 @@ export async function PATCH(
       );
     }
 
-    const lead = await updateLeadStatus(id, status as any);
+    const lead = await updateLeadStatus(id, status as any, externalId);
 
     return NextResponse.json({ success: true, lead });
   } catch (error) {
@@ -39,13 +40,17 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  _request: Request,
+  request: Request,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await context.params;
 
-    await deleteLead(id);
+    const body = await request.json().catch(() => ({}));
+
+    const externalId: string = (body?.externalId ?? "").toString().trim();
+
+    await deleteLead(id, externalId);
 
     return NextResponse.json({ success: true });
   } catch (error) {

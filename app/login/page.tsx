@@ -1,17 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   async function fazerLogin(e: React.FormEvent) {
     e.preventDefault();
+
+    const supabase = createSupabaseBrowserClient();
 
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -23,8 +27,57 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/dashboard");
+    const destino = searchParams.get("next") ?? "/dashboard";
+
+    router.push(destino);
+    router.refresh();
   }
+
+  return (
+    <form onSubmit={fazerLogin} className="space-y-5">
+
+      <div>
+        <label className="text-zinc-300 text-sm">
+          E-mail
+        </label>
+
+        <input
+          type="email"
+          placeholder="voce@email.com"
+          className="mt-2 w-full rounded-lg bg-zinc-800 border border-zinc-700 p-3 text-white"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+      </div>
+
+      <div>
+        <label className="text-zinc-300 text-sm">
+          Senha
+        </label>
+
+        <input
+          type="password"
+          placeholder="********"
+          className="mt-2 w-full rounded-lg bg-zinc-800 border border-zinc-700 p-3 text-white"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+      </div>
+
+      <button
+        type="submit"
+        className="w-full bg-green-500 hover:bg-green-400 transition rounded-lg py-3 font-bold text-black"
+      >
+        Entrar
+      </button>
+
+    </form>
+  );
+}
+
+export default function LoginPage() {
 
   return (
     <main className="min-h-screen bg-black flex items-center justify-center px-6">
@@ -38,46 +91,9 @@ export default function LoginPage() {
           Entre na sua conta
         </p>
 
-        <form onSubmit={fazerLogin} className="space-y-5">
-
-          <div>
-            <label className="text-zinc-300 text-sm">
-              E-mail
-            </label>
-
-            <input
-              type="email"
-              placeholder="voce@email.com"
-              className="mt-2 w-full rounded-lg bg-zinc-800 border border-zinc-700 p-3 text-white"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-            />
-          </div>
-
-          <div>
-            <label className="text-zinc-300 text-sm">
-              Senha
-            </label>
-
-            <input
-              type="password"
-              placeholder="********"
-              className="mt-2 w-full rounded-lg bg-zinc-800 border border-zinc-700 p-3 text-white"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-green-500 hover:bg-green-400 transition rounded-lg py-3 font-bold text-black"
-          >
-            Entrar
-          </button>
-
-        </form>
+        <Suspense>
+          <LoginForm />
+        </Suspense>
 
       </div>
     </main>

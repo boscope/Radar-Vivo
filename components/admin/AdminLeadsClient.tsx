@@ -74,10 +74,15 @@ export default function AdminLeadsClient({
 
     try {
 
+      const leadAtual = leads.find((item) => item.id === id);
+
       const response = await fetch(`/api/leads/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status }),
+        body: JSON.stringify({
+          status,
+          externalId: leadAtual?.external_id ?? null,
+        }),
       });
 
       const data = await response.json();
@@ -109,8 +114,14 @@ export default function AdminLeadsClient({
 
     try {
 
+      const leadAtual = leads.find((item) => item.id === id);
+
       const response = await fetch(`/api/leads/${id}`, {
         method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          externalId: leadAtual?.external_id ?? null,
+        }),
       });
 
       if (response.ok) {

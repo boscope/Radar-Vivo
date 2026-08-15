@@ -32,7 +32,19 @@ create table if not exists companies (
 
   radar_score integer,
 
-  status text default 'ativo',
+  status text default 'disponivel',
+
+  external_id text,
+
+  owner_id uuid,
+
+  captured_at timestamptz,
+
+  last_checked_at timestamptz,
+
+  lat double precision,
+
+  lon double precision,
 
   created_at timestamptz default now()
 
@@ -76,6 +88,8 @@ create table if not exists leads (
 
   city text,
 
+  state text,
+
   category text,
 
   score integer,
@@ -84,7 +98,15 @@ create table if not exists leads (
 
   status text default 'Novo',
 
-  created_at timestamptz default now()
+  owner_id uuid,
+
+  company_id uuid,
+
+  external_id text,
+
+  created_at timestamptz default now(),
+
+  updated_at timestamptz default now()
 
 );
 
@@ -125,6 +147,15 @@ begin
       for delete to anon using (true);
   end if;
 end $$;
+
+-- Índices de exclusividade e multi-agência
+create unique index if not exists companies_external_id_idx
+  on companies (external_id)
+  where external_id is not null;
+
+create index if not exists leads_owner_idx on leads (owner_id);
+create index if not exists leads_company_idx on leads (company_id);
+create index if not exists companies_owner_idx on companies (owner_id);
 
 -- ============================================================
 -- Tabela: reports (relatórios gerados)

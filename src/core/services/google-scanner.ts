@@ -1,9 +1,7 @@
 import { SearchManager } from "./search/search-manager";
-import { SupabaseCompanyRepository } from "@/src/core/database/supabase/repositories/supabase-company-repository";
-import { CompanyEntity } from "@/src/core/database/interfaces/company-repository-interface";
+import { upsertCompany, makeExternalId } from "@/lib/services/company-db-service";
 
 const manager = new SearchManager();
-const repository = new SupabaseCompanyRepository();
 
 export async function scanCompanies(
   city: string,
@@ -24,57 +22,37 @@ export async function scanCompanies(
     companies.length
   );
 
+  const saved: string[] = [];
+
   for (const company of companies) {
 
-    const entity: CompanyEntity = {
+    const externalId = makeExternalId(
+      company.name,
+      company.city,
+      company.state
+    );
 
-      id: crypto.randomUUID(),
-
+    await upsertCompany(externalId, {
       name: company.name,
-
       city: company.city,
-
       state: company.state,
-
       category: company.category,
-
-      source: company.source,
-
-      url: company.url,
-
+      website: company.url,
       phone: company.phone,
-
       rating: company.rating,
+      lat: (company as any).lat,
+      lon: (company as any).lon,
+      mapsUrl: (company as any).mapsUrl,
+    }).catch((error) => {
+      console.error("[SCANNER] Erro ao salvar empresa:", error);
+      return null;
+    });
 
-      opportunityScore: (company as any).opportunityScore,
-
-      createdAt: new Date()
-
-    };
-
-    await repository.save(entity);
-
+    saved.push(externalId);
   }
 
-  const repositoryTotal =
-    await repository.total();
-
-  console.log(
-    "[SCANNER] Retornando:",
-    companies.length
-  );
-
-  console.log(
-    "[SCANNER] Repository total:",
-    repositoryTotal
-  );
-
   return {
-
     companies,
-
-    repositoryTotal
-
+    saved,
   };
-
 }

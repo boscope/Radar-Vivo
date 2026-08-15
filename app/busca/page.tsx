@@ -13,6 +13,7 @@ type Company = {
   opportunityScore?: number;
   priority?: string;
   source?: string;
+  externalId?: string;
 };
 
 export default function BuscaMassaPage() {
@@ -96,9 +97,11 @@ export default function BuscaMassaPage() {
             : "",
           company: company.name,
           city: company.city ?? null,
+          state: company.state ?? null,
           category: company.category ?? null,
           score: company.opportunityScore ?? null,
           priority: company.priority ?? null,
+          externalId: company.externalId ?? null,
         }),
       });
 
