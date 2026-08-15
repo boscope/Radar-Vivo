@@ -1,33 +1,42 @@
-"use client";
-
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-
+import HeroSearch from "@/components/landing/HeroSearch";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Benefits from "@/components/landing/Benefits";
 import ProductPreview from "@/components/landing/ProductPreview";
 import Pricing from "@/components/landing/Pricing";
+import SocialProof from "@/components/landing/SocialProof";
+import FinalCTA from "@/components/landing/FinalCTA";
+import { supabase } from "@/lib/supabase";
 
-export default function HomePage() {
+export const dynamic = "force-dynamic";
 
-  const router = useRouter();
+export default async function HomePage() {
 
-  const [empresa, setEmpresa] = useState("");
+  let totalEmpresas = 0;
 
-  const [analisando, setAnalisando] = useState(false);
+  let totalOportunidades = 0;
 
-  function analisar() {
+  let totalLeads = 0;
 
-    if (!empresa.trim()) return;
+  try {
 
-    setAnalisando(true);
+    const [{ count: empresas }, { count: leads }] = await Promise.all([
+      supabase.from("companies").select("*", { count: "exact", head: true }),
+      supabase.from("leads").select("*", { count: "exact", head: true }),
+    ]);
 
-    router.push(
-      "/scanner/result/" +
-        encodeURIComponent(empresa.trim())
-    );
+    totalEmpresas = empresas ?? 0;
+
+    totalLeads = leads ?? 0;
+
+  } catch {
+
+    totalEmpresas = 0;
+
+    totalLeads = 0;
 
   }
+
+  totalOportunidades = totalEmpresas;
 
   return (
 
@@ -39,76 +48,39 @@ export default function HomePage() {
 
           <span className="inline-block px-4 py-2 rounded-full bg-slate-800 text-sm">
 
-            Inteligência Comercial com IA
+            Feito para agências que vendem sites e marketing
 
           </span>
 
           <h1 className="mt-8 text-5xl md:text-6xl font-extrabold leading-tight max-w-4xl">
 
-            Descubra empresas que realmente têm potencial para comprar seus serviços.
+            Encontre empresas sem site e feche mais vendas todos os meses.
 
           </h1>
 
           <p className="mt-8 text-xl text-slate-300 max-w-3xl">
 
-            O Radar Vivo analisa empresas automaticamente,
-            identifica oportunidades comerciais,
-            calcula o potencial de compra
-            e entrega relatórios executivos em poucos segundos.
+            O Radar Vivo encontra negócios locais com presença digital fraca,
+            mostra exatamente o que falta (site, WhatsApp, presença no Google),
+            gera o script de abordagem pronto e acompanha a venda até fechar.
 
           </p>
 
-          <div className="mt-12 max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl p-6">
-
-            <label className="block text-slate-300 text-sm font-semibold mb-3">
-
-              Analise qualquer empresa grátis agora
-
-            </label>
-
-            <div className="flex flex-col sm:flex-row gap-3">
-
-              <input
-
-                value={empresa}
-
-                onChange={(e) => setEmpresa(e.target.value)}
-
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") analisar();
-                }}
-
-                placeholder="Nome, CNPJ, site ou link do Google Maps"
-
-                className="flex-1 p-4 rounded-xl bg-slate-800 border border-slate-700 text-white text-lg outline-none focus:border-green-400 transition"
-
-              />
-
-              <button
-
-                onClick={analisar}
-
-                disabled={analisando}
-
-                className="bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 px-8 rounded-xl text-lg disabled:opacity-60"
-
-              >
-
-                {analisando ? "Analisando..." : "🚀 Analisar"}
-
-              </button>
-
-            </div>
-
-            <p className="mt-4 text-slate-500 text-sm">
-
-              Ex.: Barbearia Mateleus • 03.007.331/0001-41 • www.suaempresa.com.br
-
-            </p>
-
-          </div>
+          <HeroSearch />
 
           <div className="mt-12 flex gap-5 flex-wrap">
+
+            <a
+
+              href="/busca"
+
+              className="bg-green-500 hover:bg-green-400 transition text-black px-8 py-4 rounded-xl font-bold"
+
+            >
+
+              🎯 Buscar oportunidades agora
+
+            </a>
 
             <a
 
@@ -118,21 +90,49 @@ export default function HomePage() {
 
             >
 
-              Abrir Scanner Completo
+              Analisar uma empresa
 
             </a>
 
-            <a
+          </div>
 
-              href="/busca"
+          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl">
 
-              className="border border-slate-500 px-8 py-4 rounded-xl hover:bg-slate-900 transition"
+            <div>
 
-            >
+              <p className="text-4xl font-extrabold text-green-400">
+                {totalEmpresas}
+              </p>
 
-              🎯 Buscar Oportunidades
+              <p className="text-slate-400 mt-1 text-sm">
+                Empresas analisadas
+              </p>
 
-            </a>
+            </div>
+
+            <div>
+
+              <p className="text-4xl font-extrabold text-green-400">
+                {totalOportunidades}
+              </p>
+
+              <p className="text-slate-400 mt-1 text-sm">
+                Oportunidades mapeadas
+              </p>
+
+            </div>
+
+            <div>
+
+              <p className="text-4xl font-extrabold text-green-400">
+                {totalLeads}
+              </p>
+
+              <p className="text-slate-400 mt-1 text-sm">
+                Leads no pipeline
+              </p>
+
+            </div>
 
           </div>
 
@@ -146,7 +146,11 @@ export default function HomePage() {
 
       <ProductPreview />
 
+      <SocialProof />
+
       <Pricing />
+
+      <FinalCTA />
 
     </main>
 

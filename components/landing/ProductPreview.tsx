@@ -14,7 +14,7 @@ Veja o Radar Vivo em ação
 
 <p className="text-center text-gray-500 mt-4 max-w-3xl mx-auto">
 
-Uma prévia da plataforma que identifica oportunidades comerciais usando Inteligência Artificial.
+Uma prévia real da busca de oportunidades: empresas sem site, com score e prioridade.
 
 </p>
 
@@ -26,57 +26,71 @@ Uma prévia da plataforma que identifica oportunidades comerciais usando Intelig
 <div className="w-3 h-3 rounded-full bg-yellow-400"></div>
 <div className="w-3 h-3 rounded-full bg-green-400"></div>
 
-</div>
-
-<div className="grid md:grid-cols-2 gap-8 p-10 text-white">
-
-<div>
-
-<h3 className="text-3xl font-bold">
-
-Radar Score
-
-</h3>
-
-<p className="text-7xl font-extrabold mt-6 text-emerald-400">
-
-94
-
-</p>
-
-<p className="mt-6 text-slate-300">
-
-Excelente potencial comercial.
-
-</p>
+<span className="ml-4 text-slate-400 text-sm">
+  Busca: Estado PE • Padaria
+</span>
 
 </div>
 
-<div className="space-y-5">
+<div className="p-8 space-y-4 text-white">
 
-<div className="rounded-xl bg-slate-800 p-5">
+<div className="flex items-center justify-between rounded-xl bg-slate-800 p-5">
 
-✔ React
+  <div>
+    <p className="font-bold">Padaria Canaã</p>
+    <p className="text-sm text-slate-400">Recife, PE</p>
+  </div>
+
+  <div className="text-right">
+    <p className="text-2xl font-extrabold text-red-400">100</p>
+    <p className="text-xs text-red-400 font-bold">Muito Alta</p>
+  </div>
+
+  <span className="text-xs bg-red-950 text-red-300 px-3 py-2 rounded-lg font-bold">
+    ❌ Sem site
+  </span>
+
+</div>
+
+<div className="flex items-center justify-between rounded-xl bg-slate-800 p-5">
+
+  <div>
+    <p className="font-bold">Padaria Tropical</p>
+    <p className="text-sm text-slate-400">Olinda, PE</p>
+  </div>
+
+  <div className="text-right">
+    <p className="text-2xl font-extrabold text-red-400">100</p>
+    <p className="text-xs text-red-400 font-bold">Muito Alta</p>
+  </div>
+
+  <span className="text-xs bg-red-950 text-red-300 px-3 py-2 rounded-lg font-bold">
+    ❌ Sem site
+  </span>
 
 </div>
 
-<div className="rounded-xl bg-slate-800 p-5">
+<div className="flex items-center justify-between rounded-xl bg-slate-800 p-5">
 
-✔ Google Analytics
+  <div>
+    <p className="font-bold">Panificadora Pão Quente</p>
+    <p className="text-sm text-slate-400">Caruaru, PE</p>
+  </div>
+
+  <div className="text-right">
+    <p className="text-2xl font-extrabold text-orange-400">90</p>
+    <p className="text-xs text-orange-400 font-bold">Alta</p>
+  </div>
+
+  <span className="text-xs bg-slate-950 text-slate-300 px-3 py-2 rounded-lg font-bold">
+    📞 Tem contato
+  </span>
 
 </div>
 
-<div className="rounded-xl bg-slate-800 p-5">
+<div className="rounded-xl bg-slate-800 p-4 text-sm text-slate-300">
 
-✔ WhatsApp Business
-
-</div>
-
-<div className="rounded-xl bg-slate-800 p-5">
-
-✔ Oportunidade Alta
-
-</div>
+  💬 Cada oportunidade vem com script de WhatsApp, roteiro de ligação e quebra de objeções prontos.
 
 </div>
 

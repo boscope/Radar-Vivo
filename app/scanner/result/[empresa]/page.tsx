@@ -191,6 +191,44 @@ export default function ScannerResultPage({
 
         </div>
 
+        <div className="mt-6 bg-green-950 border border-green-700 rounded-xl p-6">
+
+          <h2 className="text-xl font-bold text-green-400 mb-2">
+            📤 Envie esta análise ao cliente
+          </h2>
+
+          <p className="text-green-200 mb-4">
+            Compartilhe o link público do relatório. O cliente vê o
+            diagnóstico com cara de consultoria gratuita — e agenda a
+            conversa com você.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-3">
+
+            <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
+              {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}`}
+            </code>
+
+            <button
+
+              onClick={() => {
+                if (typeof window !== "undefined") {
+                  navigator.clipboard.writeText(
+                    `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}`
+                  );
+                }
+              }}
+
+              className="bg-green-500 hover:bg-green-400 transition text-black font-bold px-6 py-3 rounded-lg"
+
+            >
+              Copiar link
+            </button>
+
+          </div>
+
+        </div>
+
         <div className="mt-10">
 
           <LeadCapture

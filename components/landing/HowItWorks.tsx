@@ -2,20 +2,20 @@ const steps=[
 
     {
         number:"01",
-        title:"Informe a empresa",
-        description:"Digite o nome ou domínio da empresa que deseja analisar."
+        title:"Busque oportunidades",
+        description:"Escolha estado, cidade e categoria. O Radar encontra negócios sem site, sem WhatsApp ou com presença fraca — e mostra quem tem mais potencial."
     },
 
     {
         number:"02",
-        title:"A IA analisa",
-        description:"O Radar Vivo identifica tecnologias, presença digital e oportunidades comerciais."
+        title:"Receba o script pronto",
+        description:"Cada oportunidade vem com mensagem de WhatsApp, roteiro de ligação e respostas para objeções. É só copiar e abordar."
     },
 
     {
         number:"03",
-        title:"Receba o relatório",
-        description:"Visualize um relatório executivo com score, recomendações e potencial de compra."
+        title:"Acompanhe até fechar",
+        description:"Mova cada lead pelo pipeline (Contato, Reunião, Proposta, Fechado) e exporte para sua planilha ou CRM quando quiser."
     }
 
 ];
@@ -34,7 +34,7 @@ export default function HowItWorks(){
 
             <p className="text-center text-gray-500 mt-4 max-w-2xl mx-auto">
 
-                Em poucos minutos você transforma dados públicos em oportunidades comerciais organizadas.
+                Da busca à venda fechada, tudo em um só lugar. Sem planilha, sem perder horas pesquisando.
 
             </p>
 
@@ -47,7 +47,7 @@ export default function HowItWorks(){
                         className="border rounded-2xl p-8 shadow-sm hover:shadow-lg transition"
                     >
 
-                        <div className="text-5xl font-extrabold text-slate-900">
+                        <div className="text-5xl font-extrabold text-green-500">
 
                             {step.number}
 
