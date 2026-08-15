@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
 
 type Props = {
   params: Promise<{
@@ -14,6 +15,10 @@ type AnaliseData = {
   city?: string;
   state?: string;
   category?: string;
+  hasWebsite: boolean;
+  hasSeo: boolean;
+  hasWhatsapp: boolean;
+  googleMapsUrl?: string;
   intelligence: {
     score: {
       score: number;
@@ -209,6 +214,22 @@ export default function RelatorioPublicoPage({
             O que a gente encontrou na sua presença digital
 
           </h2>
+
+          <div className="mt-6">
+
+            <PresencaDigitalChecklist
+
+              hasWebsite={company.hasWebsite}
+
+              hasSeo={company.hasSeo}
+
+              hasWhatsapp={company.hasWhatsapp}
+
+              hasGoogle={Boolean(company.googleMapsUrl)}
+
+            />
+
+          </div>
 
           <ul className="mt-6 space-y-4">
 

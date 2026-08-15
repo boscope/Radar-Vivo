@@ -7,6 +7,8 @@ import OpportunityCard from "@/components/scanner/OpportunityCard";
 
 import LeadCapture from "@/components/scanner/LeadCapture";
 
+import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
+
 import type {
   CompanyData,
 } from "@/lib/collector";
@@ -186,6 +188,22 @@ export default function ScannerResultPage({
                 .score
                 .estimatedRevenue
             }
+
+          />
+
+        </div>
+
+        <div className="mt-6">
+
+          <PresencaDigitalChecklist
+
+            hasWebsite={company.hasWebsite}
+
+            hasSeo={company.hasSeo}
+
+            hasWhatsapp={company.hasWhatsapp}
+
+            hasGoogle={Boolean(company.googleMapsUrl)}
 
           />
 
