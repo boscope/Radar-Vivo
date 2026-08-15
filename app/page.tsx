@@ -122,6 +122,18 @@ export default function HomePage() {
 
             </a>
 
+            <a
+
+              href="/busca"
+
+              className="border border-slate-500 px-8 py-4 rounded-xl hover:bg-slate-900 transition"
+
+            >
+
+              🎯 Buscar Oportunidades
+
+            </a>
+
           </div>
 
         </div>

@@ -42,6 +42,12 @@ export async function scanCompanies(
 
       url: company.url,
 
+      phone: company.phone,
+
+      rating: company.rating,
+
+      opportunityScore: (company as any).opportunityScore,
+
       createdAt: new Date()
 
     };

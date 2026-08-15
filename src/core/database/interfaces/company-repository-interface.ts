@@ -22,6 +22,8 @@ export interface CompanyEntity {
 
   reviews?: number;
 
+  opportunityScore?: number;
+
   createdAt: Date;
 
 }

@@ -5,6 +5,11 @@ export interface SearchCompany {
   category: string;
   source: string;
   url?: string;
+  mapsUrl?: string;
+  phone?: string;
+  rating?: number;
+  lat?: number;
+  lon?: number;
 }
 
 export interface SearchProvider {

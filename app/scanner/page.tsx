@@ -52,6 +52,14 @@ export default function ScannerPage() {
             🚀 Analisar Empresa
           </button>
 
+          <div className="mt-6 text-center">
+
+            <a href="/busca" className="text-green-400 hover:text-green-300 text-sm underline">
+              🎯 Ou busque oportunidades por estado e categoria
+            </a>
+
+          </div>
+
         </div>
 
       </div>

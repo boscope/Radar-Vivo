@@ -18,8 +18,10 @@ export class SupabaseCompanyRepository
         city: company.city,
         state: company.state,
         category: company.category,
-        source: company.source,
-        url: company.url ?? null
+        phone: company.phone ?? null,
+        website: company.url ?? null,
+        rating: company.rating ?? null,
+        radar_score: company.opportunityScore ?? null
       });
 
     if (error) {
@@ -57,8 +59,11 @@ export class SupabaseCompanyRepository
       city: row.city,
       state: row.state,
       category: row.category,
-      source: row.source,
-      url: row.url,
+      source: row.google_place_id ? "Google" : "OpenStreetMap",
+      url: row.website,
+      phone: row.phone,
+      rating: row.rating,
+      opportunityScore: row.radar_score,
       createdAt: new Date(row.created_at)
     }));
   }
