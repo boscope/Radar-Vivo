@@ -53,7 +53,7 @@ className={`${color} text-white px-3 py-1 rounded-full text-sm font-bold`}
 
 <div className="mt-6">
 
-<p className="text-6xl font-black text-slate-900">
+<p className="text-6xl font-black text-neutral-100">
 
 {score}
 

@@ -6,7 +6,7 @@ export default async function CompaniesLivePage() {
 
   return (
 
-    <main className="min-h-screen bg-slate-100 p-10">
+    <main className="min-h-screen bg-neutral-100 p-10">
 
       <h1 className="text-5xl font-bold mb-10">
 
@@ -18,7 +18,7 @@ export default async function CompaniesLivePage() {
 
         <table className="w-full">
 
-          <thead className="bg-slate-200">
+          <thead className="bg-neutral-800">
 
             <tr>
 

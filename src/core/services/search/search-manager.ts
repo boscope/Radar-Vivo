@@ -1,11 +1,11 @@
 import { SearchCompany } from "./search-engine";
 import { OpenStreetMapProvider } from "./providers/osm/openstreetmap-provider";
+import { GoogleProvider } from "./providers/google/google-provider";
 
 export class SearchManager {
 
-  private providers = [
-    new OpenStreetMapProvider()
-  ];
+  private google = new GoogleProvider();
+  private osm = new OpenStreetMapProvider();
 
   async search(
     city: string,
@@ -13,37 +13,34 @@ export class SearchManager {
     category: string
   ): Promise<SearchCompany[]> {
 
-    const results: SearchCompany[] = [];
+    const googleResults = await this.safeSearch(
+      () => this.google.search(city, state, category)
+    );
 
-    for (const provider of this.providers) {
+    console.log("[SEARCH MANAGER] Google retornou:", googleResults.length);
 
-      try {
-
-        const response = await provider.search(
-          city,
-          state,
-          category
-        );
-
-        console.log("[SEARCH MANAGER] Provider retornou:", response.length);
-      console.log("[SEARCH MANAGER] Primeiro resultado:", response[0]);
-      results.push(...response);
-      console.log("[SEARCH MANAGER] Total acumulado:", results.length);
-
-      } catch (error) {
-
-        console.error(
-          "Erro no provider:",
-          error
-        );
-
-      }
-
+    if (googleResults.length > 0) {
+      return googleResults;
     }
 
-    console.log("[SEARCH MANAGER] RETORNANDO:", results.length);
-    return results;
+    const osmResults = await this.safeSearch(
+      () => this.osm.search(city, state, category)
+    );
 
+    console.log("[SEARCH MANAGER] OSM (fallback) retornou:", osmResults.length);
+
+    return osmResults;
+  }
+
+  private async safeSearch(
+    fn: () => Promise<SearchCompany[]>
+  ): Promise<SearchCompany[]> {
+    try {
+      return await fn();
+    } catch (error) {
+      console.error("[SEARCH MANAGER] Erro:", error);
+      return [];
+    }
   }
 
 }

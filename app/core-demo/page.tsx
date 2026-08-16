@@ -4,7 +4,7 @@ export default function CoreDemo(){
 
 return(
 
-<div className="min-h-screen bg-slate-100 p-10">
+<div className="min-h-screen bg-neutral-100 p-10">
 
 <h1 className="text-5xl font-bold mb-10">
 

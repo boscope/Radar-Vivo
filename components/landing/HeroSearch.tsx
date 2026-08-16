@@ -25,9 +25,9 @@ export default function HeroSearch() {
 
   return (
 
-    <div className="mt-12 max-w-2xl bg-slate-900 border border-slate-700 rounded-2xl p-6">
+    <div className="mt-8 max-w-2xl bg-neutral-950 border border-neutral-700 rounded-2xl p-6">
 
-      <label className="block text-slate-300 text-sm font-semibold mb-3">
+      <label className="block text-neutral-300 text-sm font-semibold mb-3">
 
         Analise qualquer empresa grátis agora
 
@@ -47,7 +47,7 @@ export default function HeroSearch() {
 
           placeholder="Nome, CNPJ, site ou link do Google Maps"
 
-          className="flex-1 p-4 rounded-xl bg-slate-800 border border-slate-700 text-white text-lg outline-none focus:border-green-400 transition"
+          className="flex-1 p-4 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-lg outline-none focus:border-green-400 transition"
 
         />
 
@@ -67,7 +67,7 @@ export default function HeroSearch() {
 
       </div>
 
-      <p className="mt-4 text-slate-500 text-sm">
+      <p className="mt-4 text-neutral-500 text-sm">
 
         Ex.: Barbearia Mateleus • 03.007.331/0001-41 • www.suaempresa.com.br
 

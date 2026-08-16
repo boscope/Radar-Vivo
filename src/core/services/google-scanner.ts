@@ -43,6 +43,7 @@ export async function scanCompanies(
       lat: (company as any).lat,
       lon: (company as any).lon,
       mapsUrl: (company as any).mapsUrl,
+      googlePlaceId: (company as any).googlePlaceId,
     }).catch((error) => {
       console.error("[SCANNER] Erro ao salvar empresa:", error);
       return null;

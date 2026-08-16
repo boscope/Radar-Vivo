@@ -16,7 +16,7 @@ Empresas Monitoradas
 
 <div
 key={i}
-className="bg-white rounded-2xl shadow p-6"
+className="bg-neutral-900 rounded-2xl shadow p-6 border border-neutral-800"
 >
 
 <h2 className="font-bold">

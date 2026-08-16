@@ -3,7 +3,7 @@ import AdminSidebar from "@/components/admin/AdminSidebar";
 
 export default function AdminPage() {
   return (
-    <main className="min-h-screen bg-slate-100 flex">
+    <main className="min-h-screen bg-neutral-100 flex">
 
       <AdminSidebar />
 

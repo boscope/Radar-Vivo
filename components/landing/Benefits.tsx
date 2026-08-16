@@ -26,7 +26,7 @@ export default function Benefits(){
 
 return(
 
-<section className="bg-slate-50 py-24">
+<section className="bg-black py-16">
 
 <div className="max-w-7xl mx-auto px-6">
 
@@ -36,13 +36,13 @@ Por que usar o Radar Vivo?
 
 </h2>
 
-<div className="grid md:grid-cols-2 gap-8 mt-16">
+<div className="grid md:grid-cols-2 gap-6 mt-12">
 
 {benefits.map(item=>(
 
 <div
 key={item.title}
-className="bg-white rounded-2xl border shadow-sm p-8 hover:shadow-lg transition"
+className="bg-neutral-950 rounded-2xl border border-neutral-800 p-8 hover:bg-neutral-900/50 transition"
 >
 
 <h3 className="text-2xl font-bold">
@@ -51,7 +51,7 @@ className="bg-white rounded-2xl border shadow-sm p-8 hover:shadow-lg transition"
 
 </h3>
 
-<p className="mt-4 text-gray-600">
+<p className="mt-3 text-neutral-400">
 
 {item.description}
 

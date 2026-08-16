@@ -306,7 +306,7 @@ export default function BuscaMassaPage() {
                           href={company.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs bg-slate-800 px-3 py-2 rounded-lg hover:bg-slate-700 transition"
+                          className="text-xs bg-neutral-900 px-3 py-2 rounded-lg hover:bg-neutral-800 transition"
                         >
                           Ver site
                         </a>
@@ -317,7 +317,7 @@ export default function BuscaMassaPage() {
                           href={company.mapsUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-xs bg-slate-800 px-3 py-2 rounded-lg hover:bg-slate-700 transition"
+                          className="text-xs bg-neutral-900 px-3 py-2 rounded-lg hover:bg-neutral-800 transition"
                         >
                           Ver no mapa
                         </a>
@@ -336,7 +336,7 @@ export default function BuscaMassaPage() {
                         className={`text-xs px-3 py-2 rounded-lg font-bold transition disabled:opacity-50 ${
                           salvos.includes(company.name)
                             ? "bg-emerald-600 text-white"
-                            : "bg-slate-800 hover:bg-slate-700"
+                            : "bg-neutral-900 hover:bg-neutral-800"
                         }`}
                       >
                         {salvos.includes(company.name)

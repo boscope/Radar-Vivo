@@ -24,7 +24,7 @@ export default function HowItWorks(){
 
     return(
 
-        <section className="max-w-7xl mx-auto px-6 py-24">
+        <section className="max-w-7xl mx-auto px-6 py-16">
 
             <h2 className="text-4xl font-bold text-center">
 
@@ -32,19 +32,19 @@ export default function HowItWorks(){
 
             </h2>
 
-            <p className="text-center text-gray-500 mt-4 max-w-2xl mx-auto">
+            <p className="text-center text-neutral-400 mt-4 max-w-2xl mx-auto">
 
                 Da busca à venda fechada, tudo em um só lugar. Sem planilha, sem perder horas pesquisando.
 
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8 mt-16">
+            <div className="grid md:grid-cols-3 gap-6 mt-12">
 
                 {steps.map(step=>(
 
                     <div
                         key={step.number}
-                        className="border rounded-2xl p-8 shadow-sm hover:shadow-lg transition"
+                        className="bg-neutral-950 border border-neutral-800 rounded-2xl p-8 hover:bg-neutral-900/50 transition"
                     >
 
                         <div className="text-5xl font-extrabold text-green-500">
@@ -53,13 +53,13 @@ export default function HowItWorks(){
 
                         </div>
 
-                        <h3 className="text-2xl font-bold mt-6">
+                        <h3 className="text-2xl font-bold mt-4">
 
                             {step.title}
 
                         </h3>
 
-                        <p className="mt-4 text-gray-600">
+                        <p className="mt-3 text-neutral-400">
 
                             {step.description}
 

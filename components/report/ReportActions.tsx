@@ -17,7 +17,7 @@ export default function ReportActions(){
             </button>
 
             <button
-                className="px-5 py-3 rounded-xl bg-slate-900 text-white hover:bg-slate-800 transition"
+                className="px-5 py-3 rounded-xl bg-neutral-950 text-white hover:bg-neutral-900 transition"
             >
                 Exportar PDF (em breve)
             </button>

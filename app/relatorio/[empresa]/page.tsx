@@ -102,11 +102,11 @@ export default function RelatorioPublicoPage({
             Análise não disponível
           </h1>
 
-          <p className="text-slate-500 mb-8">{erro}</p>
+          <p className="text-neutral-500 mb-8">{erro}</p>
 
           <Link
             href="/"
-            className="inline-block bg-slate-900 text-white font-bold py-3 px-6 rounded-lg"
+            className="inline-block bg-neutral-950 text-white font-bold py-3 px-6 rounded-lg"
           >
             ← Voltar ao início
           </Link>
@@ -125,7 +125,7 @@ export default function RelatorioPublicoPage({
 
       <main className="min-h-screen bg-white text-slate-900 flex items-center justify-center">
 
-        <p className="text-slate-500">
+        <p className="text-neutral-500">
           Gerando análise gratuita...
         </p>
 
@@ -145,7 +145,7 @@ export default function RelatorioPublicoPage({
 
         <div className="text-center">
 
-          <span className="inline-block bg-slate-100 text-slate-600 text-sm px-4 py-2 rounded-full">
+          <span className="inline-block bg-neutral-100 text-neutral-600 text-sm px-4 py-2 rounded-full">
 
             🎁 Análise gratuita e sem compromisso
 
@@ -157,7 +157,7 @@ export default function RelatorioPublicoPage({
 
           </h1>
 
-          <p className="text-slate-500 mt-3">
+          <p className="text-neutral-500 mt-3">
 
             {company.city ? `${company.city}, ` : ""}{company.state ?? ""}
 
@@ -175,7 +175,7 @@ export default function RelatorioPublicoPage({
               {score.score}
             </p>
 
-            <p className="text-slate-500 mt-2 text-sm">
+            <p className="text-neutral-500 mt-2 text-sm">
               Índice de presença digital
             </p>
 
@@ -187,7 +187,7 @@ export default function RelatorioPublicoPage({
               {score.closingProbability}%
             </p>
 
-            <p className="text-slate-500 mt-2 text-sm">
+            <p className="text-neutral-500 mt-2 text-sm">
               Clientes que você pode estar perdendo para a concorrência
             </p>
 
@@ -199,7 +199,7 @@ export default function RelatorioPublicoPage({
               R$ {score.estimatedRevenue.toLocaleString("pt-BR")}
             </p>
 
-            <p className="text-slate-500 mt-2 text-sm">
+            <p className="text-neutral-500 mt-2 text-sm">
               Por mês, em vendas que hoje ficam com quem aparece primeiro no Google
             </p>
 
@@ -207,7 +207,7 @@ export default function RelatorioPublicoPage({
 
         </div>
 
-        <div className="mt-12 bg-slate-900 text-white rounded-3xl p-8 md:p-10">
+        <div className="mt-12 bg-neutral-950 text-white rounded-3xl p-8 md:p-10">
 
           <h2 className="text-2xl font-bold">
 
@@ -239,7 +239,7 @@ export default function RelatorioPublicoPage({
 
                 <span>⚠️</span>
 
-                <span className="text-slate-200">{item}</span>
+                <span className="text-neutral-200">{item}</span>
 
               </li>
 
@@ -251,7 +251,7 @@ export default function RelatorioPublicoPage({
 
                 <span>✅</span>
 
-                <span className="text-slate-200">{item}</span>
+                <span className="text-neutral-200">{item}</span>
 
               </li>
 
@@ -261,7 +261,7 @@ export default function RelatorioPublicoPage({
 
         </div>
 
-        <div className="mt-10 rounded-3xl border border-slate-200 p-8">
+        <div className="mt-10 rounded-3xl border border-neutral-200 p-8">
 
           <h2 className="text-2xl font-bold">
 
@@ -287,7 +287,7 @@ export default function RelatorioPublicoPage({
 
         </div>
 
-        <div className="mt-10 bg-slate-100 rounded-2xl p-8 text-center">
+        <div className="mt-10 bg-neutral-100 rounded-2xl p-8 text-center">
 
           <p className="text-lg font-semibold">
 
@@ -296,7 +296,7 @@ export default function RelatorioPublicoPage({
 
           </p>
 
-          <p className="text-slate-600 mt-2">
+          <p className="text-neutral-600 mt-2">
 
             Esta análise foi gerada pelo Radar Vivo. Entre em contato com
             quem te enviou este link para montar o plano da sua empresa.

@@ -10,7 +10,7 @@ export default function RadarScoreCard({score}:Props){
 
   return(
 
-    <div className="bg-white rounded-2xl shadow-lg p-6 border">
+    <div className="bg-neutral-900 rounded-2xl shadow-lg p-6 border border-neutral-800">
 
       <h2 className="text-lg font-bold mb-4">
         Radar Score

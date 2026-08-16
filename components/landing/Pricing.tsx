@@ -1,20 +1,23 @@
 const plans=[
 
 {
-name:"Gratuito",
+name:"Teste Grátis",
 price:"R$ 0",
-description:"Para testar o Radar Vivo sem compromisso.",
+badge:"3 DIAS DE TESTE",
+highlight:false,
+description:"Acesso total por 3 dias para você sentir o poder do Radar Vivo.",
 features:[
-"10 oportunidades por busca",
-"Análise individual de empresas",
-"Pipeline básico de leads",
+"3 dias de acesso completo",
+"Oportunidades ilimitadas",
+"Scripts de abordagem prontos",
+"Pipeline de leads",
 "Sem cartão de crédito"
 ]
 },
 
 {
 name:"Pro",
-price:"R$ 97",
+price:"R$ 197",
 highlight:true,
 description:"Para quem quer fechar vendas todo mês.",
 features:[
@@ -29,7 +32,7 @@ features:[
 
 {
 name:"Agência",
-price:"R$ 197",
+price:"R$ 397",
 description:"Para equipes e agências de marketing.",
 features:[
 "Tudo do Pro",
@@ -46,7 +49,7 @@ export default function Pricing(){
 
     return(
 
-        <section className="max-w-7xl mx-auto px-6 py-24">
+        <section className="max-w-7xl mx-auto px-6 py-16">
 
             <h2 className="text-4xl font-bold text-center">
 
@@ -54,13 +57,13 @@ export default function Pricing(){
 
             </h2>
 
-            <p className="text-center text-gray-500 mt-4 max-w-2xl mx-auto">
+            <p className="text-center text-neutral-400 mt-3 max-w-2xl mx-auto">
 
-                Comece grátis. Um único site vendido já paga meses de assinatura.
+                Comece com 3 dias grátis. Um único site vendido já paga meses de assinatura.
 
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8 mt-16">
+            <div className="grid md:grid-cols-3 gap-6 mt-12">
 
                 {plans.map(plan=>(
 
@@ -68,8 +71,8 @@ export default function Pricing(){
                         key={plan.name}
                         className={
                             plan.highlight
-                            ? "border-2 border-green-500 rounded-3xl p-8 shadow-2xl bg-slate-900 relative"
-                            : "border rounded-3xl p-8 shadow-sm hover:shadow-lg transition"
+                            ? "border-2 border-green-500 rounded-3xl p-8 bg-neutral-950 relative"
+                            : "border border-neutral-800 rounded-3xl p-8 bg-neutral-950 hover:border-neutral-600 transition"
                         }
                     >
 
@@ -78,6 +81,16 @@ export default function Pricing(){
                             <span className="absolute -top-4 left-8 bg-green-500 text-black text-sm font-bold px-4 py-1 rounded-full">
 
                                 Mais popular
+
+                            </span>
+
+                        )}
+
+                        {plan.badge && !plan.highlight && (
+
+                            <span className="inline-block bg-amber-500 text-black text-xs font-bold px-3 py-1 rounded-full mb-3">
+
+                                {plan.badge}
 
                             </span>
 
@@ -95,13 +108,13 @@ export default function Pricing(){
 
                         </p>
 
-                        <p className="text-gray-500 mt-3">
+                        <p className="text-neutral-400 mt-3">
 
                             {plan.description}
 
                         </p>
 
-                        <ul className="mt-8 space-y-3">
+                        <ul className="mt-6 space-y-3">
 
                             {plan.features.map(feature=>(
 
@@ -124,12 +137,12 @@ export default function Pricing(){
                             className={
                                 plan.highlight
                                 ? "mt-8 block text-center bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 rounded-xl"
-                                : "mt-8 block text-center border border-slate-500 hover:bg-slate-800 transition font-bold py-4 rounded-xl"
+                                : "mt-8 block text-center border border-neutral-600 hover:bg-neutral-900 transition font-bold py-4 rounded-xl"
                             }
 
                         >
 
-                            {plan.name === "Gratuito" ? "Começar grátis" : "Assinar agora"}
+                            {plan.name === "Teste Grátis" ? "Testar grátis por 3 dias" : "Assinar agora"}
 
                         </a>
 
@@ -139,9 +152,9 @@ export default function Pricing(){
 
             </div>
 
-            <p className="text-center text-gray-500 mt-10 text-sm">
+            <p className="text-center text-neutral-500 mt-10 text-sm">
 
-                💡 Um site vendido (R$ 800 a R$ 3.000) paga 10 a 30 meses de assinatura Pro.
+                💡 Um site vendido (R$ 800 a R$ 3.000) paga 4 a 15 meses de assinatura Pro.
 
             </p>
 

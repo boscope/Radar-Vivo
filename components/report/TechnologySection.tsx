@@ -26,7 +26,7 @@ export default function TechnologySection({
 
                     <div
                         key={index}
-                        className="border rounded-lg px-4 py-3 bg-slate-50 hover:bg-slate-100 transition"
+                        className="border rounded-lg px-4 py-3 bg-slate-50 hover:bg-neutral-100 transition"
                     >
 
                         {tech}

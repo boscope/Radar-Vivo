@@ -144,7 +144,7 @@ export default function AdminLeadsClient({
 
   return (
 
-    <div className="min-h-screen bg-slate-950 text-white">
+    <div className="min-h-screen bg-black text-white">
 
       <div className="max-w-7xl mx-auto p-8">
 
@@ -165,7 +165,7 @@ export default function AdminLeadsClient({
 
           <a
             href="/api/leads/export"
-            className="bg-slate-800 hover:bg-slate-700 transition px-6 py-3 rounded-lg font-bold text-sm"
+            className="bg-neutral-900 hover:bg-neutral-800 transition px-6 py-3 rounded-lg font-bold text-sm"
           >
             ⬇️ Exportar CSV
           </a>
@@ -321,7 +321,7 @@ export default function AdminLeadsClient({
                   )}
 
                   {!linkWa && (
-                    <p className="text-sm text-zinc-600 bg-slate-950 rounded-lg p-3 border border-zinc-800">
+                    <p className="text-sm text-zinc-600 bg-black rounded-lg p-3 border border-zinc-800">
                       ⚠️ Sem WhatsApp cadastrado. Use a busca para encontrar o
                       contato antes de abordar.
                     </p>
@@ -333,7 +333,7 @@ export default function AdminLeadsClient({
                       setScriptAberto(aberto ? null : (lead.id ?? null))
                     }
 
-                    className="w-full bg-slate-800 hover:bg-slate-700 transition px-4 py-3 rounded-lg text-sm font-bold"
+                    className="w-full bg-neutral-900 hover:bg-neutral-800 transition px-4 py-3 rounded-lg text-sm font-bold"
 
                   >
                     {aberto ? "Ocultar scripts" : "📝 Ver script de abordagem"}
@@ -349,7 +349,7 @@ export default function AdminLeadsClient({
                           Mensagem WhatsApp
                         </h3>
 
-                        <p className="text-zinc-300 text-sm whitespace-pre-line bg-slate-950 rounded-lg p-4 border border-zinc-800">
+                        <p className="text-zinc-300 text-sm whitespace-pre-line bg-black rounded-lg p-4 border border-zinc-800">
                           {scripts.mensagemWhatsApp}
                         </p>
 
@@ -359,7 +359,7 @@ export default function AdminLeadsClient({
                             navigator.clipboard.writeText(scripts.mensagemWhatsApp);
                           }}
 
-                          className="mt-2 text-xs text-slate-400 hover:text-white underline"
+                          className="mt-2 text-xs text-neutral-400 hover:text-white underline"
 
                         >
                           Copiar mensagem
@@ -373,7 +373,7 @@ export default function AdminLeadsClient({
                           Roteiro de ligação
                         </h3>
 
-                        <p className="text-zinc-300 text-sm whitespace-pre-line bg-slate-950 rounded-lg p-4 border border-zinc-800">
+                        <p className="text-zinc-300 text-sm whitespace-pre-line bg-black rounded-lg p-4 border border-zinc-800">
                           {scripts.roteiroLigacao}
                         </p>
 
@@ -389,7 +389,7 @@ export default function AdminLeadsClient({
 
                           {scripts.quebrarObjecao.map((item) => (
 
-                            <details key={item.objeção} className="bg-slate-950 rounded-lg border border-zinc-800">
+                            <details key={item.objeção} className="bg-black rounded-lg border border-zinc-800">
 
                               <summary className="cursor-pointer p-3 text-sm text-zinc-300">
                                 " {item.objeção} "
@@ -423,7 +423,7 @@ export default function AdminLeadsClient({
                         className={`flex-1 text-[11px] px-2 py-2 rounded-lg transition font-bold ${
                           lead.status === status
                             ? "bg-green-500 text-black"
-                            : "bg-slate-800 hover:bg-slate-700"
+                            : "bg-neutral-900 hover:bg-neutral-800"
                         }`}
 
                       >

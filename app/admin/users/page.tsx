@@ -16,11 +16,11 @@ Usuários
 
 </h1>
 
-<div className="bg-white rounded-2xl shadow">
+<div className="bg-neutral-900 rounded-2xl shadow border border-neutral-800">
 
 <table className="w-full">
 
-<thead className="bg-slate-100">
+<thead className="bg-neutral-100">
 
 <tr>
 

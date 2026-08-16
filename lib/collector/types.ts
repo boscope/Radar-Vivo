@@ -36,6 +36,8 @@ export interface GoogleData {
 
   tiktok?: string;
 
+  googlePlaceId?: string;
+
 }
 
 export interface WebsiteData {

@@ -10,6 +10,14 @@ import { collectReceitaWS } from "./receita-collector";
 
 import { searchOSMBusiness } from "./osm-collector";
 
+import { searchGooglePlace } from "@/lib/google/places-client";
+
+import {
+  canUseGoogle,
+} from "./google-usage";
+
+import { supabase } from "@/lib/supabase";
+
 import {
   parseMapsLink,
   mapsLinkToSearch,
@@ -24,6 +32,11 @@ import {
 import {
   enrichCompanyIntelligence,
 } from "@/lib/intelligence/core/company-intelligence";
+
+import {
+  makeExternalId,
+  upsertCompany,
+} from "@/lib/services/company-db-service";
 
 async function collectFromCnpj(
   cnpj: string
@@ -52,9 +65,120 @@ async function collectFromCnpj(
   };
 }
 
+async function collectFromGooglePlaces(
+  name: string
+): Promise<GoogleData | null> {
+  const status = await canUseGoogle();
+  if (!status.ok) {
+    console.warn("[GOOGLE] Análise individual bloqueada:", status.reason);
+    return null;
+  }
+
+  const place = await searchGooglePlace(name);
+
+  if (!place) return null;
+
+  return {
+    companyName: place.name ?? name,
+    city: place.address ? extrairCidade(place.address) : "Cidade não identificada",
+    category: place.types?.length
+      ? mapGoogleTypes(place.types)
+      : "Empresa",
+    phone: place.phone,
+    website: place.website,
+    googleMapsUrl: place.mapsUrl,
+    googleRating: place.rating,
+    googleReviews: place.reviews,
+    hasWhatsapp: !!place.phone,
+    googlePlaceId: place.id,
+  };
+}
+
+async function collectFromCache(
+  name: string
+): Promise<GoogleData | null> {
+  try {
+    const nomeLimpo = name.replace(/"/g, "").trim();
+
+    const palavras = nomeLimpo
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .split(/\s+/)
+      .filter((p) => p.length >= 3);
+
+    if (!palavras.length) return null;
+
+    const primeirasPalavras = palavras.slice(0, 2);
+
+    const { data } = await supabase
+      .from("companies")
+      .select(
+        "name, city, category, phone, website, rating, reviews, google_place_id, lat, lon"
+      )
+      .or(
+        primeirasPalavras
+          .map((p) => `name.ilike.${p}%`)
+          .join(",")
+      )
+      .limit(10);
+
+    const linhas = (data ?? []).filter((c: any) => {
+      return c.google_place_id && (c.phone || c.website || c.rating);
+    });
+
+    const cache =
+      linhas.find((c: any) => {
+        const nomeCache = (c.name ?? "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        return palavras.every((p) => nomeCache.includes(p));
+      }) ??
+      linhas.find((c: any) => {
+        const nomeCache = (c.name ?? "")
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+        return (
+          nomeCache.includes(primeirasPalavras[0]) &&
+          nomeCache.includes(primeirasPalavras[1])
+        );
+      });
+
+    if (!cache) return null;
+
+    return {
+      companyName: cache.name ?? name,
+      city: cache.city ?? "Cidade não identificada",
+      category: cache.category ?? "Empresa",
+      phone: cache.phone ?? undefined,
+      website: cache.website ?? undefined,
+      googleMapsUrl: cache.lat && cache.lon
+        ? `https://www.google.com/maps?q=${cache.lat},${cache.lon}`
+        : undefined,
+      googleRating: cache.rating ?? undefined,
+      googleReviews: cache.reviews ?? undefined,
+      hasWhatsapp: !!cache.phone,
+      googlePlaceId: cache.google_place_id ?? undefined,
+    };
+  } catch (error) {
+    console.error("[GOOGLE] Erro ao ler cache:", error);
+    return null;
+  }
+}
+
 async function collectFromName(
   name: string
 ): Promise<GoogleData> {
+  const cache = await collectFromCache(name);
+
+  if (cache) return cache;
+
+  const google = await collectFromGooglePlaces(name);
+
+  if (google) return google;
+
   const result = await searchOSMBusiness(name);
 
   if (!result) {
@@ -75,6 +199,63 @@ async function collectFromName(
     googleRating: undefined,
     googleReviews: undefined,
   };
+}
+
+function extrairCidade(address: string): string {
+  const partes = address.split(",").map((p) => p.trim());
+
+  const indiceEstado = partes.findIndex((p) =>
+    /^[A-Z]{2}$/.test(p)
+  );
+
+  if (indiceEstado > 0) {
+    return partes[indiceEstado - 1]
+      .replace(/\s*-\s*[A-Z]{2}$/i, "")
+      .trim();
+  }
+
+  const cepIndex = partes.findIndex((p) => /\b\d{5}-\d{3}\b/.test(p));
+  if (cepIndex > 1) {
+    return partes[cepIndex - 1]
+      .replace(/\s*-\s*[A-Z]{2}$/i, "")
+      .trim();
+  }
+
+  return "Cidade não identificada";
+}
+
+function mapGoogleTypes(types: string[]): string {
+  const map: Record<string, string> = {
+    barber_shop: "Barbearia",
+    beauty_salon: "Salão de Beleza",
+    dentist: "Dentista",
+    doctor: "Consultório Médico",
+    hospital: "Hospital",
+    health: "Saúde",
+    restaurant: "Restaurante",
+    cafe: "Cafeteria",
+    bakery: "Padaria",
+    pharmacy: "Farmácia",
+    school: "Escola",
+    university: "Universidade",
+    supermarket: "Supermercado",
+    store: "Loja",
+    shop: "Loja",
+    florist: "Floricultura",
+    car_repair: "Oficina",
+    gym: "Academia",
+    hotel: "Hotel",
+    hair_care: "Barbearia",
+  };
+
+  for (const type of types) {
+    if (map[type]) return map[type];
+  }
+
+  return types[0]
+    ? types[0].replace(/_/g, " ")
+        .replace(/\b\w/g, (c) => c.toUpperCase())
+    : "Empresa";
 }
 
 async function collectFromMapsLink(
@@ -174,5 +355,33 @@ export async function collectCompanyData(
     websiteData,
   };
 
-  return await enrichCompanyIntelligence(companyData);
+  const cachedResult = await enrichCompanyIntelligence(companyData);
+
+  if (type !== "site") {
+    const externalId = makeExternalId(
+      cachedResult.companyName,
+      cachedResult.city,
+      cachedResult.category
+    );
+
+    await upsertCompany(externalId, {
+      name: cachedResult.companyName,
+      city: cachedResult.city,
+      state: undefined,
+      category: cachedResult.category,
+      website: cachedResult.website ?? undefined,
+      phone: cachedResult.phone ?? undefined,
+      rating: cachedResult.googleRating ?? undefined,
+      reviews: cachedResult.googleReviews ?? undefined,
+      lat: undefined,
+      lon: undefined,
+      googlePlaceId: googleData.googlePlaceId,
+      radarScore:
+        cachedResult.intelligence?.score?.score ?? undefined,
+    }).catch((error) => {
+      console.error("[GOOGLE] Erro ao salvar cache:", error);
+    });
+  }
+
+  return cachedResult;
 }

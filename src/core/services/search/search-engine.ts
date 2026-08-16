@@ -10,6 +10,7 @@ export interface SearchCompany {
   rating?: number;
   lat?: number;
   lon?: number;
+  googlePlaceId?: string;
 }
 
 export interface SearchProvider {

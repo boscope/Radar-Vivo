@@ -5,6 +5,7 @@ import ProductPreview from "@/components/landing/ProductPreview";
 import Pricing from "@/components/landing/Pricing";
 import SocialProof from "@/components/landing/SocialProof";
 import FinalCTA from "@/components/landing/FinalCTA";
+import RadarVisual from "@/components/landing/RadarVisual";
 import { supabase } from "@/lib/supabase";
 
 export const dynamic = "force-dynamic";
@@ -40,101 +41,131 @@ export default async function HomePage() {
 
   return (
 
-    <main className="bg-slate-950 text-white">
+    <main className="bg-black text-white">
 
-      <section className="bg-slate-950 text-white">
+      <section className="bg-black text-white relative overflow-hidden">
 
-        <div className="max-w-7xl mx-auto px-6 py-24">
+        <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
 
-          <span className="inline-block px-4 py-2 rounded-full bg-slate-800 text-sm">
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-green-500/5"></div>
 
-            Feito para agências que vendem sites e marketing
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full border border-green-500/10"></div>
 
-          </span>
+          <div className="absolute top-20 right-10 w-3 h-3 rounded-full bg-green-500/40"></div>
 
-          <h1 className="mt-8 text-5xl md:text-6xl font-extrabold leading-tight max-w-4xl">
+          <div className="absolute top-40 right-40 w-2 h-2 rounded-full bg-green-500/30"></div>
 
-            Encontre empresas sem site e feche mais vendas todos os meses.
+          <div className="absolute bottom-20 right-24 w-2 h-2 rounded-full bg-green-500/25"></div>
 
-          </h1>
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 opacity-50 hidden xl:block">
 
-          <p className="mt-8 text-xl text-slate-300 max-w-3xl">
-
-            O Radar Vivo encontra negócios locais com presença digital fraca,
-            mostra exatamente o que falta (site, WhatsApp, presença no Google),
-            gera o script de abordagem pronto e acompanha a venda até fechar.
-
-          </p>
-
-          <HeroSearch />
-
-          <div className="mt-12 flex gap-5 flex-wrap">
-
-            <a
-
-              href="/busca"
-
-              className="bg-green-500 hover:bg-green-400 transition text-black px-8 py-4 rounded-xl font-bold"
-
-            >
-
-              🎯 Buscar oportunidades agora
-
-            </a>
-
-            <a
-
-              href="/scanner"
-
-              className="bg-white text-slate-900 px-8 py-4 rounded-xl font-bold hover:bg-slate-200 transition"
-
-            >
-
-              Analisar uma empresa
-
-            </a>
+            <RadarVisual side="left" />
 
           </div>
 
-          <div className="mt-16 grid grid-cols-3 gap-8 max-w-2xl">
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-50 hidden xl:block">
 
-            <div>
-
-              <p className="text-4xl font-extrabold text-green-400">
-                {totalEmpresas}
-              </p>
-
-              <p className="text-slate-400 mt-1 text-sm">
-                Empresas analisadas
-              </p>
-
-            </div>
-
-            <div>
-
-              <p className="text-4xl font-extrabold text-green-400">
-                {totalOportunidades}
-              </p>
-
-              <p className="text-slate-400 mt-1 text-sm">
-                Oportunidades mapeadas
-              </p>
-
-            </div>
-
-            <div>
-
-              <p className="text-4xl font-extrabold text-green-400">
-                {totalLeads}
-              </p>
-
-              <p className="text-slate-400 mt-1 text-sm">
-                Leads no pipeline
-              </p>
-
-            </div>
+            <RadarVisual side="right" />
 
           </div>
+
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 py-20 text-center">
+
+            <span className="inline-block px-4 py-2 rounded-full bg-neutral-900 border border-green-500/30 text-sm text-green-400">
+
+              📡 Radar Vivo — Fluxo Previsível e Constante de Novas Oportunidades.
+
+            </span>
+
+            <h1 className="mt-6 text-3xl md:text-4xl font-extrabold leading-snug max-w-3xl mx-auto">
+
+              Encontre Empresas Prontas antes da concorrência — e transforme oportunidades escondidas em novos clientes todos os meses.
+
+            </h1>
+
+            <p className="mt-5 text-lg text-neutral-400 max-w-2xl mx-auto">
+
+              O Radar Vivo encontra negócios locais com presença digital fraca,
+              mostra exatamente o que falta (site, WhatsApp, presença no Google),
+              gera o script de abordagem pronto e acompanha a venda até fechar.
+
+            </p>
+
+            <div className="flex justify-center">
+
+              <HeroSearch />
+
+            </div>
+
+            <div className="mt-8 flex gap-4 flex-wrap justify-center">
+
+              <a
+
+                href="/busca"
+
+                className="bg-green-500 hover:bg-green-400 transition text-black px-8 py-4 rounded-xl font-bold"
+
+              >
+
+                🎯 Buscar oportunidades agora
+
+              </a>
+
+              <a
+
+                href="/scanner"
+
+                className="bg-neutral-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-800 transition border border-neutral-700"
+
+              >
+
+                Analisar uma empresa
+
+              </a>
+
+            </div>
+
+            <div className="mt-10 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+
+              <div>
+
+                <p className="text-4xl font-extrabold text-green-400">
+                  {totalEmpresas}
+                </p>
+
+                <p className="text-neutral-500 mt-1 text-sm">
+                  Empresas analisadas
+                </p>
+
+              </div>
+
+              <div>
+
+                <p className="text-4xl font-extrabold text-green-400">
+                  {totalOportunidades}
+                </p>
+
+                <p className="text-neutral-500 mt-1 text-sm">
+                  Oportunidades mapeadas
+                </p>
+
+              </div>
+
+              <div>
+
+                <p className="text-4xl font-extrabold text-green-400">
+                  {totalLeads}
+                </p>
+
+                <p className="text-neutral-500 mt-1 text-sm">
+                  Leads no pipeline
+                </p>
+
+              </div>
+
+            </div>
 
         </div>
 

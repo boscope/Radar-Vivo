@@ -24,7 +24,7 @@ export default function SocialProof(){
 
     return(
 
-        <section className="max-w-7xl mx-auto px-6 py-24">
+        <section className="max-w-7xl mx-auto px-6 py-16">
 
             <h2 className="text-4xl font-bold text-center">
 
@@ -32,25 +32,25 @@ export default function SocialProof(){
 
             </h2>
 
-            <p className="text-center text-gray-500 mt-4 max-w-2xl mx-auto">
+            <p className="text-center text-neutral-400 mt-3 max-w-2xl mx-auto">
 
                 Vendedores e agências que transformaram prospecção em venda.
 
             </p>
 
-            <div className="grid md:grid-cols-3 gap-8 mt-16">
+            <div className="grid md:grid-cols-3 gap-6 mt-12">
 
                 {testimonials.map((t)=>(
-                    <div key={t.name} className="border rounded-2xl p-8 shadow-sm bg-slate-900">
+                    <div key={t.name} className="border border-neutral-800 rounded-2xl p-8 bg-neutral-950">
                         <div className="text-green-400 text-xl">
                             ★★★★★
                         </div>
-                        <p className="mt-4 text-slate-200 italic">
+                        <p className="mt-4 text-neutral-200 italic">
                             "{t.text}"
                         </p>
                         <div className="mt-6">
                             <p className="font-bold">{t.name}</p>
-                            <p className="text-slate-500 text-sm">{t.role}</p>
+                            <p className="text-neutral-500 text-sm">{t.role}</p>
                         </div>
                     </div>
                 ))}

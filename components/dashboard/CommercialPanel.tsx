@@ -25,7 +25,7 @@ export default function CommercialPanel({
 
                         <li
                             key={index}
-                            className="bg-gray-100 rounded-lg px-3 py-2"
+                            className="bg-neutral-900 rounded-lg px-3 py-2 border border-neutral-800"
                         >
                             {item}
                         </li>
@@ -44,7 +44,7 @@ export default function CommercialPanel({
 
                         <li
                             key={index}
-                            className="bg-blue-50 rounded-lg px-3 py-2"
+                            className="bg-neutral-900 rounded-lg px-3 py-2 border border-neutral-800"
                         >
                             {item}
                         </li>
@@ -83,7 +83,7 @@ function Section({
 
         <div className="border rounded-xl bg-white shadow">
 
-            <div className="bg-slate-900 text-white px-4 py-3 rounded-t-xl font-semibold">
+            <div className="bg-neutral-950 text-white px-4 py-3 rounded-t-xl font-semibold">
 
                 {title}
 

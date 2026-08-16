@@ -15,7 +15,7 @@ export default function AdminSidebar(){
 
 return(
 
-<aside className="w-72 bg-slate-900 text-white min-h-screen p-8">
+<aside className="w-72 bg-neutral-950 text-white min-h-screen p-8">
 
 <h2 className="text-3xl font-bold mb-12">
 
@@ -30,7 +30,7 @@ Radar Vivo
 <Link
 key={name}
 href={url}
-className="block rounded-xl px-4 py-3 hover:bg-slate-800 transition"
+className="block rounded-xl px-4 py-3 hover:bg-neutral-900 transition"
 >
 
 {name}

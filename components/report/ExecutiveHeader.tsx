@@ -12,7 +12,7 @@ export default function ExecutiveHeader({
 
     return(
 
-        <div className="bg-slate-900 text-white rounded-xl p-8">
+        <div className="bg-neutral-950 text-white rounded-xl p-8">
 
             <h1 className="text-3xl font-bold">
 
