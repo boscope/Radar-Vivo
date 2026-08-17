@@ -3,9 +3,7 @@ import { createServerClient } from "@supabase/ssr";
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
+    request: { headers: request.headers },
   });
 
   const supabase = createServerClient(
@@ -21,9 +19,7 @@ export async function proxy(request: NextRequest) {
             request.cookies.set(name, value);
           });
           response = NextResponse.next({
-            request: {
-              headers: request.headers,
-            },
+            request: { headers: request.headers },
           });
           cookiesToSet.forEach(({ name, value, options }) => {
             response.cookies.set(name, value, options);
@@ -33,20 +29,39 @@ export async function proxy(request: NextRequest) {
     }
   );
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   const url = request.nextUrl;
-  const isProtected = url.pathname.startsWith("/admin") || url.pathname.startsWith("/dashboard");
+  const pathname = url.pathname;
 
-  if (isProtected && !user) {
-    const loginUrl = new URL("/login", request.url);
-    loginUrl.searchParams.set("next", url.pathname);
+  const publicPaths = [
+    "/",
+    "/busca",
+    "/relatorio",
+    "/auth/login",
+    "/auth/cadastro",
+    "/auth/confirm",
+    "/api/analyze",
+    "/api/scanner/search",
+    "/api/google/usage",
+    "/api/stripe/webhook",
+    "/_next",
+  ];
+
+  const isPublic = publicPaths.some(
+    (p) => pathname === p || pathname.startsWith(p + "/")
+  );
+
+  if (!isPublic && !user) {
+    const loginUrl = new URL("/auth/login", request.url);
+    loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  if ((url.pathname === "/login" || url.pathname === "/register") && user) {
+  if (
+    (pathname === "/auth/login" || pathname === "/auth/cadastro") &&
+    user
+  ) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
@@ -55,9 +70,14 @@ export async function proxy(request: NextRequest) {
 
 export const config = {
   matcher: [
-    "/admin/:path*",
     "/dashboard/:path*",
-    "/login",
-    "/register",
+    "/admin/:path*",
+    "/leads/:path*",
+    "/opportunities/:path*",
+    "/intelligence/:path*",
+    "/notifications/:path*",
+    "/settings/:path*",
+    "/auth/login",
+    "/auth/cadastro",
   ],
 };
