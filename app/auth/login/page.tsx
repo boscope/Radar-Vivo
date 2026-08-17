@@ -35,6 +35,31 @@ function LoginForm() {
       return;
     }
 
+    const { data: userData } = await supabase.auth.getUser();
+    if (userData.user) {
+      const { data: existing } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", userData.user.id)
+        .single();
+
+      if (!existing) {
+        try {
+          await fetch("/api/user/ensure-profile", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              userId: userData.user.id,
+              email: userData.user.email || email,
+              fullName: userData.user.user_metadata?.full_name || "",
+            }),
+          });
+        } catch (e) {
+          console.error("[LOGIN] ensure-profile error:", e);
+        }
+      }
+    }
+
     router.push(redirect);
     router.refresh();
   }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe, PLANS, type PlanKey } from "@/lib/stripe";
+import { getStripe, PLANS, type PlanKey } from "@/lib/stripe";
 import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: NextRequest) {
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
     let customerId = profile?.stripe_customer_id;
 
     if (!customerId) {
-      const customer = await stripe.customers.create({
+      const customer = await getStripe().customers.create({
         email,
         metadata: { userId },
       });
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Criar sessão de checkout
-    const session = await stripe.checkout.sessions.create({
+    const session = await getStripe().checkout.sessions.create({
       customer: customerId,
       mode: "subscription",
       payment_method_types: ["card"],
@@ -62,8 +62,8 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${request.headers.get("origin")}/dashboard?upgraded=true`,
-      cancel_url: `${request.headers.get("origin")}/#pricing`,
+      success_url: `${request.headers.get("origin") || "https://www.radarvivo.com.br"}/dashboard?upgraded=true`,
+      cancel_url: `${request.headers.get("origin") || "https://www.radarvivo.com.br"}/#pricing`,
       metadata: { userId, plan },
       subscription_data: {
         trial_period_days: plan === "pro" ? 3 : 0,
@@ -73,9 +73,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
-    console.error("[STRIPE CHECKOUT]", error.message);
+    console.error("[STRIPE CHECKOUT]", error.type, error.message, error.code);
     return NextResponse.json(
-      { error: "Erro ao criar sessão de pagamento" },
+      { error: "Erro ao criar sessão de pagamento", detail: error.message },
       { status: 500 }
     );
   }

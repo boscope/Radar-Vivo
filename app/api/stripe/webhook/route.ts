@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { createClient } from "@supabase/supabase-js";
 import Stripe from "stripe";
 
@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(
+    event = getStripe().webhooks.constructEvent(
       body,
       sig,
       process.env.STRIPE_WEBHOOK_SECRET!
@@ -48,27 +48,40 @@ export async function POST(request: NextRequest) {
       break;
     }
 
+    case "customer.subscription.created":
     case "customer.subscription.updated": {
       const subscription = event.data.object as Stripe.Subscription;
       const userId = subscription.metadata?.userId;
-      const status =
-        subscription.status === "active"
-          ? "active"
-          : subscription.status === "past_due"
-          ? "past_due"
-          : "canceled";
 
+      const mapStatus = (s: string) => {
+        if (s === "active" || s === "trialing") return "active";
+        if (s === "past_due") return "past_due";
+        return "canceled";
+      };
+
+      const status = mapStatus(subscription.status);
       const periodEnd = (subscription as any).current_period_end;
 
       if (userId) {
+        const update: Record<string, any> = {
+          subscription_status: status,
+          stripe_subscription_id: subscription.id,
+          subscription_current_period_end: periodEnd
+            ? new Date(periodEnd * 1000).toISOString()
+            : null,
+        };
+
+        if (subscription.status === "trialing") {
+          update.plan = subscription.metadata?.plan || "pro";
+        }
+
+        if (subscription.status === "active") {
+          update.plan = subscription.metadata?.plan || "pro";
+        }
+
         await supabase
           .from("profiles")
-          .update({
-            subscription_status: status,
-            subscription_current_period_end: periodEnd
-              ? new Date(periodEnd * 1000).toISOString()
-              : null,
-          })
+          .update(update)
           .eq("id", userId);
       }
       break;

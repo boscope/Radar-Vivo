@@ -31,7 +31,7 @@ export default function CadastroPage() {
 
     setLoading(true);
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -44,6 +44,22 @@ export default function CadastroPage() {
       setError(error.message);
       setLoading(false);
       return;
+    }
+
+    if (data.user) {
+      try {
+        await fetch("/api/user/ensure-profile", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            userId: data.user.id,
+            email,
+            fullName,
+          }),
+        });
+      } catch (e) {
+        console.error("[CADASTRO] ensure-profile error:", e);
+      }
     }
 
     setSuccess(true);

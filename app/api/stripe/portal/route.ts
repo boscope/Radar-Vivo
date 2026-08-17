@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { getStripe } from "@/lib/stripe";
 import { createClient } from "@supabase/supabase-js";
 
 export async function POST(request: NextRequest) {
@@ -24,9 +24,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const session = await stripe.billingPortal.sessions.create({
+    const session = await getStripe().billingPortal.sessions.create({
       customer: profile.stripe_customer_id,
-      return_url: `${request.headers.get("origin")}/dashboard`,
+      return_url: `${request.headers.get("origin") || "https://www.radarvivo.com.br"}/dashboard`,
     });
 
     return NextResponse.json({ url: session.url });
