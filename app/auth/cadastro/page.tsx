@@ -9,6 +9,7 @@ export default function CadastroPage() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -22,6 +23,12 @@ export default function CadastroPage() {
   async function handleSignup(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+
+    if (!acceptedTerms) {
+      setError("Você precisa aceitar os Termos de Uso e a Política de Privacidade.");
+      return;
+    }
+
     setLoading(true);
 
     const { error } = await supabase.auth.signUp({
@@ -118,6 +125,27 @@ export default function CadastroPage() {
               placeholder="Mínimo 6 caracteres"
             />
           </div>
+
+          <label className="flex items-start gap-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={acceptedTerms}
+              onChange={(e) => setAcceptedTerms(e.target.checked)}
+              required
+              className="mt-1 w-4 h-4 rounded border-neutral-600 bg-neutral-900 text-green-500 focus:ring-green-500"
+            />
+            <span className="text-xs text-neutral-400 leading-relaxed">
+              Li e aceito os{" "}
+              <Link href="/termos" target="_blank" className="text-green-400 hover:underline">
+                Termos de Uso
+              </Link>{" "}
+              e a{" "}
+              <Link href="/privacidade" target="_blank" className="text-green-400 hover:underline">
+                Política de Privacidade
+              </Link>
+              . Autorizo o tratamento dos meus dados pessoais conforme a LGPD.
+            </span>
+          </label>
 
           {error && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2">
