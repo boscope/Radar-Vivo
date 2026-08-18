@@ -5,6 +5,7 @@ import ProductPreview from "@/components/landing/ProductPreview";
 import Pricing from "@/components/landing/Pricing";
 import SocialProof from "@/components/landing/SocialProof";
 import FinalCTA from "@/components/landing/FinalCTA";
+import Footer from "@/components/landing/Footer";
 import RadarVisual from "@/components/landing/RadarVisual";
 import { supabase } from "@/lib/supabase";
 
@@ -182,6 +183,8 @@ export default async function HomePage() {
       <Pricing />
 
       <FinalCTA />
+
+      <Footer />
 
     </main>
 
