@@ -59,6 +59,31 @@ export async function POST(request: Request) {
       await markCaptured(externalId, ownerId);
     }
 
+    if (process.env.RESEND_API_KEY) {
+      try {
+        const { Resend } = await import("resend");
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        await resend.emails.send({
+          from: "Radar Vivo <onboarding@resend.dev>",
+          to: "radarvivocontato@gmail.com",
+          subject: `[Novo Lead] ${name} - ${company || "Sem empresa"}`,
+          text: [
+            `Novo lead capturado!`,
+            ``,
+            `Nome: ${name}`,
+            `WhatsApp: ${whatsapp}`,
+            `Empresa: ${company || "Não informada"}`,
+            `Cidade: ${body?.city || "Não informada"}`,
+            `Categoria: ${body?.category || "Não informada"}`,
+            `Score: ${body?.score || "N/A"}`,
+            `Prioridade: ${body?.priority || "N/A"}`,
+          ].join("\n"),
+        });
+      } catch (e) {
+        console.error("[LEADS] Erro ao enviar email:", e);
+      }
+    }
+
     return NextResponse.json({ success: true, lead });
   } catch (error) {
     console.error("[API LEADS]", error);
