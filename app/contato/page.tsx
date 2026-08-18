@@ -15,15 +15,22 @@ export default function ContatoPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Envio via mailto (simplificado para MVP)
-    const mailtoLink = `mailto:contato@radarvivo.com.br?subject=${encodeURIComponent(
-      `[${subject}] ${name}`
-    )}&body=${encodeURIComponent(
-      `Nome: ${name}\nEmail: ${email}\n\n${message}`
-    )}`;
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
 
-    window.location.href = mailtoLink;
-    setSent(true);
+      if (res.ok) {
+        setSent(true);
+      } else {
+        alert("Erro ao enviar. Tente novamente ou envie para radarvivocontato@gmail.com");
+      }
+    } catch {
+      alert("Erro de conexão. Tente novamente.");
+    }
+
     setLoading(false);
   }
 
@@ -123,10 +130,10 @@ export default function ContatoPage() {
             <p className="text-center text-neutral-500 text-xs">
               Resposta em até 48 horas úteis. Para urgentes:{" "}
               <a
-                href="mailto:contato@radarvivo.com.br"
+                href="mailto:radarvivocontato@gmail.com"
                 className="text-green-400 hover:underline"
               >
-                contato@radarvivo.com.br
+                radarvivocontato@gmail.com
               </a>
             </p>
           </form>

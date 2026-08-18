@@ -30,7 +30,7 @@ export default function PrivacidadePage() {
             <p>
               O <strong className="text-white">Radar Vivo</strong> é uma plataforma
               digital operada por profissional autônomo, inscrito no CPF sob o
-              nº [INSERIR CPF], com sede em Londrina/PR, Brasil. Este documento
+              nº 062.347.914-17, com sede em Londrina/PR, Brasil. Este documento
               descreve como coletamos, usamos, armazenamos e protegemos seus
               dados pessoais, em conformidade com a{" "}
               <strong className="text-white">
@@ -218,10 +218,10 @@ export default function PrivacidadePage() {
             <p className="mt-3">
               Para exercer qualquer direito, envie email para:{" "}
               <a
-                href="mailto:contato@radarvivo.com.br"
+                href="mailto:radarvivocontato@gmail.com"
                 className="text-green-400 hover:underline"
               >
-                contato@radarvivo.com.br
+                radarvivocontato@gmail.com
               </a>{" "}
               ou acesse{" "}
               <Link href="/meus-dados" className="text-green-400 hover:underline">
@@ -263,10 +263,10 @@ export default function PrivacidadePage() {
             <p>
               O encarregado pelo tratamento de dados pode ser contactado em:{" "}
               <a
-                href="mailto:dpo@radarvivo.com.br"
+                href="mailto:radarvivocontato@gmail.com"
                 className="text-green-400 hover:underline"
               >
-                dpo@radarvivo.com.br
+                radarvivocontato@gmail.com
               </a>
             </p>
           </section>

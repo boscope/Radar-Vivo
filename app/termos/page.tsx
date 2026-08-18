@@ -101,10 +101,10 @@ export default function TermosPage() {
               após a primeira cobrança, sem necessidade de justificativa, com devolução
               integral do valor pago. Para solicitar o cancelamento, entre em contato:{" "}
               <a
-                href="mailto:contato@radarvivo.com.br"
+                href="mailto:radarvivocontato@gmail.com"
                 className="text-green-400 hover:underline"
               >
-                contato@radarvivo.com.br
+                radarvivocontato@gmail.com
               </a>
             </p>
           </section>
@@ -217,10 +217,10 @@ export default function TermosPage() {
             <p>
               Dúvidas sobre estes termos:{" "}
               <a
-                href="mailto:contato@radarvivo.com.br"
+                href="mailto:radarvivocontato@gmail.com"
                 className="text-green-400 hover:underline"
               >
-                contato@radarvivo.com.br
+                radarvivocontato@gmail.com
               </a>
             </p>
           </section>
