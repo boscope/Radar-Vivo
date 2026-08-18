@@ -26,7 +26,7 @@ export async function POST(request: Request) {
     };
 
     await resend.emails.send({
-      from: "Radar Vivo <onboarding@resend.dev>",
+      from: "Radar Vivo <contato@radarvivo.com.br>",
       to: "radarvivocontato@gmail.com",
       replyTo: email,
       subject: `[${subjectLabels[subject] || subject}] ${name}`,

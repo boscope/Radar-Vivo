@@ -64,7 +64,7 @@ export async function POST(request: Request) {
         const { Resend } = await import("resend");
         const resend = new Resend(process.env.RESEND_API_KEY);
         await resend.emails.send({
-          from: "Radar Vivo <onboarding@resend.dev>",
+          from: "Radar Vivo <contato@radarvivo.com.br>",
           to: "radarvivocontato@gmail.com",
           subject: `[Novo Lead] ${name} - ${company || "Sem empresa"}`,
           text: [
