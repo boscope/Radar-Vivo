@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
+import SearchLimitBanner from "@/components/SearchLimitBanner";
 
 type Company = {
   name: string;
@@ -18,6 +20,7 @@ type Company = {
 
 export default function BuscaMassaPage() {
 
+  const { blocked, incrementAndCheck, remaining } = useFreeSearchLimit();
   const [state, setState] = useState("PE");
 
   const [city, setCity] = useState("");
@@ -41,6 +44,9 @@ export default function BuscaMassaPage() {
   } | null>(null);
 
   async function buscar() {
+    if (blocked) return;
+    const isBlocked = incrementAndCheck();
+    if (isBlocked) return;
 
     setErro(null);
 
@@ -361,6 +367,8 @@ export default function BuscaMassaPage() {
         )}
 
       </div>
+
+      {blocked && <SearchLimitBanner remaining={remaining()} />}
 
     </main>
 
