@@ -30,7 +30,7 @@ export default function PrivacidadePage() {
             <p>
               O <strong className="text-white">Radar Vivo</strong> é uma plataforma
               digital operada por profissional autônomo, inscrito no CPF sob o
-              nº 062.347.914-17, com sede em Londrina/PR, Brasil. Este documento
+              nº 062.347.914-17, com sede em Carpina/PE, Brasil. Este documento
               descreve como coletamos, usamos, armazenamos e protegemos seus
               dados pessoais, em conformidade com a{" "}
               <strong className="text-white">

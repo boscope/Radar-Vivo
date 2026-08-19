@@ -38,7 +38,7 @@ export default function Footer() {
           <div className="flex flex-wrap items-center justify-center gap-4 text-xs text-neutral-500">
             <span>CNPJ: 27.277.654/0001-13</span>
             <span className="hidden md:inline">·</span>
-            <span>Londrina/PR, Brasil</span>
+            <span>Carpina/PE, Brasil</span>
           </div>
 
           <div className="flex items-center gap-3 text-xs text-neutral-500">

@@ -205,7 +205,7 @@ export default function TermosPage() {
             </h2>
             <p>
               Estes termos são regidos pelas leis da República Federativa do Brasil.
-              Fica eleito o foro da Comarca de Londrina/PR para dirimir quaisquer
+              Fica eleito o foro da Comarca de Carpina/PE para dirimir quaisquer
               questões, com renúncia a qualquer outro por mais privilegiado que seja.
             </p>
           </section>

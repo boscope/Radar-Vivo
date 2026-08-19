@@ -41,7 +41,7 @@ export default function ScannerPage() {
           <input
             value={empresa}
             onChange={(e) => setEmpresa(e.target.value)}
-            placeholder="Ex.: Clínica Vida Londrina"
+            placeholder="Ex.: Clínica Vida Caruaru"
             className="w-full p-4 rounded-lg bg-zinc-800 border border-zinc-700 text-white text-lg"
           />
 
