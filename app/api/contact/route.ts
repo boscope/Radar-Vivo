@@ -25,7 +25,7 @@ export async function POST(request: Request) {
       Outro: "Outro",
     };
 
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: "Radar Vivo <contato@radarvivo.com.br>",
       to: "radarvivocontato@gmail.com",
       replyTo: email,
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
       text: `Nome: ${name}\nEmail: ${email}\nAssunto: ${subjectLabels[subject] || subject}\n\n${message}`,
     });
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, result });
   } catch (error: any) {
     console.error("[CONTACT]", error.message);
     return NextResponse.json({ error: "Erro ao enviar" }, { status: 500 });

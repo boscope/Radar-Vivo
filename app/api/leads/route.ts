@@ -59,11 +59,13 @@ export async function POST(request: Request) {
       await markCaptured(externalId, ownerId);
     }
 
+    let emailResult = null;
+
     if (process.env.RESEND_API_KEY) {
       try {
         const { Resend } = await import("resend");
         const resend = new Resend(process.env.RESEND_API_KEY);
-        await resend.emails.send({
+        emailResult = await resend.emails.send({
           from: "Radar Vivo <contato@radarvivo.com.br>",
           to: "radarvivocontato@gmail.com",
           subject: `[Novo Lead] ${name} - ${company || "Sem empresa"}`,
@@ -79,12 +81,15 @@ export async function POST(request: Request) {
             `Prioridade: ${body?.priority || "N/A"}`,
           ].join("\n"),
         });
-      } catch (e) {
+      } catch (e: any) {
         console.error("[LEADS] Erro ao enviar email:", e);
+        emailResult = { error: e.message };
       }
+    } else {
+      emailResult = { error: "RESEND_API_KEY não configurada" };
     }
 
-    return NextResponse.json({ success: true, lead });
+    return NextResponse.json({ success: true, lead, emailResult });
   } catch (error) {
     console.error("[API LEADS]", error);
 
