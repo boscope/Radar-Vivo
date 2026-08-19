@@ -58,13 +58,13 @@ export default async function HomePage() {
 
           <div className="absolute bottom-20 right-24 w-2 h-2 rounded-full bg-green-500/25"></div>
 
-          <div className="absolute left-0 top-1/2 -translate-y-1/2 opacity-30 hidden md:block">
+          <div className="absolute left-0 top-1/2 -translate-y-1/2 opacity-30 overflow-hidden pointer-events-none">
 
             <RadarVisual side="left" />
 
           </div>
 
-          <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-30 hidden md:block">
+          <div className="absolute right-0 top-1/2 -translate-y-1/2 opacity-30 overflow-hidden pointer-events-none">
 
             <RadarVisual side="right" />
 
