@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-const MAX_FREE_SEARCHES = 2;
+const MAX_FREE_SEARCHES = 3;
 const STORAGE_KEY = "rv_free_searches";
 
 export function useFreeSearchLimit() {
@@ -19,8 +19,8 @@ export function useFreeSearchLimit() {
     const newCount = count + 1;
     setCount(newCount);
     localStorage.setItem(STORAGE_KEY, String(newCount));
-    if (newCount >= MAX_FREE_SEARCHES) setBlocked(true);
-    return newCount >= MAX_FREE_SEARCHES;
+    if (newCount > MAX_FREE_SEARCHES) setBlocked(true);
+    return newCount > MAX_FREE_SEARCHES;
   }
 
   function remaining(): number {

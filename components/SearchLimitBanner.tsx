@@ -17,7 +17,7 @@ export default function SearchLimitBanner({ remaining }: Props) {
           Buscas grátis esgotadas
         </h2>
         <p className="text-neutral-400 text-sm mb-6 leading-relaxed">
-          Você usou suas 2 buscas grátis. Crie sua conta e teste{" "}
+          Você usou suas buscas grátis. Crie sua conta e teste{" "}
           <strong className="text-green-400">grátis por 3 dias</strong> com
           buscas ilimitadas.
         </p>
