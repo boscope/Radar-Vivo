@@ -47,6 +47,9 @@ export default function DashboardPage() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showUpgrade, setShowUpgrade] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordMsg, setPasswordMsg] = useState("");
   const router = useRouter();
 
   const supabase = createBrowserClient(
@@ -96,6 +99,21 @@ export default function DashboardPage() {
     if (url) window.location.href = url;
   }
 
+  async function handleChangePassword() {
+    if (newPassword.length < 6) {
+      setPasswordMsg("A senha precisa ter pelo menos 6 caracteres.");
+      return;
+    }
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    if (error) {
+      setPasswordMsg("Erro ao trocar senha: " + error.message);
+    } else {
+      setPasswordMsg("Senha alterada com sucesso!");
+      setNewPassword("");
+      setTimeout(() => { setShowPassword(false); setPasswordMsg(""); }, 2000);
+    }
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -130,6 +148,12 @@ export default function DashboardPage() {
                 Gerenciar assinatura
               </button>
             )}
+            <button
+              onClick={() => setShowPassword(!showPassword)}
+              className="text-sm text-neutral-400 hover:text-white transition"
+            >
+              Trocar senha
+            </button>
           </div>
         </div>
       </header>
@@ -139,6 +163,33 @@ export default function DashboardPage() {
         {showUpgrade && (
           <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-6 text-green-400">
             Assinatura ativada com sucesso!
+          </div>
+        )}
+
+        {/* Password change */}
+        {showPassword && (
+          <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 mb-6">
+            <h3 className="text-lg font-bold mb-4">Trocar senha</h3>
+            <div className="flex gap-3">
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                placeholder="Nova senha (mínimo 6 caracteres)"
+                className="flex-1 bg-neutral-800 border border-neutral-600 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-green-400"
+              />
+              <button
+                onClick={handleChangePassword}
+                className="bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-3 rounded-lg transition"
+              >
+                Salvar
+              </button>
+            </div>
+            {passwordMsg && (
+              <p className={`mt-3 text-sm ${passwordMsg.includes("sucesso") ? "text-green-400" : "text-red-400"}`}>
+                {passwordMsg}
+              </p>
+            )}
           </div>
         )}
 

@@ -39,10 +39,6 @@ Analisar uma empresa
 
 <p>© Radar Vivo • Inteligência Comercial com IA</p>
 
-<a href="/admin/leads" className="hover:text-neutral-300 transition">Painel</a>
-
-<a href="/admin" className="hover:text-neutral-300 transition">Admin</a>
-
 </div>
 
 </div>

@@ -1,7 +1,5 @@
 export default function RadarVisual({ side = "right" }: { side?: "left" | "right" }) {
 
-  const cardPosition = side === "right" ? "-right-10 md:-right-20" : "-left-10 md:-left-20";
-
   return (
 
     <div className="relative w-[200px] h-[200px] md:w-[420px] md:h-[420px] shrink-0" aria-hidden="true">
@@ -39,18 +37,6 @@ export default function RadarVisual({ side = "right" }: { side?: "left" | "right
             <div className="absolute bottom-1/4 left-3/4 w-2 h-2 bg-green-400 rounded-full opacity-90"></div>
 
             <div className="absolute top-3/4 right-1/4 w-1.5 h-1.5 md:w-2 md:h-2 bg-green-400 rounded-full opacity-80"></div>
-
-          </div>
-
-          <div className={`absolute ${cardPosition} top-6 md:top-10 bg-black border border-green-400/50 rounded-xl px-3 py-2 md:px-4 md:py-3 text-xs md:text-sm font-bold text-green-400 shadow-[0_0_30px_rgba(34,197,94,0.3)] whitespace-nowrap`}>
-
-            Empresa sem site detectada
-
-            <div className="text-green-400/80 text-[10px] md:text-xs font-normal mt-1">
-
-              oportunidade mapeada
-
-            </div>
 
           </div>
 
