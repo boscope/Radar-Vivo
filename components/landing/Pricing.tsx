@@ -100,7 +100,7 @@ export default function Pricing() {
   }
 
   return (
-    <section id="pricing" className="max-w-7xl mx-auto px-6 py-16">
+    <section id="precos" className="max-w-7xl mx-auto px-6 py-16">
       <h2 className="text-4xl font-bold text-center">Planos simples, preço justo</h2>
       <p className="text-center text-neutral-400 mt-3 max-w-2xl mx-auto">
         Comece com 3 dias grátis. Um único site vendido já paga meses de assinatura.
