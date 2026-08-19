@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Radar Vivo - Apresentação Comercial</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+    }
+
+    .page {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 80px 40px;
+      background: linear-gradient(180deg, #000 0%, #0a1a0a 50%, #000 100%);
+      border-bottom: 1px solid #22c55e30;
+    }
+
+    .logo {
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+    .logo span:first-child { color: #4ade80; }
+    .logo span:last-child { color: #fff; }
+
+    .hero h1 {
+      font-size: 36px;
+      font-weight: 900;
+      line-height: 1.2;
+      max-width: 700px;
+      margin: 24px auto 0;
+    }
+
+    .hero h1 .green { color: #4ade80; }
+
+    .hero p {
+      font-size: 18px;
+      color: #a3a3a3;
+      max-width: 600px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
+
+    .section {
+      padding: 60px 40px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 12px;
+    }
+
+    .section-title .green { color: #4ade80; }
+
+    .section-subtitle {
+      font-size: 16px;
+      color: #a3a3a3;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid #262626;
+      border-radius: 16px;
+      padding: 28px;
+    }
+
+    .card .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+
+    .card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 14px;
+      color: #a3a3a3;
+      line-height: 1.5;
+    }
+
+    .card .tag {
+      display: inline-block;
+      background: #4ade8020;
+      color: #4ade80;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 99px;
+      margin-top: 12px;
+    }
+
+    .flow {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      max-width: 600px;
+    }
+
+    .flow-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      padding: 24px 0;
+      border-left: 2px solid #262626;
+      padding-left: 28px;
+      position: relative;
+    }
+
+    .flow-step::before {
+      content: attr(data-step);
+      position: absolute;
+      left: -16px;
+      top: 24px;
+      width: 30px;
+      height: 30px;
+      background: #4ade80;
+      color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .flow-step h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .flow-step p {
+      font-size: 14px;
+      color: #a3a3a3;
+      line-height: 1.5;
+    }
+
+    .pricing-box {
+      background: linear-gradient(135deg, #0a1a0a, #111);
+      border: 2px solid #4ade80;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    .pricing-box .badge {
+      display: inline-block;
+      background: #4ade80;
+      color: #000;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 99px;
+      margin-bottom: 16px;
+    }
+
+    .pricing-box h3 {
+      font-size: 28px;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .pricing-box .price {
+      font-size: 48px;
+      font-weight: 900;
+      color: #4ade80;
+      margin: 16px 0;
+    }
+
+    .pricing-box .price span {
+      font-size: 18px;
+      color: #a3a3a3;
+      font-weight: 400;
+    }
+
+    .pricing-box ul {
+      list-style: none;
+      text-align: left;
+      margin: 24px 0;
+    }
+
+    .pricing-box li {
+      padding: 8px 0;
+      font-size: 15px;
+      color: #d4d4d4;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .pricing-box li::before {
+      content: "✓";
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    .cta-button {
+      display: inline-block;
+      background: #4ade80;
+      color: #000;
+      font-size: 18px;
+      font-weight: 700;
+      padding: 16px 40px;
+      border-radius: 12px;
+      text-decoration: none;
+      margin-top: 12px;
+      transition: background 0.2s;
+    }
+
+    .cta-button:hover { background: #22c55e; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #262626;
+      margin: 0;
+    }
+
+    .footer-section {
+      text-align: center;
+      padding: 40px;
+      color: #525252;
+      font-size: 13px;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    @media print {
+      body { background: #000; }
+      .page { max-width: 100%; padding: 40px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <div class="logo"><span>Radar</span><span>Vivo</span></div>
+    <h1>
+      Seu próximo cliente <span class="green">já existe</span>.<br>
+      Nós mostramos quem é.
+    </h1>
+    <p>
+      O Radar Vivo encontra negócios locais com presença digital fraca,
+      mostra exatamente o que falta e gera o script de abordagem pronto pra sua agência fechar a venda.
+    </p>
+  </div>
+
+  <!-- O QUE É -->
+  <div class="section">
+    <h2 class="section-title">O que é o <span class="green">Radar Vivo</span>?</h2>
+    <p class="section-subtitle">
+      Uma plataforma de inteligência comercial feita pra agências que vendem presença digital a negócios locais.
+    </p>
+
+    <div class="card-grid">
+      <div class="card">
+        <div class="icon">📡</div>
+        <h3>Busca Automatizada</h3>
+        <p>Digite a categoria e a cidade — o Radar encontra dezenas de empresas reais com dados do Google.</p>
+        <span class="tag">Motor integrado</span>
+      </div>
+
+      <div class="card">
+        <div class="icon">🎯</div>
+        <h3>Score de Oportunidade</h3>
+        <p>Cada empresa recebe um score de 0 a 100 baseado na presença digital: site, WhatsApp, Google, redes sociais.</p>
+        <span class="tag">Análise por IA</span>
+      </div>
+
+      <div class="card">
+        <div class="icon">📋</div>
+        <h3>Script de Abordagem</h3>
+        <p>Gera automaticamente o que fala pro cliente, o que oferecer e quanto cobrar — tudo pronto.</p>
+        <span class="tag">Personalizado</span>
+      </div>
+
+      <div class="card">
+        <div class="icon">🚀</div>
+        <h3>Pipeline de Vendas</h3>
+        <p>Organize seus leads por status: Novo, Contato, Proposta, Fechado. Acompanhe cada venda.</p>
+        <span class="tag">Dashboard completo</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- O QUE ANALISA -->
+  <div class="section">
+    <h2 class="section-title">O que o Radar <span class="green">analisa</span>?</h2>
+    <p class="section-subtitle">
+      O cliente não precisa fornecer nada. O Radar coleta tudo automaticamente.
+    </p>
+
+    <div class="two-col">
+      <div>
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="icon">🔍</div>
+          <h3>Dados coletados automaticamente</h3>
+          <ul style="list-style: none; margin-top: 12px;">
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Nome, endereço e telefone</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Avaliações no Google</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Presença no Google Meu Negócio</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Existência de site próprio</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Presença em redes sociais</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Horário de funcionamento</li>
+          </ul>
+        </div>
+      </div>
+
+      <div>
+        <div class="card" style="margin-bottom: 20px;">
+          <div class="icon">📊</div>
+          <h3>O que é avaliado</h3>
+          <ul style="list-style: none; margin-top: 12px;">
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Tem site? Sim ou Não</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Tem WhatsApp comercial?</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Responde no Google?</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Está bem posicionado?</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Score de presença digital</li>
+            <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Oportunidades de venda</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="border-color: #4ade8040; margin-top: 10px;">
+      <h3>🎯 O que o cliente precisa fornecer?</h3>
+      <p style="margin-top: 8px; font-size: 16px; color: #4ade80; font-weight: 600;">NADA. Apenas o nome da empresa e a cidade.</p>
+      <p style="margin-top: 4px;">O Radar encontra tudo sozinho. Não precisa de login, senha, acesso ao site nem nada do cliente.</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- COMO FUNCIONA -->
+  <div class="section">
+    <h2 class="section-title">Como <span class="green">funciona</span>?</h2>
+    <p class="section-subtitle">Simples, rápido e direto ao ponto.</p>
+
+    <div class="flow">
+      <div class="flow-step" data-step="1">
+        <div>
+          <h3>Digite a categoria e a cidade</h3>
+          <p>Ex: "Barbearia em Londrina" ou "Consultório em Carpina"</p>
+        </div>
+      </div>
+
+      <div class="flow-step" data-step="2">
+        <div>
+          <h3>O Radar encontra empresas reais</h3>
+          <p>Em segundos, aparecem dezenas de negócios com dados do Google — nome, avaliação, endereço, presença digital.</p>
+        </div>
+      </div>
+
+      <div class="flow-step" data-step="3">
+        <div>
+          <h3>Veja o Score de cada empresa</h3>
+          <p>Cada empresa recebe um score de 0 a 100. Quanto menor o score, maior a oportunidade de venda.</p>
+        </div>
+      </div>
+
+      <div class="flow-step" data-step="4">
+        <div>
+          <h3>Gere o script de abordagem</h3>
+          <p>O Radar monta automaticamente o que falar, o que oferecer e quanto cobrar. Só ir no WhatsApp e enviar.</p>
+        </div>
+      </div>
+
+      <div class="flow-step" data-step="5">
+        <div>
+          <h3>Acompanhe a venda até fechar</h3>
+          <p>Organize no pipeline: Novo → Contato → Proposta → Fechado. Acompanhe cada cliente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PLANOS -->
+  <div class="section">
+    <h2 class="section-title" style="text-align: center;">Planos</h2>
+    <p class="section-subtitle" style="text-align: center; margin: 0 auto 40px;">
+      Comece com 3 dias grátis. Cancele quando quiser.
+    </p>
+
+    <div class="card-grid" style="max-width: 700px; margin: 0 auto;">
+      <div class="card" style="border-color: #4ade8040;">
+        <h3>Pro</h3>
+        <div style="font-size: 36px; font-weight: 900; color: #4ade80; margin: 12px 0;">R$197<span style="font-size: 16px; color: #a3a3a3; font-weight: 400;">/mês</span></div>
+        <ul style="list-style: none; margin-top: 16px;">
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Busca por categorias</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Análise completa de empresas</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Script de abordagem</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Pipeline de vendas</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Dashboard do cliente</li>
+        </ul>
+      </div>
+
+      <div class="card" style="border-color: #4ade80; position: relative;">
+        <div style="position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #4ade80; color: #000; font-size: 11px; font-weight: 700; padding: 4px 12px; border-radius: 99px;">MAIS POPULAR</div>
+        <h3>Agência</h3>
+        <div style="font-size: 36px; font-weight: 900; color: #4ade80; margin: 12px 0;">R$397<span style="font-size: 16px; color: #a3a3a3; font-weight: 400;">/mês</span></div>
+        <ul style="list-style: none; margin-top: 16px;">
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Tudo do Pro</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Múltiplos usuários</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Relatórios avançados</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Suporte prioritário</li>
+          <li style="padding: 6px 0; color: #d4d4d4; font-size: 14px;">✓ Inteligência de mercado</li>
+        </ul>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="https://www.radarvivo.com.br/auth/cadastro" class="cta-button">
+        Testar grátis por 3 dias →
+      </a>
+      <p style="margin-top: 12px; color: #525252; font-size: 13px;">Não precisa de cartão de crédito</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- CTA FINAL -->
+  <div class="section" style="text-align: center;">
+    <h2 class="section-title" style="font-size: 32px;">
+      Seu próximo cliente <span class="green">já existe</span>.
+    </h2>
+    <p class="section-subtitle" style="margin: 16px auto 32px; text-align: center;">
+      Comece agora, é grátis por 3 dias.
+    </p>
+    <a href="https://www.radarvivo.com.br" class="cta-button">
+      🚀 Acessar Radar Vivo
+    </a>
+  </div>
+
+  <div class="footer-section">
+    <p>© 2026 Radar Vivo • Inteligência Comercial com IA</p>
+    <p style="margin-top: 4px;">www.radarvivo.com.br</p>
+  </div>
+
+</body>
+</html>
