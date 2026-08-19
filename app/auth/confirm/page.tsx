@@ -31,7 +31,7 @@ export default function ConfirmPage() {
             setStatus("success");
             setMessage("Email confirmado! Redirecionando...");
             setTimeout(() => {
-              window.location.href = "/dashboard";
+              window.location.href = "/";
             }, 2000);
           }
         });

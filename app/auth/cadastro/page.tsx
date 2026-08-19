@@ -60,6 +60,9 @@ export default function CadastroPage() {
       } catch (e) {
         console.error("[CADASTRO] ensure-profile error:", e);
       }
+
+      router.push("/?trial=active");
+      return;
     }
 
     setSuccess(true);
