@@ -217,7 +217,7 @@ export default function DashboardPage() {
                 </p>
               </div>
               <Link
-                href="/#precos"
+                href="/"
                 className="bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-3 rounded-lg transition whitespace-nowrap"
               >
                 Ver planos

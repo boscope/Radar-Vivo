@@ -9,7 +9,7 @@ export default function HeroSearch() {
   const router = useRouter();
   const [empresa, setEmpresa] = useState("");
   const [analisando, setAnalisando] = useState(false);
-  const { blocked, incrementAndCheck, remaining } = useFreeSearchLimit();
+  const { blocked, incrementAndCheck, remaining, isLogged } = useFreeSearchLimit();
 
   function analisar() {
     if (!empresa.trim()) return;
@@ -46,18 +46,20 @@ export default function HeroSearch() {
             disabled={analisando || blocked}
             className="bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 px-8 rounded-xl text-lg disabled:opacity-60"
           >
-            {blocked ? "Cadastre-se" : analisando ? "Analisando..." : "🚀 Analisar"}
+            {analisando ? "Analisando..." : "🚀 Analisar"}
           </button>
         </div>
 
         <p className="mt-4 text-neutral-500 text-sm">
-          {remaining() > 0
+          {isLogged
+            ? "Buscas ilimitadas. Aproveite o Radar Vivo!"
+            : remaining() > 0
             ? `${remaining()} busca${remaining() > 1 ? "s" : ""} grátis restante${remaining() > 1 ? "s" : ""}. Depois, teste 3 dias grátis.`
             : "Crie sua conta para continuar analisando."}
         </p>
       </div>
 
-      {blocked && <SearchLimitBanner remaining={remaining()} />}
+      {!isLogged && blocked && <SearchLimitBanner remaining={remaining()} isLogged={isLogged} />}
     </>
   );
 }

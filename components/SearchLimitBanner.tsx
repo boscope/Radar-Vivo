@@ -4,9 +4,11 @@ import Link from "next/link";
 
 type Props = {
   remaining: number;
+  isLogged?: boolean;
 };
 
-export default function SearchLimitBanner({ remaining }: Props) {
+export default function SearchLimitBanner({ remaining, isLogged }: Props) {
+  if (isLogged) return null;
   if (remaining > 0) return null;
 
   return (

@@ -12,7 +12,6 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirect") || "/dashboard";
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -60,8 +59,8 @@ function LoginForm() {
       }
     }
 
-    router.push(redirect);
-    router.refresh();
+    localStorage.removeItem("rv_free_searches");
+    window.location.href = "/";
   }
 
   return (

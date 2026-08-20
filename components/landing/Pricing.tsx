@@ -68,7 +68,8 @@ export default function Pricing() {
     }
 
     if (planKey === "free") {
-      router.push("/busca");
+      localStorage.removeItem("rv_free_searches");
+      window.location.href = "/";
       return;
     }
 

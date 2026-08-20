@@ -20,7 +20,7 @@ type Company = {
 
 export default function BuscaMassaPage() {
 
-  const { blocked, incrementAndCheck, remaining } = useFreeSearchLimit();
+  const { blocked, incrementAndCheck, remaining, isLogged } = useFreeSearchLimit();
   const [state, setState] = useState("PE");
 
   const [city, setCity] = useState("");
@@ -368,7 +368,7 @@ export default function BuscaMassaPage() {
 
       </div>
 
-      {blocked && <SearchLimitBanner remaining={remaining()} />}
+      {blocked && <SearchLimitBanner remaining={remaining()} isLogged={isLogged} />}
 
     </main>
 

@@ -1,47 +1,41 @@
 "use client";
 
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { createBrowserClient } from "@supabase/ssr";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-export default function CadastroPage() {
+function CadastroForm() {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const plan = searchParams.get("plan");
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  async function handleSignup(e: React.FormEvent) {
+  async function handleCadastro(e: React.FormEvent) {
     e.preventDefault();
     setError("");
-
-    if (!acceptedTerms) {
-      setError("Você precisa aceitar os Termos de Uso e a Política de Privacidade.");
-      return;
-    }
-
     setLoading(true);
 
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/auth/confirm`,
       },
     });
 
-    if (error) {
-      setError(error.message);
+    if (signUpError) {
+      setError(signUpError.message);
       setLoading(false);
       return;
     }
@@ -61,30 +55,54 @@ export default function CadastroPage() {
         console.error("[CADASTRO] ensure-profile error:", e);
       }
 
-      router.push("/?trial=active");
+      localStorage.removeItem("rv_free_searches");
+
+      if (plan === "pro" || plan === "agency") {
+        const { data: { session } } = await supabase.auth.getSession();
+        if (session) {
+          try {
+            const res = await fetch("/api/stripe/checkout", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                plan,
+                userId: session.user.id,
+                email: session.user.email,
+              }),
+            });
+            const checkoutData = await res.json();
+            if (checkoutData.url) {
+              window.location.href = checkoutData.url;
+              return;
+            }
+          } catch {
+            console.error("[CADASTRO] checkout error");
+          }
+        }
+      }
+
+      window.location.href = "/";
       return;
     }
 
     setSuccess(true);
+    setLoading(false);
   }
 
   if (success) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center px-4">
         <div className="w-full max-w-md text-center">
-          <div className="text-6xl mb-4">📧</div>
-          <h1 className="text-xl font-semibold text-white mb-2">
-            Confirme seu email
-          </h1>
-          <p className="text-neutral-400 text-sm">
-            Enviamos um link de confirmação para <strong className="text-white">{email}</strong>.
-            Clique no link para ativar sua conta.
+          <div className="text-6xl mb-4">✅</div>
+          <h1 className="text-xl font-bold text-white mb-2">Conta criada!</h1>
+          <p className="text-neutral-400 text-sm mb-6">
+            Verifique seu email para confirmar sua conta.
           </p>
           <Link
             href="/auth/login"
-            className="inline-block mt-6 text-green-400 hover:underline text-sm"
+            className="inline-block bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg px-6 py-3 transition"
           >
-            Voltar para o login
+            Ir para o login
           </Link>
         </div>
       </div>
@@ -100,16 +118,22 @@ export default function CadastroPage() {
             <span className="text-white">Vivo</span>
           </Link>
           <h1 className="text-xl font-semibold text-white mt-4">
-            Crie sua conta grátis
+            {plan === "pro" || plan === "agency"
+              ? `Assinar plano ${plan === "pro" ? "Pro" : "Agência"}`
+              : "Crie sua conta"}
           </h1>
           <p className="text-neutral-400 text-sm mt-1">
-            Comece a encontrar oportunidades em 3 dias
+            {plan === "pro" || plan === "agency"
+              ? "Crie sua conta para prosseguir com a assinatura"
+              : "Teste grátis por 3 dias, sem cartão de crédito"}
           </p>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-4">
+        <form onSubmit={handleCadastro} className="space-y-4">
           <div>
-            <label className="block text-sm text-neutral-300 mb-1">Nome</label>
+            <label className="block text-sm text-neutral-300 mb-1">
+              Nome completo
+            </label>
             <input
               type="text"
               value={fullName}
@@ -145,53 +169,61 @@ export default function CadastroPage() {
             />
           </div>
 
-          <label className="flex items-start gap-3 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={acceptedTerms}
-              onChange={(e) => setAcceptedTerms(e.target.checked)}
-              required
-              className="mt-1 w-4 h-4 rounded border-neutral-600 bg-neutral-900 text-green-500 focus:ring-green-500"
-            />
-            <span className="text-xs text-neutral-400 leading-relaxed">
-              Li e aceito os{" "}
-              <Link href="/termos" target="_blank" className="text-green-400 hover:underline">
-                Termos de Uso
-              </Link>{" "}
-              e a{" "}
-              <Link href="/privacidade" target="_blank" className="text-green-400 hover:underline">
-                Política de Privacidade
-              </Link>
-              . Autorizo o tratamento dos meus dados pessoais conforme a LGPD.
-            </span>
-          </label>
-
           {error && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2">
               {error}
             </div>
           )}
 
+          <div className="text-xs text-neutral-500">
+            Ao criar sua conta, você concorda com nossos{" "}
+            <Link href="/termos" className="text-green-400 hover:underline">
+              Termos de Uso
+            </Link>{" "}
+            e{" "}
+            <Link href="/privacidade" className="text-green-400 hover:underline">
+              Política de Privacidade
+            </Link>
+            .
+          </div>
+
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg px-4 py-3 transition disabled:opacity-50"
           >
-            {loading ? "Criando conta..." : "Começar teste grátis de 3 dias"}
+            {loading
+              ? "Criando conta..."
+              : plan === "pro" || plan === "agency"
+              ? "Criar conta e assinar"
+              : "Começar teste grátis"}
           </button>
-
-          <p className="text-center text-neutral-500 text-xs">
-            Sem cartão de crédito. Cancele quando quiser.
-          </p>
         </form>
 
         <p className="text-center text-neutral-400 text-sm mt-6">
-          Já tem conta?{" "}
-          <Link href="/auth/login" className="text-green-400 hover:underline">
+          Já tem uma conta?{" "}
+          <Link
+            href="/auth/login"
+            className="text-green-400 hover:underline"
+          >
             Entrar
           </Link>
         </p>
       </div>
     </div>
+  );
+}
+
+export default function CadastroPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <div className="animate-spin w-8 h-8 border-2 border-green-400 border-t-transparent rounded-full" />
+        </div>
+      }
+    >
+      <CadastroForm />
+    </Suspense>
   );
 }
