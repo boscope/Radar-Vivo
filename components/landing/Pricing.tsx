@@ -52,6 +52,7 @@ const plans = [
 
 export default function Pricing() {
   const [loading, setLoading] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   const supabase = createBrowserClient(
@@ -69,11 +70,12 @@ export default function Pricing() {
 
     if (planKey === "free") {
       localStorage.removeItem("rv_free_searches");
-      window.location.href = "/";
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
     setLoading(planKey);
+    setError(null);
 
     try {
       const res = await fetch("/api/stripe/checkout", {
@@ -91,11 +93,11 @@ export default function Pricing() {
       if (data.url) {
         window.location.href = data.url;
       } else {
-        router.push("/dashboard");
+        setError("Erro ao redirecionar para o pagamento. Tente novamente.");
+        setLoading(null);
       }
     } catch {
-      alert("Erro ao iniciar pagamento. Tente novamente.");
-    } finally {
+      setError("Erro ao iniciar pagamento. Tente novamente.");
       setLoading(null);
     }
   }
@@ -143,7 +145,7 @@ export default function Pricing() {
 
             <button
               onClick={() => handlePlanClick(plan.key, plan.name)}
-              disabled={loading === plan.key}
+              disabled={loading !== null}
               className={
                 plan.highlight
                   ? "mt-8 block w-full text-center bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 rounded-xl disabled:opacity-50"
@@ -159,6 +161,12 @@ export default function Pricing() {
           </div>
         ))}
       </div>
+
+      {error && (
+        <div className="mt-6 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-3 text-center max-w-md mx-auto">
+          {error}
+        </div>
+      )}
 
       <p className="text-center text-neutral-500 mt-10 text-sm">
         💡 Um site vendido (R$ 800 a R$ 3.000) paga 4 a 15 meses de assinatura Pro.

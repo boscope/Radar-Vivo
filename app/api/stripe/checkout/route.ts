@@ -63,10 +63,10 @@ export async function POST(request: NextRequest) {
         },
       ],
       success_url: `${request.headers.get("origin") || "https://www.radarvivo.com.br"}/dashboard?upgraded=true`,
-      cancel_url: `${request.headers.get("origin") || "https://www.radarvivo.com.br"}/#pricing`,
+      cancel_url: `${request.headers.get("origin") || "https://www.radarvivo.com.br"}/#precos`,
       metadata: { userId, plan },
       subscription_data: {
-        trial_period_days: plan === "pro" ? 3 : 0,
+        trial_period_days: 0,
         metadata: { userId, plan },
       },
     });

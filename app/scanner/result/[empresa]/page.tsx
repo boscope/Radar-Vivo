@@ -31,6 +31,8 @@ export default function ScannerResultPage({
 
   const [erro, setErro] = useState<string | null>(null);
 
+  const [copied, setCopied] = useState(false);
+
   useEffect(() => {
 
     async function carregar() {
@@ -234,13 +236,15 @@ export default function ScannerResultPage({
                   navigator.clipboard.writeText(
                     `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}`
                   );
+                  setCopied(true);
+                  setTimeout(() => setCopied(false), 2000);
                 }
               }}
 
               className="bg-green-500 hover:bg-green-400 transition text-black font-bold px-6 py-3 rounded-lg"
 
             >
-              Copiar link
+              {copied ? "✓ Copiado!" : "Copiar link"}
             </button>
 
           </div>
