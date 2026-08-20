@@ -11,6 +11,7 @@ export async function POST(request: Request) {
     const city: string = (body?.city ?? "").toString().trim();
     const state: string = (body?.state ?? "").toString().trim();
     const category: string = (body?.category ?? "").toString().trim();
+    const placeId: string = (body?.placeId ?? "").toString().trim();
 
     if (!input) {
       return NextResponse.json(
@@ -19,7 +20,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const data = await collectCompanyData(input, { city, state, category });
+    const data = await collectCompanyData(input, {
+      city,
+      state,
+      category,
+      placeId: placeId || undefined,
+    });
 
     return NextResponse.json(data);
   } catch (error) {

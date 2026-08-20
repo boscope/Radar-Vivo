@@ -330,7 +330,7 @@ export default function BuscaMassaPage() {
                       )}
 
                       <a
-                        href={`/scanner/result/${encodeURIComponent(company.name)}?city=${encodeURIComponent(company.city || "")}&state=${encodeURIComponent(company.state || "")}&category=${encodeURIComponent(company.category || "")}`}
+                        href={`/scanner/result/${encodeURIComponent(company.name)}?city=${encodeURIComponent(company.city || "")}&state=${encodeURIComponent(company.state || "")}&category=${encodeURIComponent(company.category || "")}${company.googlePlaceId ? `&placeId=${encodeURIComponent(company.googlePlaceId)}` : ""}`}
                         className="text-xs bg-green-500 text-black px-3 py-2 rounded-lg font-bold hover:bg-green-400 transition"
                       >
                         Analisar

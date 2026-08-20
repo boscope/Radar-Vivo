@@ -49,6 +49,7 @@ export default function ScannerResultPage({
       const city = searchParams.get("city") || "";
       const state = searchParams.get("state") || "";
       const category = searchParams.get("category") || "";
+      const placeId = searchParams.get("placeId") || "";
 
       try {
 
@@ -65,6 +66,7 @@ export default function ScannerResultPage({
                 city,
                 state,
                 category,
+                placeId,
               }),
             }
           );

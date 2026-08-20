@@ -53,12 +53,13 @@ export default function RelatorioPublicoPage({
       const city = sp.get("city") || "";
       const state = sp.get("state") || "";
       const category = sp.get("category") || "";
+      const placeId = sp.get("placeId") || "";
 
       try {
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ input: nomeEmpresa, city, state, category }),
+          body: JSON.stringify({ input: nomeEmpresa, city, state, category, placeId }),
         });
 
         if (!response.ok) {

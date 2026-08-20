@@ -10,7 +10,7 @@ import { collectReceitaWS } from "./receita-collector";
 
 import { searchOSMBusiness } from "./osm-collector";
 
-import { searchGooglePlace } from "@/lib/google/places-client";
+import { searchGooglePlace, googlePlaceDetails } from "@/lib/google/places-client";
 
 import {
   canUseGoogle,
@@ -67,12 +67,32 @@ async function collectFromCnpj(
 
 async function collectFromGooglePlaces(
   name: string,
-  locationHint?: { city?: string; state?: string; category?: string }
+  locationHint?: { city?: string; state?: string; category?: string; placeId?: string }
 ): Promise<GoogleData | null> {
   const status = await canUseGoogle();
   if (!status.ok) {
     console.warn("[GOOGLE] Análise individual bloqueada:", status.reason);
     return null;
+  }
+
+  if (locationHint?.placeId) {
+    const place = await googlePlaceDetails(locationHint.placeId);
+    if (place) {
+      return {
+        companyName: place.name ?? name,
+        city: place.address ? extrairCidade(place.address) : locationHint.city || "Cidade não identificada",
+        category: place.types?.length
+          ? mapGoogleTypes(place.types)
+          : locationHint.category || "Empresa",
+        phone: place.phone,
+        website: place.website,
+        googleMapsUrl: place.mapsUrl,
+        googleRating: place.rating,
+        googleReviews: place.reviews,
+        hasWhatsapp: !!place.phone,
+        googlePlaceId: place.id,
+      };
+    }
   }
 
   const query = locationHint?.city
@@ -101,7 +121,7 @@ async function collectFromGooglePlaces(
 
 async function collectFromCache(
   name: string,
-  locationHint?: { city?: string; state?: string; category?: string }
+  locationHint?: { city?: string; state?: string; category?: string; placeId?: string }
 ): Promise<GoogleData | null> {
   try {
     const nomeLimpo = name.replace(/"/g, "").trim();
@@ -181,7 +201,7 @@ async function collectFromCache(
 
 async function collectFromName(
   name: string,
-  locationHint?: { city?: string; state?: string; category?: string }
+  locationHint?: { city?: string; state?: string; category?: string; placeId?: string }
 ): Promise<GoogleData> {
   const cache = await collectFromCache(name, locationHint);
 
@@ -296,7 +316,7 @@ async function collectFromMapsLink(
 
 export async function collectCompanyData(
   company: string,
-  locationHint?: { city?: string; state?: string; category?: string }
+  locationHint?: { city?: string; state?: string; category?: string; placeId?: string }
 ): Promise<CompanyData> {
   const { type, value } = parseInput(company);
 
