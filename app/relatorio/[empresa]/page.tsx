@@ -198,15 +198,6 @@ export default function RelatorioPublicoPage({
             quem te enviou este link para montar o plano da sua empresa.
           </p>
         </div>
-
-        <div className="mt-8 text-center">
-          <Link
-            href="/"
-            className="inline-block bg-green-500 hover:bg-green-400 text-black font-bold py-3 px-8 rounded-lg transition"
-          >
-            Conhecer o Radar Vivo
-          </Link>
-        </div>
       </div>
     </main>
   );
