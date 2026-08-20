@@ -16,6 +16,7 @@ type Company = {
   priority?: string;
   source?: string;
   externalId?: string;
+  googlePlaceId?: string;
 };
 
 export default function BuscaMassaPage() {
