@@ -113,9 +113,35 @@ export function buildScore(
   );
 
   //--------------------------------------------------
-  // Potencial Mensal (estimativa por item faltante -
-  // pior cenário informado ao cliente como "potencial")
+  // Potencial Mensal (estimativa variável por categoria
+  // e itens faltantes — cada tipo de negócio tem um
+  // ticket médio diferente)
   //--------------------------------------------------
+
+  const categoryRevenueMap: Record<string, number> = {
+    "Dentista": 2800,
+    "Consultório Médico": 2500,
+    "Clínica": 2200,
+    "Barbearia": 1500,
+    "Salão de Beleza": 1800,
+    "Restaurante": 2000,
+    "Padaria": 1200,
+    "Farmácia": 1500,
+    "Academia": 1900,
+    "Oficina": 2300,
+    "Loja": 1600,
+    "Supermercado": 1800,
+    "Escola": 2000,
+    "Hotel": 3500,
+    "Imobiliária": 3000,
+    "Escritório de Advocacia": 2800,
+    "Contabilidade": 2200,
+    "Estúdio": 1700,
+    "Pet Shop": 1400,
+    "Floricultura": 1100,
+  };
+
+  const baseRevenue = categoryRevenueMap[company.category ?? ""] || 1800;
 
   const itensFaltantes =
     Number(gaps.website) +
@@ -129,7 +155,7 @@ export function buildScore(
     Number(gaps.facebook);
 
   const estimatedRevenue =
-    itensFaltantes * 300;
+    Math.round((baseRevenue * itensFaltantes) / 9 / 100) * 100;
 
   return {
 
