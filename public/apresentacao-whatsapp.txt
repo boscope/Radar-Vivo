@@ -16,7 +16,7 @@ Uma plataforma que encontra automaticamente negócios locais com presença digit
 
 2️⃣ O Radar encontra empresas reais com dados do Google
 
-3️⃣ Cada empresa recebe um *Score de 0 a 100* — quanto menor, maior a oportunidade
+3️⃣ Cada empresa recebe um *Score de 0 a 100* — quanto maior, maior a oportunidade
 
 4️⃣ Gera o *script de abordagem pronto* — o que falar, o que oferecer, quanto cobrar
 
