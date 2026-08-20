@@ -4,7 +4,7 @@ return(
 
 <div className="p-10">
 
-<h1 className="text-4xl font-bold">
+<h1 className="text-4xl font-bold text-white">
 
 Planos
 
@@ -12,19 +12,19 @@ Planos
 
 <div className="grid md:grid-cols-3 gap-6 mt-10">
 
-<div className="bg-white rounded-2xl shadow p-6">
-<h2 className="text-2xl font-bold">Starter</h2>
-<p className="mt-4">Ideal para pequenos negócios.</p>
+<div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+<h2 className="text-2xl font-bold text-white">Teste Grátis</h2>
+<p className="mt-4 text-neutral-400">3 dias de acesso completo. R$ 0.</p>
 </div>
 
-<div className="bg-white rounded-2xl shadow p-6">
-<h2 className="text-2xl font-bold">PRO</h2>
-<p className="mt-4">Plano recomendado.</p>
+<div className="bg-neutral-900 border border-green-500 rounded-2xl p-6">
+<h2 className="text-2xl font-bold text-green-400">PRO</h2>
+<p className="mt-4 text-neutral-400">R$ 197/mês. Plano recomendado.</p>
 </div>
 
-<div className="bg-white rounded-2xl shadow p-6">
-<h2 className="text-2xl font-bold">Enterprise</h2>
-<p className="mt-4">Grandes empresas.</p>
+<div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+<h2 className="text-2xl font-bold text-white">Agência</h2>
+<p className="mt-4 text-neutral-400">R$ 397/mês. Para equipes.</p>
 </div>
 
 </div>
