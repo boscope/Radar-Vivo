@@ -49,11 +49,16 @@ export default function RelatorioPublicoPage({
       const nomeEmpresa = decodeURIComponent(empresa);
       setEmpresa(nomeEmpresa);
 
+      const sp = new URLSearchParams(window.location.search);
+      const city = sp.get("city") || "";
+      const state = sp.get("state") || "";
+      const category = sp.get("category") || "";
+
       try {
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ input: nomeEmpresa }),
+          body: JSON.stringify({ input: nomeEmpresa, city, state, category }),
         });
 
         if (!response.ok) {

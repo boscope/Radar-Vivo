@@ -1,60 +1,67 @@
-export default function UsersPage(){
+import { createClient } from "@supabase/supabase-js";
 
-const users=[
-{name:"Bosco",plan:"PRO",status:"Ativo"},
-{name:"Empresa Demo",plan:"Teste Grátis",status:"Teste"},
-{name:"Radar Vivo",plan:"Agência",status:"Ativo"},
-];
+export const dynamic = "force-dynamic";
 
-return(
+export default async function UsersPage() {
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
 
-<div className="p-10">
+  const { data: users } = await supabase
+    .from("profiles")
+    .select("id, full_name, email, plan, subscription_status, role, created_at")
+    .order("created_at", { ascending: false });
 
-<h1 className="text-4xl font-bold text-white mb-8">
+  return (
+    <div className="p-10">
+      <h1 className="text-4xl font-bold text-white mb-8">
+        Usuários
+      </h1>
 
-Usuários
-
-</h1>
-
-<div className="bg-neutral-900 rounded-2xl border border-neutral-800">
-
-<table className="w-full">
-
-<thead className="bg-neutral-800">
-
-<tr>
-
-<th className="text-left p-4 text-neutral-300">Nome</th>
-<th className="text-left p-4 text-neutral-300">Plano</th>
-<th className="text-left p-4 text-neutral-300">Status</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{users.map((u)=>(
-<tr
-key={u.name}
-className="border-t border-neutral-800"
->
-
-<td className="p-4 text-white">{u.name}</td>
-<td className="p-4 text-neutral-300">{u.plan}</td>
-<td className="p-4 text-green-400">{u.status}</td>
-
-</tr>
-))}
-
-</tbody>
-
-</table>
-
-</div>
-
-</div>
-
-);
-
+      <div className="bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-neutral-800">
+            <tr>
+              <th className="text-left p-4 text-neutral-300">Nome</th>
+              <th className="text-left p-4 text-neutral-300">Email</th>
+              <th className="text-left p-4 text-neutral-300">Plano</th>
+              <th className="text-left p-4 text-neutral-300">Status</th>
+              <th className="text-left p-4 text-neutral-300">Role</th>
+            </tr>
+          </thead>
+          <tbody>
+            {(users ?? []).map((u: any) => (
+              <tr
+                key={u.id}
+                className="border-t border-neutral-800"
+              >
+                <td className="p-4 text-white">{u.full_name || "Sem nome"}</td>
+                <td className="p-4 text-neutral-400">{u.email}</td>
+                <td className="p-4 text-neutral-300 uppercase">{u.plan || "free"}</td>
+                <td className="p-4">
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    u.subscription_status === "active"
+                      ? "bg-green-500/20 text-green-400"
+                      : "bg-neutral-700 text-neutral-400"
+                  }`}>
+                    {u.subscription_status || "inactive"}
+                  </span>
+                </td>
+                <td className="p-4">
+                  <span className={`text-xs px-2 py-1 rounded-full ${
+                    u.role === "admin"
+                      ? "bg-green-500/20 text-green-400"
+                      : "bg-neutral-700 text-neutral-400"
+                  }`}>
+                    {u.role || "user"}
+                  </span>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 }

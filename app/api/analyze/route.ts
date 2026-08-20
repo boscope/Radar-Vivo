@@ -8,6 +8,9 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const input: string = (body?.input ?? "").toString().trim();
+    const city: string = (body?.city ?? "").toString().trim();
+    const state: string = (body?.state ?? "").toString().trim();
+    const category: string = (body?.category ?? "").toString().trim();
 
     if (!input) {
       return NextResponse.json(
@@ -16,7 +19,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const data = await collectCompanyData(input);
+    const data = await collectCompanyData(input, { city, state, category });
 
     return NextResponse.json(data);
   } catch (error) {

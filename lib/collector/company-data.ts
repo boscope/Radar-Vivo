@@ -66,7 +66,8 @@ async function collectFromCnpj(
 }
 
 async function collectFromGooglePlaces(
-  name: string
+  name: string,
+  locationHint?: { city?: string; state?: string; category?: string }
 ): Promise<GoogleData | null> {
   const status = await canUseGoogle();
   if (!status.ok) {
@@ -74,7 +75,11 @@ async function collectFromGooglePlaces(
     return null;
   }
 
-  const place = await searchGooglePlace(name);
+  const query = locationHint?.city
+    ? `${name} ${locationHint.city} ${locationHint.state || ""}`
+    : name;
+
+  const place = await searchGooglePlace(query);
 
   if (!place) return null;
 
@@ -95,7 +100,8 @@ async function collectFromGooglePlaces(
 }
 
 async function collectFromCache(
-  name: string
+  name: string,
+  locationHint?: { city?: string; state?: string; category?: string }
 ): Promise<GoogleData | null> {
   try {
     const nomeLimpo = name.replace(/"/g, "").trim();
@@ -111,7 +117,7 @@ async function collectFromCache(
 
     const primeirasPalavras = palavras.slice(0, 2);
 
-    const { data } = await supabase
+    let query = supabase
       .from("companies")
       .select(
         "name, city, category, phone, website, rating, reviews, google_place_id, lat, lon"
@@ -120,8 +126,13 @@ async function collectFromCache(
         primeirasPalavras
           .map((p) => `name.ilike.${p}%`)
           .join(",")
-      )
-      .limit(10);
+      );
+
+    if (locationHint?.city) {
+      query = query.ilike("city", `%${locationHint.city}%`);
+    }
+
+    const { data } = await query.limit(10);
 
     const linhas = (data ?? []).filter((c: any) => {
       return c.google_place_id && (c.phone || c.website || c.rating);
@@ -169,13 +180,14 @@ async function collectFromCache(
 }
 
 async function collectFromName(
-  name: string
+  name: string,
+  locationHint?: { city?: string; state?: string; category?: string }
 ): Promise<GoogleData> {
-  const cache = await collectFromCache(name);
+  const cache = await collectFromCache(name, locationHint);
 
   if (cache) return cache;
 
-  const google = await collectFromGooglePlaces(name);
+  const google = await collectFromGooglePlaces(name, locationHint);
 
   if (google) return google;
 
@@ -283,7 +295,8 @@ async function collectFromMapsLink(
 }
 
 export async function collectCompanyData(
-  company: string
+  company: string,
+  locationHint?: { city?: string; state?: string; category?: string }
 ): Promise<CompanyData> {
   const { type, value } = parseInput(company);
 
@@ -300,7 +313,7 @@ export async function collectCompanyData(
       category: "Empresa",
     };
   } else {
-    googleData = await collectFromName(value);
+    googleData = await collectFromName(value, locationHint);
   }
 
   const websiteUrl =

@@ -45,6 +45,11 @@ export default function ScannerResultPage({
 
       setEmpresa(nomeEmpresa);
 
+      const searchParams = new URLSearchParams(window.location.search);
+      const city = searchParams.get("city") || "";
+      const state = searchParams.get("state") || "";
+      const category = searchParams.get("category") || "";
+
       try {
 
         const response =
@@ -57,6 +62,9 @@ export default function ScannerResultPage({
               },
               body: JSON.stringify({
                 input: nomeEmpresa,
+                city,
+                state,
+                category,
               }),
             }
           );
@@ -226,7 +234,7 @@ export default function ScannerResultPage({
           <div className="flex flex-col sm:flex-row gap-3">
 
             <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
-              {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}`}
+              {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}`}
             </code>
 
             <button
@@ -234,7 +242,7 @@ export default function ScannerResultPage({
               onClick={() => {
                 if (typeof window !== "undefined") {
                   navigator.clipboard.writeText(
-                    `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}`
+                    `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}`
                   );
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
