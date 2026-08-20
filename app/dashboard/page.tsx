@@ -114,6 +114,11 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push("/");
+  }
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
@@ -124,9 +129,13 @@ export default function DashboardPage() {
 
   if (!data) return null;
 
+  const isTrial = data.profile?.subscription_status === "active" && data.profile?.plan === "free";
+  const isActive = data.profile?.subscription_status === "active";
+  const isInactive = !isActive && data.profile?.subscription_status !== "active";
+
   return (
     <div className="min-h-screen bg-black text-white">
-      {/* Header */}
+
       <header className="border-b border-neutral-800 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <Link href="/" className="text-xl font-bold">
@@ -140,7 +149,7 @@ export default function DashboardPage() {
                 {data.profile?.plan ?? "free"}
               </span>
             </span>
-            {data.profile?.subscription_status === "active" && (
+            {isActive && (
               <button
                 onClick={handleManagePlan}
                 className="text-sm text-neutral-400 hover:text-white transition"
@@ -154,19 +163,24 @@ export default function DashboardPage() {
             >
               Trocar senha
             </button>
+            <button
+              onClick={handleLogout}
+              className="text-sm text-red-400 hover:text-red-300 transition"
+            >
+              Sair
+            </button>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-6 py-8">
-        {/* Upgrade banner */}
+
         {showUpgrade && (
           <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4 mb-6 text-green-400">
             Assinatura ativada com sucesso!
           </div>
         )}
 
-        {/* Password change */}
         {showPassword && (
           <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 mb-6">
             <h3 className="text-lg font-bold mb-4">Trocar senha</h3>
@@ -193,7 +207,25 @@ export default function DashboardPage() {
           </div>
         )}
 
-        {/* Stats */}
+        {isInactive && (
+          <div className="bg-neutral-900 border border-neutral-700 rounded-xl p-6 mb-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <h3 className="text-lg font-bold">Ative seu plano</h3>
+                <p className="text-neutral-400 text-sm mt-1">
+                  Escolha um plano para começar a usar o Radar Vivo com buscas ilimitadas.
+                </p>
+              </div>
+              <Link
+                href="/#precos"
+                className="bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-3 rounded-lg transition whitespace-nowrap"
+              >
+                Ver planos
+              </Link>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
           <StatCard label="Leads ativos" value={data.stats.activeLeads} icon="📋" />
           <StatCard label="Total de leads" value={data.stats.totalLeads} icon="📊" />
@@ -201,7 +233,6 @@ export default function DashboardPage() {
           <StatCard label="Score médio" value={data.stats.avgScore} icon="🎯" />
         </div>
 
-        {/* Leads recentes */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-xl font-bold">Leads Recentes</h2>
@@ -258,7 +289,6 @@ export default function DashboardPage() {
           )}
         </section>
 
-        {/* Empresas capturadas */}
         <section>
           <h2 className="text-xl font-bold mb-4">Empresas Capturadas</h2>
           {data.companies.length === 0 ? (
