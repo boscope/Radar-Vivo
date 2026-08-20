@@ -8,45 +8,68 @@ const plans = [
   {
     key: "free",
     name: "Teste Grátis",
-    price: "R$ 0",
-    badge: "3 DIAS DE TESTE",
+    price: "0",
+    period: "3 dias",
+    badge: null,
     highlight: false,
-    description: "Acesso total por 3 dias para você sentir o poder do Radar Vivo.",
+    icon: "🧪",
+    description: "Acesso total por 3 dias. Sem cartão.",
     features: [
-      "3 dias de acesso completo",
-      "Oportunidades ilimitadas",
-      "Scripts de abordagem prontos",
-      "Pipeline de leads",
-      "Sem cartão de crédito",
+      { text: "Buscas ilimitadas por 3 dias", included: true },
+      { text: "Análise completa de empresas", included: true },
+      { text: "Scripts de abordagem prontos", included: true },
+      { text: "Pipeline de leads", included: true },
+      { text: "Relatório público compartilhável", included: true },
+      { text: "Exportação em CSV", included: false },
+      { text: "Mensagem WhatsApp automática", included: false },
+      { text: "Suporte prioritário", included: false },
     ],
+    cta: "Começar grátis",
+    ctaStyle: "border border-neutral-600 hover:bg-neutral-900 text-white",
   },
   {
     key: "pro",
     name: "Pro",
-    price: "R$ 197",
+    price: "197",
+    period: "/mês",
+    badge: "Mais popular",
     highlight: true,
+    icon: "⚡",
     description: "Para quem quer fechar vendas todo mês.",
     features: [
-      "Oportunidades ilimitadas",
-      "Scripts de abordagem prontos",
-      "Mensagem WhatsApp com 1 clique",
-      "Pipeline completo até fechar",
-      "Exportação em CSV",
-      "Todas as categorias de negócio",
+      { text: "Buscas ilimitadas", included: true },
+      { text: "Análise completa de empresas", included: true },
+      { text: "Scripts de abordagem prontos", included: true },
+      { text: "Pipeline completo até fechar", included: true },
+      { text: "Relatório público compartilhável", included: true },
+      { text: "Exportação em CSV", included: true },
+      { text: "Mensagem WhatsApp com 1 clique", included: true },
+      { text: "Todas as categorias de negócio", included: true },
     ],
+    cta: "Assinar Pro",
+    ctaStyle: "bg-green-500 hover:bg-green-400 text-black",
   },
   {
     key: "agency",
     name: "Agência",
-    price: "R$ 397",
-    description: "Para equipes e agências de marketing.",
+    price: "397",
+    period: "/mês",
+    badge: "Para equipes",
+    highlight: false,
+    icon: "🏢",
+    description: "Para agências e equipes de marketing.",
     features: [
-      "Tudo do Pro",
-      "Até 5 usuários na equipe",
-      "Relatórios executivos completos",
-      "Suporte prioritário por WhatsApp",
-      "Domínio e marca personalizada",
+      { text: "Tudo do Pro incluído", included: true },
+      { text: "Até 5 usuários na equipe", included: true },
+      { text: "Relatórios executivos completos", included: true },
+      { text: "Suporte prioritário por WhatsApp", included: true },
+      { text: "Domínio e marca personalizada", included: true },
+      { text: "Dashboard da equipe", included: true },
+      { text: "API de integração", included: true },
+      { text: "Onboarding dedicado", included: true },
     ],
+    cta: "Assinar Agência",
+    ctaStyle: "border border-amber-500/50 hover:bg-amber-500/10 text-amber-400",
   },
 ];
 
@@ -60,7 +83,7 @@ export default function Pricing() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  async function handlePlanClick(planKey: string, planName: string) {
+  async function handlePlanClick(planKey: string) {
     const { data: { session } } = await supabase.auth.getSession();
 
     if (!session) {
@@ -103,74 +126,125 @@ export default function Pricing() {
   }
 
   return (
-    <section id="precos" className="max-w-7xl mx-auto px-6 py-16">
-      <h2 className="text-4xl font-bold text-center">Planos simples, preço justo</h2>
-      <p className="text-center text-neutral-400 mt-3 max-w-2xl mx-auto">
-        Comece com 3 dias grátis. Um único site vendido já paga meses de assinatura.
-      </p>
+    <section id="precos" className="max-w-7xl mx-auto px-6 py-20">
+      <div className="text-center mb-16">
+        <h2 className="text-4xl md:text-5xl font-extrabold">
+          Planos simples, <span className="text-green-400">preço justo</span>
+        </h2>
+        <p className="text-neutral-400 mt-4 max-w-2xl mx-auto text-lg">
+          Comece com 3 dias grátis. Um único site vendido já paga meses de assinatura.
+        </p>
 
-      <div className="grid md:grid-cols-3 gap-6 mt-12">
+        {/* ROI Callout */}
+        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 rounded-full px-6 py-3 mt-8">
+          <span className="text-green-400 font-bold">💡 Um site vendido (R$ 800 a R$ 3.000)</span>
+          <span className="text-neutral-400">= 4 a 15 meses de assinatura Pro</span>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
         {plans.map((plan) => (
           <div
             key={plan.key}
-            className={
+            className={`relative rounded-3xl p-8 transition-all duration-300 ${
               plan.highlight
-                ? "border-2 border-green-500 rounded-3xl p-8 bg-neutral-950 relative"
-                : "border border-neutral-800 rounded-3xl p-8 bg-neutral-950 hover:border-neutral-600 transition"
-            }
+                ? "border-2 border-green-500 bg-gradient-to-b from-green-500/5 to-transparent scale-[1.02] shadow-2xl shadow-green-500/10"
+                : "border border-neutral-800 bg-neutral-950 hover:border-neutral-600 hover:shadow-xl"
+            }`}
           >
-            {plan.highlight && (
-              <span className="absolute -top-4 left-8 bg-green-500 text-black text-sm font-bold px-4 py-1 rounded-full">
-                Mais popular
-              </span>
-            )}
-            {plan.badge && !plan.highlight && (
-              <span className="inline-block bg-amber-500 text-black text-xs font-bold px-3 py-1 rounded-full mb-3">
+            {/* Badge */}
+            {plan.badge && (
+              <span className={`absolute -top-3.5 left-8 text-xs font-bold px-4 py-1.5 rounded-full ${
+                plan.highlight
+                  ? "bg-green-500 text-black"
+                  : "bg-amber-500/20 text-amber-400 border border-amber-500/30"
+              }`}>
                 {plan.badge}
               </span>
             )}
 
-            <h3 className="text-2xl font-bold">{plan.name}</h3>
-            <p className="text-5xl font-extrabold mt-4">{plan.price}</p>
-            <p className="text-neutral-400 mt-3">{plan.description}</p>
+            {/* Header */}
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">{plan.icon}</span>
+                <h3 className="text-xl font-bold">{plan.name}</h3>
+              </div>
+              <p className="text-neutral-400 text-sm">{plan.description}</p>
+            </div>
 
-            <ul className="mt-6 space-y-3">
+            {/* Price */}
+            <div className="mb-8">
+              <div className="flex items-baseline gap-1">
+                <span className="text-sm text-neutral-400">R$</span>
+                <span className={`text-5xl font-extrabold ${plan.highlight ? "text-green-400" : "text-white"}`}>
+                  {plan.price}
+                </span>
+                <span className="text-sm text-neutral-400 ml-1">{plan.period}</span>
+              </div>
+              {plan.key === "free" && (
+                <p className="text-xs text-neutral-500 mt-2">Sem cartão de crédito</p>
+              )}
+              {plan.key === "pro" && (
+                <p className="text-xs text-green-400/60 mt-2">Cancele quando quiser</p>
+              )}
+              {plan.key === "agency" && (
+                <p className="text-xs text-amber-400/60 mt-2">R$ 79,40 por usuário/mês</p>
+              )}
+            </div>
+
+            {/* Features */}
+            <ul className="space-y-3 mb-8">
               {plan.features.map((feature) => (
-                <li key={feature} className="flex gap-3">
-                  <span className="text-green-500">✔</span>
-                  <span>{feature}</span>
+                <li key={feature.text} className="flex items-start gap-3">
+                  <span className={`mt-0.5 ${feature.included ? "text-green-500" : "text-neutral-600"}`}>
+                    {feature.included ? "✓" : "—"}
+                  </span>
+                  <span className={`text-sm ${feature.included ? "text-neutral-200" : "text-neutral-500"}`}>
+                    {feature.text}
+                  </span>
                 </li>
               ))}
             </ul>
 
+            {/* CTA */}
             <button
-              onClick={() => handlePlanClick(plan.key, plan.name)}
+              onClick={() => handlePlanClick(plan.key)}
               disabled={loading !== null}
-              className={
-                plan.highlight
-                  ? "mt-8 block w-full text-center bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 rounded-xl disabled:opacity-50"
-                  : "mt-8 block w-full text-center border border-neutral-600 hover:bg-neutral-900 transition font-bold py-4 rounded-xl disabled:opacity-50"
-              }
+              className={`block w-full text-center font-bold py-4 rounded-xl transition disabled:opacity-50 ${plan.ctaStyle}`}
             >
               {loading === plan.key
                 ? "Redirecionando..."
-                : plan.key === "free"
-                ? "Testar grátis por 3 dias"
-                : "Assinar agora"}
+                : plan.cta}
             </button>
           </div>
         ))}
       </div>
 
       {error && (
-        <div className="mt-6 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-3 text-center max-w-md mx-auto">
+        <div className="mt-8 bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-xl px-6 py-4 text-center max-w-md mx-auto">
           {error}
         </div>
       )}
 
-      <p className="text-center text-neutral-500 mt-10 text-sm">
-        💡 Um site vendido (R$ 800 a R$ 3.000) paga 4 a 15 meses de assinatura Pro.
-      </p>
+      {/* Trust Badges */}
+      <div className="flex flex-wrap items-center justify-center gap-8 mt-16 text-sm text-neutral-500">
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">🔒</span>
+          <span>Pagamento seguro via Stripe</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">↩️</span>
+          <span>7 dias de garantia</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">⚡</span>
+          <span>Ativação imediata</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-green-500">💳</span>
+          <span>Sem fidelidade</span>
+        </div>
+      </div>
     </section>
   );
 }
