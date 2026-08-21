@@ -90,6 +90,28 @@ export default function ScannerResultPage({
 
         setCompany(data);
 
+        // Salvar score no histórico (antes/depois)
+        try {
+          const { data: { session } } = await supabase.auth.getSession();
+          if (session) {
+            await fetch("/api/score-history", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${session.access_token}`,
+              },
+              body: JSON.stringify({
+                company_name: data.companyName,
+                city: data.city,
+                category: data.category,
+                score: data.intelligence?.score?.score ?? 0,
+              }),
+            });
+          }
+        } catch {
+          // Silently fail - score history is non-critical
+        }
+
       } catch {
 
         setErro(
@@ -264,6 +286,15 @@ export default function ScannerResultPage({
             >
               {copied ? "✓ Copiado!" : "Copiar link"}
             </button>
+
+            <a
+              href={`https://wa.me/?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 hover:bg-green-500 transition text-white font-bold px-6 py-3 rounded-lg text-center"
+            >
+              📱 Enviar via WhatsApp
+            </a>
 
           </div>
 

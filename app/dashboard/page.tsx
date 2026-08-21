@@ -349,6 +349,20 @@ export default function DashboardPage() {
               accent
             />
           )}
+          {plan === "agency" && (
+            <>
+              <QuickAction
+                icon="👥"
+                label="Meus clientes"
+                href="/dashboard/clients"
+              />
+              <QuickAction
+                icon="🎨"
+                label="Configurar marca"
+                href="/dashboard/agency"
+              />
+            </>
+          )}
           {isActive && (
             <QuickAction
               icon="⚙️"

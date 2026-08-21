@@ -186,6 +186,16 @@ export default function RelatorioPublicoPage({
           </ul>
         </div>
 
+        {/* Comparativo com concorrentes */}
+        {company.city && company.category && (
+          <CompetitorComparison
+            companyName={company.companyName}
+            city={company.city}
+            category={company.category}
+            currentScore={score.score}
+          />
+        )}
+
         <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
           <h2 className="text-2xl font-bold">Como podemos resolver</h2>
           <ul className="mt-6 space-y-4">
@@ -210,5 +220,89 @@ export default function RelatorioPublicoPage({
         </div>
       </div>
     </main>
+  );
+}
+
+function CompetitorComparison({
+  companyName,
+  city,
+  category,
+  currentScore,
+}: {
+  companyName: string;
+  city: string;
+  category: string;
+  currentScore: number;
+}) {
+  const [competitors, setCompetitors] = useState<Array<{
+    name: string;
+    radar_score: number | null;
+    google_rating: number | null;
+  }>>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch(`/api/competitors?city=${encodeURIComponent(city)}&category=${encodeURIComponent(category)}&company=${encodeURIComponent(companyName)}`)
+      .then(r => r.json())
+      .then(data => {
+        setCompetitors(data.competitors ?? []);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, [city, category, companyName]);
+
+  if (loading || competitors.length === 0) return null;
+
+  const betterCount = competitors.filter(c => (c.radar_score ?? 0) > currentScore).length;
+
+  return (
+    <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
+      <h2 className="text-2xl font-bold mb-2">Comparativo com concorrentes</h2>
+      <p className="text-neutral-400 text-sm mb-6">
+        Sua empresa vs outras empresas de {category} em {city}
+      </p>
+
+      <div className="space-y-3">
+        {/* Current company */}
+        <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+          <div className="flex items-center gap-3">
+            <span className="text-green-400 font-bold">📍</span>
+            <span className="font-bold">{companyName} (sua empresa)</span>
+          </div>
+          <span className="text-2xl font-extrabold text-green-400">{currentScore}</span>
+        </div>
+
+        {/* Competitors */}
+        {competitors.map((c) => (
+          <div key={c.name} className="flex items-center justify-between p-4 bg-neutral-800/50 rounded-xl">
+            <div className="flex items-center gap-3">
+              <span className="text-neutral-500">🏪</span>
+              <span className="text-neutral-300">{c.name}</span>
+            </div>
+            <div className="flex items-center gap-4">
+              {c.google_rating && (
+                <span className="text-sm text-neutral-400">⭐ {c.google_rating}</span>
+              )}
+              <span className={`text-lg font-bold ${
+                (c.radar_score ?? 0) > currentScore ? "text-red-400" : "text-green-400"
+              }`}>
+                {c.radar_score ?? "—"}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {betterCount > 0 && (
+        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+          <p className="text-red-400 font-bold">
+            ⚠️ {betterCount} concorrente{betterCount > 1 ? "s" : ""} à frente de você
+          </p>
+          <p className="text-red-400/70 text-sm mt-1">
+            Estes concorrentes estão aparecendo mais no Google e atraindo mais clientes.
+          </p>
+        </div>
+      )}
+    </div>
   );
 }
