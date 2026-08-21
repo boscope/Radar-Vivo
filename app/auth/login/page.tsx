@@ -60,7 +60,18 @@ function LoginForm() {
     }
 
     localStorage.removeItem("rv_free_searches");
-    window.location.href = "/";
+
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("role")
+      .eq("id", userData.user?.id)
+      .single();
+
+    if (profile?.role === "admin") {
+      window.location.href = "/admin";
+    } else {
+      window.location.href = "/";
+    }
   }
 
   return (

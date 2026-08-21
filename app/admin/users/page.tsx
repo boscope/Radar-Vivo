@@ -1,67 +1,268 @@
-import { createClient } from "@supabase/supabase-js";
+"use client";
 
-export const dynamic = "force-dynamic";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { createBrowserClient } from "@supabase/ssr";
+import AdminSidebar from "@/components/admin/AdminSidebar";
 
-export default async function UsersPage() {
-  const supabase = createClient(
+interface User {
+  id: string;
+  email: string;
+  full_name: string | null;
+  plan: string;
+  subscription_status: string;
+  subscription_current_period_end: string | null;
+  role: string;
+  created_at: string;
+}
+
+export default function AdminUsersPage() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState("");
+  const [filterPlan, setFilterPlan] = useState("");
+  const [actionMsg, setActionMsg] = useState("");
+  const [confirmDelete, setConfirmDelete] = useState<string | null>(null);
+  const router = useRouter();
+
+  const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const { data: users } = await supabase
-    .from("profiles")
-    .select("id, full_name, email, plan, subscription_status, role, created_at")
-    .order("created_at", { ascending: false });
+  useEffect(() => { loadUsers(); }, [search, filterStatus, filterPlan]);
+
+  async function loadUsers() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { router.push("/auth/login"); return; }
+
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    if (filterStatus) params.set("status", filterStatus);
+    if (filterPlan) params.set("plan", filterPlan);
+
+    const res = await fetch(`/api/admin/users?${params}`, {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+    const data = await res.json();
+    setUsers(data.users ?? []);
+    setLoading(false);
+  }
+
+  async function updateRole(userId: string, role: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    await fetch("/api/admin/users", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ userId, role }),
+    });
+    setActionMsg("Role atualizado!");
+    setTimeout(() => setActionMsg(""), 3000);
+    loadUsers();
+  }
+
+  async function updatePlan(userId: string, plan: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    await fetch("/api/admin/users", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ userId, plan }),
+    });
+    setActionMsg("Plano atualizado!");
+    setTimeout(() => setActionMsg(""), 3000);
+    loadUsers();
+  }
+
+  async function updateStatus(userId: string, status: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    await fetch("/api/admin/users", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ userId, subscription_status: status }),
+    });
+    setActionMsg(status === "active" ? "Conta ativada!" : "Conta pausada!");
+    setTimeout(() => setActionMsg(""), 3000);
+    loadUsers();
+  }
+
+  async function deleteUser(userId: string) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch(`/api/admin/users?userId=${userId}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${session?.access_token}` },
+    });
+    const data = await res.json();
+    if (data.error) {
+      setActionMsg("Erro: " + data.error);
+    } else {
+      setActionMsg("Usuário excluído!");
+      setConfirmDelete(null);
+    }
+    setTimeout(() => setActionMsg(""), 3000);
+    loadUsers();
+  }
+
+  const isDelinquent = (u: User) =>
+    u.subscription_status === "past_due" || u.subscription_status === "canceled";
+
+  const daysUntilExpiry = (date: string | null) => {
+    if (!date) return null;
+    const diff = Math.ceil((new Date(date).getTime() - Date.now()) / (1000 * 60 * 60 * 24));
+    return diff;
+  };
 
   return (
-    <div className="p-10">
-      <h1 className="text-4xl font-bold text-white mb-8">
-        Usuários
-      </h1>
+    <main className="min-h-screen bg-black flex">
+      <AdminSidebar />
+      <div className="flex-1 p-8 overflow-auto">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <h1 className="text-3xl font-bold text-white">Usuários</h1>
+              <p className="text-neutral-400 mt-1">{users.length} usuários encontrados</p>
+            </div>
+            {actionMsg && (
+              <div className="bg-green-500/10 border border-green-500/30 text-green-400 text-sm px-4 py-2 rounded-lg">
+                {actionMsg}
+              </div>
+            )}
+          </div>
 
-      <div className="bg-neutral-900 rounded-2xl border border-neutral-800 overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-neutral-800">
-            <tr>
-              <th className="text-left p-4 text-neutral-300">Nome</th>
-              <th className="text-left p-4 text-neutral-300">Email</th>
-              <th className="text-left p-4 text-neutral-300">Plano</th>
-              <th className="text-left p-4 text-neutral-300">Status</th>
-              <th className="text-left p-4 text-neutral-300">Role</th>
-            </tr>
-          </thead>
-          <tbody>
-            {(users ?? []).map((u: any) => (
-              <tr
-                key={u.id}
-                className="border-t border-neutral-800"
-              >
-                <td className="p-4 text-white">{u.full_name || "Sem nome"}</td>
-                <td className="p-4 text-neutral-400">{u.email}</td>
-                <td className="p-4 text-neutral-300 uppercase">{u.plan || "free"}</td>
-                <td className="p-4">
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    u.subscription_status === "active"
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-neutral-700 text-neutral-400"
-                  }`}>
-                    {u.subscription_status || "inactive"}
-                  </span>
-                </td>
-                <td className="p-4">
-                  <span className={`text-xs px-2 py-1 rounded-full ${
-                    u.role === "admin"
-                      ? "bg-green-500/20 text-green-400"
-                      : "bg-neutral-700 text-neutral-400"
-                  }`}>
-                    {u.role || "user"}
-                  </span>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          {/* Filters */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Buscar por email ou nome..."
+              className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
+            />
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
+            >
+              <option value="">Todos os status</option>
+              <option value="active">Ativo</option>
+              <option value="inactive">Inativo</option>
+              <option value="past_due">Inadimplente</option>
+              <option value="canceled">Cancelado</option>
+            </select>
+            <select
+              value={filterPlan}
+              onChange={(e) => setFilterPlan(e.target.value)}
+              className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
+            >
+              <option value="">Todos os planos</option>
+              <option value="free">Teste Grátis</option>
+              <option value="pro">Pro</option>
+              <option value="agency">Agência</option>
+            </select>
+          </div>
+
+          {/* Users Table */}
+          {loading ? (
+            <div className="flex justify-center py-12">
+              <div className="animate-spin w-8 h-8 border-2 border-green-400 border-t-transparent rounded-full" />
+            </div>
+          ) : users.length === 0 ? (
+            <div className="border border-neutral-800 rounded-2xl p-12 text-center text-neutral-400">
+              Nenhum usuário encontrado.
+            </div>
+          ) : (
+            <div className="border border-neutral-800 rounded-2xl overflow-hidden">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="border-b border-neutral-800 text-neutral-400 bg-neutral-900/50">
+                    <th className="text-left px-4 py-3 font-medium">Usuário</th>
+                    <th className="text-left px-4 py-3 font-medium">Plano</th>
+                    <th className="text-left px-4 py-3 font-medium">Status</th>
+                    <th className="text-left px-4 py-3 font-medium">Role</th>
+                    <th className="text-left px-4 py-3 font-medium">Cadastro</th>
+                    <th className="text-left px-4 py-3 font-medium">Ações</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((u) => {
+                    const expiry = daysUntilExpiry(u.subscription_current_period_end);
+                    return (
+                      <tr key={u.id} className={`border-b border-neutral-800/50 hover:bg-neutral-800/30 transition ${isDelinquent(u) ? "bg-red-500/5" : ""}`}>
+                        <td className="px-4 py-3">
+                          <div className="text-white font-medium">{u.full_name || "Sem nome"}</div>
+                          <div className="text-neutral-500 text-xs">{u.email}</div>
+                        </td>
+                        <td className="px-4 py-3">
+                          <select
+                            value={u.plan}
+                            onChange={(e) => updatePlan(u.id, e.target.value)}
+                            className={`text-xs font-semibold px-2 py-1 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:border-green-400 ${
+                              u.plan === "pro" ? "text-green-400" :
+                              u.plan === "agency" ? "text-amber-400" : ""
+                            }`}
+                          >
+                            <option value="free">Free</option>
+                            <option value="pro">Pro</option>
+                            <option value="agency">Agência</option>
+                          </select>
+                        </td>
+                        <td className="px-4 py-3">
+                          <select
+                            value={u.subscription_status}
+                            onChange={(e) => updateStatus(u.id, e.target.value)}
+                            className={`text-xs px-2 py-1 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:border-green-400 ${
+                              u.subscription_status === "active" ? "text-green-400" :
+                              u.subscription_status === "past_due" ? "text-red-400" :
+                              u.subscription_status === "canceled" ? "text-red-400" : ""
+                            }`}
+                          >
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                            <option value="past_due">Inadimplente</option>
+                            <option value="canceled">Cancelado</option>
+                          </select>
+                          {u.subscription_status === "active" && expiry !== null && expiry <= 7 && expiry > 0 && (
+                            <div className="text-xs text-amber-400 mt-1">Expira em {expiry}d</div>
+                          )}
+                          {isDelinquent(u) && (
+                            <div className="text-xs text-red-400 mt-1">⚠️ Inadimplente</div>
+                          )}
+                        </td>
+                        <td className="px-4 py-3">
+                          <select
+                            value={u.role || "user"}
+                            onChange={(e) => updateRole(u.id, e.target.value)}
+                            className="text-xs px-2 py-1 rounded-lg bg-neutral-800 border border-neutral-700 text-white focus:outline-none focus:border-green-400"
+                          >
+                            <option value="user">User</option>
+                            <option value="admin">Admin</option>
+                          </select>
+                        </td>
+                        <td className="px-4 py-3 text-neutral-500 text-xs">
+                          {new Date(u.created_at).toLocaleDateString("pt-BR")}
+                        </td>
+                        <td className="px-4 py-3">
+                          {confirmDelete === u.id ? (
+                            <div className="flex items-center gap-2">
+                              <span className="text-xs text-red-400">Excluir?</span>
+                              <button onClick={() => deleteUser(u.id)} className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-400">Sim</button>
+                              <button onClick={() => setConfirmDelete(null)} className="text-xs bg-neutral-700 text-white px-2 py-1 rounded hover:bg-neutral-600">Não</button>
+                            </div>
+                          ) : (
+                            <button onClick={() => setConfirmDelete(u.id)} className="text-xs text-red-400 hover:text-red-300 transition">
+                              Excluir
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </main>
   );
 }
