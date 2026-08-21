@@ -3,6 +3,10 @@ type Props = {
   hasSeo: boolean;
   hasWhatsapp: boolean;
   hasGoogle: boolean;
+  hasGoogleAds?: boolean;
+  hasMetaAds?: boolean;
+  hasAutomation?: boolean;
+  automationTool?: string;
 };
 
 export default function PresencaDigitalChecklist({
@@ -10,6 +14,10 @@ export default function PresencaDigitalChecklist({
   hasSeo,
   hasWhatsapp,
   hasGoogle,
+  hasGoogleAds,
+  hasMetaAds,
+  hasAutomation,
+  automationTool,
 }: Props) {
 
   const items = [
@@ -33,10 +41,24 @@ export default function PresencaDigitalChecklist({
       presente: hasGoogle,
       explicacao: "Ficha da empresa, avaliações e horários",
     },
+    {
+      nome: "Google Ads",
+      presente: !!hasGoogleAds,
+      explicacao: "Inviste em anúncios pagos no Google",
+    },
+    {
+      nome: "Meta Ads (Facebook/Instagram)",
+      presente: !!hasMetaAds,
+      explicacao: "Inviste em anúncios no Facebook e Instagram",
+    },
+    {
+      nome: "Automação comercial",
+      presente: !!hasAutomation,
+      explicacao: automationTool ? `Utiliza ${automationTool}` : "Ferramentas de automação de marketing",
+    },
   ];
 
   const presentes = items.filter((item) => item.presente).length;
-
   const total = items.length;
 
   return (

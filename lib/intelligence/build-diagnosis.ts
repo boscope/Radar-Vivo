@@ -12,7 +12,6 @@ export function buildDiagnosis(
 ): Diagnosis {
 
   const strengths: string[] = [];
-
   const weaknesses: string[] = [];
 
   //--------------------------------------------------
@@ -37,6 +36,15 @@ export function buildDiagnosis(
   if (company.hasWhatsapp)
     strengths.push("Utiliza WhatsApp para atendimento.");
 
+  if (company.hasGoogleAds)
+    strengths.push("Inviste em Google Ads.");
+
+  if (company.hasMetaAds)
+    strengths.push("Inviste em Meta Ads (Facebook/Instagram).");
+
+  if (company.hasAutomation)
+    strengths.push(`Utiliza automação (${company.automationTool ?? "ferramenta desconhecida"}).`);
+
   //--------------------------------------------------
   // Pontos fracos
   //--------------------------------------------------
@@ -45,10 +53,19 @@ export function buildDiagnosis(
     weaknesses.push("Não possui website profissional.");
 
   if (!company.googleBusiness)
-    weaknesses.push("Não presença otimizada no Google Business.");
+    weaknesses.push("Não possui presença otimizada no Google Business.");
 
   if (!company.hasSeo)
     weaknesses.push("SEO praticamente inexistente.");
+
+  if (!company.hasGoogleAds)
+    weaknesses.push("Não investe em Google Ads.");
+
+  if (!company.hasMetaAds)
+    weaknesses.push("Não investe em Meta Ads.");
+
+  if (!company.hasAutomation)
+    weaknesses.push("Não utiliza automação comercial.");
 
   if (!company.instagram)
     weaknesses.push("Não possui presença relevante no Instagram.");
@@ -64,13 +81,9 @@ export function buildDiagnosis(
   //--------------------------------------------------
 
   return {
-
     strengths,
-
     weaknesses,
-
     opportunities: buildOpportunities(company),
-
   };
 
 }

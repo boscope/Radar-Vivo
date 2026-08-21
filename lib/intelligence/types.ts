@@ -24,6 +24,8 @@ export interface CompanyAnalysis {
 
   hasAutomation?: boolean;
 
+  automationTool?: string;
+
 }
 
 export interface RadarScore {

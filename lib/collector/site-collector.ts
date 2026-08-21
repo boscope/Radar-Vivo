@@ -131,7 +131,39 @@ export async function collectWebsite(
 
     const hasTagManager = /googletagmanager|GTM-/.test(html);
 
-    const hasMetaPixel = /fbevents\.js|fbq\(|pixel/i.test(html);
+    const hasMetaPixel = /fbevents\.js|fbq\(|facebook\.net\/en_US\/fbevents/i.test(html);
+
+    const hasGoogleAds =
+      /googlesyndication\.com|google_ads_conversion|gtag\(\s*['"]config['"]\s*['"]AW-/i.test(html) ||
+      /AW-\d+/.test(html);
+
+    const automationMarkers: Array<[string, RegExp]> = [
+      ["HubSpot", /hubspot\.com|hs-scripts|_hsq/i],
+      ["RD Station", /rdstation\.com|rdstation/i],
+      ["Mailchimp", /mailchimp\.com|list-manage\.com|mc\.us/i],
+      ["ActiveCampaign", /activecampaign\.com|track\.hc/i],
+      ["ConvertKit", /convertkit\.com/i],
+      ["ManyChat", /manychat\.com/i],
+      ["Chatfuel", /chatfuel\.com/i],
+      ["Hotjar", /hotjar\.com|hotjar/i],
+      ["Microsoft Clarity", /clarity\.ms/i],
+      ["Calendly", /calendly\.com/i],
+      ["Tawk", /tawk\.to/i],
+      ["Zendesk", /zendesk\.com/i],
+      ["Intercom", /intercom\.com/i],
+      ["Tidio", /tidio\.com/i],
+    ];
+
+    let hasAutomation = false;
+    let automationTool: string | undefined;
+
+    for (const [name, pattern] of automationMarkers) {
+      if (pattern.test(html)) {
+        hasAutomation = true;
+        automationTool = name;
+        break;
+      }
+    }
 
     const isResponsive = /<meta[^>]+name=["']viewport["']/i.test(html);
 
@@ -167,6 +199,9 @@ export async function collectWebsite(
       hasAnalytics,
       hasTagManager,
       hasMetaPixel,
+      hasGoogleAds,
+      hasAutomation,
+      automationTool,
       isResponsive,
       pageTitle: titleTag(html),
       metaDescription: metaContent(html, "description"),
@@ -186,6 +221,8 @@ export async function collectWebsite(
       hasSSL: website.startsWith("https://"),
       isResponsive: false,
       technologies: [],
+      hasGoogleAds: false,
+      hasAutomation: false,
     };
   }
 }

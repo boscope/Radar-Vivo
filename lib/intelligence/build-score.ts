@@ -11,6 +11,9 @@ function detectGaps(company: CompanyAnalysis) {
     googleBusiness: !company.googleBusiness,
     instagram: !company.instagram,
     facebook: !company.facebook,
+    googleAds: !company.hasGoogleAds,
+    metaAds: !company.hasMetaAds,
+    automation: !company.hasAutomation,
   };
 }
 
@@ -21,35 +24,44 @@ export function buildScore(
   const gaps = detectGaps(company);
 
   //--------------------------------------------------
-  // Presença Digital
+  // Presença Digital (45 pontos)
   //--------------------------------------------------
 
   let score = 100;
 
   if (gaps.website)
-    score -= 25;
-
-  if (gaps.googleBusiness)
     score -= 20;
 
+  if (gaps.googleBusiness)
+    score -= 15;
+
   if (gaps.instagram)
-    score -= 10;
+    score -= 5;
 
   if (gaps.facebook)
     score -= 5;
 
   //--------------------------------------------------
-  // Marketing
+  // Marketing (30 pontos)
   //--------------------------------------------------
 
   if (gaps.seo)
-    score -= 20;
+    score -= 15;
+
+  if (gaps.googleAds)
+    score -= 8;
+
+  if (gaps.metaAds)
+    score -= 7;
 
   //--------------------------------------------------
-  // Atendimento
+  // Atendimento e Automação (25 pontos)
   //--------------------------------------------------
 
   if (gaps.whatsapp)
+    score -= 5;
+
+  if (gaps.automation)
     score -= 10;
 
   //--------------------------------------------------
@@ -84,11 +96,14 @@ export function buildScore(
     Number(gaps.whatsapp) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
-    Number(gaps.facebook);
+    Number(gaps.facebook) +
+    Number(gaps.googleAds) +
+    Number(gaps.metaAds) +
+    Number(gaps.automation);
 
   const closingProbability = Math.min(
     85,
-    Math.round(25 + sinaisFavoraveis * 12)
+    Math.round(20 + sinaisFavoraveis * 7)
   );
 
   //--------------------------------------------------
@@ -126,10 +141,13 @@ export function buildScore(
     Number(gaps.whatsapp) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
-    Number(gaps.facebook);
+    Number(gaps.facebook) +
+    Number(gaps.googleAds) +
+    Number(gaps.metaAds) +
+    Number(gaps.automation);
 
   const estimatedRevenue =
-    Math.round((baseRevenue * itensFaltantes) / 6 / 100) * 100;
+    Math.round((baseRevenue * itensFaltantes) / 9 / 100) * 100;
 
   return {
     score,

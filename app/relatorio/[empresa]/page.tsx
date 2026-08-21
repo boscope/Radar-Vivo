@@ -163,6 +163,10 @@ export default function RelatorioPublicoPage({
               hasSeo={company.hasSeo}
               hasWhatsapp={company.hasWhatsapp}
               hasGoogle={Boolean(company.googleMapsUrl)}
+              hasGoogleAds={company.hasGoogleAds}
+              hasMetaAds={company.hasMetaAds}
+              hasAutomation={company.hasAutomation}
+              automationTool={company.automationTool}
             />
           </div>
 

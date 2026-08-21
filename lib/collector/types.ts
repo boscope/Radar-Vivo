@@ -66,6 +66,12 @@ export interface WebsiteData {
 
   hasMetaPixel?: boolean;
 
+  hasGoogleAds?: boolean;
+
+  hasAutomation?: boolean;
+
+  automationTool?: string;
+
   isResponsive?: boolean;
 
   pageTitle?: string;
@@ -127,6 +133,14 @@ export interface CompanyData {
   hasSeo: boolean;
 
   hasWhatsapp: boolean;
+
+  hasGoogleAds?: boolean;
+
+  hasMetaAds?: boolean;
+
+  hasAutomation?: boolean;
+
+  automationTool?: string;
 
   intelligence: IntelligenceResult;
 

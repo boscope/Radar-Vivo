@@ -217,6 +217,14 @@ export default function ScannerResultPage({
 
             hasGoogle={Boolean(company.googleMapsUrl)}
 
+            hasGoogleAds={company.hasGoogleAds}
+
+            hasMetaAds={company.hasMetaAds}
+
+            hasAutomation={company.hasAutomation}
+
+            automationTool={company.automationTool}
+
           />
 
         </div>

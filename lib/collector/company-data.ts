@@ -358,9 +358,10 @@ export async function collectCompanyData(
     hasWhatsapp:
       websiteData.hasWhatsapp ?? googleData.hasWhatsapp ?? false,
     hasSeo: websiteData.hasSeo ?? false,
-    hasGoogleAds: false,
-    hasMetaAds: false,
-    hasAutomation: false,
+    hasGoogleAds: websiteData.hasGoogleAds ?? false,
+    hasMetaAds: websiteData.hasMetaPixel ?? false,
+    hasAutomation: websiteData.hasAutomation ?? false,
+    automationTool: websiteData.automationTool,
   };
 
   const intelligence = analyzeCompany(analysis);
@@ -384,6 +385,10 @@ export async function collectCompanyData(
     hasWebsite: websiteData.hasWebsite ?? false,
     hasSeo: websiteData.hasSeo ?? false,
     hasWhatsapp: analysis.hasWhatsapp,
+    hasGoogleAds: websiteData.hasGoogleAds ?? false,
+    hasMetaAds: websiteData.hasMetaPixel ?? false,
+    hasAutomation: websiteData.hasAutomation ?? false,
+    automationTool: websiteData.automationTool,
     intelligence,
     websiteData,
   };
