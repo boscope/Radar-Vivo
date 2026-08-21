@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
-import { createClient } from "@supabase/supabase-js";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
 interface Company {
@@ -36,35 +35,26 @@ export default function AdminCompaniesPage() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { router.push("/auth/login"); return; }
 
-    const adminSupabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
 
-    let query = adminSupabase
-      .from("companies")
-      .select("id, name, city, category, radar_score, status, captured_at, owner_id")
-      .order("captured_at", { ascending: false })
-      .limit(200);
-
-    if (search) {
-      query = query.or(`name.ilike.%${search}%,city.ilike.%${search}%,category.ilike.%${search}%`);
-    }
-
-    const { data } = await query;
-    setCompanies(data ?? []);
+    const res = await fetch(`/api/admin/companies?${params}`, {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+    const data = await res.json();
+    setCompanies(data.companies ?? []);
     setLoading(false);
   }
 
   async function deleteCompany(id: string) {
-    const adminSupabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
-
-    const { error } = await adminSupabase.from("companies").delete().eq("id", id);
-    if (error) {
-      setMsg("Erro: " + error.message);
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch(`/api/admin/companies?id=${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${session?.access_token}` },
+    });
+    const data = await res.json();
+    if (data.error) {
+      setMsg("Erro: " + data.error);
     } else {
       setMsg("Empresa excluída!");
       setConfirmDelete(null);

@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
-import { createClient } from "@supabase/supabase-js";
 import AdminSidebar from "@/components/admin/AdminSidebar";
 
 interface Lead {
@@ -44,53 +43,27 @@ export default function AdminLeadsPage() {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session) { router.push("/auth/login"); return; }
 
-    const adminSupabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
-    );
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    if (filterStatus) params.set("status", filterStatus);
 
-    let query = adminSupabase
-      .from("leads")
-      .select("id, company_name, status, score, created_at, owner_id")
-      .order("created_at", { ascending: false })
-      .limit(200);
-
-    if (filterStatus) {
-      query = query.eq("status", filterStatus);
-    }
-
-    const { data: leadsData } = await query;
-
-    // Get owner emails
-    const ownerIds = [...new Set((leadsData ?? []).map((l: any) => l.owner_id))];
-    const { data: profiles } = await adminSupabase
-      .from("profiles")
-      .select("id, email")
-      .in("id", ownerIds);
-
-    const profileMap = new Map((profiles ?? []).map((p: any) => [p.id, p.email]));
-
-    const enriched = (leadsData ?? []).map((l: any) => ({
-      ...l,
-      owner_email: profileMap.get(l.owner_id) ?? "—",
-    }));
-
-    let filtered: any[] = enriched;
-    if (search) {
-      const s = search.toLowerCase();
-      filtered = enriched.filter((l: any) =>
-        l.company_name.toLowerCase().includes(s) ||
-        (l.owner_email ?? "").toLowerCase().includes(s)
-      );
-    }
-
-    setLeads(filtered);
+    const res = await fetch(`/api/admin/leads?${params}`, {
+      headers: { Authorization: `Bearer ${session.access_token}` },
+    });
+    const data = await res.json();
+    setLeads(data.leads ?? []);
     setLoading(false);
   }
 
   async function deleteLead(id: string) {
-    const { error } = await supabase.from("leads").delete().eq("id", id);
-    if (!error) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch("/api/admin/leads", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ id }),
+    });
+    const data = await res.json();
+    if (!data.error) {
       setMsg("Lead excluído!");
       setConfirmDelete(null);
       loadLeads();
@@ -99,8 +72,14 @@ export default function AdminLeadsPage() {
   }
 
   async function updateStatus(id: string, status: string) {
-    const { error } = await supabase.from("leads").update({ status }).eq("id", id);
-    if (!error) {
+    const { data: { session } } = await supabase.auth.getSession();
+    const res = await fetch("/api/admin/leads", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ id, status }),
+    });
+    const data = await res.json();
+    if (!data.error) {
       setMsg("Status atualizado!");
       loadLeads();
     }
@@ -168,7 +147,7 @@ export default function AdminLeadsPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {leads.map((l) => (
+                  {leads.map((l: Lead) => (
                     <tr key={l.id} className="border-b border-neutral-800/50 hover:bg-neutral-800/30 transition">
                       <td className="px-4 py-3 font-bold text-white">{l.company_name}</td>
                       <td className="px-4 py-3">
