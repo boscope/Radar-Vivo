@@ -11,9 +11,6 @@ function detectGaps(company: CompanyAnalysis) {
     googleBusiness: !company.googleBusiness,
     instagram: !company.instagram,
     facebook: !company.facebook,
-    automation: !company.hasAutomation,
-    googleAds: !company.hasGoogleAds,
-    metaAds: !company.hasMetaAds,
   };
 }
 
@@ -30,13 +27,13 @@ export function buildScore(
   let score = 100;
 
   if (gaps.website)
-    score -= 20;
+    score -= 25;
 
   if (gaps.googleBusiness)
-    score -= 15;
+    score -= 20;
 
   if (gaps.instagram)
-    score -= 8;
+    score -= 10;
 
   if (gaps.facebook)
     score -= 5;
@@ -46,23 +43,14 @@ export function buildScore(
   //--------------------------------------------------
 
   if (gaps.seo)
-    score -= 15;
-
-  if (gaps.googleAds)
-    score -= 10;
-
-  if (gaps.metaAds)
-    score -= 8;
+    score -= 20;
 
   //--------------------------------------------------
   // Atendimento
   //--------------------------------------------------
 
   if (gaps.whatsapp)
-    score -= 5;
-
-  if (gaps.automation)
-    score -= 14;
+    score -= 10;
 
   //--------------------------------------------------
   // Limites
@@ -77,26 +65,17 @@ export function buildScore(
   let priority: RadarScore["priority"];
 
   if (score <= 30) {
-
     priority = "Muito Alta";
-
   } else if (score <= 50) {
-
     priority = "Alta";
-
   } else if (score <= 75) {
-
     priority = "Média";
-
   } else {
-
     priority = "Baixa";
-
   }
 
   //--------------------------------------------------
-  // Chance de Fechamento (estimativa baseada nos
-  // sinais reais detectados - nunca um número fixo)
+  // Chance de Fechamento
   //--------------------------------------------------
 
   const sinaisFavoraveis =
@@ -109,13 +88,11 @@ export function buildScore(
 
   const closingProbability = Math.min(
     85,
-    Math.round(25 + sinaisFavoraveis * 10)
+    Math.round(25 + sinaisFavoraveis * 12)
   );
 
   //--------------------------------------------------
-  // Potencial Mensal (estimativa variável por categoria
-  // e itens faltantes — cada tipo de negócio tem um
-  // ticket médio diferente)
+  // Potencial Mensal
   //--------------------------------------------------
 
   const categoryRevenueMap: Record<string, number> = {
@@ -147,26 +124,18 @@ export function buildScore(
     Number(gaps.website) +
     Number(gaps.seo) +
     Number(gaps.whatsapp) +
-    Number(gaps.automation) +
-    Number(gaps.googleAds) +
-    Number(gaps.metaAds) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
     Number(gaps.facebook);
 
   const estimatedRevenue =
-    Math.round((baseRevenue * itensFaltantes) / 9 / 100) * 100;
+    Math.round((baseRevenue * itensFaltantes) / 6 / 100) * 100;
 
   return {
-
     score,
-
     priority,
-
     closingProbability,
-
     estimatedRevenue,
-
   };
 
 }
