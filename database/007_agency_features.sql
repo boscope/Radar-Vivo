@@ -23,5 +23,3 @@ CREATE POLICY "score_history_select_own" ON score_history
 
 CREATE POLICY "score_history_insert_own" ON score_history
   FOR INSERT WITH CHECK (auth.uid() = user_id);
-
-CREATE INDEX IF NOT EXISTS idx_score_history_user ON score_history(user_id, company_name, created_at DESC);

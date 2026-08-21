@@ -18,6 +18,10 @@ type AnaliseData = {
   hasWebsite: boolean;
   hasSeo: boolean;
   hasWhatsapp: boolean;
+  hasGoogleAds?: boolean;
+  hasMetaAds?: boolean;
+  hasAutomation?: boolean;
+  automationTool?: string;
   googleMapsUrl?: string;
   intelligence: {
     score: {

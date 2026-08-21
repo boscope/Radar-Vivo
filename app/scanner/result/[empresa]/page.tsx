@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { createBrowserClient } from "@supabase/ssr";
 
 import OpportunityCard from "@/components/scanner/OpportunityCard";
 
@@ -32,6 +33,11 @@ export default function ScannerResultPage({
   const [erro, setErro] = useState<string | null>(null);
 
   const [copied, setCopied] = useState(false);
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
 
   useEffect(() => {
 
