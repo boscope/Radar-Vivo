@@ -64,13 +64,14 @@ export default function AdminSidebar() {
       </nav>
 
       <div className="p-4 border-t border-neutral-800">
-        <Link
+        <a
           href="/"
+          target="_blank"
           className="flex items-center gap-3 px-4 py-2 text-neutral-500 hover:text-white transition text-sm rounded-xl hover:bg-neutral-800 mb-2"
         >
           <span>🌐</span>
           <span>Ver site</span>
-        </Link>
+        </a>
         <button
           onClick={handleLogout}
           className="flex items-center gap-3 px-4 py-2 text-red-400 hover:text-red-300 transition text-sm rounded-xl hover:bg-red-500/10 w-full"
