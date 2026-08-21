@@ -40,8 +40,7 @@ export async function GET(request: NextRequest) {
   let query = admin
     .from("companies")
     .select("id, name, city, category, radar_score, status, captured_at, owner_id")
-    .order("captured_at", { ascending: false })
-    .limit(200);
+    .order("captured_at", { ascending: false });
 
   if (search) {
     query = query.or(`name.ilike.%${search}%,city.ilike.%${search}%,category.ilike.%${search}%`);

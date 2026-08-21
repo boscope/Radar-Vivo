@@ -7,7 +7,9 @@ import AdminSidebar from "@/components/admin/AdminSidebar";
 
 interface Lead {
   id: string;
-  company_name: string;
+  company: string;
+  name: string;
+  whatsapp: string;
   status: string;
   score: number | null;
   created_at: string;
@@ -139,6 +141,7 @@ export default function AdminLeadsPage() {
                 <thead>
                   <tr className="border-b border-neutral-800 text-neutral-400 bg-neutral-900/50">
                     <th className="text-left px-4 py-3 font-medium">Empresa</th>
+                    <th className="text-left px-4 py-3 font-medium">Nome</th>
                     <th className="text-left px-4 py-3 font-medium">Status</th>
                     <th className="text-left px-4 py-3 font-medium">Score</th>
                     <th className="text-left px-4 py-3 font-medium">Dono</th>
@@ -149,7 +152,8 @@ export default function AdminLeadsPage() {
                 <tbody>
                   {leads.map((l: Lead) => (
                     <tr key={l.id} className="border-b border-neutral-800/50 hover:bg-neutral-800/30 transition">
-                      <td className="px-4 py-3 font-bold text-white">{l.company_name}</td>
+                      <td className="px-4 py-3 font-bold text-white">{l.company}</td>
+                      <td className="px-4 py-3 text-neutral-300">{l.name}</td>
                       <td className="px-4 py-3">
                         <select
                           value={l.status}

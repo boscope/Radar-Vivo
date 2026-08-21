@@ -40,9 +40,8 @@ export async function GET(request: NextRequest) {
 
   let query = admin
     .from("leads")
-    .select("id, company_name, status, score, created_at, owner_id")
-    .order("created_at", { ascending: false })
-    .limit(200);
+    .select("id, name, whatsapp, company, city, category, status, score, created_at, owner_id")
+    .order("created_at", { ascending: false });
 
   if (status) {
     query = query.eq("status", status);
@@ -60,20 +59,24 @@ export async function GET(request: NextRequest) {
 
   const profileMap = new Map((profiles ?? []).map((p: any) => [p.id, p.email]));
 
-  let enriched = (leadsData ?? []).map((l: any) => ({
+  const enriched = (leadsData ?? []).map((l: any) => ({
     ...l,
+    company_name: l.company,
     owner_email: profileMap.get(l.owner_id) ?? "—",
   }));
 
+  let result = enriched;
+
   if (search) {
     const s = search.toLowerCase();
-    enriched = enriched.filter((l: any) =>
-      l.company_name.toLowerCase().includes(s) ||
+    result = enriched.filter((l: any) =>
+      l.company.toLowerCase().includes(s) ||
+      l.name.toLowerCase().includes(s) ||
       (l.owner_email ?? "").toLowerCase().includes(s)
     );
   }
 
-  return NextResponse.json({ leads: enriched });
+  return NextResponse.json({ leads: result });
 }
 
 export async function DELETE(request: NextRequest) {
