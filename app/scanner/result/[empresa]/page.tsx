@@ -9,6 +9,7 @@ import OpportunityCard from "@/components/scanner/OpportunityCard";
 import LeadCapture from "@/components/scanner/LeadCapture";
 
 import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
+import ExportPdfButton from "@/components/scanner/ExportPdfButton";
 import RadarLoader from "@/components/ui/RadarLoader";
 
 import type {
@@ -372,6 +373,18 @@ export default function ScannerResultPage({
               </div>
             </div>
           )}
+
+          <div className="mt-5 pt-5 border-t border-green-800/50 flex flex-col sm:flex-row gap-3">
+            <ExportPdfButton companyName={company?.companyName ?? empresa} />
+            <a
+              href={`/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-neutral-900 border border-green-700 text-green-400 font-bold px-6 py-3 rounded-lg text-center"
+            >
+              👁️ Ver relatório completo
+            </a>
+          </div>
 
         </div>
 
