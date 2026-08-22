@@ -7,6 +7,7 @@ import { buildScore } from "./build-score";
 import { buildDiagnosis } from "./build-diagnosis";
 import { buildCommercial } from "./build-commercial";
 import { buildReport } from "./build-report";
+import { buildAiPresence } from "./build-ai-presence";
 
 export function analyzeCompany(
   analysis: CompanyAnalysis
@@ -38,6 +39,12 @@ export function analyzeCompany(
   );
 
   //--------------------------------------------------
+  // Presença em IAs
+  //--------------------------------------------------
+
+  const aiPresence = buildAiPresence(analysis);
+
+  //--------------------------------------------------
   // Relatório
   //--------------------------------------------------
 
@@ -62,6 +69,8 @@ export function analyzeCompany(
     diagnosis,
 
     commercial,
+
+    aiPresence,
 
     report,
 

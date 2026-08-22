@@ -47,6 +47,12 @@ type AnaliseData = {
       weaknesses: string[];
       strengths: string[];
     };
+    aiPresence?: {
+      visibilityScore: number;
+      status: "visivel" | "parcial" | "invisivel";
+      summary: string;
+      detail: string;
+    };
   };
 };
 
@@ -239,6 +245,44 @@ export default function RelatorioPublicoPage({
             currentScore={score.score}
             accentColor={accentColor}
           />
+        )}
+
+        {/* Presença em IAs */}
+        {company.intelligence.aiPresence && (
+          <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
+            <div className="flex items-start justify-between gap-4">
+              <h2 className="text-2xl font-bold">🤖 Sua empresa nas IAs</h2>
+              <span
+                className="text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap"
+                style={{
+                  backgroundColor:
+                    company.intelligence.aiPresence.status === "invisivel"
+                      ? "#ef444420"
+                      : company.intelligence.aiPresence.status === "parcial"
+                        ? "#f59e0b20"
+                        : `${accentColor}20`,
+                  color:
+                    company.intelligence.aiPresence.status === "invisivel"
+                      ? "#ef4444"
+                      : company.intelligence.aiPresence.status === "parcial"
+                        ? "#f59e0b"
+                        : accentColor,
+                }}
+              >
+                {company.intelligence.aiPresence.visibilityScore}/100 visibilidade
+              </span>
+            </div>
+
+            <p className="text-neutral-400 text-sm mt-1 mb-6">
+              Quando alguém pede uma indicação ao ChatGPT, Gemini ou Perplexity,
+              sua empresa é citada?
+            </p>
+
+            <p className="font-semibold text-lg">{company.intelligence.aiPresence.summary}</p>
+            <p className="text-neutral-400 mt-2 text-sm leading-relaxed">
+              {company.intelligence.aiPresence.detail}
+            </p>
+          </div>
         )}
 
         <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">

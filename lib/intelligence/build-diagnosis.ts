@@ -76,6 +76,16 @@ export function buildDiagnosis(
   if (!company.hasWhatsapp)
     weaknesses.push("Não utiliza WhatsApp para atendimento.");
 
+  const aiPoints =
+    (company.website ? 30 : 0) +
+    (company.hasSeo ? 25 : 0) +
+    (company.googleBusiness ? 20 : 0);
+
+  if (aiPoints < 30)
+    weaknesses.push(
+      "Invisível nas IAs — quando alguém pede indicação ao ChatGPT ou Gemini, outra empresa é citada."
+    );
+
   //--------------------------------------------------
   // Resultado
   //--------------------------------------------------

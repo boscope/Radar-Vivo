@@ -232,6 +232,29 @@ export default function DemoPage() {
         </div>
 
         <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
+          <div className="flex items-start justify-between gap-4">
+            <h2 className="text-2xl font-bold">🤖 Sua empresa nas IAs</h2>
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap bg-red-500/10 text-red-400">
+              12/100 visibilidade
+            </span>
+          </div>
+
+          <p className="text-neutral-400 text-sm mt-1 mb-6">
+            Quando alguém pede uma indicação ao ChatGPT, Gemini ou Perplexity,
+            sua empresa é citada?
+          </p>
+
+          <p className="font-semibold text-lg">
+            Invisível para as IAs — quando pedem uma indicação, outra clínica é citada.
+          </p>
+          <p className="text-neutral-400 mt-2 text-sm leading-relaxed">
+            Sem os sinais que IAs usam para recomendar negócios locais (site, SEO,
+            Google), assistentes como ChatGPT, Gemini e Perplexity não têm de onde
+            puxar esta empresa. Cada indicação perdida vira cliente do concorrente.
+          </p>
+        </div>
+
+        <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
           <h2 className="text-2xl font-bold">Como podemos resolver</h2>
           <ul className="mt-6 space-y-4">
             {demoServices.map((item, index) => (

@@ -1,3 +1,5 @@
+import type { AiPresence } from "./build-ai-presence";
+
 export interface CompanyAnalysis {
 
   companyName: string;
@@ -93,6 +95,8 @@ export interface IntelligenceResult {
   diagnosis: Diagnosis;
 
   commercial: CommercialRecommendation;
+
+  aiPresence: AiPresence;
 
   report: RadarReport;
 
