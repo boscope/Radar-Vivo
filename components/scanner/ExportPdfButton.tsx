@@ -112,8 +112,10 @@ export default function ExportPdfButton({ companyName }: Props) {
         .replace(/\s+/g, "-")
         .toLowerCase();
       pdf.save(`relatorio-${safeName || "radar-vivo"}.pdf`);
-    } catch {
-      window.print();
+    } catch (e) {
+      const msg = e instanceof Error ? e.message : String(e);
+      console.error("[EXPORT-PDF]", e);
+      window.alert(`Falha ao gerar PDF: ${msg}`);
     } finally {
       setGenerating(false);
     }
