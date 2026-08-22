@@ -24,11 +24,11 @@ export default function ExportPdfButton({ companyName }: Props) {
       // Desce pela cadeia de containers únicos até achar a lista de blocos
       let container: HTMLElement | null = main as HTMLElement;
       while (container) {
-        const children = Array.from(container.children).filter(
-          (el): el is HTMLElement => el.tagName === "DIV" || el.tagName === "SECTION"
+        const children: Element[] = Array.from(container.children).filter(
+          (el) => el.tagName === "DIV" || el.tagName === "SECTION"
         );
         if (children.length === 1) {
-          container = children[0];
+          container = children[0] as HTMLElement;
         } else if (children.length > 1) {
           break;
         } else {
