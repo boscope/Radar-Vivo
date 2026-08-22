@@ -304,40 +304,62 @@ export default function ScannerResultPage({
             conversa com você.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          {company?.phone ? (
+            <div className="flex flex-col sm:flex-row gap-3">
+              <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
+                {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`}
+              </code>
 
-            <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
-              {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`}
-            </code>
+              <button
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
+                    );
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }
+                }}
+                className="bg-green-500 hover:bg-green-400 transition text-black font-bold px-6 py-3 rounded-lg"
+              >
+                {copied ? "✓ Copiado!" : "Copiar link"}
+              </button>
 
-            <button
+              <a
+                href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^(\d{2})/, "55$1")}?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-green-600 hover:bg-green-500 transition text-white font-bold px-6 py-3 rounded-lg text-center"
+              >
+                📱 Enviar via WhatsApp
+              </a>
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row gap-3 items-start">
+              <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
+                {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`}
+              </code>
 
-              onClick={() => {
-                if (typeof window !== "undefined") {
-                  navigator.clipboard.writeText(
-                    `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
-                  );
-                  setCopied(true);
-                  setTimeout(() => setCopied(false), 2000);
-                }
-              }}
+              <button
+                onClick={() => {
+                  if (typeof window !== "undefined") {
+                    navigator.clipboard.writeText(
+                      `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
+                    );
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }
+                }}
+                className="bg-green-500 hover:bg-green-400 transition text-black font-bold px-6 py-3 rounded-lg"
+              >
+                {copied ? "✓ Copiado!" : "Copiar link"}
+              </button>
 
-              className="bg-green-500 hover:bg-green-400 transition text-black font-bold px-6 py-3 rounded-lg"
-
-            >
-              {copied ? "✓ Copiado!" : "Copiar link"}
-            </button>
-
-            <a
-              href={`https://wa.me/?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-green-600 hover:bg-green-500 transition text-white font-bold px-6 py-3 rounded-lg text-center"
-            >
-              📱 Enviar via WhatsApp
-            </a>
-
-          </div>
+              <div className="bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 text-sm px-4 py-3 rounded-lg">
+                ⚠️ WhatsApp não encontrado no Google. Copie o link e envie manualmente.
+              </div>
+            </div>
+          )}
 
         </div>
 
