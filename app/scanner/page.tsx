@@ -12,9 +12,11 @@ export default function ScannerPage() {
       return;
     }
 
-    window.location.href =
-      "/scanner/result/" +
-      encodeURIComponent(empresa.trim());
+    window.open(
+      "/scanner/result/" + encodeURIComponent(empresa.trim()),
+      "_blank",
+      "noopener,noreferrer"
+    );
 
   }
 
