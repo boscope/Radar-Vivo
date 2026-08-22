@@ -42,6 +42,7 @@ export default function ScannerResultPage({
   const [erro, setErro] = useState<string | null>(null);
 
   const [copied, setCopied] = useState(false);
+  const [shortLink, setShortLink] = useState("");
 
   const [brand, setBrand] = useState<AgencyBrand | null>(null);
   const [ownerId, setOwnerId] = useState("");
@@ -116,6 +117,17 @@ export default function ScannerResultPage({
           await response.json();
 
         setCompany(data);
+
+        try {
+          const fullUrl = `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${oid ? `&ownerId=${oid}` : ""}`;
+          const res = await fetch("/api/short-link", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ url: fullUrl }),
+          });
+          const linkData = await res.json();
+          if (linkData.shortUrl) setShortLink(linkData.shortUrl);
+        } catch {}
 
         // Salvar score no histórico (antes/depois)
         try {
@@ -307,14 +319,14 @@ export default function ScannerResultPage({
           {company?.phone ? (
             <div className="flex flex-col sm:flex-row gap-3">
               <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
-                {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`}
+                {shortLink || `${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}`}
               </code>
 
               <button
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
+                      shortLink || `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
                     );
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
@@ -326,7 +338,7 @@ export default function ScannerResultPage({
               </button>
 
               <a
-                href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^(\d{2})/, "55$1")}?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`)}`}
+                href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^(\d{2})/, "55$1")}?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${shortLink}`)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-600 hover:bg-green-500 transition text-white font-bold px-6 py-3 rounded-lg text-center"
@@ -337,14 +349,14 @@ export default function ScannerResultPage({
           ) : (
             <div className="flex flex-col sm:flex-row gap-3 items-start">
               <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
-                {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`}
+                {shortLink || `${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}`}
               </code>
 
               <button
                 onClick={() => {
                   if (typeof window !== "undefined") {
                     navigator.clipboard.writeText(
-                      `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
+                      shortLink || `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
                     );
                     setCopied(true);
                     setTimeout(() => setCopied(false), 2000);
