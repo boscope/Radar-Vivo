@@ -26,6 +26,21 @@ function isBrowser(): boolean {
   return typeof window !== "undefined";
 }
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+    dataLayer?: unknown[];
+  }
+}
+
+export const GA_ID = process.env.NEXT_PUBLIC_GA_ID || "";
+
+function gtag(...args: unknown[]): void {
+  if (!isBrowser() || !GA_ID) return;
+  window.dataLayer = window.dataLayer || [];
+  window.gtag?.(...args);
+}
+
 export function captureUTMs(): void {
   if (!isBrowser()) return;
   const params = new URLSearchParams(window.location.search);
@@ -58,6 +73,14 @@ export function trackEvent(
   properties?: Record<string, string>
 ): void {
   if (!isBrowser()) return;
+
+  // Espelha eventos para o Google Analytics 4
+  gtag("event", eventName, {
+    page_path: window.location.pathname,
+    ...getStoredUTMs(),
+    ...(properties || {}),
+  });
+
   const entry: StoredEvent & { properties?: Record<string, string> } = {
     event: eventName,
     page: window.location.pathname,

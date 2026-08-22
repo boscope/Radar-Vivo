@@ -141,6 +141,15 @@ function LoginForm() {
             </div>
           )}
 
+          <div className="text-right">
+            <Link
+              href="/auth/recuperar-senha"
+              className="text-sm text-neutral-400 hover:text-green-400 transition"
+            >
+              Esqueci minha senha
+            </Link>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
