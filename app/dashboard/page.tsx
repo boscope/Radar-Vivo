@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
+import OnboardingTour from "@/components/onboarding/OnboardingTour";
 
 interface DashboardData {
   profile: {
@@ -167,6 +168,8 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-black text-white">
+
+      <OnboardingTour />
 
       {/* Header */}
       <header className="border-b border-neutral-800/50 bg-black/80 backdrop-blur-xl sticky top-0 z-50">

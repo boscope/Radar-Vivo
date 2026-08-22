@@ -27,6 +27,7 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold text-sm mb-3">Legal</h3>
             <ul className="space-y-2 text-sm text-neutral-400">
+              <li><Link href="/faq" className="hover:text-green-400 transition">Perguntas Frequentes</Link></li>
               <li><Link href="/privacidade" className="hover:text-green-400 transition">Política de Privacidade</Link></li>
               <li><Link href="/termos" className="hover:text-green-400 transition">Termos de Uso</Link></li>
               <li><Link href="/contato" className="hover:text-green-400 transition">Contato</Link></li>

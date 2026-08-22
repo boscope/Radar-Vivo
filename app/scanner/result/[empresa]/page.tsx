@@ -14,6 +14,14 @@ import type {
   CompanyData,
 } from "@/lib/collector";
 
+type AgencyBrand = {
+  name: string;
+  logoUrl: string;
+  color: string;
+  whatsapp: string;
+  website: string;
+};
+
 type Props = {
   params: Promise<{
     empresa: string;
@@ -33,6 +41,9 @@ export default function ScannerResultPage({
   const [erro, setErro] = useState<string | null>(null);
 
   const [copied, setCopied] = useState(false);
+
+  const [brand, setBrand] = useState<AgencyBrand | null>(null);
+  const [ownerId, setOwnerId] = useState("");
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -56,6 +67,15 @@ export default function ScannerResultPage({
       const state = searchParams.get("state") || "";
       const category = searchParams.get("category") || "";
       const placeId = searchParams.get("placeId") || "";
+      const oid = searchParams.get("ownerId") || "";
+      if (oid) {
+        setOwnerId(oid);
+        try {
+          const brandRes = await fetch(`/api/agency-brand?ownerId=${oid}`);
+          const brandData = await brandRes.json();
+          if (brandData.branding) setBrand(brandData.branding);
+        } catch {}
+      }
 
       try {
 
@@ -190,6 +210,22 @@ export default function ScannerResultPage({
           ← Nova análise
         </Link>
 
+        {brand && (
+          <div className="flex items-center gap-3 mt-4 mb-6 pb-6 border-b border-neutral-800">
+            {brand.logoUrl ? (
+              <img src={brand.logoUrl} alt={brand.name} className="h-10" />
+            ) : (
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-black font-bold" style={{ backgroundColor: brand.color }}>
+                {brand.name[0]?.toUpperCase()}
+              </div>
+            )}
+            <div>
+              <p className="font-bold text-lg" style={{ color: brand.color }}>{brand.name}</p>
+              {brand.website && <p className="text-neutral-500 text-xs">{brand.website}</p>}
+            </div>
+          </div>
+        )}
+
         <h1 className="text-5xl font-bold mt-6">
 
           {empresa}
@@ -272,7 +308,7 @@ export default function ScannerResultPage({
           <div className="flex flex-col sm:flex-row gap-3">
 
             <code className="flex-1 bg-black text-green-400 p-4 rounded-lg text-sm break-all">
-              {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}`}
+              {`${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`}
             </code>
 
             <button
@@ -280,7 +316,7 @@ export default function ScannerResultPage({
               onClick={() => {
                 if (typeof window !== "undefined") {
                   navigator.clipboard.writeText(
-                    `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}`
+                    `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${ownerId ? `&ownerId=${ownerId}` : ""}`
                   );
                   setCopied(true);
                   setTimeout(() => setCopied(false), 2000);
@@ -294,7 +330,7 @@ export default function ScannerResultPage({
             </button>
 
             <a
-              href={`https://wa.me/?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}`)}`}
+              href={`https://wa.me/?text=${encodeURIComponent(`Olá! Analisei a presença digital da ${company?.companyName ?? empresa} e encontrei oportunidades de melhoria. Confira o relatório completo:\n\n${typeof window !== "undefined" ? window.location.origin : ""}/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}${ownerId ? `&ownerId=${ownerId}` : ""}`)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-green-600 hover:bg-green-500 transition text-white font-bold px-6 py-3 rounded-lg text-center"

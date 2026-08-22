@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import Providers from "./providers";
+import AnalyticsProvider from "@/components/AnalyticsProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,8 +15,21 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Radar Vivo",
-  description: "Seu próximo cliente já existe. Nós mostramos quem é.",
+  metadataBase: new URL("https://www.radarvivo.com.br"),
+  title: "Radar Vivo - Análise de Presença Digital para Negócios Locais",
+  description:
+    "Descubra quanto sua empresa está perdendo por não aparecer no Google. Análise gratuita de presença digital com inteligência artificial.",
+  openGraph: {
+    title: "Radar Vivo",
+    description: "Seu próximo cliente já existe. Nós mostramos quem é.",
+    url: "https://www.radarvivo.com.br",
+    siteName: "Radar Vivo",
+    locale: "pt_BR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+  },
 };
 
 export default function RootLayout({
@@ -30,7 +44,9 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Providers>{children}</Providers>
+        <Providers>
+          <AnalyticsProvider>{children}</AnalyticsProvider>
+        </Providers>
       </body>
     </html>
   );

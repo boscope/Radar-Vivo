@@ -3,11 +3,20 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
+import ExportPdfButton from "@/components/scanner/ExportPdfButton";
 
 type Props = {
   params: Promise<{
     empresa: string;
   }>;
+};
+
+type AgencyBrand = {
+  name: string;
+  logoUrl: string;
+  color: string;
+  whatsapp: string;
+  website: string;
 };
 
 type AnaliseData = {
@@ -46,6 +55,8 @@ export default function RelatorioPublicoPage({
   const [empresa, setEmpresa] = useState("");
   const [company, setCompany] = useState<AnaliseData | null>(null);
   const [erro, setErro] = useState<string | null>(null);
+  const [brand, setBrand] = useState<AgencyBrand | null>(null);
+  const accentColor = brand?.color || "#22c55e";
 
   useEffect(() => {
     async function carregar() {
@@ -58,6 +69,15 @@ export default function RelatorioPublicoPage({
       const state = sp.get("state") || "";
       const category = sp.get("category") || "";
       const placeId = sp.get("placeId") || "";
+      const ownerId = sp.get("ownerId") || "";
+
+      if (ownerId) {
+        try {
+          const brandRes = await fetch(`/api/agency-brand?ownerId=${ownerId}`);
+          const brandData = await brandRes.json();
+          if (brandData.branding) setBrand(brandData.branding);
+        } catch {}
+      }
 
       try {
         const response = await fetch("/api/analyze", {
@@ -114,9 +134,25 @@ export default function RelatorioPublicoPage({
   return (
     <main className="min-h-screen bg-black text-white">
       <div className="max-w-4xl mx-auto p-8 md:p-12">
+        {brand && (
+          <div className="flex items-center gap-3 mb-8 pb-6 border-b border-neutral-800">
+            {brand.logoUrl ? (
+              <img src={brand.logoUrl} alt={brand.name} className="h-10" />
+            ) : (
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center text-black font-bold" style={{ backgroundColor: accentColor }}>
+                {brand.name[0]?.toUpperCase()}
+              </div>
+            )}
+            <div>
+              <p className="font-bold text-lg" style={{ color: accentColor }}>{brand.name}</p>
+              {brand.website && <p className="text-neutral-500 text-xs">{brand.website}</p>}
+            </div>
+          </div>
+        )}
+
         <div className="text-center">
-          <span className="inline-block bg-green-500/10 border border-green-500/30 text-green-400 text-sm px-4 py-2 rounded-full">
-            Análise gratuita e sem compromisso
+          <span className="inline-block text-sm px-4 py-2 rounded-full border" style={{ backgroundColor: `${accentColor}15`, borderColor: `${accentColor}40`, color: accentColor }}>
+            Análise de presença digital
           </span>
 
           <h1 className="text-4xl md:text-5xl font-extrabold mt-6 leading-tight">
@@ -131,14 +167,14 @@ export default function RelatorioPublicoPage({
 
         <div className="mt-12 grid md:grid-cols-3 gap-6">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
-            <p className="text-5xl font-extrabold text-green-400">{score.score}</p>
+            <p className="text-5xl font-extrabold" style={{ color: accentColor }}>{score.score}</p>
             <p className="text-neutral-400 mt-2 text-sm">
               Índice de presença digital
             </p>
           </div>
 
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
-            <p className="text-5xl font-extrabold text-green-400">
+            <p className="text-5xl font-extrabold" style={{ color: accentColor }}>
               {score.closingProbability}%
             </p>
             <p className="text-neutral-400 mt-2 text-sm">
@@ -147,13 +183,17 @@ export default function RelatorioPublicoPage({
           </div>
 
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
-            <p className="text-5xl font-extrabold text-green-400">
+            <p className="text-5xl font-extrabold" style={{ color: accentColor }}>
               R$ {score.estimatedRevenue.toLocaleString("pt-BR")}
             </p>
             <p className="text-neutral-400 mt-2 text-sm">
               Por mês, em vendas que hoje ficam com quem aparece primeiro no Google
             </p>
           </div>
+        </div>
+
+        <div className="mt-8 flex justify-center no-print">
+          <ExportPdfButton companyName={company.companyName} />
         </div>
 
         <div className="mt-12 bg-neutral-950 border border-neutral-800 text-white rounded-3xl p-8 md:p-10">
@@ -197,6 +237,7 @@ export default function RelatorioPublicoPage({
             city={company.city}
             category={company.category}
             currentScore={score.score}
+            accentColor={accentColor}
           />
         )}
 
@@ -212,16 +253,42 @@ export default function RelatorioPublicoPage({
           </ul>
         </div>
 
-        <div className="mt-10 bg-green-500/10 border border-green-500/30 rounded-2xl p-8 text-center">
-          <p className="text-lg font-semibold text-white">
-            Quer saber como colocar isso em prática e passar a aparecer
-            antes dos seus concorrentes?
-          </p>
-          <p className="text-neutral-400 mt-2">
-            Esta análise foi gerada pelo Radar Vivo. Entre em contato com
-            quem te enviou este link para montar o plano da sua empresa.
-          </p>
-        </div>
+        {brand?.whatsapp ? (
+          <div className="mt-10 rounded-2xl p-8 text-center" style={{ backgroundColor: `${accentColor}15`, borderColor: accentColor, borderWidth: 1 }}>
+            <p className="text-lg font-semibold text-white">
+              Quer saber como colocar isso em prática?
+            </p>
+            <p className="text-neutral-400 mt-2 mb-6">
+              Fale com {brand.name} e monte o plano para sua empresa.
+            </p>
+            <a
+              href={`https://wa.me/${brand.whatsapp}?text=${encodeURIComponent(`Olá! Vi a análise da ${company.companyName} e quero saber mais sobre como melhorar minha presença digital.`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block text-black font-bold py-3 px-8 rounded-lg transition hover:opacity-90"
+              style={{ backgroundColor: accentColor }}
+            >
+              Falar com {brand.name} no WhatsApp
+            </a>
+          </div>
+        ) : (
+          <div className="mt-10 rounded-2xl p-8 text-center" style={{ backgroundColor: `${accentColor}15`, borderColor: accentColor, borderWidth: 1 }}>
+            <p className="text-lg font-semibold text-white">
+              Quer saber como colocar isso em prática e passar a aparecer
+              antes dos seus concorrentes?
+            </p>
+            <p className="text-neutral-400 mt-2">
+              Esta análise foi gerada pelo Radar Vivo. Entre em contato com
+              quem te enviou este link para montar o plano da sua empresa.
+            </p>
+          </div>
+        )}
+
+        {brand && (
+          <div className="mt-8 text-center text-neutral-600 text-xs">
+            Powered by <span className="font-bold" style={{ color: accentColor }}>Radar Vivo</span>
+          </div>
+        )}
       </div>
     </main>
   );
@@ -232,11 +299,13 @@ function CompetitorComparison({
   city,
   category,
   currentScore,
+  accentColor,
 }: {
   companyName: string;
   city: string;
   category: string;
   currentScore: number;
+  accentColor: string;
 }) {
   const [competitors, setCompetitors] = useState<Array<{
     name: string;
@@ -268,12 +337,12 @@ function CompetitorComparison({
 
       <div className="space-y-3">
         {/* Current company */}
-        <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/30 rounded-xl">
+        <div className="flex items-center justify-between p-4 rounded-xl" style={{ backgroundColor: `${accentColor}15`, borderColor: accentColor, borderWidth: 1 }}>
           <div className="flex items-center gap-3">
-            <span className="text-green-400 font-bold">📍</span>
+            <span className="font-bold" style={{ color: accentColor }}>📍</span>
             <span className="font-bold">{companyName} (sua empresa)</span>
           </div>
-          <span className="text-2xl font-extrabold text-green-400">{currentScore}</span>
+          <span className="text-2xl font-extrabold" style={{ color: accentColor }}>{currentScore}</span>
         </div>
 
         {/* Competitors */}
@@ -287,9 +356,7 @@ function CompetitorComparison({
               {c.google_rating && (
                 <span className="text-sm text-neutral-400">⭐ {c.google_rating}</span>
               )}
-              <span className={`text-lg font-bold ${
-                (c.radar_score ?? 0) > currentScore ? "text-red-400" : "text-green-400"
-              }`}>
+              <span className="text-lg font-bold" style={{ color: (c.radar_score ?? 0) > currentScore ? "#ef4444" : accentColor }}>
                 {c.radar_score ?? "—"}
               </span>
             </div>
