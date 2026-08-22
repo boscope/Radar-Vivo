@@ -1,4 +1,5 @@
 import HeroSearch from "@/components/landing/HeroSearch";
+import Link from "next/link";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Benefits from "@/components/landing/Benefits";
 import ProductPreview from "@/components/landing/ProductPreview";
@@ -127,6 +128,16 @@ export default async function HomePage() {
               </a>
 
             </div>
+
+            <p className="mt-5 text-center">
+
+              <Link href="/demo" className="text-green-400 hover:text-green-300 text-sm underline underline-offset-4 transition">
+
+                👀 Ver um relatório de exemplo
+
+              </Link>
+
+            </p>
 
             <div className="mt-10 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
 
