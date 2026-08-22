@@ -19,19 +19,31 @@ export default function ExportPdfButton({ companyName }: Props) {
       ]);
 
       const main = document.querySelector("main");
-      if (!main) {
-        window.print();
-        return;
+      if (!main) return;
+
+      // Desce pela cadeia de containers únicos até achar a lista de blocos
+      let container: HTMLElement | null = main as HTMLElement;
+      while (container) {
+        const children = Array.from(container.children).filter(
+          (el): el is HTMLElement => el.tagName === "DIV" || el.tagName === "SECTION"
+        );
+        if (children.length === 1) {
+          container = children[0];
+        } else if (children.length > 1) {
+          break;
+        } else {
+          container = null;
+        }
       }
 
-      const canvas = await html2canvas(main as HTMLElement, {
-        backgroundColor: "#000000",
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
+      const source = container ?? (main as HTMLElement);
+      const blocks = Array.from(
+        source.querySelectorAll<HTMLElement>(":scope > div")
+      ).filter((el) => !el.classList.contains("no-print"));
 
-      const imgData = canvas.toDataURL("image/jpeg", 0.92);
+      const list =
+        blocks.length > 0 ? blocks : [source];
+
       const pdf = new jsPDF({
         orientation: "portrait",
         unit: "mm",
@@ -40,25 +52,67 @@ export default function ExportPdfButton({ companyName }: Props) {
 
       const pdfWidth = pdf.internal.pageSize.getWidth();
       const pdfHeight = pdf.internal.pageSize.getHeight();
-      const imgWidth = pdfWidth;
-      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      const margin = 8;
+      const usableWidth = pdfWidth - margin * 2;
 
-      let heightLeft = imgHeight;
-      let position = 0;
+      let first = true;
+      let blockIdx = 0;
 
-      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-      heightLeft -= pdfHeight;
+      for (const block of list) {
+        const canvas = await html2canvas(block, {
+          backgroundColor: "#0a0a0a",
+          scale: Math.min(2, Math.max(1.5, window.devicePixelRatio || 1)),
+          useCORS: true,
+          logging: false,
+          ignoreElements: (el) =>
+            el.classList?.contains("no-print") ?? false,
+        });
 
-      while (heightLeft > 0) {
-        position -= pdfHeight;
-        pdf.addPage();
-        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
-        heightLeft -= pdfHeight;
+        const imgData = canvas.toDataURL("image/jpeg", 0.85);
+        const imgHeight = (canvas.height * usableWidth) / canvas.width;
+
+        if (!first && imgHeight > pdfHeight - margin * 2) {
+          // Bloco maior que uma página inteira: fatia em várias páginas
+          const alias = `bloco-${blockIdx}`;
+          let remainingHeight = imgHeight;
+          let position = 0;
+          while (remainingHeight > 0) {
+            pdf.addPage();
+            const sliceHeight = Math.min(
+              remainingHeight,
+              pdfHeight - margin * 2
+            );
+            pdf.addImage(
+              imgData,
+              "JPEG",
+              margin,
+              margin - position,
+              usableWidth,
+              imgHeight,
+              alias,
+              "FAST"
+            );
+            position += sliceHeight;
+            remainingHeight -= sliceHeight;
+          }
+        } else if (!first) {
+          pdf.addPage();
+          pdf.addImage(imgData, "JPEG", margin, margin, usableWidth, imgHeight);
+        } else {
+          pdf.addImage(imgData, "JPEG", margin, margin, usableWidth, imgHeight);
+        }
+
+        first = false;
+        blockIdx++;
       }
 
-      const safeName = companyName.replace(/[^a-zA-Z0-9\s-]/g, "").trim().replace(/\s+/g, "-").toLowerCase();
+      const safeName = companyName
+        .replace(/[^a-zA-Z0-9\s-]/g, "")
+        .trim()
+        .replace(/\s+/g, "-")
+        .toLowerCase();
       pdf.save(`relatorio-${safeName || "radar-vivo"}.pdf`);
-    } catch (e) {
+    } catch {
       window.print();
     } finally {
       setGenerating(false);
