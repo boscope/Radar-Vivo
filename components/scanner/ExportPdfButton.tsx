@@ -14,7 +14,7 @@ export default function ExportPdfButton({ companyName }: Props) {
     setGenerating(true);
     try {
       const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
-        import("html2canvas"),
+        import("html2canvas-pro"),
         import("jspdf"),
       ]);
 
