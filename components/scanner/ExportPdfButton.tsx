@@ -1,64 +1,78 @@
 "use client";
 
-import { useEffect } from "react";
+import { useState } from "react";
 
 type Props = {
   companyName: string;
 };
 
 export default function ExportPdfButton({ companyName }: Props) {
-  useEffect(() => {
-    const style = document.createElement("style");
-    style.setAttribute("data-radar-vivo-pdf", companyName);
-    style.textContent = `
-      @media print {
-        @page {
-          margin: 14mm;
-        }
+  const [generating, setGenerating] = useState(false);
 
-        body {
-          background: #ffffff !important;
-          color: #000000 !important;
-        }
+  async function handleExport() {
+    if (generating) return;
+    setGenerating(true);
+    try {
+      const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
+        import("html2canvas"),
+        import("jspdf"),
+      ]);
 
-        .no-print,
-        nav,
-        header,
-        footer,
-        button {
-          display: none !important;
-        }
-
-        main {
-          background: #ffffff !important;
-          color: #000000 !important;
-          min-height: auto !important;
-          padding: 0 !important;
-          max-width: 100% !important;
-        }
-
-        * {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-        }
+      const main = document.querySelector("main");
+      if (!main) {
+        window.print();
+        return;
       }
-    `;
-    document.head.appendChild(style);
 
-    return () => {
-      if (style.parentNode === document.head) {
-        document.head.removeChild(style);
+      const canvas = await html2canvas(main as HTMLElement, {
+        backgroundColor: "#000000",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+
+      const imgData = canvas.toDataURL("image/jpeg", 0.92);
+      const pdf = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4",
+      });
+
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pdfWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+      heightLeft -= pdfHeight;
+
+      while (heightLeft > 0) {
+        position -= pdfHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, "JPEG", 0, position, imgWidth, imgHeight);
+        heightLeft -= pdfHeight;
       }
-    };
-  }, [companyName]);
+
+      const safeName = companyName.replace(/[^a-zA-Z0-9\s-]/g, "").trim().replace(/\s+/g, "-").toLowerCase();
+      pdf.save(`relatorio-${safeName || "radar-vivo"}.pdf`);
+    } catch (e) {
+      window.print();
+    } finally {
+      setGenerating(false);
+    }
+  }
 
   return (
     <button
       type="button"
-      onClick={() => window.print()}
-      className="no-print bg-neutral-800 border border-neutral-700 text-white rounded-xl px-6 py-3 hover:bg-neutral-700 transition"
+      onClick={handleExport}
+      disabled={generating}
+      className="no-print bg-neutral-800 border border-neutral-700 text-white rounded-xl px-6 py-3 hover:bg-neutral-700 transition disabled:opacity-60"
     >
-      📄 Baixar PDF
+      {generating ? "⏳ Gerando PDF..." : "📄 Baixar PDF"}
     </button>
   );
 }
