@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -6,9 +7,18 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
-            <Link href="/" className="text-xl font-bold">
-              <span className="text-green-400">Radar</span>
-              <span className="text-white">Vivo</span>
+            <Link href="/" className="inline-flex items-center gap-2.5 text-xl font-bold">
+              <Image
+                src="/logo-512.png"
+                alt="Radar Vivo"
+                width={36}
+                height={36}
+                className="rounded-xl"
+              />
+              <span>
+                <span className="text-green-400">Radar</span>
+                <span className="text-white">Vivo</span>
+              </span>
             </Link>
             <p className="text-neutral-500 text-sm mt-3 leading-relaxed">
               Plataforma de inteligência comercial para agências que vendem presença digital a negócios locais.
