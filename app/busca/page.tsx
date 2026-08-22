@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
 import SearchLimitBanner from "@/components/SearchLimitBanner";
+import RadarLoader from "@/components/ui/RadarLoader";
 
 type Company = {
   name: string;
@@ -214,6 +215,12 @@ export default function BuscaMassaPage() {
           </button>
 
         </div>
+
+        {carregando && (
+          <div className="mt-8">
+            <RadarLoader text="Buscando empresas na região... (pode levar até 30s)" />
+          </div>
+        )}
 
         {erro && (
 

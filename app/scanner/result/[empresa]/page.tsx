@@ -9,6 +9,7 @@ import OpportunityCard from "@/components/scanner/OpportunityCard";
 import LeadCapture from "@/components/scanner/LeadCapture";
 
 import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
+import RadarLoader from "@/components/ui/RadarLoader";
 
 import type {
   CompanyData,
@@ -188,9 +189,7 @@ export default function ScannerResultPage({
     return (
 
       <main className="min-h-screen bg-black text-white flex items-center justify-center">
-
-        Carregando análise...
-
+        <RadarLoader text="Analisando empresa..." />
       </main>
 
     );

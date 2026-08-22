@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
 import SearchLimitBanner from "@/components/SearchLimitBanner";
+import RadarLoader from "@/components/ui/RadarLoader";
 
 export default function HeroSearch() {
   const router = useRouter();
@@ -30,25 +31,31 @@ export default function HeroSearch() {
           Analise qualquer empresa grátis agora
         </label>
 
-        <div className="flex flex-col sm:flex-row gap-3">
-          <input
-            value={empresa}
-            onChange={(e) => setEmpresa(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") analisar();
-            }}
-            placeholder="Nome, CNPJ, site ou link do Google Maps"
-            className="flex-1 p-4 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-lg outline-none focus:border-green-400 transition"
-          />
+        {analisando ? (
+          <div className="py-8">
+            <RadarLoader text="Analisando empresa..." />
+          </div>
+        ) : (
+          <div className="flex flex-col sm:flex-row gap-3">
+            <input
+              value={empresa}
+              onChange={(e) => setEmpresa(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") analisar();
+              }}
+              placeholder="Nome, CNPJ, site ou link do Google Maps"
+              className="flex-1 p-4 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-lg outline-none focus:border-green-400 transition"
+            />
 
-          <button
-            onClick={analisar}
-            disabled={analisando || blocked}
-            className="bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 px-8 rounded-xl text-lg disabled:opacity-60"
-          >
-            {analisando ? "Analisando..." : "🚀 Analisar"}
-          </button>
-        </div>
+            <button
+              onClick={analisar}
+              disabled={analisando || blocked}
+              className="bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 px-8 rounded-xl text-lg disabled:opacity-60"
+            >
+              🚀 Analisar
+            </button>
+          </div>
+        )}
 
         <p className="mt-4 text-neutral-500 text-sm">
           {isLogged
