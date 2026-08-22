@@ -20,6 +20,10 @@ export const metadata: Metadata = {
   title: "Radar Vivo - Análise de Presença Digital para Negócios Locais",
   description:
     "Descubra quanto sua empresa está perdendo por não aparecer no Google. Análise gratuita de presença digital com inteligência artificial.",
+  icons: {
+    icon: "/logo-512.png",
+    apple: "/apple-touch-icon.png",
+  },
   openGraph: {
     title: "Radar Vivo",
     description: "Seu próximo cliente já existe. Nós mostramos quem é.",
@@ -27,9 +31,11 @@ export const metadata: Metadata = {
     siteName: "Radar Vivo",
     locale: "pt_BR",
     type: "website",
+    images: [{ url: "/logo-512.png", width: 512, height: 512 }],
   },
   twitter: {
     card: "summary_large_image",
+    images: ["/logo-512.png"],
   },
 };
 

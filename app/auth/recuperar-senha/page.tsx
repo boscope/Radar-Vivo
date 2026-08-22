@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
 
@@ -38,6 +39,16 @@ export default function RecuperarSenhaPage() {
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
+          <Link href="/" className="inline-block mb-3">
+            <Image
+              src="/logo-512.png"
+              alt="Radar Vivo"
+              width={72}
+              height={72}
+              className="rounded-2xl mx-auto"
+              priority
+            />
+          </Link>
           <Link href="/" className="text-2xl font-bold">
             <span className="text-green-400">Radar</span>
             <span className="text-white">Vivo</span>
