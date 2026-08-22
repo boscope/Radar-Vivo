@@ -5,7 +5,7 @@ Oi! Tudo bem? Te explico o Radar Vivo em 2 minutos:
 ━━━━━━━━━━━━━━━━━━━━━━
 
 📡 *O QUE É?*
-Uma plataforma que encontra automaticamente negócios locais com presença digital fraca (sem site, sem WhatsApp, sem Google) e te mostra exatamente o que vender pra eles.
+Uma plataforma que encontra automaticamente negócios locais com presença digital fraca e te mostra exatamente o que vender pra eles — com dados reais do Google.
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -14,13 +14,17 @@ Uma plataforma que encontra automaticamente negócios locais com presença digit
 1️⃣ Você digita a categoria + cidade
    Ex: "Barbearia em Carpina"
 
-2️⃣ O Radar encontra empresas reais com dados do Google
+2️⃣ O Radar encontra empresas reais com dados do Google (nome, avaliação, endereço, telefone)
 
 3️⃣ Cada empresa recebe um *Score de 0 a 100* — quanto maior, maior a oportunidade
 
-4️⃣ Gera o *script de abordagem pronto* — o que falar, o que oferecer, quanto cobrar
+4️⃣ Detecta automaticamente: site, WhatsApp, Google Ads, Meta Ads, Automação
 
-5️⃣ Acompanhe a venda no *pipeline* até fechar
+5️⃣ Gera o *relatório completo* — diagnóstico, serviços recomendados, quanto cobrar
+
+6️⃣ *Envia direto pro WhatsApp do cliente* — link com a marca da sua agência
+
+7️⃣ Acompanhe no *pipeline* até fechar a venda
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
@@ -30,22 +34,42 @@ Uma plataforma que encontra automaticamente negócios locais com presença digit
 ✅ Presença no Google
 ✅ Tem ou não tem site
 ✅ Tem ou não tem WhatsApp
-✅ Avaliações
-✅ Endereço, telefone, horário
+✅ Google Ads e Meta Ads
+✅ Automação (HubSpot, RD Station, etc)
+✅ Avaliações e endereço
+
+━━━━━━━━━━━━━━━━━━━━━━
+
+🏢 *RECURSOS DA PLATAFORMA*
+
+✅ *Busca por categorias* — encontre dezenas de empresas de uma vez
+✅ *Relatório compartilhável* — link público com a marca da sua agência (white-label)
+✅ *WhatsApp direto* — envia pro cliente sem copiar número
+✅ *Comparativo de concorrentes* — mostra quem está à frente
+✅ *Antes/Depois* — acompanhe a evolução do score do cliente
+✅ *Multi-cliente* — gerencie todos os clientes em um só lugar
+✅ *Dashboard completo* — stats, pipeline, leads
+✅ *Exportar PDF* — relatório pronto para enviar
+✅ *3 buscas grátis* — sem precisar de conta
 
 ━━━━━━━━━━━━━━━━━━━━━━
 
 💰 *PLANOS*
 
 📋 *Pro* — R$197/mês
-• Busca por categorias
-• Análise completa
-• Script de abordagem
+• Buscas ilimitadas
+• Análise completa de empresas
+• Relatório compartilhável
 • Pipeline de vendas
+• Dashboard do cliente
+• Comparativo de concorrentes
 
-📋 *Agência* — R$397/mês
-• Tudo do Pro + múltiplos usuários
-• Relatórios avançados
+📋 *Agência* — R$397/mês *(Mais popular)*
+• Tudo do Pro +
+• *White-label* (seus relatórios com a marca da sua agência)
+• *Multi-cliente* (gerencie todos os clientes)
+• *Antes/Depois* (acompanhe evolução)
+• *WhatsApp automático* (envio direto pro cliente)
 • Suporte prioritário
 
 🎯 *3 DIAS GRÁTIS* — Não precisa de cartão de crédito
