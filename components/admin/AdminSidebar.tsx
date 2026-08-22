@@ -12,7 +12,12 @@ const links = [
   { href: "/admin/settings", label: "Configurações", icon: "⚙️" },
 ];
 
-export default function AdminSidebar() {
+type Props = {
+  open?: boolean;
+  onClose?: () => void;
+};
+
+export default function AdminSidebar({ open, onClose }: Props) {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -26,9 +31,9 @@ export default function AdminSidebar() {
     router.push("/");
   }
 
-  return (
+  const sidebarContent = (
     <aside className="w-64 bg-neutral-950 border-r border-neutral-800 min-h-screen flex flex-col">
-      <div className="p-6 border-b border-neutral-800">
+      <div className="p-6 border-b border-neutral-800 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
             <span className="text-black font-bold text-sm">RV</span>
@@ -41,6 +46,13 @@ export default function AdminSidebar() {
             <div className="text-xs text-neutral-500">Admin</div>
           </div>
         </Link>
+        {onClose && (
+          <button onClick={onClose} className="lg:hidden text-neutral-400 hover:text-white p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
@@ -50,6 +62,7 @@ export default function AdminSidebar() {
             <Link
               key={href}
               href={href}
+              onClick={onClose}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition text-sm font-medium ${
                 isActive
                   ? "bg-green-500/10 text-green-400 border border-green-500/20"
@@ -81,5 +94,19 @@ export default function AdminSidebar() {
         </button>
       </div>
     </aside>
+  );
+
+  return (
+    <>
+      {/* Desktop */}
+      <div className="hidden lg:block">{sidebarContent}</div>
+      {/* Mobile overlay */}
+      {open && (
+        <div className="fixed inset-0 z-50 lg:hidden">
+          <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+          <div className="relative">{sidebarContent}</div>
+        </div>
+      )}
+    </>
   );
 }
