@@ -375,7 +375,32 @@ export default function ScannerResultPage({
           )}
 
           <div className="mt-5 pt-5 border-t border-green-800/50 flex flex-col sm:flex-row gap-3">
-            <ExportPdfButton companyName={company?.companyName ?? empresa} />
+            <ExportPdfButton
+              data={{
+                companyName: company.companyName,
+                city: company.city,
+                category: company.category,
+                score: company.intelligence.score.score,
+                closingProbability: company.intelligence.score.closingProbability,
+                estimatedRevenue: company.intelligence.score.estimatedRevenue,
+                priority: company.intelligence.score.priority,
+                checks: [
+                  { label: "Site profissional", ok: company.hasWebsite },
+                  { label: "SEO local", ok: company.hasSeo },
+                  { label: "Google Meu Negócio / Maps", ok: Boolean(company.googleMapsUrl) },
+                  { label: "WhatsApp comercial", ok: company.hasWhatsapp },
+                  { label: "Google Ads", ok: Boolean(company.hasGoogleAds) },
+                  { label: "Meta Ads (Instagram/Facebook)", ok: Boolean(company.hasMetaAds) },
+                  { label: "Automação de atendimento", ok: Boolean(company.hasAutomation) },
+                ],
+                weaknesses: (company.intelligence.diagnosis.weaknesses ?? []).filter(
+                  (w) => !w.startsWith("Invisível nas IAs")
+                ),
+                strengths: company.intelligence.diagnosis.strengths ?? [],
+                services: company.intelligence.commercial.recommendedServices ?? [],
+                aiPresence: company.intelligence.aiPresence,
+              }}
+            />
             <a
               href={`/relatorio/${encodeURIComponent(empresa)}${typeof window !== "undefined" ? window.location.search : ""}`}
               target="_blank"

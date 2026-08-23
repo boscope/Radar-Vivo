@@ -127,7 +127,37 @@ export default function DemoPage() {
         </div>
 
         <div className="mt-8 flex flex-col sm:flex-row justify-center gap-3 no-print">
-          <ExportPdfButton companyName={demoCompany.companyName} />
+          <ExportPdfButton
+            data={{
+              companyName: demoCompany.companyName,
+              city: demoCompany.city,
+              state: demoCompany.state,
+              category: demoCompany.category,
+              score: demoScore.score,
+              closingProbability: demoScore.closingProbability,
+              estimatedRevenue: demoScore.estimatedRevenue,
+              checks: [
+                { label: "Site profissional", ok: demoCompany.hasWebsite },
+                { label: "SEO local", ok: demoCompany.hasSeo },
+                { label: "Google Meu Negócio / Maps", ok: Boolean(demoCompany.googleMapsUrl) },
+                { label: "WhatsApp comercial", ok: demoCompany.hasWhatsapp },
+                { label: "Google Ads", ok: false },
+                { label: "Meta Ads (Instagram/Facebook)", ok: true },
+                { label: "Automação de atendimento", ok: false },
+              ],
+              weaknesses: demoWeaknesses,
+              strengths: demoStrengths,
+              services: demoServices,
+              aiPresence: {
+                visibilityScore: 12,
+                status: "invisivel",
+                summary:
+                  "Invisível para as IAs — quando pedem uma indicação, outra clínica é citada.",
+                detail:
+                  "Sem os sinais que IAs usam para recomendar negócios locais (site, SEO, Google), assistentes como ChatGPT, Gemini e Perplexity não têm de onde puxar esta empresa. Cada indicação perdida vira cliente do concorrente.",
+              },
+            }}
+          />
           <button
             onClick={copyLink}
             className="bg-neutral-800 border border-neutral-700 text-white rounded-xl px-6 py-3 hover:bg-neutral-700 transition"
