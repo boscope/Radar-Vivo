@@ -22,9 +22,12 @@ export type ReportPdfData = {
 };
 
 const GREEN: [number, number, number] = [34, 197, 94];
-const DARK: [number, number, number] = [24, 24, 27];
-const GRAY: [number, number, number] = [113, 113, 122];
-const LIGHT: [number, number, number] = [245, 245, 245];
+const BG: [number, number, number] = [10, 10, 10];
+const CARD: [number, number, number] = [24, 24, 27];
+const BORDER: [number, number, number] = [55, 55, 60];
+const WHITE: [number, number, number] = [255, 255, 255];
+const LIGHT: [number, number, number] = [212, 212, 216];
+const GRAY: [number, number, number] = [145, 145, 152];
 const RED: [number, number, number] = [239, 68, 68];
 const AMBER: [number, number, number] = [245, 158, 11];
 
@@ -37,27 +40,37 @@ export function generateReportPdf(data: ReportPdfData) {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   let y = M;
 
+  const paintBackground = () => {
+    doc.setFillColor(...BG);
+    doc.rect(0, 0, PAGE_W, PAGE_H, "F");
+  };
+
+  paintBackground();
+
   const ensureSpace = (needed: number) => {
     if (y + needed > PAGE_H - 20) {
       doc.addPage();
+      paintBackground();
       y = M + 6;
     }
   };
 
   const money = `R$ ${data.estimatedRevenue.toLocaleString("pt-BR")}`;
 
-  // Cabeçalho escuro
-  doc.setFillColor(...DARK);
+  // Cabeçalho
+  doc.setFillColor(...CARD);
   doc.rect(0, 0, PAGE_W, 42, "F");
+  doc.setFillColor(...GREEN);
+  doc.rect(0, 42, PAGE_W, 1.2, "F");
   doc.setTextColor(...GREEN);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(15);
   doc.text("RadarVivo", M, 17);
-  doc.setTextColor(212, 212, 216);
+  doc.setTextColor(...LIGHT);
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
   doc.text("Análise de presença digital", M, 25);
-  doc.setTextColor(161, 161, 170);
+  doc.setTextColor(...GRAY);
   doc.setFontSize(8);
   doc.text(
     new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "long", year: "numeric" }),
@@ -69,7 +82,7 @@ export function generateReportPdf(data: ReportPdfData) {
   y = 56;
 
   // Nome da empresa
-  doc.setTextColor(...DARK);
+  doc.setTextColor(...WHITE);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(22);
   const nameLines = doc.splitTextToSize(data.companyName, CONTENT_W);
@@ -78,7 +91,7 @@ export function generateReportPdf(data: ReportPdfData) {
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "normal");
-  doc.setTextColor(...GRAY);
+  doc.setTextColor(...GREEN);
   const localizacao = [
     data.city ? `${data.city}${data.state ? `, ${data.state}` : ""}` : "",
     data.category,
@@ -87,6 +100,12 @@ export function generateReportPdf(data: ReportPdfData) {
     .join(" · ");
   if (localizacao) {
     doc.text(localizacao, M, y);
+    y += 8;
+  }
+  if (data.priority) {
+    doc.setTextColor(...GRAY);
+    doc.setFontSize(9);
+    doc.text(`Prioridade de contato: ${data.priority}`, M, y);
     y += 8;
   }
   y += 2;
@@ -101,8 +120,9 @@ export function generateReportPdf(data: ReportPdfData) {
   const kpiW = (CONTENT_W - 6) / 3;
   kpis.forEach((kpi, i) => {
     const x = M + i * (kpiW + 3);
-    doc.setDrawColor(228, 228, 231);
-    doc.setFillColor(...LIGHT);
+    doc.setDrawColor(...BORDER);
+    doc.setFillColor(...CARD);
+    doc.setLineWidth(0.4);
     doc.roundedRect(x, y, kpiW, 26, 2, 2, "FD");
     doc.setTextColor(...GREEN);
     doc.setFont("helvetica", "bold");
@@ -120,25 +140,29 @@ export function generateReportPdf(data: ReportPdfData) {
   sectionHeader(doc, "Presença digital", y, ensureSpace);
   y += 13;
   data.checks.forEach((check) => {
-    ensureSpace(7);
+    ensureSpace(9);
+    doc.setFillColor(...CARD);
+    doc.setDrawColor(...BORDER);
+    doc.setLineWidth(0.3);
+    doc.roundedRect(M, y - 4.5, CONTENT_W, 8, 1.5, 1.5, "FD");
     if (check.ok) {
       doc.setTextColor(...GREEN);
       doc.setFont("helvetica", "bold");
-      doc.text("✓", M + 1, y);
-      doc.setTextColor(...DARK);
+      doc.text("✓", M + 3, y);
+      doc.setTextColor(...WHITE);
       doc.setFont("helvetica", "normal");
     } else {
       doc.setTextColor(...RED);
       doc.setFont("helvetica", "bold");
-      doc.text("✗", M + 1, y);
-      doc.setTextColor(...GRAY);
+      doc.text("✗", M + 3, y);
+      doc.setTextColor(...LIGHT);
       doc.setFont("helvetica", "normal");
     }
     doc.setFontSize(10);
-    doc.text(check.label, M + 7, y);
-    y += 6.5;
+    doc.text(check.label, M + 9, y);
+    y += 10;
   });
-  y += 6;
+  y += 4;
 
   // Diagnóstico
   sectionHeader(doc, "Diagnóstico", y, ensureSpace);
@@ -158,8 +182,9 @@ export function generateReportPdf(data: ReportPdfData) {
     sectionHeader(doc, "Sua empresa nas inteligências artificiais", y, ensureSpace);
     y += 13;
     ensureSpace(18);
-    doc.setFillColor(250, 250, 250);
-    doc.setDrawColor(228, 228, 231);
+    doc.setFillColor(...CARD);
+    doc.setDrawColor(...BORDER);
+    doc.setLineWidth(0.4);
     doc.roundedRect(M, y - 4, CONTENT_W, 10, 1.5, 1.5, "FD");
     const statusColor =
       data.aiPresence.status === "invisivel"
@@ -176,7 +201,7 @@ export function generateReportPdf(data: ReportPdfData) {
       y + 2.5
     );
     y += 13;
-    doc.setTextColor(...DARK);
+    doc.setTextColor(...WHITE);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(10);
     const sumLines = doc.splitTextToSize(data.aiPresence.summary, CONTENT_W);
@@ -184,7 +209,7 @@ export function generateReportPdf(data: ReportPdfData) {
     doc.text(sumLines, M, y);
     y += sumLines.length * 5 + 2;
     doc.setFont("helvetica", "normal");
-    doc.setTextColor(82, 82, 91);
+    doc.setTextColor(...GRAY);
     doc.setFontSize(9);
     const detLines = doc.splitTextToSize(data.aiPresence.detail, CONTENT_W);
     ensureSpace(detLines.length * 4.5 + 4);
@@ -199,11 +224,11 @@ export function generateReportPdf(data: ReportPdfData) {
     ensureSpace(14);
     doc.setFillColor(...GREEN);
     doc.circle(M + 2.5, y - 2.2, 2.5, "F");
-    doc.setTextColor(0, 0, 0);
+    doc.setTextColor(...BG);
     doc.setFont("helvetica", "bold");
     doc.setFontSize(8);
     doc.text(String(index + 1), M + 2.5, y - 0.6, { align: "center" });
-    doc.setTextColor(...DARK);
+    doc.setTextColor(...LIGHT);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(10);
     const lines = doc.splitTextToSize(service, CONTENT_W - 10);
@@ -230,7 +255,7 @@ function sectionHeader(doc: jsPDF, title: string, y: number, ensureSpace: Ensure
   ensureSpace(16);
   doc.setFillColor(...GREEN);
   doc.rect(M, y - 4, 1.8, 7, "F");
-  doc.setTextColor(...DARK);
+  doc.setTextColor(...WHITE);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(13);
   doc.text(title, M + 6, y + 1.5);
@@ -257,9 +282,9 @@ function bulletList(
   items.forEach((item) => {
     const lines = doc.splitTextToSize(item, width - 8);
     ensureSpace(lines.length * 4.6 + 1.5);
-    doc.setTextColor(...GRAY);
+    doc.setTextColor(...GREEN);
     doc.text("•", x + 1, y);
-    doc.setTextColor(...DARK);
+    doc.setTextColor(...LIGHT);
     doc.text(lines, x + 6, y);
     y += lines.length * 4.6 + 1.5;
   });
@@ -270,12 +295,17 @@ function addFooter(doc: jsPDF) {
   const pageCount = doc.getNumberOfPages();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
-    doc.setDrawColor(228, 228, 231);
+    doc.setDrawColor(...BORDER);
     doc.line(M, PAGE_H - 12, PAGE_W - M, PAGE_H - 12);
     doc.setTextColor(...GRAY);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8);
-    doc.text("Gerado por RadarVivo · www.radarvivo.com.br", M, PAGE_H - 6.5);
+    doc.text("Gerado por ", M, PAGE_H - 6.5);
+    doc.setTextColor(...GREEN);
+    doc.setFont("helvetica", "bold");
+    doc.text("RadarVivo", M + 16, PAGE_H - 6.5);
+    doc.setTextColor(...GRAY);
+    doc.setFont("helvetica", "normal");
     doc.text(`${i}/${pageCount}`, PAGE_W - M, PAGE_H - 6.5, { align: "right" });
   }
 }
