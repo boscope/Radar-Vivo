@@ -18,14 +18,18 @@ export async function GET(request: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  const { data: competitors } = await supabase
+  const { data: competitors, error } = await supabase
     .from("companies")
-    .select("name, city, category, radar_score, google_rating, google_reviews")
+    .select("name, city, category, radar_score")
     .ilike("city", `%${city}%`)
     .ilike("category", `%${category}%`)
-    .neq("name", companyName)
-    .order("radar_score", { ascending: false })
+    .neq("name", companyName ?? "")
+    .order("radar_score", { ascending: false, nullsFirst: false })
     .limit(5);
+
+  if (error) {
+    console.error("[COMPETITORS]", error.message);
+  }
 
   return NextResponse.json({ competitors: competitors ?? [] });
 }
