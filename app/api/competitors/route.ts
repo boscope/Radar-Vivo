@@ -18,9 +18,9 @@ export async function GET(request: NextRequest) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
 
-  const { data: competitors, error } = await supabase
+  const { data, error } = await supabase
     .from("companies")
-    .select("name, city, category, radar_score")
+    .select("name, city, category, radar_score, rating")
     .ilike("city", `%${city}%`)
     .ilike("category", `%${category}%`)
     .neq("name", companyName ?? "")
@@ -31,5 +31,10 @@ export async function GET(request: NextRequest) {
     console.error("[COMPETITORS]", error.message);
   }
 
-  return NextResponse.json({ competitors: competitors ?? [] });
+  const competitors = (data ?? []).map((c) => ({
+    ...c,
+    google_rating: c.rating,
+  }));
+
+  return NextResponse.json({ competitors });
 }
