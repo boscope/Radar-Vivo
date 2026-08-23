@@ -89,7 +89,7 @@ export async function POST(request: Request) {
       emailResult = { error: "RESEND_API_KEY não configurada" };
     }
 
-    return NextResponse.json({ success: true, lead, emailResult });
+    return NextResponse.json({ success: true, lead, emailResult, captured: Boolean(externalId && ownerId) });
   } catch (error) {
     console.error("[API LEADS]", error);
 

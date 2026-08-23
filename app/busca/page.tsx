@@ -35,6 +35,8 @@ export default function BuscaMassaPage() {
 
   const [salvos, setSalvos] = useState<string[]>([]);
 
+  const [aviso, setAviso] = useState<string | null>(null);
+
   const [salvando, setSalvando] = useState<string | null>(null);
 
   const [resultado, setResultado] = useState<{
@@ -118,6 +120,14 @@ export default function BuscaMassaPage() {
       if (!response.ok) {
         setErro(data?.error ?? "Erro ao salvar no pipeline.");
         return;
+      }
+
+      if (data?.captured === false) {
+        setAviso(
+          `⚠️ ${company.name} salva no pipeline, mas você não está logado — ela pode reaparecer em buscas futuras. Faça login para reservar essa empresa pra você.`
+        );
+      } else {
+        setAviso(null);
       }
 
       setSalvos((atual) => [...atual, company.name]);
@@ -226,6 +236,20 @@ export default function BuscaMassaPage() {
 
           <div className="mt-8 bg-red-950 border border-red-700 rounded-xl p-6 text-red-300">
             {erro}
+          </div>
+
+        )}
+
+        {aviso && !erro && (
+
+          <div className="mt-8 bg-amber-950 border border-amber-600 rounded-xl p-5 text-amber-200 text-sm flex items-start justify-between gap-4">
+            <span>{aviso}</span>
+            <a
+              href="/auth/login"
+              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-4 py-2 rounded-lg text-xs whitespace-nowrap transition"
+            >
+              Fazer login
+            </a>
           </div>
 
         )}
