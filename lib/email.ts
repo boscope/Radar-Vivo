@@ -113,7 +113,7 @@ export function trialEndingEmailTemplate(fullName: string, daysLeft: number) {
 
       <p style="color:#a3a3a3;font-size:15px;line-height:1.6;margin:0 0 24px;">
         Assine agora e continue transformando presença digital em clientes
-        por apenas <strong style="color:#22c55e;">R$ 97/mês</strong>. Sem fidelidade, cancele quando quiser.
+        por apenas <strong style="color:#22c55e;">R$ 197/mês</strong>. Sem fidelidade, cancele quando quiser.
       </p>
 
       <div style="text-align:center;margin:32px 0;">
