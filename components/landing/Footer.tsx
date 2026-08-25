@@ -72,6 +72,17 @@ export default function Footer() {
         <p className="text-center text-neutral-600 text-xs mt-6">
           © {new Date().getFullYear()} Radar Vivo. Todos os direitos reservados. Cancele quando quiser.
         </p>
+
+        <div className="flex justify-center mt-4">
+          <a
+            href="https://wa.me/5581988867233?text=Ol%C3%A1!%20Tenho%20interesse%20no%20Radar%20Vivo."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 bg-green-500/10 border border-green-500/30 text-green-400 hover:bg-green-500/20 transition text-sm font-semibold px-5 py-2.5 rounded-xl"
+          >
+            📱 Chamar no WhatsApp
+          </a>
+        </div>
       </div>
     </footer>
   );

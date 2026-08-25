@@ -149,7 +149,7 @@ export default function FaqPage() {
             </Link>
 
             <a
-              href="https://wa.me/?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20o%20Radar%20Vivo."
+              href="https://wa.me/5581988867233?text=Ol%C3%A1!%20Tenho%20d%C3%BAvidas%20sobre%20o%20Radar%20Vivo."
               target="_blank"
               rel="noopener noreferrer"
               className="bg-neutral-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-800 transition border border-neutral-700"
