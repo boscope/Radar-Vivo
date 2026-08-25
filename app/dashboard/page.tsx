@@ -344,14 +344,23 @@ export default function DashboardPage() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
           <QuickAction
             icon="🔍"
-            label="Buscar empresa"
+            label="Buscar empresas"
             href="/busca"
           />
-          <QuickAction
-            icon="📊"
-            label="Nova análise"
-            href="/busca"
-          />
+          {(plan === "pro" || plan === "agency") && (
+            <QuickAction
+              icon="📊"
+              label="Radar Scanner"
+              href="/scanner"
+            />
+          )}
+          {plan === "free" && (
+            <QuickAction
+              icon="📊"
+              label="Analisar empresa"
+              href="/scanner"
+            />
+          )}
           {plan === "free" && (
             <QuickAction
               icon="⭐"
@@ -414,7 +423,7 @@ export default function DashboardPage() {
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold">Leads Recentes</h2>
-            <Link href="/busca" className="text-sm text-green-400 hover:text-green-300 transition">
+            <Link href="/scanner" className="text-sm text-green-400 hover:text-green-300 transition">
               + Nova análise
             </Link>
           </div>
@@ -423,7 +432,7 @@ export default function DashboardPage() {
               <div className="text-4xl mb-4">🔍</div>
               <p className="text-neutral-400 mb-4">Nenhum lead ainda.</p>
               <Link
-                href="/busca"
+                href="/scanner"
                 className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-3 rounded-xl transition"
               >
                 Começar análise →
