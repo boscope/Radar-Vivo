@@ -107,16 +107,27 @@ export default function DashboardPage() {
   }
 
   async function handleManagePlan() {
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) return;
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
 
-    const res = await fetch("/api/stripe/portal", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: session.user.id }),
-    });
-    const { url } = await res.json();
-    if (url) window.location.href = url;
+      const res = await fetch("/api/stripe/portal", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: session.user.id }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok || !data.url) {
+        alert(data?.error ?? "Erro ao abrir portal de assinatura. Tente novamente.");
+        return;
+      }
+
+      window.location.href = data.url;
+    } catch {
+      alert("Erro de conexão ao abrir portal de assinatura.");
+    }
   }
 
   async function handleChangePassword() {
