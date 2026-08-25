@@ -77,6 +77,17 @@ export default function DashboardPage() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
+  // Busca states
+  const [buscaState, setBuscaState] = useState("PE");
+  const [buscaCity, setBuscaCity] = useState("");
+  const [buscaCategory, setBuscaCategory] = useState("");
+  const [buscaLoading, setBuscaLoading] = useState(false);
+  const [buscaResults, setBuscaResults] = useState<any[] | null>(null);
+  const [buscaError, setBuscaError] = useState<string | null>(null);
+
+  // Scanner states
+  const [scannerInput, setScannerInput] = useState("");
+
   useEffect(() => {
     loadDashboard();
     const params = new URLSearchParams(window.location.search);
@@ -106,6 +117,42 @@ export default function DashboardPage() {
     }
   }
 
+  async function handleBuscar() {
+    if (!buscaCategory.trim()) {
+      setBuscaError("Informe a categoria.");
+      return;
+    }
+    setBuscaLoading(true);
+    setBuscaError(null);
+    setBuscaResults(null);
+
+    try {
+      const res = await fetch("/api/scanner/search", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ state: buscaState, city: buscaCity, category: buscaCategory }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setBuscaError(data?.error ?? "Erro ao buscar empresas.");
+        return;
+      }
+      setBuscaResults(data.companies ?? []);
+    } catch {
+      setBuscaError("Erro de conexão. Tente novamente.");
+    } finally {
+      setBuscaLoading(false);
+    }
+  }
+
+  function handleAnalisar() {
+    if (!scannerInput.trim()) {
+      alert("Digite o nome de uma empresa.");
+      return;
+    }
+    window.open("/scanner/result/" + encodeURIComponent(scannerInput.trim()), "_blank", "noopener,noreferrer");
+  }
+
   async function handleManagePlan() {
     try {
       const { data: { session } } = await supabase.auth.getSession();
@@ -117,14 +164,14 @@ export default function DashboardPage() {
         body: JSON.stringify({ userId: session.user.id }),
       });
 
-      const data = await res.json();
+      const portalData = await res.json();
 
-      if (!res.ok || !data.url) {
-        alert(data?.error ?? "Erro ao abrir portal de assinatura. Tente novamente.");
+      if (!res.ok || !portalData.url) {
+        alert(portalData?.error ?? "Erro ao abrir portal de assinatura. Tente novamente.");
         return;
       }
 
-      window.location.href = data.url;
+      window.location.href = portalData.url;
     } catch {
       alert("Erro de conexão ao abrir portal de assinatura.");
     }
@@ -182,7 +229,7 @@ export default function DashboardPage() {
       {/* Header */}
       <header className="border-b border-neutral-800/50 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2">
+          <Link href="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
               <span className="text-black font-bold text-sm">RV</span>
             </div>
@@ -340,57 +387,152 @@ export default function DashboardPage() {
           />
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
-          <QuickAction
-            icon="🔍"
-            label="Buscar empresas"
-            href="/busca"
-          />
-          {(plan === "pro" || plan === "agency") && (
-            <QuickAction
-              icon="📊"
-              label="Radar Scanner"
-              href="/scanner"
+        {/* Scanner + Busca embutidos */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
+
+          {/* Radar Scanner */}
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+            <h2 className="text-lg font-bold mb-1 flex items-center gap-2">
+              <span>🔎</span> Radar Scanner
+            </h2>
+            <p className="text-neutral-500 text-sm mb-5">Analise qualquer empresa em poucos segundos.</p>
+
+            <label className="block text-neutral-300 text-sm mb-2">
+              Nome da empresa, CNPJ, Site ou Google Maps
+            </label>
+            <input
+              value={scannerInput}
+              onChange={(e) => setScannerInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleAnalisar()}
+              placeholder="Ex.: Clínica Vida Caruaru"
+              className="w-full p-4 rounded-lg bg-neutral-800 border border-neutral-700 text-white"
             />
-          )}
-          {plan === "free" && (
-            <QuickAction
-              icon="📊"
-              label="Analisar empresa"
-              href="/scanner"
-            />
-          )}
-          {plan === "free" && (
-            <QuickAction
-              icon="⭐"
-              label="Assinar plano"
-              href="/#precos"
-              accent
-            />
-          )}
-          {plan === "agency" && (
-            <>
-              <QuickAction
-                icon="👥"
-                label="Meus clientes"
-                href="/dashboard/clients"
-              />
-              <QuickAction
-                icon="🎨"
-                label="Configurar marca"
-                href="/dashboard/agency"
-              />
-            </>
-          )}
-          {isActive && (
-            <QuickAction
-              icon="⚙️"
-              label="Gerenciar assinatura"
-              onClick={handleManagePlan}
-            />
-          )}
+
+            <button
+              onClick={handleAnalisar}
+              className="mt-5 w-full bg-green-500 hover:bg-green-400 transition text-black font-bold py-3.5 rounded-lg text-lg"
+            >
+              🚀 Analisar Empresa
+            </button>
+          </div>
+
+          {/* Busca de Oportunidades */}
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
+            <h2 className="text-lg font-bold mb-1 flex items-center gap-2">
+              <span>🎯</span> Busca de Oportunidades
+            </h2>
+            <p className="text-neutral-500 text-sm mb-5">Encontre empresas por região e categoria.</p>
+
+            <div className="grid grid-cols-3 gap-3">
+              <div>
+                <label className="block text-neutral-400 text-xs mb-1">Estado</label>
+                <input
+                  value={buscaState}
+                  onChange={(e) => setBuscaState(e.target.value.toUpperCase())}
+                  maxLength={2}
+                  placeholder="PE"
+                  className="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white uppercase text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-neutral-400 text-xs mb-1">Cidade</label>
+                <input
+                  value={buscaCity}
+                  onChange={(e) => setBuscaCity(e.target.value)}
+                  placeholder="Carpina"
+                  className="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white text-sm"
+                />
+              </div>
+              <div>
+                <label className="block text-neutral-400 text-xs mb-1">Categoria</label>
+                <input
+                  value={buscaCategory}
+                  onChange={(e) => setBuscaCategory(e.target.value)}
+                  placeholder="Dentista"
+                  className="w-full p-3 rounded-lg bg-neutral-800 border border-neutral-700 text-white text-sm"
+                />
+              </div>
+            </div>
+
+            <button
+              onClick={handleBuscar}
+              disabled={buscaLoading}
+              className="mt-5 w-full bg-green-500 hover:bg-green-400 transition text-black font-bold py-3.5 rounded-lg text-lg disabled:opacity-60"
+            >
+              {buscaLoading ? "Buscando... (até 30s)" : "🔍 Buscar Oportunidades"}
+            </button>
+
+            {buscaError && (
+              <div className="mt-4 bg-red-950 border border-red-700 rounded-lg p-3 text-red-300 text-sm">
+                {buscaError}
+              </div>
+            )}
+
+            {buscaResults && (
+              <div className="mt-4 max-h-64 overflow-y-auto space-y-2">
+                {buscaResults.length === 0 ? (
+                  <p className="text-neutral-500 text-sm text-center py-4">Nenhuma empresa encontrada.</p>
+                ) : (
+                  <>
+                    <p className="text-neutral-400 text-xs mb-2">{buscaResults.length} empresas encontradas</p>
+                    {buscaResults.slice(0, 10).map((c: any, i: number) => (
+                      <div key={i} className="bg-neutral-800 border border-neutral-700 rounded-lg p-3 flex items-center justify-between">
+                        <div className="min-w-0">
+                          <p className="text-sm font-medium truncate">{c.name}</p>
+                          <p className="text-xs text-neutral-500">{c.city} · {c.category}</p>
+                        </div>
+                        <div className="flex items-center gap-2 ml-3 shrink-0">
+                          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                            (c.opportunityScore ?? 0) >= 70 ? "bg-green-500/20 text-green-400" :
+                            (c.opportunityScore ?? 0) >= 40 ? "bg-yellow-500/20 text-yellow-400" :
+                            "bg-neutral-700 text-neutral-400"
+                          }`}>
+                            {c.opportunityScore}
+                          </span>
+                          <a
+                            href={`/scanner/result/${encodeURIComponent(c.name)}?city=${encodeURIComponent(c.city || "")}&state=${encodeURIComponent(c.state || "")}&category=${encodeURIComponent(c.category || "")}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs bg-green-500 hover:bg-green-400 text-black font-bold px-2.5 py-1 rounded-md transition"
+                          >
+                            Analisar
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+
         </div>
+
+        {/* Quick Actions extras */}
+        {plan === "agency" && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <QuickAction icon="👥" label="Meus clientes" href="/dashboard/clients" />
+            <QuickAction icon="🎨" label="Configurar marca" href="/dashboard/agency" />
+            {isActive && (
+              <QuickAction icon="⚙️" label="Gerenciar assinatura" onClick={handleManagePlan} />
+            )}
+          </div>
+        )}
+
+        {plan === "free" && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <QuickAction icon="⭐" label="Assinar plano" href="/#precos" accent />
+            {isActive && (
+              <QuickAction icon="⚙️" label="Gerenciar assinatura" onClick={handleManagePlan} />
+            )}
+          </div>
+        )}
+
+        {plan === "pro" && isActive && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+            <QuickAction icon="⚙️" label="Gerenciar assinatura" onClick={handleManagePlan} />
+          </div>
+        )}
 
         {/* Pipeline */}
         {data.leads.length > 0 && (
@@ -423,20 +565,11 @@ export default function DashboardPage() {
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-bold">Leads Recentes</h2>
-            <Link href="/scanner" className="text-sm text-green-400 hover:text-green-300 transition">
-              + Nova análise
-            </Link>
           </div>
           {data.leads.length === 0 ? (
             <div className="border border-neutral-800 rounded-2xl p-12 text-center">
               <div className="text-4xl mb-4">🔍</div>
-              <p className="text-neutral-400 mb-4">Nenhum lead ainda.</p>
-              <Link
-                href="/scanner"
-                className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-400 text-black font-bold px-6 py-3 rounded-xl transition"
-              >
-                Começar análise →
-              </Link>
+              <p className="text-neutral-400 mb-4">Nenhum lead ainda. Use o Scanner ou a Busca acima para começar.</p>
             </div>
           ) : (
             <div className="border border-neutral-800 rounded-2xl overflow-hidden">
@@ -550,25 +683,9 @@ function StatCard({ label, value, icon, trend, accent }: {
           </span>
         )}
       </div>
-      <div className={`text-3xl font-bold ${accent ? "text-green-400" : "text-white"}`}>
-        {value}
-      </div>
-      <div className="text-sm text-neutral-400 mt-1">{label}</div>
+      <p className="text-3xl font-black">{value}</p>
+      <p className="text-neutral-500 text-sm mt-1">{label}</p>
     </div>
-  );
-}
-
-function ScoreBadge({ score }: { score: number | null }) {
-  if (score == null) return <span className="text-neutral-500 text-sm">—</span>;
-
-  let color = "text-red-400 bg-red-500/10";
-  if (score >= 70) color = "text-green-400 bg-green-500/10";
-  else if (score >= 40) color = "text-yellow-400 bg-yellow-500/10";
-
-  return (
-    <span className={`text-sm font-bold px-2.5 py-1 rounded-lg ${color}`}>
-      {score}
-    </span>
   );
 }
 
@@ -579,30 +696,39 @@ function QuickAction({ icon, label, href, onClick, accent }: {
   onClick?: () => void;
   accent?: boolean;
 }) {
-  const classes = `flex items-center gap-3 p-4 rounded-xl border transition hover:scale-[1.02] ${
+  const base = `flex items-center gap-3 p-4 rounded-xl border transition ${
     accent
       ? "bg-green-500/10 border-green-500/30 hover:bg-green-500/20"
-      : "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800/50"
+      : "bg-neutral-900 border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800"
   }`;
-
-  const content = (
-    <>
-      <span className="text-xl">{icon}</span>
-      <span className={`text-sm font-medium ${accent ? "text-green-400" : "text-neutral-300"}`}>{label}</span>
-    </>
-  );
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
-        {content}
+      <Link href={href} className={base}>
+        <span className="text-2xl">{icon}</span>
+        <span className={`font-semibold text-sm ${accent ? "text-green-400" : ""}`}>{label}</span>
       </Link>
     );
   }
 
   return (
-    <button onClick={onClick} className={classes}>
-      {content}
+    <button onClick={onClick} className={`${base} w-full text-left`}>
+      <span className="text-2xl">{icon}</span>
+      <span className="font-semibold text-sm">{label}</span>
     </button>
+  );
+}
+
+function ScoreBadge({ score }: { score: number | null }) {
+  if (score == null) return <span className="text-neutral-600 text-sm">—</span>;
+
+  return (
+    <span className={`text-sm font-bold px-2.5 py-1 rounded-lg ${
+      score >= 70 ? "bg-green-500/20 text-green-400" :
+      score >= 40 ? "bg-yellow-500/20 text-yellow-400" :
+      "bg-red-500/20 text-red-400"
+    }`}>
+      {score}
+    </span>
   );
 }
