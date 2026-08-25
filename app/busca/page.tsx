@@ -156,7 +156,7 @@ export default function BuscaMassaPage() {
       <div className="max-w-6xl mx-auto p-10">
 
         <a
-          href="/"
+          href="/dashboard"
           className="text-green-400 hover:text-green-300"
         >
           ← Início
