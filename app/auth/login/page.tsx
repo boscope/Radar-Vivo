@@ -62,6 +62,13 @@ function LoginForm() {
 
     localStorage.removeItem("rv_free_searches");
 
+    const redirectTo = searchParams.get("redirect");
+
+    if (redirectTo) {
+      window.location.href = redirectTo;
+      return;
+    }
+
     const { data: profile } = await supabase
       .from("profiles")
       .select("role")
