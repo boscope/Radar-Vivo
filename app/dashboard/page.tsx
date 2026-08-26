@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
+import RadarLoader from "@/components/ui/RadarLoader";
 
 interface DashboardData {
   profile: {
@@ -87,6 +88,7 @@ export default function DashboardPage() {
 
   // Scanner states
   const [scannerInput, setScannerInput] = useState("");
+  const [scannerLoading, setScannerLoading] = useState(false);
 
   useEffect(() => {
     loadDashboard();
@@ -150,7 +152,9 @@ export default function DashboardPage() {
       alert("Digite o nome de uma empresa.");
       return;
     }
+    setScannerLoading(true);
     window.open("/scanner/result/" + encodeURIComponent(scannerInput.trim()), "_blank", "noopener,noreferrer");
+    setTimeout(() => setScannerLoading(false), 3000);
   }
 
   async function handleManagePlan() {
@@ -200,10 +204,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
-        <div className="flex flex-col items-center gap-4">
-          <div className="animate-spin w-10 h-10 border-2 border-green-400 border-t-transparent rounded-full" />
-          <p className="text-neutral-400 text-sm">Carregando painel...</p>
-        </div>
+        <RadarLoader text="Carregando painel..." />
       </div>
     );
   }
@@ -410,10 +411,17 @@ export default function DashboardPage() {
 
             <button
               onClick={handleAnalisar}
-              className="mt-5 w-full bg-green-500 hover:bg-green-400 transition text-black font-bold py-3.5 rounded-lg text-lg"
+              disabled={scannerLoading}
+              className="mt-5 w-full bg-green-500 hover:bg-green-400 transition text-black font-bold py-3.5 rounded-lg text-lg disabled:opacity-60"
             >
-              🚀 Analisar Empresa
+              {scannerLoading ? "Analisando..." : "🚀 Analisar Empresa"}
             </button>
+
+            {scannerLoading && (
+              <div className="mt-4 flex justify-center">
+                <RadarLoader text="Analisando empresa..." />
+              </div>
+            )}
           </div>
 
           {/* Busca de Oportunidades */}
@@ -461,6 +469,12 @@ export default function DashboardPage() {
             >
               {buscaLoading ? "Buscando... (até 30s)" : "🔍 Buscar Oportunidades"}
             </button>
+
+            {buscaLoading && (
+              <div className="mt-5 flex justify-center py-6">
+                <RadarLoader text="Buscando empresas na região..." />
+              </div>
+            )}
 
             {buscaError && (
               <div className="mt-4 bg-red-950 border border-red-700 rounded-lg p-3 text-red-300 text-sm">
