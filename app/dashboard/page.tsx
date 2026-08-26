@@ -90,6 +90,7 @@ export default function DashboardPage() {
 
   // Delete states
   const [deletando, setDeletando] = useState<string | null>(null);
+  const [atualizandoStatus, setAtualizandoStatus] = useState<string | null>(null);
 
   // Scanner states
   const [scannerInput, setScannerInput] = useState("");
@@ -249,6 +250,34 @@ export default function DashboardPage() {
       alert("Erro ao excluir.");
     } finally {
       setDeletando(null);
+    }
+  }
+
+  async function atualizarStatusLead(leadId: string, newStatus: string, externalId?: string) {
+    setAtualizandoStatus(leadId);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      const res = await fetch(`/api/leads/${leadId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          ...(session ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
+        body: JSON.stringify({ status: newStatus, externalId: externalId || undefined }),
+      });
+      if (res.ok) {
+        setData((prev) => prev ? {
+          ...prev,
+          leads: prev.leads.map((l) => l.id === leadId ? { ...l, status: newStatus } : l),
+        } : prev);
+      } else {
+        const data = await res.json();
+        alert(data?.error ?? "Erro ao atualizar status.");
+      }
+    } catch {
+      alert("Erro de conexão.");
+    } finally {
+      setAtualizandoStatus(null);
     }
   }
 
@@ -720,9 +749,18 @@ export default function DashboardPage() {
                     >
                       <td className="px-5 py-3 font-medium">{lead.company}</td>
                       <td className="px-5 py-3">
-                        <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${statusColors[lead.status] ?? "bg-neutral-500/20 text-neutral-400 border-neutral-500/30"}`}>
-                          {statusIcons[lead.status]} {lead.status}
-                        </span>
+                        <select
+                          value={lead.status}
+                          onChange={(e) => atualizarStatusLead(lead.id, e.target.value)}
+                          disabled={atualizandoStatus === lead.id}
+                          className={`text-xs font-medium px-2 py-1 rounded-lg border bg-transparent cursor-pointer focus:outline-none focus:border-green-400 ${statusColors[lead.status] ?? "bg-neutral-500/20 text-neutral-400 border-neutral-500/30"}`}
+                        >
+                          <option value="Novo">🆕 Novo</option>
+                          <option value="Contato">📞 Contato</option>
+                          <option value="Proposta">📝 Proposta</option>
+                          <option value="Fechado">✅ Fechado</option>
+                          <option value="Perdido">❌ Perdido</option>
+                        </select>
                       </td>
                       <td className="px-5 py-3">
                         {lead.score != null ? (

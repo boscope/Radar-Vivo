@@ -1,5 +1,5 @@
 import { createClient } from "@supabase/supabase-js";
-import { releaseCompany } from "./company-db-service";
+import { releaseCompany, markClosed } from "./company-db-service";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -103,6 +103,10 @@ export async function updateLeadStatus(
 
   if (status === "Perdido" && externalId) {
     await releaseCompany(externalId);
+  }
+
+  if (status === "Fechado" && externalId) {
+    await markClosed(externalId);
   }
 
   return data;

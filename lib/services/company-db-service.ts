@@ -160,6 +160,23 @@ export async function markCaptured(
   }
 }
 
+export async function markClosed(
+  externalId: string
+): Promise<void> {
+
+  const { error } = await supabase
+    .from("companies")
+    .update({
+      status: "Fechado",
+    })
+    .eq("external_id", externalId);
+
+  if (error) {
+    console.error("[EMPRESA] Erro ao fechar:", error);
+    throw new Error(error.message);
+  }
+}
+
 export async function releaseCompany(
   externalId: string
 ): Promise<void> {
