@@ -172,7 +172,10 @@ export default function DashboardPage() {
       }
       const res = await fetch("/api/leads", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
+        },
         body: JSON.stringify({
           name: company.phone ? `Contato · ${company.name}` : company.name,
           whatsapp: company.phone ? company.phone.replace(/\D/g, "") : "",

@@ -1,7 +1,8 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { createLead, listLeads } from "@/lib/services/leads-service";
 import { markCaptured } from "@/lib/services/company-db-service";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
@@ -9,7 +10,26 @@ function normalizeWhatsapp(value: string): string {
   return value.replace(/\D/g, "").replace(/^0+/, "");
 }
 
-export async function POST(request: Request) {
+async function getAuthUser(request: NextRequest) {
+  const authHeader = request.headers.get("authorization");
+  const token = authHeader?.replace("Bearer ", "");
+
+  if (token) {
+    const sb = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      { global: { headers: { Authorization: `Bearer ${token}` } } }
+    );
+    const { data: { user } } = await sb.auth.getUser();
+    if (user) return user;
+  }
+
+  const serverClient = await createSupabaseServerClient();
+  const { data: { user } } = await serverClient.auth.getUser();
+  return user;
+}
+
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
@@ -34,13 +54,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const supabase = await createSupabaseServerClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
+    const user = await getAuthUser(request);
     const ownerId = user?.id ?? null;
+
+    if (!ownerId) {
+      return NextResponse.json(
+        { error: "Faça login para salvar no pipeline." },
+        { status: 401 }
+      );
+    }
 
     const lead = await createLead({
       name,
@@ -51,7 +73,7 @@ export async function POST(request: Request) {
       category: body?.category ?? undefined,
       score: body?.score ?? undefined,
       priority: body?.priority ?? undefined,
-      owner_id: ownerId ?? undefined,
+      owner_id: ownerId,
       external_id: externalId || undefined,
     });
 
@@ -59,37 +81,7 @@ export async function POST(request: Request) {
       await markCaptured(externalId, ownerId);
     }
 
-    let emailResult = null;
-
-    if (process.env.RESEND_API_KEY) {
-      try {
-        const { Resend } = await import("resend");
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        emailResult = await resend.emails.send({
-          from: "Radar Vivo <contato@radarvivo.com.br>",
-          to: "radarvivocontato@gmail.com",
-          subject: `[Novo Lead] ${name} - ${company || "Sem empresa"}`,
-          text: [
-            `Novo lead capturado!`,
-            ``,
-            `Nome: ${name}`,
-            `WhatsApp: ${whatsapp}`,
-            `Empresa: ${company || "Não informada"}`,
-            `Cidade: ${body?.city || "Não informada"}`,
-            `Categoria: ${body?.category || "Não informada"}`,
-            `Score: ${body?.score || "N/A"}`,
-            `Prioridade: ${body?.priority || "N/A"}`,
-          ].join("\n"),
-        });
-      } catch (e: any) {
-        console.error("[LEADS] Erro ao enviar email:", e);
-        emailResult = { error: e.message };
-      }
-    } else {
-      emailResult = { error: "RESEND_API_KEY não configurada" };
-    }
-
-    return NextResponse.json({ success: true, lead, emailResult, captured: Boolean(externalId && ownerId) });
+    return NextResponse.json({ success: true, lead, captured: Boolean(externalId && ownerId) });
   } catch (error) {
     console.error("[API LEADS]", error);
 
@@ -100,14 +92,9 @@ export async function POST(request: Request) {
   }
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    const supabase = await createSupabaseServerClient();
-
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-
+    const user = await getAuthUser(request);
     const leads = await listLeads(user?.id);
 
     return NextResponse.json({ leads });
