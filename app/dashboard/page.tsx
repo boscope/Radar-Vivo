@@ -20,7 +20,7 @@ interface DashboardData {
   };
   leads: Array<{
     id: string;
-    company_name: string;
+    company: string;
     status: string;
     score: number | null;
     created_at: string;
@@ -191,6 +191,7 @@ export default function DashboardPage() {
         return;
       }
       setBuscaSalvos((prev) => [...prev, company.name]);
+      loadDashboard();
     } catch {
       alert("Erro de conexão.");
     } finally {
@@ -710,7 +711,7 @@ export default function DashboardPage() {
                       key={lead.id}
                       className="border-b border-neutral-800/50 hover:bg-neutral-900/30 transition"
                     >
-                      <td className="px-5 py-3 font-medium">{lead.company_name}</td>
+                      <td className="px-5 py-3 font-medium">{lead.company}</td>
                       <td className="px-5 py-3">
                         <span className={`text-xs font-medium px-2.5 py-1 rounded-full border ${statusColors[lead.status] ?? "bg-neutral-500/20 text-neutral-400 border-neutral-500/30"}`}>
                           {statusIcons[lead.status]} {lead.status}
@@ -729,14 +730,24 @@ export default function DashboardPage() {
                         {new Date(lead.created_at).toLocaleDateString("pt-BR")}
                       </td>
                       <td className="px-5 py-3 text-right">
-                        <button
-                          onClick={() => excluirLead(lead.id)}
-                          disabled={deletando === lead.id}
-                          className="text-xs text-red-400 hover:text-red-300 transition disabled:opacity-50"
-                          title="Excluir lead"
-                        >
-                          {deletando === lead.id ? "..." : "🗑️"}
-                        </button>
+                        <div className="flex items-center justify-end gap-2">
+                          <a
+                            href={`/scanner/result/${encodeURIComponent(lead.company)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-xs bg-green-500 hover:bg-green-400 text-black font-bold px-2 py-1 rounded transition"
+                          >
+                            Analisar
+                          </a>
+                          <button
+                            onClick={() => excluirLead(lead.id)}
+                            disabled={deletando === lead.id}
+                            className="text-xs text-red-400 hover:text-red-300 transition disabled:opacity-50"
+                            title="Excluir lead"
+                          >
+                            {deletando === lead.id ? "..." : "🗑️"}
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -779,12 +790,15 @@ export default function DashboardPage() {
                     }`}>
                       {company.status}
                     </span>
-                    <div className="flex items-center gap-3">
-                      {company.captured_at && (
-                        <span className="text-xs text-neutral-500">
-                          {new Date(company.captured_at).toLocaleDateString("pt-BR")}
-                        </span>
-                      )}
+                    <div className="flex items-center gap-2">
+                      <a
+                        href={`/scanner/result/${encodeURIComponent(company.name)}?city=${encodeURIComponent(company.city || "")}&category=${encodeURIComponent(company.category || "")}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs bg-green-500 hover:bg-green-400 text-black font-bold px-2.5 py-1 rounded-md transition"
+                      >
+                        Analisar
+                      </a>
                       <button
                         onClick={() => excluirEmpresa(company.id)}
                         disabled={deletando === company.id}

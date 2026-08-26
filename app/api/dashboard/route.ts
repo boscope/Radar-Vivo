@@ -30,8 +30,8 @@ export async function GET(request: NextRequest) {
   // Leads do usuário
   const { data: leads } = await supabase
     .from("leads")
-    .select("id, company_name, status, score, created_at")
-    .eq("user_id", user.id)
+    .select("id, company, status, score, created_at")
+    .eq("owner_id", user.id)
     .order("created_at", { ascending: false })
     .limit(50);
 
