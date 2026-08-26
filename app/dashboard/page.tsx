@@ -106,10 +106,15 @@ export default function DashboardPage() {
   }, []);
 
   async function loadDashboard() {
-    const { data: { session } } = await supabase.auth.getSession();
+    let { data: { session } } = await supabase.auth.getSession();
     if (!session) {
-      router.push("/auth/login");
-      return;
+      await new Promise((r) => setTimeout(r, 500));
+      const { data: { session: retry } } = await supabase.auth.getSession();
+      if (!retry) {
+        router.push("/auth/login");
+        return;
+      }
+      session = retry;
     }
 
     try {
