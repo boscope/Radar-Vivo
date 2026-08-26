@@ -1,4 +1,9 @@
-import { supabase } from "@/lib/supabase";
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+);
 
 export type CapturedCompany = {
   id: string;
@@ -123,12 +128,9 @@ export async function getCapturedIds(externalIds: string[]): Promise<Set<string>
   const capturadas = new Set<string>();
 
   for (const row of data ?? []) {
-    const ativa =
-      row.status === "capturada" ||
-      row.status === "em_andamento" ||
-      row.status === "cliente";
+    const fechado = row.status === "Fechado" || row.status === "fechado" || row.status === "cliente";
 
-    if (ativa && row.owner_id) {
+    if (fechado && row.owner_id) {
       capturadas.add(row.external_id);
     }
   }

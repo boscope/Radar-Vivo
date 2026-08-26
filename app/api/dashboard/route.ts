@@ -35,13 +35,17 @@ export async function GET(request: NextRequest) {
     .order("created_at", { ascending: false })
     .limit(50);
 
-  // Análises recentes (empresas capturadas)
-  const { data: analyses } = await supabase
+  // Análises recentes (empresas capturadas) — usa service role pra ver todas
+  const adminSupabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const { data: analyses } = await adminSupabase
     .from("companies")
-    .select("id, name, city, category, radar_score, status, captured_at, last_checked_at")
-    .eq("owner_id", user.id)
-    .order("captured_at", { ascending: false })
-    .limit(20);
+    .select("id, name, city, category, radar_score, status, captured_at, last_checked_at, owner_id")
+    .order("created_at", { ascending: false })
+    .limit(50);
 
   // Estatísticas
   const totalLeads = leads?.length ?? 0;
