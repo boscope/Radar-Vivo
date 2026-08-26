@@ -134,9 +134,13 @@ export default function DashboardPage() {
     setBuscaResults(null);
 
     try {
+      const { data: { session } } = await supabase.auth.getSession();
       const res = await fetch("/api/scanner/search", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(session ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        },
         body: JSON.stringify({ state: buscaState, city: buscaCity, category: buscaCategory }),
       });
       const data = await res.json();

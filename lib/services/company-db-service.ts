@@ -45,6 +45,7 @@ export type UpsertCompanyInput = {
   googlePlaceId?: string;
   radarScore?: number;
   mapsUrl?: string;
+  ownerId?: string;
 };
 
 export async function upsertCompany(
@@ -98,7 +99,8 @@ export async function upsertCompany(
     .from("companies")
     .insert({
       ...values,
-      status: "disponivel",
+      owner_id: input.ownerId ?? null,
+      status: input.ownerId ? "capturada" : "disponivel",
     })
     .select()
     .single();

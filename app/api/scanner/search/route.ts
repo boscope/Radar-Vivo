@@ -1,13 +1,29 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { executeScannerPipeline } from "@/src/core/pipeline/scanner-pipeline";
 import {
   makeExternalId,
   getCapturedIds,
+  upsertCompany,
 } from "@/lib/services/company-db-service";
+import { createClient } from "@supabase/supabase-js";
 
 export const dynamic = "force-dynamic";
 
-export async function POST(request: Request) {
+async function getUserId(request: NextRequest): Promise<string | null> {
+  const authHeader = request.headers.get("authorization");
+  const token = authHeader?.replace("Bearer ", "");
+  if (!token) return null;
+
+  const sb = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    { global: { headers: { Authorization: `Bearer ${token}` } } }
+  );
+  const { data: { user } } = await sb.auth.getUser();
+  return user?.id ?? null;
+}
+
+export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
 
@@ -28,6 +44,8 @@ export async function POST(request: Request) {
         { status: 400 }
       );
     }
+
+    const ownerId = await getUserId(request);
 
     const result = await executeScannerPipeline(city, state, category);
 
@@ -74,6 +92,28 @@ export async function POST(request: Request) {
         };
       })
       .sort((a: any, b: any) => b.opportunityScore - a.opportunityScore);
+
+    if (ownerId) {
+      for (const company of ranked) {
+        try {
+          await upsertCompany(company.externalId, {
+            name: company.name,
+            city: company.city,
+            state: company.state,
+            category: category,
+            website: company.url,
+            phone: company.phone,
+            rating: company.rating,
+            lat: company.lat,
+            lon: company.lon,
+            googlePlaceId: company.googlePlaceId,
+            ownerId: ownerId,
+          });
+        } catch (e) {
+          console.error("[BUSCA] Erro ao salvar empresa:", e);
+        }
+      }
+    }
 
     return NextResponse.json({
       total: ranked.length,
