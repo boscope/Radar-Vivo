@@ -538,8 +538,8 @@ export default function DashboardPage() {
         {data.leads.length > 0 && (
           <section className="mb-8">
             <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-              <span>Pipeline de Leads</span>
-              <span className="text-sm font-normal text-neutral-500">({data.stats.totalLeads} total)</span>
+              <span>📊 Status do Pipeline</span>
+              <span className="text-sm font-normal text-neutral-500">({data.stats.totalLeads} leads)</span>
             </h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               {pipelineCounts.map(({ status, count, color }) => (
@@ -561,15 +561,18 @@ export default function DashboardPage() {
           </section>
         )}
 
-        {/* Recent Leads */}
+        {/* Leads do Pipeline */}
         <section className="mb-8">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold">Leads Recentes</h2>
+            <div>
+              <h2 className="text-lg font-bold">📋 Leads do Pipeline</h2>
+              <p className="text-neutral-500 text-sm mt-1">Contatos salvos pra entrar em contato.</p>
+            </div>
           </div>
           {data.leads.length === 0 ? (
             <div className="border border-neutral-800 rounded-2xl p-12 text-center">
               <div className="text-4xl mb-4">🔍</div>
-              <p className="text-neutral-400 mb-4">Nenhum lead ainda. Use o Scanner ou a Busca acima para começar.</p>
+              <p className="text-neutral-400 mb-4">Nenhum lead no pipeline ainda. Use o Scanner ou a Busca acima pra começar.</p>
             </div>
           ) : (
             <div className="border border-neutral-800 rounded-2xl overflow-hidden">
@@ -614,13 +617,14 @@ export default function DashboardPage() {
           )}
         </section>
 
-        {/* Captured Companies */}
+        {/* Empresas no Radar */}
         <section>
-          <h2 className="text-lg font-bold mb-4">Empresas Capturadas</h2>
+          <h2 className="text-lg font-bold mb-4">🏢 Empresas no Radar</h2>
+          <p className="text-neutral-500 text-sm mb-4">Empresas já encontradas nas buscas — não aparecem mais duplicadas.</p>
           {data.companies.length === 0 ? (
             <div className="border border-neutral-800 rounded-2xl p-12 text-center">
               <div className="text-4xl mb-4">🏢</div>
-              <p className="text-neutral-400">Nenhuma empresa capturada ainda.</p>
+              <p className="text-neutral-400">Nenhuma empresa rastreada ainda. Faça uma busca pra popular sua base.</p>
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
