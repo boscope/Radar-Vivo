@@ -85,6 +85,8 @@ export default function DashboardPage() {
   const [buscaLoading, setBuscaLoading] = useState(false);
   const [buscaResults, setBuscaResults] = useState<any[] | null>(null);
   const [buscaError, setBuscaError] = useState<string | null>(null);
+  const [buscaSalvos, setBuscaSalvos] = useState<string[]>([]);
+  const [buscaSalvando, setBuscaSalvando] = useState<string | null>(null);
 
   // Scanner states
   const [scannerInput, setScannerInput] = useState("");
@@ -155,6 +157,42 @@ export default function DashboardPage() {
     setScannerLoading(true);
     window.open("/scanner/result/" + encodeURIComponent(scannerInput.trim()), "_blank", "noopener,noreferrer");
     setTimeout(() => setScannerLoading(false), 3000);
+  }
+
+  async function salvarNoPipeline(company: any) {
+    setBuscaSalvando(company.name);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        alert("Faça login para salvar no pipeline.");
+        return;
+      }
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: company.phone ? `Contato · ${company.name}` : company.name,
+          whatsapp: company.phone ? company.phone.replace(/\D/g, "") : "",
+          company: company.name,
+          city: company.city ?? null,
+          state: company.state ?? null,
+          category: company.category ?? null,
+          score: company.opportunityScore ?? null,
+          priority: company.priority ?? null,
+          externalId: company.externalId ?? null,
+        }),
+      });
+      if (!res.ok) {
+        const data = await res.json();
+        alert(data?.error ?? "Erro ao salvar.");
+        return;
+      }
+      setBuscaSalvos((prev) => [...prev, company.name]);
+    } catch {
+      alert("Erro de conexão.");
+    } finally {
+      setBuscaSalvando(null);
+    }
   }
 
   async function handleManagePlan() {
@@ -490,27 +528,44 @@ export default function DashboardPage() {
                   <>
                     <p className="text-neutral-400 text-xs mb-2">{buscaResults.length} empresas encontradas</p>
                     {buscaResults.slice(0, 10).map((c: any, i: number) => (
-                      <div key={i} className="bg-neutral-800 border border-neutral-700 rounded-lg p-3 flex items-center justify-between">
-                        <div className="min-w-0">
-                          <p className="text-sm font-medium truncate">{c.name}</p>
-                          <p className="text-xs text-neutral-500">{c.city} · {c.category}</p>
-                        </div>
-                        <div className="flex items-center gap-2 ml-3 shrink-0">
-                          <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
-                            (c.opportunityScore ?? 0) >= 70 ? "bg-green-500/20 text-green-400" :
-                            (c.opportunityScore ?? 0) >= 40 ? "bg-yellow-500/20 text-yellow-400" :
-                            "bg-neutral-700 text-neutral-400"
-                          }`}>
-                            {c.opportunityScore}
-                          </span>
-                          <a
-                            href={`/scanner/result/${encodeURIComponent(c.name)}?city=${encodeURIComponent(c.city || "")}&state=${encodeURIComponent(c.state || "")}&category=${encodeURIComponent(c.category || "")}`}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-xs bg-green-500 hover:bg-green-400 text-black font-bold px-2.5 py-1 rounded-md transition"
-                          >
-                            Analisar
-                          </a>
+                      <div key={i} className="bg-neutral-800 border border-neutral-700 rounded-lg p-3">
+                        <div className="flex items-center justify-between">
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium truncate">{c.name}</p>
+                            <p className="text-xs text-neutral-500">{c.city} · {c.category}</p>
+                          </div>
+                          <div className="flex items-center gap-2 ml-3 shrink-0">
+                            <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${
+                              (c.opportunityScore ?? 0) >= 70 ? "bg-green-500/20 text-green-400" :
+                              (c.opportunityScore ?? 0) >= 40 ? "bg-yellow-500/20 text-yellow-400" :
+                              "bg-neutral-700 text-neutral-400"
+                            }`}>
+                              {c.opportunityScore}
+                            </span>
+                            <a
+                              href={`/scanner/result/${encodeURIComponent(c.name)}?city=${encodeURIComponent(c.city || "")}&state=${encodeURIComponent(c.state || "")}&category=${encodeURIComponent(c.category || "")}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-xs bg-green-500 hover:bg-green-400 text-black font-bold px-2.5 py-1 rounded-md transition"
+                            >
+                              Analisar
+                            </a>
+                            <button
+                              onClick={() => salvarNoPipeline(c)}
+                              disabled={buscaSalvando === c.name}
+                              className={`text-xs px-2.5 py-1 rounded-md font-bold transition disabled:opacity-50 ${
+                                buscaSalvos.includes(c.name)
+                                  ? "bg-emerald-600 text-white"
+                                  : "bg-neutral-700 hover:bg-neutral-600 text-white"
+                              }`}
+                            >
+                              {buscaSalvos.includes(c.name)
+                                ? "✅ Salvo"
+                                : buscaSalvando === c.name
+                                  ? "..."
+                                  : "📥 Salvar"}
+                            </button>
+                          </div>
                         </div>
                       </div>
                     ))}

@@ -3,6 +3,7 @@ import { executeScannerPipeline } from "@/src/core/pipeline/scanner-pipeline";
 import {
   makeExternalId,
   getCapturedIds,
+  upsertCompany,
 } from "@/lib/services/company-db-service";
 
 export const dynamic = "force-dynamic";
@@ -37,6 +38,32 @@ export async function POST(request: Request) {
 
     const capturadas = await getCapturedIds(externalIds);
 
+    // Salvar todas as empresas encontradas no banco pra evitar duplicatas
+    for (const company of (result.companies ?? [])) {
+      const eid = makeExternalId(company.name, company.city, company.state);
+      if (!capturadas.has(eid)) {
+        try {
+          await upsertCompany(eid, {
+            name: company.name,
+            city: company.city,
+            state: company.state,
+            category: category,
+            website: company.url,
+            phone: company.phone,
+            rating: company.rating,
+            lat: company.lat,
+            lon: company.lon,
+            googlePlaceId: company.googlePlaceId,
+          });
+        } catch (e) {
+          console.error("[BUSCA] Erro ao salvar empresa:", e);
+        }
+      }
+    }
+
+    // Re-buscar IDs capturados depois de salvar
+    const capturadasFinal = await getCapturedIds(externalIds);
+
     const ranked = (result.companies ?? [])
       .filter((company: any) => {
         const id = makeExternalId(
@@ -44,7 +71,7 @@ export async function POST(request: Request) {
           company.city,
           company.state
         );
-        return !capturadas.has(id);
+        return !capturadasFinal.has(id);
       })
       .map((company: any) => {
 
