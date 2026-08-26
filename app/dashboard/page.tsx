@@ -88,6 +88,9 @@ export default function DashboardPage() {
   const [buscaSalvos, setBuscaSalvos] = useState<string[]>([]);
   const [buscaSalvando, setBuscaSalvando] = useState<string | null>(null);
 
+  // Delete states
+  const [deletando, setDeletando] = useState<string | null>(null);
+
   // Scanner states
   const [scannerInput, setScannerInput] = useState("");
   const [scannerLoading, setScannerLoading] = useState(false);
@@ -192,6 +195,52 @@ export default function DashboardPage() {
       alert("Erro de conexão.");
     } finally {
       setBuscaSalvando(null);
+    }
+  }
+
+  async function excluirLead(leadId: string) {
+    if (!confirm("Excluir este lead do pipeline?")) return;
+    setDeletando(leadId);
+    try {
+      const res = await fetch("/api/leads/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadId }),
+      });
+      if (res.ok) {
+        setData((prev) => prev ? {
+          ...prev,
+          leads: prev.leads.filter((l) => l.id !== leadId),
+          stats: { ...prev.stats, totalLeads: prev.stats.totalLeads - 1, activeLeads: prev.stats.activeLeads - 1 },
+        } : prev);
+      }
+    } catch {
+      alert("Erro ao excluir.");
+    } finally {
+      setDeletando(null);
+    }
+  }
+
+  async function excluirEmpresa(companyId: string) {
+    if (!confirm("Excluir esta empresa do radar? Ela voltará a aparecer nas buscas.")) return;
+    setDeletando(companyId);
+    try {
+      const res = await fetch("/api/companies/delete", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ companyId }),
+      });
+      if (res.ok) {
+        setData((prev) => prev ? {
+          ...prev,
+          companies: prev.companies.filter((c) => c.id !== companyId),
+          stats: { ...prev.stats, capturedCompanies: prev.stats.capturedCompanies - 1 },
+        } : prev);
+      }
+    } catch {
+      alert("Erro ao excluir.");
+    } finally {
+      setDeletando(null);
     }
   }
 
@@ -652,6 +701,7 @@ export default function DashboardPage() {
                     <th className="text-left px-5 py-3 font-medium">Status</th>
                     <th className="text-left px-5 py-3 font-medium">Score</th>
                     <th className="text-left px-5 py-3 font-medium">Data</th>
+                    <th className="text-right px-5 py-3 font-medium"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -677,6 +727,16 @@ export default function DashboardPage() {
                       </td>
                       <td className="px-5 py-3 text-neutral-400">
                         {new Date(lead.created_at).toLocaleDateString("pt-BR")}
+                      </td>
+                      <td className="px-5 py-3 text-right">
+                        <button
+                          onClick={() => excluirLead(lead.id)}
+                          disabled={deletando === lead.id}
+                          className="text-xs text-red-400 hover:text-red-300 transition disabled:opacity-50"
+                          title="Excluir lead"
+                        >
+                          {deletando === lead.id ? "..." : "🗑️"}
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -719,11 +779,21 @@ export default function DashboardPage() {
                     }`}>
                       {company.status}
                     </span>
-                    {company.captured_at && (
-                      <span className="text-xs text-neutral-500">
-                        {new Date(company.captured_at).toLocaleDateString("pt-BR")}
-                      </span>
-                    )}
+                    <div className="flex items-center gap-3">
+                      {company.captured_at && (
+                        <span className="text-xs text-neutral-500">
+                          {new Date(company.captured_at).toLocaleDateString("pt-BR")}
+                        </span>
+                      )}
+                      <button
+                        onClick={() => excluirEmpresa(company.id)}
+                        disabled={deletando === company.id}
+                        className="text-xs text-red-400 hover:text-red-300 transition disabled:opacity-50"
+                        title="Excluir empresa do radar"
+                      >
+                        {deletando === company.id ? "..." : "🗑️"}
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}
