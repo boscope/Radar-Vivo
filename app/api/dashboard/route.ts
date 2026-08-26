@@ -20,30 +20,31 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "Token inválido" }, { status: 401 });
   }
 
-  // Perfil do usuário
-  const { data: profile } = await supabase
+  const admin = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.SUPABASE_SERVICE_ROLE_KEY!
+  );
+
+  const { data: profile } = await admin
     .from("profiles")
     .select("plan, subscription_status, subscription_current_period_end")
     .eq("id", user.id)
     .single();
 
-  // Leads do usuário
-  const { data: leads } = await supabase
+  const { data: leads } = await admin
     .from("leads")
     .select("id, company, status, score, created_at")
     .eq("owner_id", user.id)
     .order("created_at", { ascending: false })
     .limit(50);
 
-  // Análises recentes (empresas salvas pelo usuário)
-  const { data: analyses } = await supabase
+  const { data: analyses } = await admin
     .from("companies")
-    .select("id, name, city, category, radar_score, status, captured_at, last_checked_at, owner_id")
+    .select("id, name, city, category, radar_score, status, captured_at, last_checked_at")
     .eq("owner_id", user.id)
     .order("captured_at", { ascending: false })
     .limit(50);
 
-  // Estatísticas
   const totalLeads = leads?.length ?? 0;
   const activeLeads = leads?.filter((l) => l.status !== "Perdido").length ?? 0;
   const capturedCompanies = analyses?.length ?? 0;
