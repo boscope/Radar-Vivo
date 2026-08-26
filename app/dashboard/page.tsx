@@ -6,6 +6,11 @@ import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
 import RadarLoader from "@/components/ui/RadarLoader";
 
+const supabase = createBrowserClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+);
+
 interface DashboardData {
   profile: {
     plan: string;
@@ -73,10 +78,46 @@ export default function DashboardPage() {
   const [passwordMsg, setPasswordMsg] = useState("");
   const router = useRouter();
 
-  const supabase = createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-  );
+  useEffect(() => {
+    loadDashboard();
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("upgraded") === "true") {
+      setShowUpgrade(true);
+      setTimeout(() => setShowUpgrade(false), 5000);
+    }
+  }, []);
+
+  async function loadDashboard() {
+    let retries = 0;
+    let session = null;
+
+    while (retries < 5) {
+      const { data: { session: s } } = await supabase.auth.getSession();
+      if (s) {
+        session = s;
+        break;
+      }
+      retries++;
+      await new Promise((r) => setTimeout(r, 300 * retries));
+    }
+
+    if (!session) {
+      router.push("/auth/login");
+      return;
+    }
+
+    try {
+      const res = await fetch("/api/dashboard", {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      const dashboardData = await res.json();
+      setData(dashboardData);
+    } catch {
+      console.error("Erro ao carregar dashboard");
+    } finally {
+      setLoading(false);
+    }
+  }
 
   // Busca states
   const [buscaState, setBuscaState] = useState("PE");
@@ -96,39 +137,7 @@ export default function DashboardPage() {
   const [scannerInput, setScannerInput] = useState("");
   const [scannerLoading, setScannerLoading] = useState(false);
 
-  useEffect(() => {
-    loadDashboard();
-    const params = new URLSearchParams(window.location.search);
-    if (params.get("upgraded") === "true") {
-      setShowUpgrade(true);
-      setTimeout(() => setShowUpgrade(false), 5000);
-    }
-  }, []);
-
-  async function loadDashboard() {
-    let { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      await new Promise((r) => setTimeout(r, 500));
-      const { data: { session: retry } } = await supabase.auth.getSession();
-      if (!retry) {
-        router.push("/auth/login");
-        return;
-      }
-      session = retry;
-    }
-
-    try {
-      const res = await fetch("/api/dashboard", {
-        headers: { Authorization: `Bearer ${session.access_token}` },
-      });
-      const dashboardData = await res.json();
-      setData(dashboardData);
-    } catch {
-      console.error("Erro ao carregar dashboard");
-    } finally {
-      setLoading(false);
-    }
-  }
+  // Busca handler
 
   async function handleBuscar() {
     if (!buscaCategory.trim()) {
