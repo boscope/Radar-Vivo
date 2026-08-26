@@ -147,6 +147,25 @@ export default function ScannerResultPage({
                 score: data.intelligence?.score?.score ?? 0,
               }),
             });
+
+            // Salvar empresa no banco (auto-save pra Empresas no Radar)
+            try {
+              const { makeExternalId, upsertCompany } = await import("@/lib/services/company-db-service");
+              const eid = makeExternalId(data.companyName, data.city || "", data.category || "");
+              await upsertCompany(eid, {
+                name: data.companyName,
+                city: data.city,
+                state: state || undefined,
+                category: data.category,
+                website: data.website || undefined,
+                phone: data.phone || undefined,
+                rating: data.googleRating || undefined,
+                reviews: data.googleReviews || undefined,
+                ownerId: session.user.id,
+              });
+            } catch (e) {
+              console.error("[SCANNER] Erro ao salvar empresa:", e);
+            }
           }
         } catch {
           // Silently fail - score history is non-critical
