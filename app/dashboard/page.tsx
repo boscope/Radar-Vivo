@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
 import RadarLoader from "@/components/ui/RadarLoader";
+import { useAuth } from "@/lib/auth-context";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -70,6 +71,7 @@ const planColors: Record<string, string> = {
 };
 
 export default function DashboardPage() {
+  const { session: authSession, loading: authLoading } = useAuth();
   const [data, setData] = useState<DashboardData | null>(null);
   const [loading, setLoading] = useState(true);
   const [showUpgrade, setShowUpgrade] = useState(false);
@@ -79,36 +81,23 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    loadDashboard();
+    if (authLoading) return;
+    if (!authSession) {
+      router.push("/auth/login");
+      return;
+    }
+    loadDashboard(authSession.access_token);
     const params = new URLSearchParams(window.location.search);
     if (params.get("upgraded") === "true") {
       setShowUpgrade(true);
       setTimeout(() => setShowUpgrade(false), 5000);
     }
-  }, []);
+  }, [authSession, authLoading]);
 
-  async function loadDashboard() {
-    let retries = 0;
-    let session = null;
-
-    while (retries < 5) {
-      const { data: { session: s } } = await supabase.auth.getSession();
-      if (s) {
-        session = s;
-        break;
-      }
-      retries++;
-      await new Promise((r) => setTimeout(r, 300 * retries));
-    }
-
-    if (!session) {
-      router.push("/auth/login");
-      return;
-    }
-
+  async function loadDashboard(token: string) {
     try {
       const res = await fetch("/api/dashboard", {
-        headers: { Authorization: `Bearer ${session.access_token}` },
+        headers: { Authorization: `Bearer ${token}` },
       });
       const dashboardData = await res.json();
       setData(dashboardData);
@@ -149,12 +138,11 @@ export default function DashboardPage() {
     setBuscaResults(null);
 
     try {
-      const { data: { session } } = await supabase.auth.getSession();
       const res = await fetch("/api/scanner/search", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          ...(session ? { Authorization: `Bearer ${session.access_token}` } : {}),
+          ...(authSession ? { Authorization: `Bearer ${authSession.access_token}` } : {}),
         },
         body: JSON.stringify({ state: buscaState, city: buscaCity, category: buscaCategory }),
       });
@@ -184,8 +172,7 @@ export default function DashboardPage() {
   async function salvarNoPipeline(company: any) {
     setBuscaSalvando(company.name);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) {
+      if (!authSession) {
         alert("Faça login para salvar no pipeline.");
         return;
       }
@@ -193,7 +180,7 @@ export default function DashboardPage() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${session.access_token}`,
+          Authorization: `Bearer ${authSession.access_token}`,
         },
         body: JSON.stringify({
           name: company.phone ? `Contato · ${company.name}` : company.name,
@@ -213,7 +200,7 @@ export default function DashboardPage() {
         return;
       }
       setBuscaSalvos((prev) => [...prev, company.name]);
-      loadDashboard();
+      if (authSession) loadDashboard(authSession.access_token);
     } catch {
       alert("Erro de conexão.");
     } finally {
@@ -270,12 +257,11 @@ export default function DashboardPage() {
   async function atualizarStatusLead(leadId: string, newStatus: string, externalId?: string) {
     setAtualizandoStatus(leadId);
     try {
-      const { data: { session } } = await supabase.auth.getSession();
       const res = await fetch(`/api/leads/${leadId}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          ...(session ? { Authorization: `Bearer ${session.access_token}` } : {}),
+          ...(authSession ? { Authorization: `Bearer ${authSession.access_token}` } : {}),
         },
         body: JSON.stringify({ status: newStatus, externalId: externalId || undefined }),
       });
@@ -297,13 +283,12 @@ export default function DashboardPage() {
 
   async function handleManagePlan() {
     try {
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session) return;
+      if (!authSession) return;
 
       const res = await fetch("/api/stripe/portal", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: session.user.id }),
+        body: JSON.stringify({ userId: authSession.user.id }),
       });
 
       const portalData = await res.json();
@@ -336,16 +321,18 @@ export default function DashboardPage() {
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/");
+    window.location.href = "/";
   }
 
-  if (loading) {
+  if (authLoading || loading) {
     return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <RadarLoader text="Carregando painel..." />
       </div>
     );
   }
+
+  if (!authSession) return null;
 
   if (!data) return null;
 
