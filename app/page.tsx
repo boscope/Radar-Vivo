@@ -1,4 +1,4 @@
-import HeroSearch from "@/components/landing/HeroSearch";
+import HeroTabs from "@/components/landing/HeroTabs";
 import Link from "next/link";
 import HowItWorks from "@/components/landing/HowItWorks";
 import Benefits from "@/components/landing/Benefits";
@@ -97,39 +97,11 @@ export default async function HomePage() {
 
             <div className="flex justify-center">
 
-              <HeroSearch />
+              <HeroTabs />
 
             </div>
 
-            <div className="mt-8 flex gap-4 flex-wrap justify-center">
-
-              <a
-
-                href="/busca"
-
-                className="bg-green-500 hover:bg-green-400 transition text-black px-8 py-4 rounded-xl font-bold"
-
-              >
-
-                🎯 Buscar oportunidades agora
-
-              </a>
-
-              <a
-
-                href="/scanner"
-
-                className="bg-neutral-900 text-white px-8 py-4 rounded-xl font-bold hover:bg-neutral-800 transition border border-neutral-700"
-
-              >
-
-                Analisar uma empresa
-
-              </a>
-
-            </div>
-
-            <p className="mt-5 text-center">
+            <p className="mt-8 text-center">
 
               <Link href="/demo" className="text-green-400 hover:text-green-300 text-sm underline underline-offset-4 transition">
 
