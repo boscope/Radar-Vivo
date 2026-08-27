@@ -20,21 +20,34 @@ export async function GET(request: NextRequest) {
 
   const { data, error } = await supabase
     .from("companies")
-    .select("name, city, category, radar_score, rating")
+    .select("name, city, category, radar_score, rating, website, phone")
     .ilike("city", `%${city}%`)
     .ilike("category", `%${category}%`)
     .neq("name", companyName ?? "")
-    .order("radar_score", { ascending: false, nullsFirst: false })
-    .limit(5);
+    .limit(50);
 
   if (error) {
     console.error("[COMPETITORS]", error.message);
   }
 
-  const competitors = (data ?? []).map((c) => ({
-    ...c,
-    google_rating: c.rating,
-  }));
+  const competitors = (data ?? [])
+    .map((c) => {
+      const semSite = !c.website;
+      const semTelefone = !c.phone;
+      let score = 30;
+      if (semSite) score += 45;
+      if (semTelefone) score += 15;
+      if (c.city) score += 10;
+      if (score > 100) score = 100;
+      const finalScore = c.radar_score ?? score;
+      return {
+        ...c,
+        radar_score: finalScore,
+        google_rating: c.rating,
+      };
+    })
+    .sort((a: any, b: any) => b.radar_score - a.radar_score)
+    .slice(0, 5);
 
   return NextResponse.json({ competitors });
 }
