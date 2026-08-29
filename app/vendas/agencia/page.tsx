@@ -162,6 +162,55 @@ export default function VendasAgenciaPage() {
           </div>
         </section>
 
+        {/* O cálculo que fecha */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            <span className="text-green-400">O cálculo</span> que agência precisa ver
+          </h2>
+          <div className="bg-neutral-900 border border-green-500/30 rounded-2xl p-8 md:p-10">
+            <div className="grid md:grid-cols-3 gap-8 text-center">
+              <div className="bg-black border border-neutral-700 rounded-xl p-6">
+                <p className="text-neutral-500 text-sm mb-1">Investimento</p>
+                <p className="text-3xl font-black text-white mb-2">R$ 197<span className="text-sm text-neutral-500">/mês</span></p>
+                <p className="text-neutral-500 text-xs">O Radar Vivo</p>
+              </div>
+              <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+                <p className="text-neutral-400 text-sm mb-1">1 contrato fechado</p>
+                <p className="text-3xl font-black text-green-400 mb-2">R$ 500<span className="text-sm text-neutral-500">/mês</span></p>
+                <p className="text-neutral-500 text-xs">com o relatório como prova</p>
+              </div>
+              <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-6">
+                <p className="text-neutral-400 text-sm mb-1">ROI</p>
+                <p className="text-3xl font-black text-green-400 mb-2">2.5x</p>
+                <p className="text-neutral-500 text-xs">por mês, com só UM contrato</p>
+              </div>
+            </div>
+            <p className="text-center text-neutral-500 text-sm mt-6">
+              Cada contrato extra que o Radar Vivo ajuda a fechar é 100% lucro.
+              A ferramenta não custa R$ 197 — ela custa <strong className="text-white">menos de 1 contrato perdido</strong>.
+            </p>
+          </div>
+        </section>
+
+        {/* Prova real */}
+        <section className="mb-20">
+          <h2 className="text-3xl font-bold mb-8 text-center">
+            Veja a <span className="text-green-400">prova</span> na prática
+          </h2>
+          <p className="text-neutral-400 text-center max-w-xl mx-auto mb-8">
+            Digite o nome de uma empresa da sua região no Scanner e veja o relatório completo
+            que você enviaria ao cliente. Leva 60 segundos.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/scanner" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 py-4 rounded-xl text-lg transition">
+              🚀 Testar com uma empresa real →
+            </Link>
+            <Link href="/demo" className="border border-green-500/50 text-green-400 hover:bg-green-500/10 font-bold px-8 py-4 rounded-xl text-lg transition">
+              Ver relatório de exemplo
+            </Link>
+          </div>
+        </section>
+
         {/* Números */}
         <section className="mb-20">
           <div className="grid md:grid-cols-3 gap-6 text-center">

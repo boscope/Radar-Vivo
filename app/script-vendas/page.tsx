@@ -69,6 +69,81 @@ export default function ScriptVendasPage() {
           </p>
         </div>
 
+        {/* PASSO 0 - ABORDAGEM PARA AGÊNCIAS E CONSULTORES */}
+        <section className="mb-16">
+          <div className="flex items-center gap-4 mb-2">
+            <div className="w-12 h-12 bg-amber-500/20 border border-amber-500/30 rounded-xl flex items-center justify-center">
+              <span className="text-xl font-black text-amber-400">⭐</span>
+            </div>
+            <div>
+              <h2 className="text-2xl font-bold">Abordagem para agências e consultores</h2>
+              <p className="text-neutral-500 text-sm">Seu público principal — venda a ferramenta de vendas, não a análise</p>
+            </div>
+          </div>
+          <div className="bg-amber-950 border border-amber-800 rounded-xl p-5 mb-6">
+            <p className="text-amber-300 text-sm mb-2">
+              <strong className="font-bold">💡 A chave:</strong> agência não paga pra analisar a própria empresa.
+              Ela paga pra <strong>fechar contratos</strong>. Então nunca venda "análise de presença digital" —
+              venda <strong>"a ferramenta que fecha 3x mais contratos com um relatório de 60 segundos"</strong>.
+            </p>
+            <p className="text-amber-300 text-sm">
+              <strong className="font-bold">🎯 O movimento matador:</strong> antes de falar com a agência,
+              gere o relatório de UMA empresa da cidade deles (cliente potencial óbvio).
+              Chegue com o relatório pronto na mão — é a prova viva do valor.
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            <TemplateCard
+              title="WhatsApp — Abordagem agência (com relatório na mão)"
+              text={`Olá [DONO DA AGÊNCIA]! 👋
+
+Sou da equipe Radar Vivo. Fizemos uma análise da presença digital da [NOME DA EMPRESA] aqui de [CIDADE] — ela tem [X] pontos fracos e estimamos que está perdendo cerca de R$ [VALOR]/mês em clientes que vão pra concorrência.
+
+Antes de te mostrar o relatório — você prospecta esse tipo de empresa pra fechar contrato de marketing?
+
+✅ Se sim, essa ferramenta é exatamente pra você. Quer que eu te envie o relatório? É rápido e sem comproște.`}
+            />
+
+            <TemplateCard
+              title="WhatsApp — Follow-up agência (envio do relatório)"
+              text={`Pronto [DONO DA AGÊNCIA]! Aqui está o relatório da [NOME DA EMPRESA]:
+
+👉 https://www.radarvivo.com.br/demo/[NOME]
+
+Olha o Radar Score e o impacto financeiro. Isso é o tipo de empresa que fecha contrato de R$ 500+ por mês com você.
+
+Só pra te contextualizar: com o Radar Vivo você GERA esse relatório em 60 segundos pra QUALQUER empresa da sua região. Sem fazer diagnóstico manual, sem gastar horas.
+
+Quer ver uma versão com o nome da SUA agência no relatório?`}
+            />
+
+            <TemplateCard
+              title="Ligação — Script agência (30 segundos)"
+              text={`"Oi [DONO DA AGÊNCIA], tudo bem? Aqui é o [SEU NOME], da Radar Vivo.
+
+A gente tem uma ferramenta que analisa qualquer empresa em 60 segundos e gera um relatório com score, impacto financeiro e plano de ação. Basicamente, a prova pronta que falta pra fechar contrato.
+
+Já analisei a [NOME DA EMPRESA] aqui da sua cidade — ela tá perdendo R$ [VALOR]/mês no Google. Se você prospecta esse tipo de empresa, vale 2 minutos da sua atenção?
+
+Te mando o relatório no WhatsApp?"`}
+            />
+
+            <TemplateCard
+              title="Proposta agência — o cálculo que fecha"
+              text={`[DONO DA AGÊNCIA], o raciocínio é simples:
+
+Com R$ 197/mês no Radar Vivo, você gera relatórios ilimitados que fecham contratos.
+
+Se fechar 1 contrato extra de R$ 500/mês por mês, o Radar se pagou 2,5x. O resto é lucro.
+
+Sem fidelidade. Testa 3 dias grátis. Se não gostar, cancela.
+
+Quero te mostrar como funciona na prática — me dá 15 minutos?`}
+            />
+          </div>
+        </section>
+
         {/* PASSO 1 */}
         <section className="mb-16">
           <div className="flex items-center gap-4 mb-6">
@@ -198,7 +273,30 @@ Topa começar hoje? Eu configuro tudo pra vocês."`}
           </h2>
 
           <div className="space-y-4">
-            <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
+            <div className="bg-amber-950 border border-amber-800 rounded-xl p-6">
+              <p className="text-amber-400 font-bold mb-2">❌ Agência: &ldquo;Não tenho interesse&rdquo; (a resposta que você recebeu)</p>
+              <p className="text-neutral-300 text-sm mb-2">
+                <strong className="text-green-400">Resposta:</strong> &ldquo;Entendo perfeitamente! [DONO DA AGÊNCIA], me responde só uma coisa: na última semana, quantos clientes recusaram um contrato seu porque precisavam 'pensar melhor'?
+                Por isso eu te enviei esse relatório da [NOME DA EMPRESA] — é a prova que elimina esse 'vou pensar'. Quando o cliente VÊ o número de quanto ele tá perdendo, ele chama VOCÊ. 
+                Se isso não for útil pra sua agência, eu te mostro 5 minutos só pra você ver e decide. Tudo bem?&rdquo;
+              </p>
+            </div>
+
+            <div className="bg-amber-950 border border-amber-800 rounded-xl p-6">
+              <p className="text-amber-400 font-bold mb-2">❌ Agência: &ldquo;Já tenho minhas ferramentas&rdquo;</p>
+              <p className="text-neutral-300 text-sm mb-2">
+                <strong className="text-green-400">Resposta:</strong> &ldquo;Legal! E suas ferramentas geram um relatório com score, impacto financeiro e plano de ação em 60 segundos pra qualquer empresa da região? O Radar Vivo não substitui sua stack — ele é a PONTAPÉ que fecha o contrato antes das outras ferramentas entrarem. É a arma de prospecção.&rdquo;
+              </p>
+            </div>
+
+            <div className="bg-amber-950 border border-amber-800 rounded-xl p-6">
+              <p className="text-amber-400 font-bold mb-2">❌ Agência: &ldquo;Manda o link que eu vejo depois&rdquo;</p>
+              <p className="text-neutral-300 text-sm mb-2">
+                <strong className="text-green-400">Resposta:</strong> &ldquo;Perfeito! Mas ó, se você olhar o relatório da [NOME DA EMPRESA] e não pensar 'isso aqui fecharia contrato mais rápido', me fala que eu mesmo indico outra ferramenta pra você. Vale? Já te mando o link.&rdquo;
+              </p>
+            </div>
+
+            <div className="bg-red-950 border border-red-800 rounded-xl p-6">
               <p className="text-red-400 font-bold mb-2">❌ &ldquo;Tá caro&rdquo;</p>
               <p className="text-neutral-300 text-sm mb-2">
                 <strong className="text-green-400">Resposta:</strong> &ldquo;Entendo. Mas olha o relatório: vocês estão perdendo R$ {`[VALOR]`}/mês em clientes. Com R$ 197, se vocês recuperarem 1 cliente, já pagou. E cancela quando quiser.&rdquo;
