@@ -164,7 +164,7 @@ export default function HeroTabs() {
                                 {c.opportunityScore}
                               </span>
                               <a
-                                href={`/scanner/result/${encodeURIComponent(c.name)}?city=${encodeURIComponent(c.city || "")}&state=${encodeURIComponent(c.state || "")}&category=${encodeURIComponent(c.category || "")}`}
+                                href={`/scanner/result/${encodeURIComponent(c.name)}?city=${encodeURIComponent(c.city || "")}&state=${encodeURIComponent(c.state || "")}&category=${encodeURIComponent(c.category || "")}&placeId=${encodeURIComponent(c.googlePlaceId || "")}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
                                 className="text-xs bg-green-500 hover:bg-green-400 text-black font-bold px-2.5 py-1 rounded-md transition"

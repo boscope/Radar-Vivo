@@ -310,7 +310,7 @@ export default function ScannerResultPage({
 
             hasWhatsapp={company.hasWhatsapp}
 
-            hasGoogle={Boolean(company.googleMapsUrl)}
+            hasGoogle={company.hasGoogle ?? Boolean(company.googleMapsUrl)}
 
             hasGoogleAds={company.hasGoogleAds}
 
@@ -406,7 +406,7 @@ export default function ScannerResultPage({
                 checks: [
                   { label: "Site profissional", ok: company.hasWebsite },
                   { label: "SEO local", ok: company.hasSeo },
-                  { label: "Google Meu Negócio / Maps", ok: Boolean(company.googleMapsUrl) },
+                  { label: "Google Meu Negócio / Maps", ok: company.hasGoogle ?? Boolean(company.googleMapsUrl) },
                   { label: "WhatsApp comercial", ok: company.hasWhatsapp },
                   { label: "Google Ads", ok: Boolean(company.hasGoogleAds) },
                   { label: "Meta Ads (Instagram/Facebook)", ok: Boolean(company.hasMetaAds) },

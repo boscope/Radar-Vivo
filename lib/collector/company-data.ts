@@ -384,6 +384,7 @@ export async function collectCompanyData(
     googleReviews: googleData.googleReviews,
     hasWebsite: websiteData.hasWebsite ?? false,
     hasSeo: websiteData.hasSeo ?? false,
+    hasGoogle: !!googleData.googleMapsUrl || !!googleData.googlePlaceId || !!googleData.googleRating,
     hasWhatsapp: analysis.hasWhatsapp,
     hasGoogleAds: websiteData.hasGoogleAds ?? false,
     hasMetaAds: websiteData.hasMetaPixel ?? false,

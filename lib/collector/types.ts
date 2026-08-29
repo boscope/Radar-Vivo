@@ -132,6 +132,8 @@ export interface CompanyData {
 
   hasSeo: boolean;
 
+  hasGoogle: boolean;
+
   hasWhatsapp: boolean;
 
   hasGoogleAds?: boolean;
