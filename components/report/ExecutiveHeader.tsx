@@ -20,7 +20,7 @@ export default function ExecutiveHeader({
 
             </h1>
 
-            <div className="mt-6 grid md:grid-cols-2 gap-3">
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
 
                 <p><strong>Empresa:</strong> {report.company}</p>
 

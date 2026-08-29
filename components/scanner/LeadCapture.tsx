@@ -91,7 +91,7 @@ export default function LeadCapture({
         o Radar Vivo e como ele pode ajudar sua agência.
       </p>
 
-      <div className="grid md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <input
           value={name}
           onChange={(e) => setName(e.target.value)}

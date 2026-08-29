@@ -4,15 +4,15 @@ export default function CoreDemo(){
 
 return(
 
-<div className="min-h-screen bg-neutral-100 p-10">
+<div className="min-h-screen bg-neutral-100 p-4 md:p-10">
 
-<h1 className="text-5xl font-bold mb-10">
+<h1 className="text-3xl md:text-5xl font-bold mb-10">
 
 Radar Score Engine
 
 </h1>
 
-<div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+<div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
 <RadarScoreCard
 company="Mercado Livre"

@@ -108,11 +108,11 @@ export default function DemoPersonalizadaPage({ params }: Props) {
 
         {/* Score */}
         <div className="flex flex-col md:flex-row gap-6 mb-10">
-          <div className={`bg-neutral-900 border ${scoreRing} rounded-2xl p-8 flex flex-col items-center justify-center min-w-[180px]`}>
+          <div className={`bg-neutral-900 border ${scoreRing} rounded-2xl p-8 flex flex-col items-center justify-center w-full md:w-auto md:min-w-[180px]`}>
             <span className={`text-6xl font-black ${scoreColor}`}>{score}</span>
             <span className="text-neutral-400 text-sm mt-1">Radar Score</span>
           </div>
-          <div className="flex-1 grid grid-cols-2 gap-4">
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-5">
               <p className="text-neutral-500 text-xs mb-1">Prioridade</p>
               <p className="text-xl font-bold text-white">{priority}</p>

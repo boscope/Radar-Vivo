@@ -111,7 +111,7 @@ export default async function HomePage() {
 
             </p>
 
-            <div className="mt-10 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-3 gap-8 max-w-2xl mx-auto">
 
               <div>
 

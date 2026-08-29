@@ -277,10 +277,10 @@ export default function RelatorioPublicoPage({
         {/* Presença em IAs */}
         {company.intelligence.aiPresence && (
           <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
-            <div className="flex items-start justify-between gap-4">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <h2 className="text-2xl font-bold">🤖 Sua empresa nas IAs</h2>
               <span
-                className="text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap"
+                className="text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap shrink-0"
                 style={{
                   backgroundColor:
                     company.intelligence.aiPresence.status === "invisivel"
@@ -409,21 +409,21 @@ function CompetitorComparison({
       <div className="space-y-3">
         {/* Current company */}
         <div className="flex items-center justify-between p-4 rounded-xl" style={{ backgroundColor: `${accentColor}15`, borderColor: accentColor, borderWidth: 1 }}>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 min-w-0">
             <span className="font-bold" style={{ color: accentColor }}>📍</span>
-            <span className="font-bold">{companyName} (sua empresa)</span>
+            <span className="font-bold break-words">{companyName} (sua empresa)</span>
           </div>
-          <span className="text-2xl font-extrabold" style={{ color: accentColor }}>{currentScore}</span>
+          <span className="text-2xl font-extrabold shrink-0" style={{ color: accentColor }}>{currentScore}</span>
         </div>
 
         {/* Competitors */}
         {competitors.map((c) => (
-          <div key={c.name} className="flex items-center justify-between p-4 bg-neutral-800/50 rounded-xl">
-            <div className="flex items-center gap-3">
+          <div key={c.name} className="flex items-center justify-between gap-3 p-4 bg-neutral-800/50 rounded-xl">
+            <div className="flex items-center gap-3 min-w-0">
               <span className="text-neutral-500">🏪</span>
-              <span className="text-neutral-300">{c.name}</span>
+              <span className="text-neutral-300 break-words">{c.name}</span>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 shrink-0">
               {c.google_rating && (
                 <span className="text-sm text-neutral-400">⭐ {c.google_rating}</span>
               )}

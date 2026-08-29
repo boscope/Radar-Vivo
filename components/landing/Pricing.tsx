@@ -136,13 +136,13 @@ export default function Pricing() {
         </p>
 
         {/* ROI Callout */}
-        <div className="inline-flex items-center gap-3 bg-green-500/10 border border-green-500/20 rounded-full px-6 py-3 mt-8">
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 bg-green-500/10 border border-green-500/20 rounded-2xl px-6 py-3 mt-8 text-center">
           <span className="text-green-400 font-bold">💡 Um site vendido (R$ 800 a R$ 3.000)</span>
           <span className="text-neutral-400">= 4 a 15 meses de assinatura Pro</span>
         </div>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
         {plans.map((plan) => (
           <div
             key={plan.key}

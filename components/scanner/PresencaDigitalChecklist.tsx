@@ -81,9 +81,9 @@ export default function PresencaDigitalChecklist({
 
         {items.map((item) => (
 
-          <div key={item.nome} className="flex items-center justify-between gap-4 bg-zinc-800/50 rounded-xl p-4">
+          <div key={item.nome} className="flex items-center justify-between gap-3 flex-wrap bg-zinc-800/50 rounded-xl p-4">
 
-            <div>
+            <div className="min-w-0">
               <p className="font-bold">
                 {item.nome}
               </p>
@@ -93,11 +93,11 @@ export default function PresencaDigitalChecklist({
             </div>
 
             {item.presente ? (
-              <span className="text-green-400 font-bold text-lg">
+              <span className="text-green-400 font-bold text-lg shrink-0">
                 ✅ Tem
               </span>
             ) : (
-              <span className="text-red-400 font-bold text-lg">
+              <span className="text-red-400 font-bold text-lg shrink-0">
                 ❌ Falta
               </span>
             )}

@@ -99,7 +99,7 @@ export default function AgencySettingsPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="border-b border-neutral-800/50 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
               <span className="text-black font-bold text-sm">RV</span>
@@ -123,7 +123,7 @@ export default function AgencySettingsPage() {
           {/* Agency Name */}
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
             <h2 className="text-lg font-bold mb-4">Identidade da Agência</h2>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm text-neutral-400 mb-2">Nome da agência</label>
                 <input
@@ -150,7 +150,7 @@ export default function AgencySettingsPage() {
           {/* Branding */}
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6">
             <h2 className="text-lg font-bold mb-4">Personalização Visual</h2>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm text-neutral-400 mb-2">Cor principal</label>
                 <div className="flex items-center gap-3">
@@ -213,7 +213,7 @@ export default function AgencySettingsPage() {
           </div>
 
           {/* Save */}
-          <div className="flex items-center justify-between">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div>
               {msg && (
                 <p className={`text-sm ${msg.includes("Erro") ? "text-red-400" : "text-green-400"}`}>

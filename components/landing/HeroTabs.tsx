@@ -60,7 +60,7 @@ export default function HeroTabs() {
 
   return (
     <>
-      <div className="mt-8 max-w-2xl mx-auto">
+      <div className="mt-8 w-full px-4 sm:px-0 sm:max-w-2xl mx-auto">
         {/* Tabs */}
         <div className="flex bg-neutral-900 border border-neutral-700 rounded-xl p-1 mb-0">
           <button
@@ -90,7 +90,7 @@ export default function HeroTabs() {
           {activeTab === "buscar" ? (
             <div>
               <p className="text-neutral-400 text-sm mb-4">Encontre empresas por região e categoria</p>
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label className="block text-neutral-400 text-xs mb-1">Estado</label>
                   <input

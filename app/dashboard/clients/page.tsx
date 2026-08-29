@@ -116,7 +116,7 @@ export default function ClientsPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <header className="border-b border-neutral-800/50 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
               <span className="text-black font-bold text-sm">RV</span>
@@ -133,7 +133,7 @@ export default function ClientsPage() {
             <Link href="/dashboard" className="text-sm text-neutral-400 hover:text-white transition">
               ← Painel
             </Link>
-            <Link href="/dashboard/agency" className="text-sm text-neutral-400 hover:text-white transition">
+            <Link href="/dashboard/agency" className="text-sm text-neutral-400 hover:text-white transition hidden sm:inline">
               Configurações
             </Link>
           </div>
@@ -189,7 +189,7 @@ export default function ClientsPage() {
             </Link>
           </div>
         ) : (
-          <div className="border border-neutral-800 rounded-2xl overflow-hidden">
+          <div className="border border-neutral-800 rounded-2xl overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-neutral-800 text-neutral-400 bg-neutral-900/50">

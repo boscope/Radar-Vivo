@@ -38,7 +38,7 @@ export default function SocialProof(){
 
             </p>
 
-            <div className="grid md:grid-cols-3 gap-6 mt-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
 
                 {testimonials.map((t)=>(
                     <div key={t.name} className="border border-neutral-800 rounded-2xl p-8 bg-neutral-950">

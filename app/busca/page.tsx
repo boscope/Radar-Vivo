@@ -154,7 +154,7 @@ export default function BuscaMassaPage() {
 
     <main className="min-h-screen bg-black text-white">
 
-      <div className="max-w-6xl mx-auto p-10">
+      <div className="max-w-6xl mx-auto p-4 sm:p-6 md:p-10">
 
         <a
           href="/dashboard"
@@ -174,7 +174,7 @@ export default function BuscaMassaPage() {
 
         <div className="bg-zinc-900 rounded-xl p-8 border border-zinc-800">
 
-          <div className="grid md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             <div>
               <label className="block text-zinc-400 text-sm mb-2">
@@ -243,11 +243,13 @@ export default function BuscaMassaPage() {
 
         {aviso && !erro && (
 
-          <div className="mt-8 bg-amber-950 border border-amber-600 rounded-xl p-5 text-amber-200 text-sm flex items-start justify-between gap-4">
+          <div className="mt-8 bg-amber-950 border border-amber-600 rounded-xl p-5 text-amber-200 text-sm flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+
             <span>{aviso}</span>
+
             <a
               href="/auth/login"
-              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-4 py-2 rounded-lg text-xs whitespace-nowrap transition"
+              className="bg-amber-500 hover:bg-amber-400 text-black font-bold px-4 py-2 rounded-lg text-xs whitespace-nowrap transition shrink-0"
             >
               Fazer login
             </a>
@@ -283,7 +285,7 @@ export default function BuscaMassaPage() {
 
             )}
 
-            <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
               {resultado.companies.map((company, index) => {
 

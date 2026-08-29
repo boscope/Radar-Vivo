@@ -97,7 +97,7 @@ export default function DemoPage() {
           </p>
         </div>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
             <p className="text-5xl font-extrabold" style={{ color: accentColor }}>
               {demoScore.score}
@@ -262,9 +262,9 @@ export default function DemoPage() {
         </div>
 
         <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
-          <div className="flex items-start justify-between gap-4">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <h2 className="text-2xl font-bold">🤖 Sua empresa nas IAs</h2>
-            <span className="text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap bg-red-500/10 text-red-400">
+            <span className="text-xs font-bold px-3 py-1.5 rounded-full whitespace-nowrap bg-red-500/10 text-red-400 shrink-0">
               12/100 visibilidade
             </span>
           </div>

@@ -354,7 +354,7 @@ export default function DashboardPage() {
 
       {/* Header */}
       <header className="border-b border-neutral-800/50 bg-black/80 backdrop-blur-xl sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-3">
           <Link href="/dashboard" className="flex items-center gap-2">
             <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center">
               <span className="text-black font-bold text-sm">RV</span>
@@ -472,16 +472,16 @@ export default function DashboardPage() {
 
         {/* Trial Banner */}
         {isTrial && (
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 mb-8 flex items-center gap-3">
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 mb-8 flex flex-wrap items-center gap-3">
             <span className="text-2xl">⏰</span>
-            <div className="flex-1">
+            <div className="flex-1 min-w-[150px]">
               <p className="text-amber-400 font-semibold">Período de teste ativo</p>
               <p className="text-amber-400/60 text-sm">
                 Aproveite todos os recursos gratuitamente.
                 {periodEnd && ` Expira em ${new Date(periodEnd).toLocaleDateString("pt-BR")}.`}
               </p>
             </div>
-            <Link href="/#precos" className="text-sm text-amber-400 hover:text-amber-300 font-bold whitespace-nowrap">
+            <Link href="/#precos" className="text-sm text-amber-400 hover:text-amber-300 font-bold whitespace-nowrap shrink-0">
               Assinar agora →
             </Link>
           </div>
@@ -556,7 +556,7 @@ export default function DashboardPage() {
             </h2>
             <p className="text-neutral-500 text-sm mb-5">Encontre empresas por região e categoria.</p>
 
-            <div className="grid grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div>
                 <label className="block text-neutral-400 text-xs mb-1">Estado</label>
                 <input
@@ -731,7 +731,7 @@ export default function DashboardPage() {
               <p className="text-neutral-400 mb-4">Nenhum lead no pipeline ainda. Use o Scanner ou a Busca acima pra começar.</p>
             </div>
           ) : (
-            <div className="border border-neutral-800 rounded-2xl overflow-hidden">
+            <div className="border border-neutral-800 rounded-2xl overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-neutral-800 text-neutral-400 bg-neutral-900/50">
