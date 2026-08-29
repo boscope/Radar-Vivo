@@ -1,0 +1,1884 @@
+# Cidades-alvo para prospecção de agências de marketing
+
+Faixa populacional: **15 mil a 80 mil habitantes** (Censo IBGE 2022).
+
+Total de cidades na faixa: **1798**.
+
+> Nesses municípios existem agências de marketing locais de pequeno/médio porte com pouca estrutura — o perfil ideal de cliente para o Radar Vivo.
+> Menos de 15 mil: geralmente não há agência estabelecida. Acima de 80 mil: começam a ter agências com ferramentas próprias.
+
+## Acre (AC) — 11 cidades — população média 24.939
+
+Nº01 Tarauacá — 43.467
+Nº02 Sena Madureira — 41.343
+Nº03 Feijó — 35.426
+Nº04 Brasiléia — 26.000
+Nº05 Senador Guiomard — 21.454
+Nº06 Mâncio Lima — 19.294
+Nº07 Epitaciolândia — 18.757
+Nº08 Xapuri — 18.243
+Nº09 Marechal Thaumaturgo — 17.093
+Nº10 Porto Acre — 16.693
+Nº11 Plácido de Castro — 16.560
+
+## Alagoas (AL) — 51 cidades — população média 28.257
+
+Nº01 Palmeira dos Índios — 71.574
+Nº02 Marechal Deodoro — 60.370
+Nº03 União dos Palmares — 59.280
+Nº04 Penedo — 58.650
+Nº05 São Miguel dos Campos — 51.990
+Nº06 Delmiro Gouveia — 51.318
+Nº07 Coruripe — 50.414
+Nº08 Santana do Ipanema — 46.220
+Nº09 Teotônio Vilela — 38.053
+Nº10 Atalaia — 37.512
+Nº11 Girau do Ponciano — 36.102
+Nº12 Pilar — 35.370
+Nº13 Maragogi — 32.174
+Nº14 Campo Alegre — 32.106
+Nº15 São Sebastião — 31.786
+Nº16 São Luís do Quitunde — 30.873
+Nº17 São José da Tapera — 30.604
+Nº18 Craíbas — 25.397
+Nº19 Murici — 25.187
+Nº20 Limoeiro de Anadia — 24.740
+Nº21 Satuba — 24.278
+Nº22 Viçosa — 24.092
+Nº23 Porto Calvo — 24.071
+Nº24 Igaci — 23.995
+Nº25 Junqueiro — 23.907
+Nº26 Matriz de Camaragibe — 23.857
+Nº27 Pão de Açúcar — 23.823
+Nº28 Traipu — 23.565
+Nº29 Feira Grande — 22.712
+Nº30 Piranhas — 22.609
+Nº31 Mata Grande — 21.844
+Nº32 Igreja Nova — 21.372
+Nº33 Boca da Mata — 21.187
+Nº34 São José da Laje — 20.813
+Nº35 Olho d'Água das Flores — 20.695
+Nº36 Porto Real do Colégio — 20.082
+Nº37 Taquarana — 19.032
+Nº38 Água Branca — 19.008
+Nº39 Lagoa da Canoa — 18.457
+Nº40 Major Isidoro — 17.700
+Nº41 Joaquim Gomes — 17.150
+Nº42 Batalha — 16.448
+Nº43 Barra de Santo Antônio — 16.365
+Nº44 Cajueiro — 16.024
+Nº45 Piaçabuçu — 15.908
+Nº46 Colônia Leopoldina — 15.816
+Nº47 Canapi — 15.559
+Nº48 Estrela de Alagoas — 15.429
+Nº49 Messias — 15.405
+Nº50 Inhapi — 15.167
+Nº51 Capela — 15.032
+
+## Amazonas (AM) — 46 cidades — população média 31.206
+
+Nº01 Tefé — 73.669
+Nº02 Coari — 70.616
+Nº03 Tabatinga — 66.764
+Nº04 Maués — 61.204
+Nº05 Iranduba — 61.163
+Nº06 Humaitá — 57.473
+Nº07 Manicoré — 53.914
+Nº08 São Gabriel da Cachoeira — 51.795
+Nº09 Lábrea — 45.448
+Nº10 Autazes — 41.564
+Nº11 Benjamin Constant — 37.648
+Nº12 Boca do Acre — 35.447
+Nº13 Eirunepé — 33.170
+Nº14 Borba — 33.080
+Nº15 São Paulo de Olivença — 32.967
+Nº16 Barreirinha — 31.051
+Nº17 Careiro — 30.792
+Nº18 Presidente Figueiredo — 30.668
+Nº19 Carauari — 28.742
+Nº20 Santo Antônio do Içá — 28.211
+Nº21 Nova Olinda do Norte — 27.062
+Nº22 Fonte Boa — 25.871
+Nº23 Jutaí — 25.172
+Nº24 Rio Preto da Eva — 24.936
+Nº25 Ipixuna — 24.311
+Nº26 Urucurituba — 23.945
+Nº27 Novo Aripuanã — 23.818
+Nº28 Boa Vista do Ramos — 23.785
+Nº29 Codajás — 23.549
+Nº30 Beruri — 20.718
+Nº31 Apuí — 20.647
+Nº32 Nhamundá — 20.136
+Nº33 Careiro da Várzea — 19.637
+Nº34 Tapauá — 19.599
+Nº35 Pauini — 19.373
+Nº36 Tonantins — 19.247
+Nº37 Barcelos — 18.834
+Nº38 Urucará — 18.631
+Nº39 Anori — 17.194
+Nº40 Envira — 17.186
+Nº41 Manaquiri — 17.107
+Nº42 Canutama — 16.869
+Nº43 Alvarães — 15.866
+Nº44 Novo Airão — 15.761
+Nº45 Maraã — 15.529
+Nº46 Atalaia do Norte — 15.314
+
+## Amapá (AP) — 4 cidades — população média 25.592
+
+Nº01 Laranjal do Jari — 35.114
+Nº02 Oiapoque — 27.482
+Nº03 Mazagão — 21.924
+Nº04 Porto Grande — 17.848
+
+## Bahia (BA) — 211 cidades — população média 28.787
+
+Nº01 Senhor do Bonfim — 74.523
+Nº02 Irecê — 74.507
+Nº03 Candeias — 72.382
+Nº04 Casa Nova — 72.086
+Nº05 Dias d'Ávila — 71.485
+Nº06 Campo Formoso — 71.377
+Nº07 Brumado — 70.510
+Nº08 Conceição do Coité — 67.825
+Nº09 Itapetinga — 65.897
+Nº10 Bom Jesus da Lapa — 65.550
+Nº11 Itaberaba — 65.073
+Nº12 Euclides da Cunha — 61.456
+Nº13 Cruz das Almas — 60.348
+Nº14 Itamaraju — 59.605
+Nº15 Ipirá — 56.876
+Nº16 Santo Amaro — 56.012
+Nº17 Ribeira do Pombal — 54.010
+Nº18 Santo Estêvão — 52.276
+Nº19 Caetité — 52.012
+Nº20 Barra — 51.092
+Nº21 Tucano — 48.736
+Nº22 Araci — 48.294
+Nº23 Poções — 48.293
+Nº24 Catu — 48.148
+Nº25 Monte Santo — 47.780
+Nº26 Seabra — 46.160
+Nº27 Jaguaquara — 45.964
+Nº28 Xique-Xique — 44.757
+Nº29 Livramento de Nossa Senhora — 43.903
+Nº30 Mata de São João — 42.566
+Nº31 Vera Cruz — 42.529
+Nº32 Macaúbas — 41.859
+Nº33 São Sebastião do Passé — 40.958
+Nº34 Ipiaú — 40.706
+Nº35 Remanso — 40.586
+Nº36 São Gonçalo dos Campos — 39.513
+Nº37 Nova Viçosa — 39.509
+Nº38 São Francisco do Conde — 38.733
+Nº39 Santa Maria da Vitória — 38.604
+Nº40 Sento Sé — 38.154
+Nº41 Entre Rios — 38.098
+Nº42 Mucuri — 37.977
+Nº43 Santaluz — 37.834
+Nº44 Jeremoabo — 37.626
+Nº45 Cansanção — 37.439
+Nº46 Barra do Choça — 36.539
+Nº47 Amargosa — 36.521
+Nº48 Maragogipe — 35.859
+Nº49 Rio Real — 35.362
+Nº50 Pilão Arcado — 35.357
+Nº51 Conceição do Jacuípe — 35.308
+Nº52 Prado — 35.003
+Nº53 Serra do Ramalho — 34.222
+Nº54 Curaçá — 34.180
+Nº55 Itiúba — 33.872
+Nº56 Inhambupe — 33.790
+Nº57 Morro do Chapéu — 33.594
+Nº58 Riachão do Jacuípe — 33.386
+Nº59 Capim Grosso — 33.235
+Nº60 São Desidério — 32.828
+Nº61 Jaguarari — 32.703
+Nº62 Canavieiras — 32.683
+Nº63 Esplanada — 32.554
+Nº64 Correntina — 32.457
+Nº65 Gandu — 32.178
+Nº66 Pojuca — 32.136
+Nº67 Itapicuru — 31.679
+Nº68 Cícero Dantas — 30.907
+Nº69 Riacho de Santana — 30.711
+Nº70 Campo Alegre de Lourdes — 30.671
+Nº71 Camamu — 30.469
+Nº72 Paratinga — 29.252
+Nº73 Cachoeira — 29.250
+Nº74 Santa Cruz Cabrália — 29.185
+Nº75 Carinhanha — 28.869
+Nº76 Muritiba — 28.707
+Nº77 Ruy Barbosa — 28.282
+Nº78 Itabela — 28.165
+Nº79 Irará — 28.043
+Nº80 Presidente Tancredo Neves — 27.734
+Nº81 Itacaré — 27.704
+Nº82 Maracás — 27.620
+Nº83 Santa Rita de Cássia — 27.390
+Nº84 Nazaré — 27.060
+Nº85 Coração de Maria — 26.692
+Nº86 Paripiranga — 26.604
+Nº87 Ibotirama — 26.309
+Nº88 Barra da Estiva — 26.026
+Nº89 Queimadas — 25.988
+Nº90 Formosa do Rio Preto — 25.899
+Nº91 Lapão — 25.736
+Nº92 Sobradinho — 25.475
+Nº93 Anagé — 25.438
+Nº94 Ibirapitanga — 25.344
+Nº95 Quijingue — 25.272
+Nº96 Cândido Sales — 25.247
+Nº97 João Dourado — 24.854
+Nº98 Santana — 24.755
+Nº99 Castro Alves — 24.712
+Nº100 Uauá — 24.665
+Nº101 Miguel Calmon — 24.661
+Nº102 Iaçu — 24.607
+Nº103 Alcobaça — 24.530
+Nº104 Maraú — 24.527
+Nº105 Wenceslau Guimarães — 24.474
+Nº106 Itambé — 24.394
+Nº107 Valente — 24.362
+Nº108 Nova Soure — 24.236
+Nº109 Canarana — 24.206
+Nº110 Amélia Rodrigues — 24.138
+Nº111 Iraquara — 23.879
+Nº112 Conde — 23.654
+Nº113 Planalto — 23.334
+Nº114 Olindina — 22.633
+Nº115 Camacan — 22.579
+Nº116 Caculé — 22.462
+Nº117 Medeiros Neto — 22.194
+Nº118 Ituberá — 21.902
+Nº119 Ibicaraí — 21.665
+Nº120 Riachão das Neves — 21.642
+Nº121 Macarani — 21.599
+Nº122 Iguaí — 21.491
+Nº123 Uruçuca — 21.420
+Nº124 Teofilândia — 21.176
+Nº125 Laje — 21.052
+Nº126 Tanhaçu — 21.006
+Nº127 Santa Bárbara — 20.952
+Nº128 Conceição da Feira — 20.800
+Nº129 Ibicoara — 20.785
+Nº130 Oliveira dos Brejinhos — 20.715
+Nº131 Governador Mangabeira — 20.605
+Nº132 Caravelas — 20.580
+Nº133 Paramirim — 20.351
+Nº134 São Felipe — 20.283
+Nº135 Belmonte — 20.121
+Nº136 Piatã — 20.086
+Nº137 Palmas de Monte Alto — 20.078
+Nº138 Mutuípe — 20.037
+Nº139 Itaparica — 19.789
+Nº140 Crisópolis — 19.729
+Nº141 Rafael Jambeiro — 19.662
+Nº142 Buritirama — 19.589
+Nº143 Boquira — 19.322
+Nº144 Ourolândia — 19.243
+Nº145 Cocos — 19.151
+Nº146 Encruzilhada — 19.107
+Nº147 Pindobaçu — 19.083
+Nº148 Guaratinga — 19.049
+Nº149 Ibirataia — 18.792
+Nº150 Itajuípe — 18.781
+Nº151 Ubaíra — 18.626
+Nº152 São Gabriel — 18.600
+Nº153 Nordestina — 18.523
+Nº154 Madre de Deus — 18.504
+Nº155 Belo Campo — 18.412
+Nº156 Baixa Grande — 18.220
+Nº157 Una — 18.131
+Nº158 Taperoá — 18.044
+Nº159 Serra Preta — 17.996
+Nº160 Sapeaçu — 17.963
+Nº161 Ponto Novo — 17.938
+Nº162 Ituaçu — 17.914
+Nº163 Filadélfia — 17.897
+Nº164 Fátima — 17.895
+Nº165 Itanhém — 17.813
+Nº166 Cairu — 17.761
+Nº167 Mairi — 17.674
+Nº168 Jaguaripe — 17.659
+Nº169 Abaré — 17.639
+Nº170 Ubaitaba — 17.596
+Nº171 Piritiba — 17.566
+Nº172 Cafarnaum — 17.466
+Nº173 Coaraci — 17.333
+Nº174 Mundo Novo — 17.305
+Nº175 Cipó — 17.230
+Nº176 Tanque Novo — 17.158
+Nº177 Serra Dourada — 17.066
+Nº178 Coronel João Sá — 17.056
+Nº179 Souto Soares — 17.054
+Nº180 Condeúba — 17.053
+Nº181 Itarantim — 17.052
+Nº182 Ibititá — 16.969
+Nº183 Boa Vista do Tupim — 16.873
+Nº184 Itororó — 16.617
+Nº185 Ibipeba — 16.603
+Nº186 Cabaceiras do Paraguaçu — 16.559
+Nº187 Jussara — 16.354
+Nº188 Central — 16.348
+Nº189 Tremedal — 16.296
+Nº190 Utinga — 16.277
+Nº191 Canudos — 16.105
+Nº192 Ubatã — 16.094
+Nº193 Sátiro Dias — 16.008
+Nº194 Aporá — 15.922
+Nº195 Bonito — 15.844
+Nº196 Tapiramutá — 15.818
+Nº197 Conceição do Almeida — 15.794
+Nº198 Itatim — 15.737
+Nº199 Mirangaba — 15.734
+Nº200 Igaporã — 15.527
+Nº201 Glória — 15.524
+Nº202 Malhada — 15.398
+Nº203 Urandi — 15.355
+Nº204 Teolândia — 15.332
+Nº205 Itagibá — 15.310
+Nº206 Barrocas — 15.203
+Nº207 São Félix do Coribe — 15.194
+Nº208 Biritinga — 15.146
+Nº209 América Dourada — 15.137
+Nº210 Presidente Dutra — 15.130
+Nº211 Andorinha — 15.012
+
+## Ceará (CE) — 115 cidades — população média 33.478
+
+Nº01 Crateús — 76.390
+Nº02 Aracati — 75.113
+Nº03 Barbalha — 75.033
+Nº04 Horizonte — 74.755
+Nº05 Canindé — 74.174
+Nº06 Eusébio — 74.170
+Nº07 Russas — 72.928
+Nº08 Cascavel — 72.720
+Nº09 Pacajus — 70.983
+Nº10 Acaraú — 65.264
+Nº11 Itaitinga — 64.650
+Nº12 Icó — 62.642
+Nº13 Camocim — 62.326
+Nº14 Morada Nova — 61.443
+Nº15 Tauá — 61.227
+Nº16 Viçosa do Ceará — 59.712
+Nº17 Limoeiro do Norte — 59.560
+Nº18 Trairi — 58.415
+Nº19 São Gonçalo do Amarante — 54.143
+Nº20 Granja — 53.344
+Nº21 Beberibe — 53.114
+Nº22 Brejo Santo — 51.090
+Nº23 Boa Viagem — 50.411
+Nº24 São Benedito — 47.640
+Nº25 Itapajé — 46.426
+Nº26 Mauriti — 45.561
+Nº27 Acopiara — 44.962
+Nº28 Itarema — 42.957
+Nº29 Amontada — 42.156
+Nº30 Guaraciaba do Norte — 42.053
+Nº31 Ipu — 41.081
+Nº32 Pedra Branca — 40.187
+Nº33 Santa Quitéria — 40.183
+Nº34 Várzea Alegre — 38.984
+Nº35 Paracuru — 38.980
+Nº36 Pentecoste — 37.813
+Nº37 Mombaça — 37.735
+Nº38 Massapê — 37.697
+Nº39 Missão Velha — 36.822
+Nº40 Ipueiras — 36.798
+Nº41 Baturité — 35.218
+Nº42 Jaguaribe — 33.726
+Nº43 Bela Cruz — 32.775
+Nº44 Ubajara — 32.767
+Nº45 Paraipaba — 32.216
+Nº46 Jaguaruana — 31.701
+Nº47 Parambu — 31.445
+Nº48 Lavras da Mangabeira — 30.802
+Nº49 Nova Russas — 30.699
+Nº50 Tabuleiro do Norte — 30.652
+Nº51 Santana do Acaraú — 30.628
+Nº52 Cruz — 29.761
+Nº53 Novo Oriente — 27.545
+Nº54 Jardim — 27.411
+Nº55 Redenção — 27.214
+Nº56 Caririaçu — 26.320
+Nº57 Milagres — 25.900
+Nº58 Marco — 25.799
+Nº59 Jijoca de Jericoacoara — 25.555
+Nº60 Aracoiaba — 25.553
+Nº61 Campos Sales — 25.135
+Nº62 Tamboril — 24.815
+Nº63 Ocara — 24.493
+Nº64 Guaiúba — 24.325
+Nº65 Senador Pompeu — 24.266
+Nº66 Forquilha — 24.173
+Nº67 Independência — 24.024
+Nº68 Ibiapina — 23.965
+Nº69 Jucás — 23.922
+Nº70 Irauçuba — 23.915
+Nº71 Aurora — 23.714
+Nº72 Pindoretama — 23.391
+Nº73 Morrinhos — 22.753
+Nº74 Barreira — 22.392
+Nº75 Cedro — 22.344
+Nº76 Assaré — 21.697
+Nº77 Icapuí — 21.433
+Nº78 Coreaú — 20.953
+Nº79 Quixeré — 20.874
+Nº80 Itatira — 20.424
+Nº81 Quiterianópolis — 20.213
+Nº82 Uruburetama — 20.189
+Nº83 Chorozinho — 20.163
+Nº84 Araripe — 19.783
+Nº85 Orós — 19.675
+Nº86 Barro — 19.381
+Nº87 Reriutaba — 18.606
+Nº88 Farias Brito — 18.217
+Nº89 Solonópole — 18.179
+Nº90 Varjota — 18.105
+Nº91 Hidrolândia — 17.855
+Nº92 Itapiúna — 17.841
+Nº93 Cariré — 17.632
+Nº94 Croatá — 17.481
+Nº95 Umirim — 17.470
+Nº96 Fortim — 17.294
+Nº97 Capistrano — 17.254
+Nº98 Jaguaretama — 17.232
+Nº99 Carnaubal — 17.210
+Nº100 Banabuiú — 17.195
+Nº101 Tejuçuoca — 17.154
+Nº102 Monsenhor Tabosa — 17.149
+Nº103 Porteiras — 17.050
+Nº104 Cariús — 17.015
+Nº105 Santana do Cariri — 16.954
+Nº106 Madalena — 16.896
+Nº107 Salitre — 16.633
+Nº108 Piquet Carneiro — 16.616
+Nº109 Caridade — 16.377
+Nº110 Quixelô — 15.910
+Nº111 Frecheirinha — 15.657
+Nº112 Tururu — 15.412
+Nº113 Nova Olinda — 15.399
+Nº114 Pereiro — 15.274
+Nº115 Meruoca — 15.157
+
+## Espírito Santo (ES) — 33 cidades — população média 29.424
+
+Nº01 Viana — 73.423
+Nº02 Nova Venécia — 49.065
+Nº03 Barra de São Francisco — 42.498
+Nº04 Marataízes — 41.929
+Nº05 Santa Maria de Jetibá — 41.636
+Nº06 Itapemirim — 39.832
+Nº07 Castelo — 36.930
+Nº08 Domingos Martins — 35.416
+Nº09 São Gabriel da Palha — 32.252
+Nº10 Afonso Cláudio — 30.684
+Nº11 Baixo Guandu — 30.674
+Nº12 Anchieta — 29.984
+Nº13 Guaçuí — 29.358
+Nº14 Alegre — 29.177
+Nº15 Jaguaré — 28.931
+Nº16 Iúna — 28.590
+Nº17 Conceição da Barra — 27.458
+Nº18 Sooretama — 26.502
+Nº19 Ibatiba — 25.380
+Nº20 Mimoso do Sul — 24.475
+Nº21 Pinheiros — 23.915
+Nº22 Venda Nova do Imigrante — 23.831
+Nº23 Santa Teresa — 22.808
+Nº24 Piúma — 22.300
+Nº25 Ecoporanga — 21.992
+Nº26 Pedro Canário — 21.522
+Nº27 Vargem Alta — 19.563
+Nº28 Rio Bananal — 19.274
+Nº29 Montanha — 18.900
+Nº30 Pancas — 18.893
+Nº31 Muniz Freire — 18.153
+Nº32 Fundão — 18.014
+Nº33 Marechal Floriano — 17.641
+
+## Goiás (GO) — 52 cidades — população média 32.265
+
+Nº01 Goianésia — 73.707
+Nº02 Santo Antônio do Descoberto — 72.127
+Nº03 Goianira — 71.916
+Nº04 Mineiros — 70.081
+Nº05 Cristalina — 62.337
+Nº06 Inhumas — 52.204
+Nº07 Morrinhos — 51.351
+Nº08 Quirinópolis — 48.447
+Nº09 Jaraguá — 45.223
+Nº10 Itaberaí — 44.734
+Nº11 Porangatu — 44.317
+Nº12 Uruaçu — 42.546
+Nº13 Santa Helena de Goiás — 38.492
+Nº14 Iporá — 35.684
+Nº15 Goiatuba — 35.664
+Nº16 Padre Bernardo — 34.967
+Nº17 Niquelândia — 34.964
+Nº18 Posse — 34.914
+Nº19 Bela Vista de Goiás — 34.445
+Nº20 São Luís de Montes Belos — 33.852
+Nº21 Pires do Rio — 32.373
+Nº22 Nerópolis — 31.932
+Nº23 Palmeiras de Goiás — 31.858
+Nº24 Hidrolândia — 27.742
+Nº25 Minaçu — 27.075
+Nº26 Alexânia — 27.008
+Nº27 Pirenópolis — 26.690
+Nº28 Itapuranga — 26.113
+Nº29 Ipameri — 25.548
+Nº30 Cocalzinho de Goiás — 25.016
+Nº31 Piracanjuba — 24.883
+Nº32 Goiás — 24.071
+Nº33 Bom Jesus de Goiás — 23.958
+Nº34 Silvânia — 22.245
+Nº35 Ceres — 22.046
+Nº36 São Miguel do Araguaia — 21.900
+Nº37 Acreúna — 21.568
+Nº38 Itapaci — 21.087
+Nº39 Rubiataba — 19.788
+Nº40 Jussara — 19.620
+Nº41 Guapó — 19.545
+Nº42 Abadia de Goiás — 19.128
+Nº43 Anicuns — 18.503
+Nº44 Aragarças — 18.390
+Nº45 Pontalina — 18.309
+Nº46 Campos Belos — 18.108
+Nº47 Abadiânia — 17.232
+Nº48 Crixás — 17.065
+Nº49 Indiara — 17.061
+Nº50 São Simão — 17.020
+Nº51 Caiapônia — 16.513
+Nº52 Orizona — 16.399
+
+## Maranhão (MA) — 107 cidades — população média 28.318
+
+Nº01 Grajaú — 73.872
+Nº02 Barreirinhas — 65.589
+Nº03 Itapecuru Mirim — 60.440
+Nº04 Coroatá — 59.566
+Nº05 Santa Luzia — 57.635
+Nº06 Buriticupu — 55.499
+Nº07 Tutóia — 53.356
+Nº08 Viana — 51.442
+Nº09 São Bento — 46.395
+Nº10 Presidente Dutra — 45.155
+Nº11 Lago da Pedra — 44.403
+Nº12 Vargem Grande — 43.261
+Nº13 Coelho Neto — 41.658
+Nº14 Santa Helena — 41.561
+Nº15 Zé Doca — 40.801
+Nº16 Colinas — 40.316
+Nº17 Araioses — 39.052
+Nº18 São Mateus do Maranhão — 38.829
+Nº19 Rosário — 38.475
+Nº20 Turiaçu — 37.491
+Nº21 Amarante do Maranhão — 37.085
+Nº22 Pedreiras — 37.050
+Nº23 Santa Rita — 37.035
+Nº24 Tuntum — 36.251
+Nº25 Brejo — 34.120
+Nº26 São Domingos do Maranhão — 34.034
+Nº27 Estreito — 33.294
+Nº28 Bom Jardim — 33.100
+Nº29 Urbano Santos — 32.812
+Nº30 Penalva — 32.511
+Nº31 Matões — 32.174
+Nº32 Turilândia — 31.638
+Nº33 Cururupu — 31.558
+Nº34 Pindaré-Mirim — 31.429
+Nº35 Parnarama — 31.250
+Nº36 Vitorino Freire — 30.845
+Nº37 Raposa — 30.839
+Nº38 Vitória do Mearim — 30.805
+Nº39 Buriti — 29.685
+Nº40 Arari — 29.472
+Nº41 Bom Jesus das Selvas — 28.599
+Nº42 Monção — 27.751
+Nº43 São Bernardo — 26.943
+Nº44 Timbiras — 26.484
+Nº45 Alto Alegre do Pindaré — 25.710
+Nº46 Humberto de Campos — 25.680
+Nº47 Arame — 25.517
+Nº48 Anajatuba — 25.322
+Nº49 São João dos Patos — 25.020
+Nº50 Icatu — 24.794
+Nº51 João Lisboa — 24.709
+Nº52 Pedro do Rosário — 24.320
+Nº53 Santa Luzia do Paruá — 24.307
+Nº54 Cantanhede — 24.303
+Nº55 Carutapera — 24.238
+Nº56 Carolina — 24.062
+Nº57 Alto Alegre do Maranhão — 24.048
+Nº58 Santa Quitéria do Maranhão — 23.957
+Nº59 Porto Franco — 23.903
+Nº60 Miranda do Norte — 23.864
+Nº61 Aldeias Altas — 23.286
+Nº62 Governador Nunes Freire — 23.128
+Nº63 Dom Pedro — 23.053
+Nº64 Itinga do Maranhão — 22.513
+Nº65 Trizidela do Vale — 22.484
+Nº66 Buriti Bravo — 22.455
+Nº67 Riachão — 22.145
+Nº68 Matinha — 22.034
+Nº69 Pio XII — 21.886
+Nº70 Maracaçumé — 21.149
+Nº71 Palmeirândia — 21.059
+Nº72 Mirador — 21.030
+Nº73 Peritoró — 20.479
+Nº74 Paulo Ramos — 20.341
+Nº75 Cândido Mendes — 19.932
+Nº76 Bequimão — 19.584
+Nº77 São Vicente Ferrer — 19.498
+Nº78 Barão de Grajaú — 18.984
+Nº79 Pastos Bons — 18.802
+Nº80 São Raimundo das Mangabeiras — 18.672
+Nº81 Morros — 18.554
+Nº82 São João Batista — 18.544
+Nº83 Alcântara — 18.467
+Nº84 Governador Edison Lobão — 18.411
+Nº85 São Benedito do Rio Preto — 18.364
+Nº86 Esperantinópolis — 18.311
+Nº87 Paraibano — 18.274
+Nº88 Olho d'Água das Cunhãs — 17.919
+Nº89 São Luís Gonzaga do Maranhão — 17.818
+Nº90 Formosa da Serra Negra — 17.719
+Nº91 Pirapemas — 17.714
+Nº92 Apicum-Açu — 17.519
+Nº93 Presidente Sarney — 17.511
+Nº94 Matões do Norte — 17.432
+Nº95 Passagem Franca — 17.220
+Nº96 Gonçalves Dias — 17.206
+Nº97 Poção de Pedras — 17.161
+Nº98 Mata Roma — 17.090
+Nº99 Jenipapo dos Vieiras — 17.076
+Nº100 Sítio Novo — 17.074
+Nº101 Paulino Neves — 17.056
+Nº102 Fortuna — 16.976
+Nº103 Bacabeira — 16.966
+Nº104 São João do Soter — 16.889
+Nº105 Cajari — 16.412
+Nº106 Bacuri — 16.290
+Nº107 Centro Novo do Maranhão — 16.267
+
+## Minas Gerais (MG) — 190 cidades — população média 30.451
+
+Nº01 Alfenas — 78.970
+Nº02 Viçosa — 76.430
+Nº03 Três Corações — 75.485
+Nº04 Lagoa Santa — 75.145
+Nº05 Ouro Preto — 74.821
+Nº06 São Sebastião do Paraíso — 71.796
+Nº07 Janaúba — 70.699
+Nº08 Formiga — 68.248
+Nº09 Cataguases — 66.261
+Nº10 Januária — 65.150
+Nº11 Pedro Leopoldo — 62.580
+Nº12 Mariana — 61.387
+Nº13 Frutal — 58.588
+Nº14 Ponte Nova — 57.776
+Nº15 Pirapora — 55.606
+Nº16 Três Pontas — 55.255
+Nº17 Extrema — 53.482
+Nº18 Itabirito — 53.365
+Nº19 Congonhas — 52.890
+Nº20 São Francisco — 52.762
+Nº21 Campo Belo — 52.277
+Nº22 Bom Despacho — 51.737
+Nº23 Lagoa da Prata — 51.412
+Nº24 Leopoldina — 51.145
+Nº25 Guaxupé — 50.911
+Nº26 Bocaiúva — 48.032
+Nº27 Diamantina — 47.702
+Nº28 Monte Carmelo — 47.692
+Nº29 João Pinheiro — 46.801
+Nº30 Igarapé — 45.847
+Nº31 Santana do Paraíso — 44.800
+Nº32 São Lourenço — 44.798
+Nº33 Santos Dumont — 42.406
+Nº34 Arcos — 41.416
+Nº35 São Gotardo — 40.910
+Nº36 Santa Rita do Sapucaí — 40.635
+Nº37 Andradas — 40.553
+Nº38 Almenara — 40.364
+Nº39 Salinas — 40.178
+Nº40 Boa Esperança — 39.848
+Nº41 Capelinha — 39.626
+Nº42 Oliveira — 39.262
+Nº43 Visconde do Rio Branco — 39.160
+Nº44 Brumadinho — 38.915
+Nº45 Caeté — 38.776
+Nº46 Ouro Branco — 38.724
+Nº47 Iturama — 38.295
+Nº48 Mateus Leme — 37.841
+Nº49 Machado — 37.684
+Nº50 Jaíba — 37.660
+Nº51 Matozinhos — 37.618
+Nº52 Porteirinha — 37.438
+Nº53 Sarzedo — 36.844
+Nº54 Piumhi — 36.062
+Nº55 Nanuque — 35.038
+Nº56 São Joaquim de Bicas — 34.348
+Nº57 Araçuaí — 34.297
+Nº58 Várzea da Palma — 33.744
+Nº59 Taiobeiras — 33.050
+Nº60 Itamarandiba — 32.948
+Nº61 Guanhães — 32.244
+Nº62 Ouro Fino — 32.094
+Nº63 Brasília de Minas — 32.025
+Nº64 Carangola — 31.240
+Nº65 Pompéu — 31.047
+Nº66 Barão de Cocais — 30.778
+Nº67 Além Paraíba — 30.717
+Nº68 Juatuba — 30.716
+Nº69 Santa Bárbara — 30.466
+Nº70 Espinosa — 30.443
+Nº71 Cláudio — 30.159
+Nº72 Cambuí — 29.536
+Nº73 Carmo do Paranaíba — 29.011
+Nº74 Três Marias — 28.895
+Nº75 Coromandel — 28.894
+Nº76 Conceição das Alagoas — 28.381
+Nº77 Prata — 28.342
+Nº78 Rio Pardo de Minas — 28.271
+Nº79 Mutum — 27.635
+Nº80 Santo Antônio do Monte — 27.295
+Nº81 Novo Cruzeiro — 26.975
+Nº82 Pitangui — 26.685
+Nº83 Sacramento — 26.670
+Nº84 Mantena — 26.535
+Nº85 Elói Mendes — 26.336
+Nº86 Campos Gerais — 26.105
+Nº87 Camanducaia — 26.097
+Nº88 São José da Lapa — 26.090
+Nº89 São João Nepomuceno — 25.565
+Nº90 Jacutinga — 25.525
+Nº91 Tupaciguara — 25.470
+Nº92 Coração de Jesus — 25.377
+Nº93 Aimorés — 25.269
+Nº94 Nepomuceno — 25.018
+Nº95 Pedra Azul — 24.410
+Nº96 Minas Novas — 24.405
+Nº97 Paraopeba — 24.107
+Nº98 Espera Feliz — 24.102
+Nº99 Monte Sião — 24.089
+Nº100 Buritis — 24.030
+Nº101 Jequitinhonha — 24.007
+Nº102 São Gonçalo do Sapucaí — 23.959
+Nº103 São João da Ponte — 23.930
+Nº104 Belo Oriente — 23.928
+Nº105 Buritizeiro — 23.910
+Nº106 São João do Paraíso — 23.910
+Nº107 Carandaí — 23.812
+Nº108 Bambuí — 23.546
+Nº109 Corinto — 23.532
+Nº110 Carmo do Cajuru — 23.479
+Nº111 Francisco Sá — 23.476
+Nº112 Raul Soares — 23.423
+Nº113 Conceição do Mato Dentro — 23.163
+Nº114 Inhapim — 22.692
+Nº115 Abaeté — 22.675
+Nº116 Ibiá — 22.229
+Nº117 Serro — 21.952
+Nº118 Muzambinho — 21.891
+Nº119 Paraguaçu — 21.723
+Nº120 Perdões — 21.384
+Nº121 Caxambu — 21.056
+Nº122 Itapecerica — 21.046
+Nº123 Itambacuri — 21.042
+Nº124 Santa Vitória — 20.973
+Nº125 Carmo do Rio Claro — 20.954
+Nº126 Monte Santo de Minas — 20.890
+Nº127 Lajinha — 20.835
+Nº128 Conselheiro Pena — 20.824
+Nº129 Divino — 20.706
+Nº130 Campestre — 20.696
+Nº131 Manhumirim — 20.613
+Nº132 Paraisópolis — 20.445
+Nº133 Lambari — 20.414
+Nº134 Jaboticatubas — 20.406
+Nº135 Monte Azul — 20.328
+Nº136 Ervália — 20.255
+Nº137 Monte Alegre de Minas — 20.170
+Nº138 Medina — 20.156
+Nº139 Barroso — 20.080
+Nº140 Turmalina — 20.000
+Nº141 Vazante — 19.975
+Nº142 Simonésia — 19.750
+Nº143 Caraí — 19.548
+Nº144 Ipanema — 19.522
+Nº145 Itaobim — 19.151
+Nº146 Guaranésia — 19.150
+Nº147 Lagoa Formosa — 18.904
+Nº148 Manga — 18.886
+Nº149 Varzelândia — 18.840
+Nº150 Presidente Olegário — 18.765
+Nº151 Carlos Chagas — 18.615
+Nº152 Matipó — 18.552
+Nº153 Águas Formosas — 18.448
+Nº154 Baependi — 18.366
+Nº155 Alpinópolis — 18.300
+Nº156 Campina Verde — 18.011
+Nº157 Carmópolis de Minas — 18.003
+Nº158 Luz — 17.875
+Nº159 Malacacheta — 17.516
+Nº160 Urucuia — 17.479
+Nº161 Peçanha — 17.446
+Nº162 Rio Pomba — 17.443
+Nº163 Nova Era — 17.438
+Nº164 Borda da Mata — 17.404
+Nº165 São Domingos do Prata — 17.392
+Nº166 Padre Paraíso — 17.334
+Nº167 Santo Antônio do Amparo — 17.285
+Nº168 Arinos — 17.272
+Nº169 Resplendor — 17.226
+Nº170 Lima Duarte — 17.221
+Nº171 Itacarambi — 17.208
+Nº172 Cássia — 17.155
+Nº173 Bom Sucesso — 17.151
+Nº174 Perdizes — 17.151
+Nº175 Ipaba — 17.136
+Nº176 Piranga — 17.018
+Nº177 Santa Margarida — 16.395
+Nº178 Poço Fundo — 16.390
+Nº179 Nova Resende — 16.387
+Nº180 Raposos — 16.279
+Nº181 Tocantins — 16.185
+Nº182 Campanha — 15.935
+Nº183 Mário Campos — 15.900
+Nº184 Santa Juliana — 15.734
+Nº185 Passa Quatro — 15.515
+Nº186 Cruzília — 15.362
+Nº187 São João Evangelista — 15.315
+Nº188 Itanhandu — 15.236
+Nº189 Alvinópolis — 15.059
+Nº190 Brasilândia de Minas — 15.020
+
+## Mato Grosso do Sul (MS) — 32 cidades — população média 28.991
+
+Nº01 Naviraí — 50.457
+Nº02 Nova Andradina — 48.563
+Nº03 Sidrolândia — 47.118
+Nº04 Aquidauana — 46.803
+Nº05 Maracaju — 45.047
+Nº06 Paranaíba — 40.957
+Nº07 Amambai — 39.325
+Nº08 Rio Brilhante — 37.601
+Nº09 Coxim — 32.151
+Nº10 Chapadão do Sul — 30.993
+Nº11 Caarapó — 30.612
+Nº12 São Gabriel do Oeste — 29.579
+Nº13 Ivinhema — 27.821
+Nº14 Aparecida do Taboado — 27.674
+Nº15 Costa Rica — 26.037
+Nº16 Miranda — 25.536
+Nº17 Itaporã — 24.137
+Nº18 Anastácio — 24.114
+Nº19 Jardim — 23.981
+Nº20 Bonito — 23.659
+Nº21 Ribas do Rio Pardo — 23.150
+Nº22 Bataguassu — 23.031
+Nº23 Nova Alvorada do Sul — 21.822
+Nº24 Bela Vista — 21.613
+Nº25 Ladário — 21.522
+Nº26 Cassilândia — 20.988
+Nº27 Fátima do Sul — 20.609
+Nº28 Rio Verde de Mato Grosso — 19.818
+Nº29 Itaquiraí — 19.423
+Nº30 Mundo Novo — 19.193
+Nº31 Terenos — 17.652
+Nº32 Água Clara — 16.741
+
+## Mato Grosso (MT) — 40 cidades — população média 28.806
+
+Nº01 Barra do Garças — 69.210
+Nº02 Alta Floresta — 58.613
+Nº03 Nova Mutum — 55.839
+Nº04 Pontes e Lacerda — 52.018
+Nº05 Campo Novo do Parecis — 45.899
+Nº06 Juína — 45.869
+Nº07 Campo Verde — 44.585
+Nº08 Confresa — 35.075
+Nº09 Juara — 34.906
+Nº10 Peixoto de Azevedo — 32.714
+Nº11 Colíder — 31.370
+Nº12 Poconé — 31.217
+Nº13 Guarantã do Norte — 31.024
+Nº14 Barra do Bugres — 29.403
+Nº15 Água Boa — 29.219
+Nº16 Sapezal — 28.944
+Nº17 Jaciara — 28.569
+Nº18 Mirassol d'Oeste — 26.785
+Nº19 Querência — 26.769
+Nº20 Paranatinga — 26.423
+Nº21 Canarana — 25.858
+Nº22 Colniza — 25.766
+Nº23 Aripuanã — 24.626
+Nº24 Nova Xavantina — 24.345
+Nº25 Poxoréu — 23.283
+Nº26 Diamantino — 21.941
+Nº27 Matupá — 20.091
+Nº28 Vila Rica — 19.888
+Nº29 Chapada dos Guimarães — 18.990
+Nº30 Comodoro — 18.238
+Nº31 Pedra Preta — 18.066
+Nº32 São José dos Quatro Marcos — 17.849
+Nº33 Alto Araguaia — 17.193
+Nº34 Brasnorte — 17.004
+Nº35 Vila Bela da Santíssima Trindade — 16.774
+Nº36 Nova Olímpia — 16.352
+Nº37 Nobres — 15.492
+Nº38 Rosário Oeste — 15.453
+Nº39 Campinápolis — 15.347
+Nº40 Santo Antônio de Leverger — 15.246
+
+## Pará (PA) — 101 cidades — população média 36.215
+
+Nº01 Canaã dos Carajás — 77.079
+Nº02 Santa Izabel do Pará — 73.019
+Nº03 Tailândia — 72.493
+Nº04 Capanema — 70.394
+Nº05 Alenquer — 69.377
+Nº06 Oriximiná — 68.294
+Nº07 Tomé-Açu — 67.585
+Nº08 São Félix do Xingu — 65.418
+Nº09 Igarapé-Miri — 64.831
+Nº10 Benevides — 63.567
+Nº11 Portel — 62.503
+Nº12 Novo Repartimento — 60.732
+Nº13 Monte Alegre — 60.012
+Nº14 Acará — 59.023
+Nº15 Viseu — 58.692
+Nº16 Dom Eliseu — 58.484
+Nº17 Capitão Poço — 56.506
+Nº18 Rondon do Pará — 53.143
+Nº19 São Miguel do Guamá — 52.894
+Nº20 Xinguara — 52.893
+Nº21 Óbidos — 52.229
+Nº22 Baião — 51.641
+Nº23 Juruti — 50.881
+Nº24 Vigia — 50.832
+Nº25 Itupiranga — 49.754
+Nº26 Breu Branco — 45.712
+Nº27 Muaná — 45.368
+Nº28 Salinópolis — 44.772
+Nº29 Conceição do Araguaia — 44.617
+Nº30 Augusto Corrêa — 44.573
+Nº31 Uruará — 43.558
+Nº32 Curuçá — 41.262
+Nº33 Pacajá — 41.097
+Nº34 Porto de Moz — 40.597
+Nº35 Tucumã — 39.550
+Nº36 Ulianópolis — 37.972
+Nº37 Afuá — 37.765
+Nº38 Jacundá — 37.707
+Nº39 Igarapé-Açu — 35.797
+Nº40 Rurópolis — 35.769
+Nº41 Prainha — 35.577
+Nº42 Mãe do Rio — 34.353
+Nº43 Almeirim — 34.280
+Nº44 Curralinho — 33.903
+Nº45 Oeiras do Pará — 33.844
+Nº46 Novo Progresso — 33.638
+Nº47 Ourilândia do Norte — 32.467
+Nº48 Santana do Araguaia — 32.413
+Nº49 Bagre — 31.892
+Nº50 Anapu — 31.850
+Nº51 Gurupá — 31.786
+Nº52 Irituia — 30.955
+Nº53 São Domingos do Capim — 30.599
+Nº54 Ipixuna do Pará — 30.329
+Nº55 Limoeiro do Ajuru — 29.569
+Nº56 Tracuateua — 28.595
+Nº57 Eldorado do Carajás — 28.192
+Nº58 Anajás — 28.011
+Nº59 Melgaço — 27.881
+Nº60 Santo Antônio do Tauá — 27.461
+Nº61 Mocajuba — 27.198
+Nº62 Medicilândia — 27.094
+Nº63 Concórdia do Pará — 26.881
+Nº64 Marapanim — 26.573
+Nº65 Goianésia do Pará — 26.362
+Nº66 Maracanã — 25.971
+Nº67 São Sebastião da Boa Vista — 25.643
+Nº68 Ponta de Pedras — 24.984
+Nº69 Brasil Novo — 24.718
+Nº70 Garrafão do Norte — 24.703
+Nº71 Santa Maria do Pará — 24.624
+Nº72 Bujaru — 24.383
+Nº73 São Geraldo do Araguaia — 24.255
+Nº74 Soure — 24.204
+Nº75 Salvaterra — 24.129
+Nº76 Jacareacanga — 24.042
+Nº77 Cachoeira do Arari — 23.981
+Nº78 Aurora do Pará — 23.774
+Nº79 Mojuí dos Campos — 23.501
+Nº80 Senador José Porfírio — 22.576
+Nº81 São Domingos do Araguaia — 21.092
+Nº82 Santa Bárbara do Pará — 21.087
+Nº83 Chaves — 20.757
+Nº84 São João de Pirabas — 20.689
+Nº85 Nova Esperança do Piriá — 20.478
+Nº86 Santa Luzia do Pará — 20.370
+Nº87 Curionópolis — 19.950
+Nº88 Cachoeira do Piriá — 19.630
+Nº89 Terra Santa — 18.782
+Nº90 Placas — 18.668
+Nº91 Rio Maria — 18.384
+Nº92 Aveiro — 18.290
+Nº93 Belterra — 18.099
+Nº94 Água Azul do Norte — 18.080
+Nº95 Bom Jesus do Tocantins — 18.005
+Nº96 Floresta do Araguaia — 17.898
+Nº97 Ourém — 17.855
+Nº98 São Caetano de Odivelas — 16.666
+Nº99 Santa Maria das Barreiras — 16.548
+Nº100 Vitória do Xingu — 15.607
+Nº101 Trairão — 15.242
+
+## Paraíba (PB) — 47 cidades — população média 27.035
+
+Nº01 Sousa — 67.259
+Nº02 Cabedelo — 66.519
+Nº03 Cajazeiras — 63.239
+Nº04 Guarabira — 57.484
+Nº05 Sapé — 51.306
+Nº06 Queimadas — 47.658
+Nº07 Mamanguape — 44.599
+Nº08 Pombal — 32.473
+Nº09 Monteiro — 32.277
+Nº10 São Bento — 32.235
+Nº11 Esperança — 31.231
+Nº12 Catolé do Rocha — 30.661
+Nº13 Pedras de Fogo — 29.662
+Nº14 Lagoa Seca — 27.730
+Nº15 Conde — 27.605
+Nº16 Solânea — 26.774
+Nº17 Alagoa Grande — 26.062
+Nº18 Rio Tinto — 24.581
+Nº19 Itaporanga — 23.940
+Nº20 Itabaiana — 23.182
+Nº21 Bananeiras — 23.134
+Nº22 Areia — 22.633
+Nº23 Alhandra — 21.730
+Nº24 Mari — 21.512
+Nº25 Caaporã — 21.193
+Nº26 Princesa Isabel — 21.114
+Nº27 Alagoa Nova — 21.013
+Nº28 Cuité — 19.719
+Nº29 São José de Piranhas — 19.067
+Nº30 Aroeiras — 18.705
+Nº31 Itapororoca — 18.382
+Nº32 Picuí — 18.333
+Nº33 Conceição — 18.260
+Nº34 São João do Rio do Peixe — 17.964
+Nº35 Remígio — 17.885
+Nº36 Ingá — 17.692
+Nº37 Boqueirão — 17.598
+Nº38 Pocinhos — 17.469
+Nº39 Araruna — 17.189
+Nº40 Sumé — 17.166
+Nº41 Cruz do Espírito Santo — 17.095
+Nº42 Juazeirinho — 17.007
+Nº43 Pitimbu — 16.751
+Nº44 Araçagi — 16.646
+Nº45 Piancó — 16.441
+Nº46 Belém — 16.401
+Nº47 Cacimba de Dentro — 16.064
+
+## Pernambuco (PE) — 106 cidades — população média 31.478
+
+Nº01 Belo Jardim — 79.507
+Nº02 Carpina — 79.293
+Nº03 Arcoverde — 77.742
+Nº04 Ouricuri — 65.245
+Nº05 Surubim — 64.120
+Nº06 Pesqueira — 62.722
+Nº07 Salgueiro — 62.372
+Nº08 Bezerros — 61.694
+Nº09 Escada — 59.891
+Nº10 Paudalho — 56.665
+Nº11 Limoeiro — 56.510
+Nº12 Moreno — 55.292
+Nº13 Palmares — 54.584
+Nº14 Buíque — 52.097
+Nº15 São Bento do Una — 49.449
+Nº16 Brejo da Madre de Deus — 48.648
+Nº17 Timbaúba — 46.147
+Nº18 Bom Conselho — 44.294
+Nº19 Águas Belas — 41.548
+Nº20 Toritama — 41.137
+Nº21 Santa Maria da Boa Vista — 40.578
+Nº22 Afogados da Ingazeira — 40.241
+Nº23 Barreiros — 40.121
+Nº24 Lajedo — 39.582
+Nº25 Custódia — 37.699
+Nº26 Bom Jardim — 37.629
+Nº27 Sirinhaém — 37.596
+Nº28 Bonito — 37.474
+Nº29 São Caitano — 37.126
+Nº30 Aliança — 35.741
+Nº31 Itambé — 34.935
+Nº32 São José do Belmonte — 34.843
+Nº33 Bodocó — 34.478
+Nº34 Petrolândia — 34.161
+Nº35 Ribeirão — 33.507
+Nº36 Sertânia — 32.811
+Nº37 Itaíba — 32.650
+Nº38 Catende — 32.156
+Nº39 Exu — 31.843
+Nº40 São José do Egito — 31.004
+Nº41 Nazaré da Mata — 30.648
+Nº42 Trindade — 30.321
+Nº43 Cabrobó — 30.294
+Nº44 Floresta — 30.137
+Nº45 Glória do Goitá — 29.347
+Nº46 Ipubi — 29.009
+Nº47 Caetés — 28.827
+Nº48 Passira — 28.340
+Nº49 Itapissuma — 27.749
+Nº50 João Alfredo — 27.725
+Nº51 Tabira — 27.681
+Nº52 Pombos — 27.552
+Nº53 Tupanatinga — 26.937
+Nº54 Ibimirim — 26.593
+Nº55 Água Preta — 26.461
+Nº56 Vicência — 26.359
+Nº57 Inajá — 25.603
+Nº58 Taquaritinga do Norte — 24.736
+Nº59 Condado — 24.587
+Nº60 Ilha de Itamaracá — 24.540
+Nº61 Canhotinho — 24.329
+Nº62 Lagoa Grande — 24.088
+Nº63 Tacaratu — 23.902
+Nº64 Macaparana — 23.879
+Nº65 São João — 23.837
+Nº66 Agrestina — 23.779
+Nº67 Manari — 23.763
+Nº68 Tamandaré — 23.561
+Nº69 Cupira — 23.518
+Nº70 Panelas — 22.991
+Nº71 Pedra — 22.795
+Nº72 Vertentes — 21.959
+Nº73 Orobó — 21.808
+Nº74 Feira Nova — 21.427
+Nº75 Altinho — 20.674
+Nº76 Riacho das Almas — 20.639
+Nº77 Chã Grande — 20.546
+Nº78 Flores — 20.347
+Nº79 São Joaquim do Monte — 20.037
+Nº80 Rio Formoso — 20.009
+Nº81 Cachoeirinha — 19.899
+Nº82 Araçoiaba — 19.243
+Nº83 Lagoa de Itaenga — 19.003
+Nº84 São José da Coroa Grande — 18.825
+Nº85 Afrânio — 18.674
+Nº86 Carnaíba — 18.644
+Nº87 Sanharó — 18.624
+Nº88 Parnamirim — 18.612
+Nº89 Capoeiras — 18.338
+Nº90 Belém do São Francisco — 18.301
+Nº91 Gameleira — 18.214
+Nº92 Serrita — 18.207
+Nº93 Amaraji — 18.205
+Nº94 Lagoa do Carro — 17.981
+Nº95 Quipapá — 17.928
+Nº96 Camocim de São Félix — 17.419
+Nº97 Venturosa — 17.251
+Nº98 Dormentes — 17.188
+Nº99 Iati — 17.165
+Nº100 Correntes — 17.131
+Nº101 São Vicente Férrer — 16.677
+Nº102 Itaquitinga — 16.554
+Nº103 Cumaru — 15.920
+Nº104 Jataúba — 15.843
+Nº105 Jupi — 15.329
+Nº106 Ferreiros — 15.026
+
+## Piauí (PI) — 33 cidades — população média 30.613
+
+Nº01 Piripiri — 65.538
+Nº02 Floriano — 62.036
+Nº03 Barras — 47.938
+Nº04 Altos — 47.453
+Nº05 União — 46.119
+Nº06 Campo Maior — 45.793
+Nº07 José de Freitas — 42.559
+Nº08 Esperantina — 40.970
+Nº09 São Raimundo Nonato — 38.934
+Nº10 Oeiras — 38.161
+Nº11 Pedro II — 37.894
+Nº12 Miguel Alves — 32.150
+Nº13 Luís Correia — 30.641
+Nº14 Piracuruca — 28.846
+Nº15 Bom Jesus — 28.796
+Nº16 Cocal — 28.212
+Nº17 Corrente — 27.278
+Nº18 Batalha — 26.300
+Nº19 Luzilândia — 25.375
+Nº20 Uruçuí — 25.203
+Nº21 Valença do Piauí — 22.279
+Nº22 São João do Piauí — 21.421
+Nº23 Paulistana — 21.055
+Nº24 Buriti dos Lopes — 19.654
+Nº25 Canto do Buriti — 19.365
+Nº26 Castelo do Piauí — 19.288
+Nº27 Pio IX — 17.613
+Nº28 Água Branca — 17.573
+Nº29 São Miguel do Tapuio — 17.554
+Nº30 Jaicós — 17.527
+Nº31 Amarante — 17.234
+Nº32 Regeneração — 17.133
+Nº33 Demerval Lobão — 16.352
+
+## Paraná (PR) — 98 cidades — população média 29.997
+
+Nº01 Cianorte — 79.527
+Nº02 Telêmaco Borba — 75.042
+Nº03 Castro — 73.075
+Nº04 Rolândia — 71.670
+Nº05 Irati — 59.250
+Nº06 Marechal Cândido Rondon — 55.836
+Nº07 União da Vitória — 55.033
+Nº08 Medianeira — 54.369
+Nº09 Ibiporã — 51.603
+Nº10 Prudentópolis — 49.393
+Nº11 Palmas — 48.247
+Nº12 Campina Grande do Sul — 47.825
+Nº13 Paiçandu — 45.962
+Nº14 Cornélio Procópio — 45.206
+Nº15 Lapa — 45.003
+Nº16 Dois Vizinhos — 44.869
+Nº17 Santo Antônio da Platina — 44.369
+Nº18 São Mateus do Sul — 42.366
+Nº19 Guaratuba — 42.062
+Nº20 Marialva — 41.851
+Nº21 Jacarezinho — 40.375
+Nº22 Matinhos — 39.259
+Nº23 Rio Branco do Sul — 37.558
+Nº24 Assis Chateaubriand — 36.808
+Nº25 Mandaguari — 36.716
+Nº26 Jaguariaíva — 35.141
+Nº27 Palotina — 35.011
+Nº28 Palmeira — 33.855
+Nº29 Pitanga — 33.567
+Nº30 Ivaiporã — 32.720
+Nº31 Laranjeiras do Sul — 32.227
+Nº32 Guaíra — 32.097
+Nº33 Mandaguaçu — 31.457
+Nº34 Rio Negro — 31.324
+Nº35 Bandeirantes — 31.273
+Nº36 Itaperuçu — 31.217
+Nº37 Quedas do Iguaçu — 30.738
+Nº38 Pontal do Paraná — 30.425
+Nº39 Campo Magro — 30.160
+Nº40 Imbituva — 29.924
+Nº41 Pinhão — 29.886
+Nº42 São Miguel do Iguaçu — 29.122
+Nº43 Ibaiti — 28.830
+Nº44 Goioerê — 28.437
+Nº45 Mandirituba — 27.439
+Nº46 Nova Esperança — 26.585
+Nº47 Arapoti — 25.777
+Nº48 Santa Helena — 25.492
+Nº49 Astorga — 25.475
+Nº50 Ubiratã — 24.749
+Nº51 Reserva — 24.573
+Nº52 Santa Terezinha de Itaipu — 24.262
+Nº53 Ortigueira — 24.192
+Nº54 Quatro Barras — 24.191
+Nº55 Cruzeiro do Oeste — 23.831
+Nº56 Santo Antônio do Sudoeste — 23.673
+Nº57 Piraí do Sul — 23.651
+Nº58 Coronel Vivida — 23.331
+Nº59 Carambeí — 23.283
+Nº60 Loanda — 23.225
+Nº61 Cambará — 23.212
+Nº62 Colorado — 22.896
+Nº63 Siqueira Campos — 22.811
+Nº64 Jandaia do Sul — 21.408
+Nº65 Chopinzinho — 21.085
+Nº66 Capanema — 20.481
+Nº67 Tibagi — 19.961
+Nº68 Andirá — 19.878
+Nº69 Ampére — 19.620
+Nº70 Realeza — 19.247
+Nº71 Wenceslau Braz — 19.188
+Nº72 Contenda — 19.128
+Nº73 Cafelândia — 18.997
+Nº74 Altônia — 18.742
+Nº75 Matelândia — 18.450
+Nº76 Quitandinha — 18.398
+Nº77 Morretes — 18.309
+Nº78 Terra Roxa — 18.119
+Nº79 Antonina — 18.091
+Nº80 Tijucas do Sul — 17.621
+Nº81 Terra Boa — 17.568
+Nº82 Corbélia — 17.470
+Nº83 Sengés — 17.270
+Nº84 Carlópolis — 16.905
+Nº85 Mangueirinha — 16.603
+Nº86 Faxinal — 16.389
+Nº87 Cerro Azul — 16.134
+Nº88 Cruz Machado — 15.978
+Nº89 Sertanópolis — 15.930
+Nº90 Marmeleiro — 15.901
+Nº91 Tapejara — 15.869
+Nº92 Iporã — 15.746
+Nº93 Campina da Lagoa — 15.723
+Nº94 Bituruna — 15.533
+Nº95 Cândido de Abreu — 15.244
+Nº96 Salto do Lontra — 15.223
+Nº97 Jaguapitã — 15.122
+Nº98 Clevelândia — 15.070
+
+## Rio de Janeiro (RJ) — 42 cidades — população média 32.621
+
+Nº01 Três Rios — 78.346
+Nº02 Valença — 68.088
+Nº03 Cachoeiras de Macacu — 56.943
+Nº04 Rio Bonito — 56.276
+Nº05 Guapimirim — 51.696
+Nº06 Casimiro de Abreu — 46.110
+Nº07 Paraty — 45.243
+Nº08 São Francisco de Itabapoana — 45.059
+Nº09 Paraíba do Sul — 42.063
+Nº10 Paracambi — 41.375
+Nº11 Santo Antônio de Pádua — 41.325
+Nº12 Mangaratiba — 41.220
+Nº13 Armação dos Búzios — 40.006
+Nº14 São Fidélis — 38.961
+Nº15 São João da Barra — 36.573
+Nº16 Bom Jesus do Itabapoana — 35.173
+Nº17 Vassouras — 33.976
+Nº18 Tanguá — 31.086
+Nº19 Arraial do Cabo — 30.986
+Nº20 Itatiaia — 30.908
+Nº21 Paty do Alferes — 29.619
+Nº22 Bom Jardim — 28.102
+Nº23 Iguaba Grande — 27.920
+Nº24 Piraí — 27.474
+Nº25 Miracema — 26.881
+Nº26 Miguel Pereira — 26.582
+Nº27 Pinheiral — 24.298
+Nº28 Itaocara — 22.919
+Nº29 Quissamã — 22.393
+Nº30 São José do Vale do Rio Preto — 22.080
+Nº31 Silva Jardim — 21.352
+Nº32 Conceição de Macabu — 21.104
+Nº33 Cordeiro — 20.783
+Nº34 Porto Real — 20.373
+Nº35 Cantagalo — 19.390
+Nº36 Sapucaia — 17.729
+Nº37 Mendes — 17.502
+Nº38 Rio Claro — 17.401
+Nº39 Porciúncula — 17.288
+Nº40 Carmo — 17.198
+Nº41 Sumidouro — 15.206
+Nº42 Natividade — 15.074
+
+## Rio Grande do Norte (RN) — 28 cidades — população média 32.519
+
+Nº01 Ceará-Mirim — 79.115
+Nº02 Extremoz — 61.635
+Nº03 Caicó — 61.146
+Nº04 Assú — 56.496
+Nº05 São José de Mipibu — 47.286
+Nº06 Currais Novos — 41.313
+Nº07 Santa Cruz — 37.313
+Nº08 Apodi — 36.093
+Nº09 Nova Cruz — 34.269
+Nº10 João Câmara — 33.290
+Nº11 Touros — 33.035
+Nº12 Nísia Floresta — 31.942
+Nº13 Pau dos Ferros — 30.479
+Nº14 Canguaretama — 29.668
+Nº15 Macau — 27.369
+Nº16 Baraúna — 26.913
+Nº17 Goianinha — 26.741
+Nº18 Areia Branca — 24.093
+Nº19 São Miguel — 23.537
+Nº20 Monte Alegre — 23.031
+Nº21 Santo Antônio — 22.177
+Nº22 Parelhas — 21.499
+Nº23 Caraúbas — 19.727
+Nº24 Jucurutu — 17.793
+Nº25 Tibau do Sul — 16.929
+Nº26 São Paulo do Potengi — 16.786
+Nº27 Lagoa Nova — 15.573
+Nº28 Guamaré — 15.295
+
+## Rondônia (RO) — 18 cidades — população média 27.482
+
+Nº01 Rolim de Moura — 56.406
+Nº02 Jaru — 50.591
+Nº03 Guajará-Mirim — 39.387
+Nº04 Pimenta Bueno — 35.079
+Nº05 Ouro Preto do Oeste — 35.044
+Nº06 Machadinho D'Oeste — 30.707
+Nº07 Espigão D'Oeste — 29.414
+Nº08 Buritis — 27.992
+Nº09 Nova Mamoré — 25.444
+Nº10 Candeias do Jamari — 22.310
+Nº11 São Miguel do Guaporé — 21.635
+Nº12 Alta Floresta D'Oeste — 21.494
+Nº13 Presidente Médici — 19.327
+Nº14 Alto Paraíso — 16.320
+Nº15 São Francisco do Guaporé — 16.286
+Nº16 Cerejeiras — 15.890
+Nº17 Nova Brasilândia D'Oeste — 15.679
+Nº18 Colorado do Oeste — 15.663
+
+## Roraima (RR) — 6 cidades — população média 21.797
+
+Nº01 Rorainópolis — 32.647
+Nº02 Alto Alegre — 21.096
+Nº03 Caracaraí — 20.957
+Nº04 Pacaraima — 19.305
+Nº05 Cantá — 18.682
+Nº06 Mucajaí — 18.095
+
+## Rio Grande do Sul (RS) — 100 cidades — população média 34.891
+
+Nº01 Santa Rosa — 76.963
+Nº02 Santo Ângelo — 76.917
+Nº03 Esteio — 76.137
+Nº04 Sapiranga — 75.648
+Nº05 Alegrete — 72.409
+Nº06 Farroupilha — 70.286
+Nº07 Venâncio Aires — 68.763
+Nº08 Montenegro — 64.322
+Nº09 Vacaria — 64.197
+Nº10 Capão da Canoa — 63.594
+Nº11 Campo Bom — 62.886
+Nº12 Camaquã — 62.200
+Nº13 Carazinho — 61.804
+Nº14 São Borja — 59.676
+Nº15 Cruz Alta — 58.913
+Nº16 São Gabriel — 58.487
+Nº17 Tramandaí — 54.387
+Nº18 Taquara — 53.242
+Nº19 Parobé — 52.058
+Nº20 Canguçu — 49.680
+Nº21 Canela — 48.946
+Nº22 Santiago — 48.938
+Nº23 Estância Velha — 47.924
+Nº24 Osório — 47.396
+Nº25 Marau — 45.124
+Nº26 Panambi — 43.515
+Nº27 Santo Antônio da Patrulha — 42.947
+Nº28 São Lourenço do Sul — 41.989
+Nº29 Torres — 41.751
+Nº30 Gramado — 40.134
+Nº31 Eldorado do Sul — 39.559
+Nº32 Dom Pedrito — 36.981
+Nº33 Rosário do Sul — 36.630
+Nº34 Itaqui — 35.768
+Nº35 Charqueadas — 35.012
+Nº36 São Luiz Gonzaga — 34.752
+Nº37 Rio Pardo — 34.654
+Nº38 Garibaldi — 34.335
+Nº39 Portão — 34.071
+Nº40 Palmeira das Missões — 33.216
+Nº41 Igrejinha — 32.808
+Nº42 Teutônia — 32.797
+Nº43 Frederico Westphalen — 32.627
+Nº44 Caçapava do Sul — 32.515
+Nº45 Estrela — 32.183
+Nº46 Santa Vitória do Palmar — 30.983
+Nº47 Flores da Cunha — 30.892
+Nº48 Dois Irmãos — 30.709
+Nº49 Carlos Barbosa — 30.420
+Nº50 Soledade — 29.991
+Nº51 Nova Santa Rita — 29.024
+Nº52 Candelária — 28.906
+Nº53 Lagoa Vermelha — 27.659
+Nº54 Triunfo — 27.498
+Nº55 Imbé — 26.824
+Nº56 Vera Cruz — 26.710
+Nº57 Jaguarão — 26.603
+Nº58 Capão do Leão — 26.487
+Nº59 Nova Prata — 25.692
+Nº60 São José do Norte — 25.443
+Nº61 Três Passos — 25.436
+Nº62 Guaporé — 25.268
+Nº63 Taquari — 25.198
+Nº64 Três de Maio — 24.916
+Nº65 Tapejara — 24.557
+Nº66 São Sebastião do Caí — 24.428
+Nº67 Três Coroas — 24.425
+Nº68 Veranópolis — 24.021
+Nº69 Encruzilhada do Sul — 23.819
+Nº70 Quaraí — 23.500
+Nº71 Nova Petrópolis — 23.300
+Nº72 Ivoti — 22.983
+Nº73 Encantado — 22.962
+Nº74 Sarandi — 22.851
+Nº75 Arroio do Meio — 21.958
+Nº76 São Francisco de Paula — 21.893
+Nº77 Ibirubá — 21.583
+Nº78 Rolante — 21.253
+Nº79 São Sepé — 21.219
+Nº80 São Marcos — 21.084
+Nº81 São Jerônimo — 21.028
+Nº82 Nova Hartz — 20.088
+Nº83 Tupanciretã — 20.005
+Nº84 Butiá — 19.084
+Nº85 Horizontina — 18.851
+Nº86 Júlio de Castilhos — 18.226
+Nº87 Não-Me-Toque — 17.898
+Nº88 São Francisco de Assis — 17.618
+Nº89 Arroio Grande — 17.558
+Nº90 Piratini — 17.504
+Nº91 Cidreira — 17.071
+Nº92 Serafina Corrêa — 16.961
+Nº93 Getúlio Vargas — 16.602
+Nº94 Xangri-lá — 16.463
+Nº95 Sananduva — 16.399
+Nº96 Agudo — 16.041
+Nº97 Giruá — 16.013
+Nº98 São Pedro do Sul — 15.577
+Nº99 Santo Cristo — 15.320
+Nº100 Espumoso — 15.173
+
+## Santa Catarina (SC) — 78 cidades — população média 32.945
+
+Nº01 Biguaçu — 76.773
+Nº02 Itapema — 75.940
+Nº03 Caçador — 73.720
+Nº04 Rio do Sul — 72.587
+Nº05 Gaspar — 72.570
+Nº06 Araranguá — 71.922
+Nº07 Indaial — 71.549
+Nº08 Içara — 59.035
+Nº09 Videira — 55.466
+Nº10 Mafra — 55.286
+Nº11 Canoinhas — 55.016
+Nº12 São Francisco do Sul — 52.674
+Nº13 Imbituba — 52.579
+Nº14 Xanxerê — 51.607
+Nº15 Tijucas — 51.592
+Nº16 Guaramirim — 46.711
+Nº17 Timbó — 46.099
+Nº18 Barra Velha — 45.369
+Nº19 Araquari — 45.283
+Nº20 São Miguel do Oeste — 44.330
+Nº21 Laguna — 42.785
+Nº22 Curitibanos — 40.045
+Nº23 Rio Negrinho — 39.261
+Nº24 Campos Novos — 36.932
+Nº25 Pomerode — 34.289
+Nº26 Braço do Norte — 33.773
+Nº27 Penha — 33.663
+Nº28 Fraiburgo — 33.481
+Nº29 Porto União — 32.970
+Nº30 São João Batista — 32.687
+Nº31 Xaxim — 31.918
+Nº32 Forquilhinha — 31.431
+Nº33 Itapoá — 30.750
+Nº34 Joaçaba — 30.146
+Nº35 Sombrio — 29.991
+Nº36 Garopaba — 29.959
+Nº37 Maravilha — 28.251
+Nº38 Porto Belo — 27.688
+Nº39 Santo Amaro da Imperatriz — 27.272
+Nº40 Balneário Piçarras — 27.127
+Nº41 Ituporanga — 26.525
+Nº42 São Joaquim — 25.939
+Nº43 Bombinhas — 25.058
+Nº44 São Lourenço do Oeste — 24.791
+Nº45 Guabiruba — 24.543
+Nº46 Capivari de Baixo — 23.975
+Nº47 Orleans — 23.661
+Nº48 Capinzal — 23.314
+Nº49 Itaiópolis — 22.051
+Nº50 Pinhalzinho — 21.972
+Nº51 Herval d'Oeste — 21.724
+Nº52 Urussanga — 20.919
+Nº53 Jaguaruna — 20.375
+Nº54 Schroeder — 20.061
+Nº55 Presidente Getúlio — 20.010
+Nº56 Ibirama — 19.862
+Nº57 Três Barras — 19.746
+Nº58 Papanduva — 19.150
+Nº59 Seara — 18.620
+Nº60 Garuva — 18.545
+Nº61 Morro da Fumaça — 18.537
+Nº62 Taió — 18.310
+Nº63 Abelardo Luz — 17.392
+Nº64 Otacílio Costa — 17.312
+Nº65 Cocal do Sul — 17.240
+Nº66 Massaranduba — 17.162
+Nº67 Pouso Redondo — 17.123
+Nº68 Ilhota — 17.046
+Nº69 Governador Celso Ramos — 16.915
+Nº70 Itapiranga — 16.638
+Nº71 Balneário Rincão — 15.981
+Nº72 Balneário Arroio do Silva — 15.820
+Nº73 Correia Pinto — 15.727
+Nº74 Balneário Gaivota — 15.669
+Nº75 Palmitos — 15.626
+Nº76 Santa Cecília — 15.546
+Nº77 Corupá — 15.267
+Nº78 Dionísio Cerqueira — 15.008
+
+## Sergipe (SE) — 29 cidades — população média 27.405
+
+Nº01 Estância — 65.078
+Nº02 Tobias Barreto — 50.905
+Nº03 Simão Dias — 42.578
+Nº04 Barra dos Coqueiros — 41.511
+Nº05 Nossa Senhora da Glória — 41.212
+Nº06 Itabaianinha — 40.678
+Nº07 Itaporanga d'Ajuda — 34.411
+Nº08 Poço Redondo — 33.439
+Nº09 Capela — 31.645
+Nº10 Canindé de São Francisco — 26.834
+Nº11 Propriá — 26.618
+Nº12 Porto da Folha — 26.576
+Nº13 Nossa Senhora das Dores — 24.996
+Nº14 Boquim — 24.636
+Nº15 Laranjeiras — 23.975
+Nº16 Umbaúba — 23.917
+Nº17 Poço Verde — 21.794
+Nº18 Salgado — 20.279
+Nº19 Aquidabã — 20.131
+Nº20 Carira — 19.939
+Nº21 Riachão do Dantas — 18.313
+Nº22 Campo do Brito — 18.149
+Nº23 Areia Branca — 18.081
+Nº24 Cristinápolis — 17.100
+Nº25 Ribeirópolis — 17.033
+Nº26 Indiaroba — 16.549
+Nº27 Neópolis — 16.426
+Nº28 Japaratuba — 16.209
+Nº29 Maruim — 15.719
+
+## São Paulo (SP) — 209 cidades — população média 35.091
+
+Nº01 São Roque — 79.484
+Nº02 Matão — 79.033
+Nº03 Campo Limpo Paulista — 77.632
+Nº04 Vinhedo — 76.540
+Nº05 Bebedouro — 76.373
+Nº06 Ibiúna — 75.605
+Nº07 Cruzeiro — 74.961
+Nº08 Lins — 74.779
+Nº09 Pirassununga — 73.545
+Nº10 Itapira — 72.022
+Nº11 Jaboticabal — 71.821
+Nº12 Fernandópolis — 71.186
+Nº13 Itupeva — 70.616
+Nº14 Peruíbe — 68.352
+Nº15 Amparo — 68.008
+Nº16 Mococa — 67.681
+Nº17 Embu-Guaçu — 66.970
+Nº18 Lençóis Paulista — 66.505
+Nº19 Monte Mor — 64.662
+Nº20 Bertioga — 64.188
+Nº21 Tupã — 63.928
+Nº22 Mirassol — 63.337
+Nº23 Nova Odessa — 62.019
+Nº24 Mongaguá — 61.951
+Nº25 Penápolis — 61.679
+Nº26 Boituva — 61.081
+Nº27 Ibitinga — 60.033
+Nº28 Registro — 59.947
+Nº29 Andradina — 59.783
+Nº30 Cosmópolis — 59.773
+Nº31 Jaguariúna — 59.347
+Nº32 Batatais — 58.402
+Nº33 Porto Feliz — 56.497
+Nº34 Olímpia — 55.074
+Nº35 Santa Isabel — 53.174
+Nº36 Piedade — 52.970
+Nº37 Porto Ferreira — 52.649
+Nº38 Taquaritinga — 52.260
+Nº39 São José do Rio Pardo — 52.205
+Nº40 Louveira — 51.847
+Nº41 Artur Nogueira — 51.456
+Nº42 Tremembé — 51.173
+Nº43 Vargem Grande Paulista — 50.415
+Nº44 Capivari — 50.068
+Nº45 Mairinque — 50.027
+Nº46 Jales — 48.776
+Nº47 São Joaquim da Barra — 48.558
+Nº48 Monte Alto — 47.574
+Nº49 Cabreúva — 47.011
+Nº50 Campos do Jordão — 46.974
+Nº51 Santa Cruz do Rio Pardo — 46.442
+Nº52 Capão Bonito — 46.337
+Nº53 Dracena — 45.474
+Nº54 Jardinópolis — 45.282
+Nº55 Pederneiras — 44.827
+Nº56 Cerquilho — 44.695
+Nº57 Itararé — 44.438
+Nº58 Rio Grande da Serra — 44.170
+Nº59 Serrana — 43.909
+Nº60 Salto de Pirapora — 43.748
+Nº61 Pedreira — 43.112
+Nº62 Garça — 42.110
+Nº63 Paraguaçu Paulista — 41.120
+Nº64 Vargem Grande do Sul — 40.133
+Nº65 Socorro — 40.122
+Nº66 Espírito Santo do Pinhal — 39.816
+Nº67 Presidente Epitácio — 39.505
+Nº68 Itápolis — 39.493
+Nº69 Guaíra — 39.279
+Nº70 Novo Horizonte — 38.324
+Nº71 Orlândia — 38.319
+Nº72 São Pedro — 38.256
+Nº73 Agudos — 37.680
+Nº74 Tietê — 37.663
+Nº75 Pontal — 37.607
+Nº76 Ituverava — 37.571
+Nº77 Jarinu — 37.535
+Nº78 Guariba — 37.498
+Nº79 São Manuel — 37.289
+Nº80 José Bonifácio — 36.633
+Nº81 Iperó — 36.459
+Nº82 Presidente Venceslau — 35.201
+Nº83 Promissão — 35.131
+Nº84 Ilhabela — 34.934
+Nº85 Santa Fé do Sul — 34.794
+Nº86 Adamantina — 34.687
+Nº87 Barra Bonita — 34.346
+Nº88 Pitangueiras — 33.674
+Nº89 Cravinhos — 33.281
+Nº90 Américo Brasiliense — 33.019
+Nº91 Aparecida — 32.569
+Nº92 Araçoiaba da Serra — 32.443
+Nº93 Ibaté — 32.178
+Nº94 Barrinha — 32.092
+Nº95 Aguaí — 32.072
+Nº96 São Miguel Arcanjo — 32.039
+Nº97 Descalvado — 31.756
+Nº98 Bariri — 31.595
+Nº99 Cachoeira Paulista — 31.564
+Nº100 Rio das Pedras — 31.328
+Nº101 Osvaldo Cruz — 31.272
+Nº102 Guararema — 31.236
+Nº103 Guararapes — 31.043
+Nº104 Serra Negra — 29.894
+Nº105 Biritiba Mirim — 29.683
+Nº106 Cândido Mota — 29.449
+Nº107 Piraju — 29.436
+Nº108 Iguape — 29.115
+Nº109 Santa Cruz das Palmeiras — 28.864
+Nº110 Rancharia — 28.588
+Nº111 Cajati — 28.515
+Nº112 Conchal — 28.101
+Nº113 Casa Branca — 28.083
+Nº114 Mirandópolis — 27.983
+Nº115 Morro Agudo — 27.933
+Nº116 Pilar do Sul — 27.619
+Nº117 Juquitiba — 27.404
+Nº118 Bady Bassitt — 27.260
+Nº119 Álvares Machado — 27.255
+Nº120 Laranjal Paulista — 26.261
+Nº121 Igarapava — 26.212
+Nº122 Piracaia — 26.029
+Nº123 Ilha Solteira — 25.549
+Nº124 Pirapozinho — 25.348
+Nº125 Tanabi — 25.265
+Nº126 Brodowski — 25.201
+Nº127 Itaí — 25.180
+Nº128 Martinópolis — 24.881
+Nº129 Santa Rita do Passa Quatro — 24.833
+Nº130 Apiaí — 24.585
+Nº131 Cordeirópolis — 24.514
+Nº132 Dois Córregos — 24.510
+Nº133 Taquarituba — 24.350
+Nº134 Valparaíso — 24.241
+Nº135 Pereira Barreto — 24.095
+Nº136 Angatuba — 24.022
+Nº137 Brotas — 23.898
+Nº138 Cajuru — 23.830
+Nº139 Santa Gertrudes — 23.611
+Nº140 Santa Rosa de Viterbo — 23.411
+Nº141 Santo Antônio de Posse — 23.244
+Nº142 Igaraçu do Tietê — 23.106
+Nº143 Capela do Alto — 22.866
+Nº144 Pirajuí — 22.431
+Nº145 Monte Aprazível — 22.280
+Nº146 Teodoro Sampaio — 22.173
+Nº147 Cunha — 22.110
+Nº148 Bom Jesus dos Perdões — 22.006
+Nº149 Iracemápolis — 21.967
+Nº150 Guapiaçu — 21.711
+Nº151 Araçariguama — 21.522
+Nº152 Bastos — 21.503
+Nº153 Cerqueira César — 21.469
+Nº154 Tambaú — 21.435
+Nº155 Junqueirópolis — 20.448
+Nº156 Potim — 20.392
+Nº157 Buri — 20.250
+Nº158 Pompéia — 20.196
+Nº159 Regente Feijó — 20.145
+Nº160 Lucélia — 20.061
+Nº161 Castilho — 19.977
+Nº162 Palmital — 19.594
+Nº163 Engenheiro Coelho — 19.566
+Nº164 Miguelópolis — 19.441
+Nº165 Nova Granada — 19.419
+Nº166 Paranapanema — 19.395
+Nº167 Pariquera-Açu — 19.233
+Nº168 Itatinga — 19.070
+Nº169 Cesário Lange — 19.048
+Nº170 Ribeirão Branco — 18.627
+Nº171 Guará — 18.606
+Nº172 Miracatu — 18.553
+Nº173 Potirendaba — 18.496
+Nº174 Colina — 18.486
+Nº175 Pirapora do Bom Jesus — 18.370
+Nº176 Nazaré Paulista — 18.217
+Nº177 Monte Azul Paulista — 18.151
+Nº178 Itaberá — 17.983
+Nº179 Santo Anastácio — 17.963
+Nº180 Águas de Lindóia — 17.930
+Nº181 Elias Fausto — 17.699
+Nº182 Paraibuna — 17.667
+Nº183 Rosana — 17.440
+Nº184 Viradouro — 17.414
+Nº185 Alumínio — 17.301
+Nº186 Buritama — 17.210
+Nº187 Juquiá — 17.154
+Nº188 Caconde — 17.101
+Nº189 Pradópolis — 17.078
+Nº190 Guapiara — 17.071
+Nº191 Itajobi — 16.989
+Nº192 Macatuba — 16.829
+Nº193 Altinópolis — 16.818
+Nº194 Cafelândia — 16.654
+Nº195 Fartura — 16.641
+Nº196 Itirapina — 16.148
+Nº197 Jacupiranga — 16.097
+Nº198 São Lourenço da Serra — 16.067
+Nº199 Mirante do Paranapanema — 15.917
+Nº200 Tupi Paulista — 15.854
+Nº201 Charqueada — 15.535
+Nº202 Itariri — 15.528
+Nº203 Pedregulho — 15.525
+Nº204 Conchas — 15.232
+Nº205 Pinhalzinho — 15.224
+Nº206 Salesópolis — 15.202
+Nº207 Piratininga — 15.108
+Nº208 Holambra — 15.094
+Nº209 Guareí — 15.013
+
+## Tocantins (TO) — 11 cidades — população média 28.934
+
+Nº01 Porto Nacional — 64.418
+Nº02 Paraíso do Tocantins — 52.360
+Nº03 Colinas do Tocantins — 34.233
+Nº04 Araguatins — 31.918
+Nº05 Guaraí — 24.775
+Nº06 Tocantinópolis — 22.615
+Nº07 Formoso do Araguaia — 18.881
+Nº08 Miracema do Tocantins — 18.566
+Nº09 Dianópolis — 17.739
+Nº10 Augustinópolis — 17.484
+Nº11 Lagoa da Confusão — 15.288

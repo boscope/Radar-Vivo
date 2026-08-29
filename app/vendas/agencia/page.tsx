@@ -48,6 +48,44 @@ export default function VendasAgenciaPage() {
           </div>
         </div>
 
+        {/* Para quem é */}
+        <section className="mb-20">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 md:p-10 max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-8">
+              O Radar Vivo é <span className="text-green-400">perfeito pra você</span> se...
+            </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Sua agência prospecta <strong className="text-white">empresas locais de pequeno e médio porte</strong> (clínicas, lojas, restaurantes, oficinas, prestadores de serviço)
+                </p>
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Você quer <strong className="text-white">fechar mais contratos</strong> e mostrar resultado em vez de prometer
+                </p>
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Sua equipe comercial quer <strong className="text-white">economizar horas</strong> de diagnóstico manual
+                </p>
+              </div>
+              <div className="space-y-3">
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Você atende uma ou mais cidades e compete com outras agências locais
+                </p>
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Busca uma ferramenta <strong className="text-white">acessível</strong> que já se paga com um único contrato
+                </p>
+              </div>
+            </div>
+            <p className="text-center text-neutral-500 text-xs mt-8">
+              🔎 Focado em agências que vendem pra negócios locais. Se sua agência atende grandes clientes corporativos com equipe interna de SEO/analytics, o Radar Vivo provavelmente não é pra você.
+            </p>
+          </div>
+        </section>
+
         {/* Dor da agência */}
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-8 text-center">

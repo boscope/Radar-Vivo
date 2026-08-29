@@ -72,6 +72,44 @@ export default function VendasConsultorPage() {
           </div>
         </section>
 
+        {/* Para quem é */}
+        <section className="mb-20">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 md:p-10 max-w-3xl mx-auto">
+            <h2 className="text-2xl font-bold text-center mb-8">
+              O Radar Vivo é <span className="text-green-400">perfeito pra você</span> se...
+            </h2>
+            <div className="grid md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Você vende consultoria/gestão de marketing para <strong className="text-white">negócios locais de pequeno e médio porte</strong>
+                </p>
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Precisa <strong className="text-white">provar a dor</strong> do cliente antes de fechar o serviço
+                </p>
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Quer <strong className="text-white">automatizar o diagnóstico</strong> e focar no que importa: fechar e entregar
+                </p>
+              </div>
+              <div className="space-y-3">
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Atende uma região e quer um <strong className="text-white">diferencial competitivo</strong> nas reuniões
+                </p>
+                <p className="flex items-start gap-3 text-sm text-neutral-300">
+                  <span className="text-green-400 mt-0.5">✓</span>
+                  Busca uma ferramenta <strong className="text-white">acessível</strong> que já se paga com um único contrato
+                </p>
+              </div>
+            </div>
+            <p className="text-center text-neutral-500 text-xs mt-8">
+              🔎 Focado em consultores que vendem pra negócios locais. Se você atende contas corporativas grandes com equipe interna, o Radar Vivo provavelmente não é pra você.
+            </p>
+          </div>
+        </section>
+
         {/* Solução */}
         <section className="mb-20">
           <h2 className="text-3xl font-bold mb-8 text-center">
