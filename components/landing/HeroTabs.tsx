@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
 import SearchLimitBanner from "@/components/SearchLimitBanner";
 import Link from "next/link";
+import RadarLoader from "@/components/ui/RadarLoader";
 
 export default function HeroTabs() {
   const [activeTab, setActiveTab] = useState<"buscar" | "analisar">("buscar");
@@ -129,9 +130,8 @@ export default function HeroTabs() {
               </button>
 
               {buscaLoading && (
-                <div className="mt-4 text-center">
-                  <div className="inline-block w-8 h-8 border-4 border-green-500 border-t-transparent rounded-full animate-spin" />
-                  <p className="text-neutral-500 text-sm mt-2">Buscando empresas na região...</p>
+                <div className="mt-4 flex justify-center py-6">
+                  <RadarLoader text="Buscando empresas na região..." />
                 </div>
               )}
 
