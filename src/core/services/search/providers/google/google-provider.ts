@@ -1,5 +1,6 @@
 import { SearchCompany, SearchProvider } from "../../search-engine";
 import { searchGooglePlacesByCategory } from "./google-client";
+import { collectInstagramFromWebsite } from "@/lib/collector/site-collector";
 
 export class GoogleProvider implements SearchProvider {
 
@@ -20,6 +21,8 @@ export class GoogleProvider implements SearchProvider {
 
       console.log("[GOOGLE PROVIDER] Places encontrados:", places.length);
 
+      const instagrams = await this.collectInstagrams(places);
+
       return places.map((place, index) => ({
         name: place.name,
         city,
@@ -29,6 +32,7 @@ export class GoogleProvider implements SearchProvider {
         url: place.website,
         mapsUrl: place.mapsUrl,
         phone: place.phone,
+        instagram: instagrams.get(place.id),
         rating: place.rating,
         lat: place.latitude,
         lon: place.longitude,
@@ -43,6 +47,22 @@ export class GoogleProvider implements SearchProvider {
 
     }
 
+  }
+
+  private async collectInstagrams(
+    places: { id: string; website?: string }[]
+  ): Promise<Map<string, string | undefined>> {
+    const result = new Map<string, string | undefined>();
+
+    const tasks = places.map(async (place) => {
+      if (!place.website) return;
+      const instagram = await collectInstagramFromWebsite(place.website);
+      if (instagram) result.set(place.id, instagram);
+    });
+
+    await Promise.all(tasks);
+
+    return result;
   }
 
 }

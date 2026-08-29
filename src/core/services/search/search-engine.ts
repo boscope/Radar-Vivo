@@ -7,6 +7,7 @@ export interface SearchCompany {
   url?: string;
   mapsUrl?: string;
   phone?: string;
+  instagram?: string;
   rating?: number;
   lat?: number;
   lon?: number;

@@ -154,6 +154,26 @@ export default function HeroTabs() {
                             <div className="min-w-0">
                               <p className="text-sm font-medium truncate">{c.name}</p>
                               <p className="text-xs text-neutral-500">{c.city} · {c.category}</p>
+                              <div className="mt-1 space-y-0.5">
+                                {c.phone && (
+                                  <p className="text-xs text-neutral-400 truncate">📞 {c.phone}</p>
+                                )}
+                                {c.instagram && (
+                                  <p className="text-xs text-purple-400 truncate">
+                                    📸{" "}
+                                    <a
+                                      href={c.instagram.startsWith("http") ? c.instagram : `https://www.instagram.com/${c.instagram.replace(/^@/, "")}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="hover:text-purple-300 underline"
+                                    >
+                                      {c.instagram.startsWith("http")
+                                        ? c.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@")
+                                        : c.instagram}
+                                    </a>
+                                  </p>
+                                )}
+                              </div>
                             </div>
                             <div className="flex items-center gap-2 ml-3 shrink-0">
                               <span className={`text-xs font-bold px-2 py-0.5 rounded-full ${

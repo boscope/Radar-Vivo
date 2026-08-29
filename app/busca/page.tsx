@@ -13,6 +13,7 @@ type Company = {
   url?: string;
   mapsUrl?: string;
   phone?: string;
+  instagram?: string;
   opportunityScore?: number;
   priority?: string;
   source?: string;
@@ -332,6 +333,26 @@ export default function BuscaMassaPage() {
                       ) : (
                         <p className="text-zinc-600">
                           Telefone não disponível
+                        </p>
+                      )}
+
+                      {company.instagram && (
+                        <p className="text-zinc-400">
+                          📸{" "}
+                          <a
+                            href={
+                              company.instagram.startsWith("http")
+                                ? company.instagram
+                                : `https://www.instagram.com/${company.instagram.replace(/^@/, "")}`
+                            }
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-purple-400 hover:text-purple-300 underline"
+                          >
+                            {company.instagram.startsWith("http")
+                              ? company.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@")
+                              : company.instagram}
+                          </a>
                         </p>
                       )}
 

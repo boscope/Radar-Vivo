@@ -87,6 +87,36 @@ function extractTechnologies(
   return found;
 }
 
+export async function collectInstagramFromWebsite(
+  website?: string | null
+): Promise<string | undefined> {
+  if (!website) return undefined;
+
+  try {
+    const response = await fetchWithTimeout(website, 6000);
+    const text = await response.text();
+    const html = text.slice(0, 1_000_000);
+
+    const clean = (url: string) =>
+      url.replace(/\/$/, "").replace(/["'<>\\]/g, "");
+
+    return (
+      clean(
+        firstSocial(
+          html,
+          /https:\/\/www\.instagram\.com\/[a-zA-Z0-9._]+/i
+        ) ?? ""
+      ) ||
+      clean(
+        firstSocial(html, /https:\/\/instagram\.com\/[a-zA-Z0-9._]+/i) ?? ""
+      ) ||
+      undefined
+    );
+  } catch {
+    return undefined;
+  }
+}
+
 export async function collectWebsite(
   website?: string | null
 ): Promise<WebsiteData> {
