@@ -34,6 +34,8 @@ type AnaliseData = {
   hasAutomation?: boolean;
   automationTool?: string;
   googleMapsUrl?: string;
+  phone?: string;
+  instagram?: string;
   intelligence: {
     score: {
       score: number;
@@ -170,6 +172,31 @@ export default function RelatorioPublicoPage({
             {company.city ? `${company.city}, ` : ""}{company.state ?? ""}
             {company.category ? ` · ${company.category}` : ""}
           </p>
+
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
+            {company.phone && (
+              <a
+                href={`https://wa.me/${company.phone.replace(/\D/g, "").replace(/^0+/, "").replace(/^(\d{2})/, "55$1")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-700 text-neutral-300 hover:border-green-400 hover:text-green-400 transition"
+              >
+                📞 {company.phone}
+              </a>
+            )}
+            {company.instagram && (
+              <a
+                href={company.instagram.startsWith("http") ? company.instagram : `https://www.instagram.com/${company.instagram.replace(/^@/, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-neutral-700 text-purple-300 hover:border-purple-400 hover:text-purple-400 transition"
+              >
+                📸 {company.instagram.startsWith("http")
+                  ? company.instagram.replace(/^https?:\/\/(www\.)?instagram\.com\//, "@")
+                  : company.instagram}
+              </a>
+            )}
+          </div>
         </div>
 
         <div className="mt-12 grid md:grid-cols-3 gap-6">

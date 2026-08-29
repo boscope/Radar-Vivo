@@ -29,6 +29,26 @@ import {
   analyzeCompany,
 } from "@/lib/intelligence";
 
+function extractInstagramFromUrl(url?: string | null): string | undefined {
+  if (!url) return undefined;
+
+  const clean = url.replace(/["'<>\\]/g, "").split("?")[0].split("#")[0];
+
+  const match = clean.match(
+    /(?:instagram\.com|ig\.me)\/([a-zA-Z0-9._]+)/i
+  );
+
+  if (!match) return undefined;
+
+  const user = match[1].replace(/\/$/, "");
+
+  if (user.toLowerCase() === "accounts" || user.toLowerCase() === "login") {
+    return undefined;
+  }
+
+  return `https://www.instagram.com/${user}`;
+}
+
 import {
   enrichCompanyIntelligence,
 } from "@/lib/intelligence/core/company-intelligence";
@@ -344,6 +364,11 @@ export async function collectCompanyData(
   const websiteData: WebsiteData =
     await collectWebsite(websiteUrl);
 
+  const instagramFromWebsite =
+    extractInstagramFromUrl(googleData.website) ??
+    extractInstagramFromUrl(websiteUrl) ??
+    websiteData.instagram;
+
   const companyName =
     googleData.companyName ?? company;
 
@@ -353,7 +378,7 @@ export async function collectCompanyData(
     category: googleData.category ?? "Empresa",
     website: websiteData.website,
     googleBusiness: !!googleData.googleMapsUrl,
-    instagram: websiteData.instagram ?? googleData.instagram,
+    instagram: instagramFromWebsite ?? googleData.instagram,
     facebook: websiteData.facebook ?? googleData.facebook,
     hasWhatsapp:
       websiteData.hasWhatsapp ?? googleData.hasWhatsapp ?? false,

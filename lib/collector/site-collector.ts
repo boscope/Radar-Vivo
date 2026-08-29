@@ -30,6 +30,37 @@ function titleTag(html: string): string | undefined {
   return match?.[1]?.trim() || undefined;
 }
 
+function extractInstagramFromUrl(
+  url?: string | null
+): string | undefined {
+  if (!url) return undefined;
+
+  const clean = url
+    .replace(/["'<>\\]/g, "")
+    .split("?")[0]
+    .split("#")[0];
+
+  const match = clean.match(
+    /(?:instagram\.com|ig\.me)\/([a-zA-Z0-9._]+)/i
+  );
+
+  if (!match) return undefined;
+
+  const user = match[1].replace(/\/$/, "");
+
+  if (
+    user.toLowerCase() === "accounts" ||
+    user.toLowerCase() === "login" ||
+    user.toLowerCase() === "explore" ||
+    user.toLowerCase() === "reels" ||
+    user.toLowerCase() === "p"
+  ) {
+    return undefined;
+  }
+
+  return `https://www.instagram.com/${user}`;
+}
+
 function metaContent(
   html: string,
   name: string
@@ -92,6 +123,9 @@ export async function collectInstagramFromWebsite(
 ): Promise<string | undefined> {
   if (!website) return undefined;
 
+  const direct = extractInstagramFromUrl(website);
+  if (direct) return direct;
+
   try {
     const response = await fetchWithTimeout(website, 6000);
     const text = await response.text();
@@ -122,6 +156,16 @@ export async function collectWebsite(
 ): Promise<WebsiteData> {
   if (!website) {
     return { hasWebsite: false, hasSeo: false };
+  }
+
+  const directInstagram = extractInstagramFromUrl(website);
+  if (directInstagram) {
+    return {
+      website: directInstagram,
+      hasWebsite: false,
+      hasSeo: false,
+      instagram: directInstagram,
+    };
   }
 
   try {
