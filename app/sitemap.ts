@@ -6,20 +6,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes: {
     path: string;
     priority: number;
-    changeFrequency: "weekly" | "monthly";
+    changeFrequency: "weekly" | "monthly" | "yearly";
     lastModified: Date;
   }[] = [
     { path: "/", priority: 1.0, changeFrequency: "weekly", lastModified: new Date() },
     { path: "/busca", priority: 0.9, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/precos", priority: 0.9, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/auth/login", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/auth/cadastro", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/privacidade", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/termos", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/lgpd", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/cdc", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
-    { path: "/marco-civil", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
     { path: "/faq", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
+    { path: "/contato", priority: 0.7, changeFrequency: "monthly", lastModified: new Date() },
+    { path: "/auth/login", priority: 0.6, changeFrequency: "monthly", lastModified: new Date() },
+    { path: "/auth/cadastro", priority: 0.6, changeFrequency: "monthly", lastModified: new Date() },
+    { path: "/privacidade", priority: 0.4, changeFrequency: "yearly", lastModified: new Date() },
+    { path: "/termos", priority: 0.4, changeFrequency: "yearly", lastModified: new Date() },
   ];
 
   return routes.map((route) => ({
