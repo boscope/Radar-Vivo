@@ -1,6 +1,6 @@
 import { SearchCompany, SearchProvider } from "../../search-engine";
 import { searchGooglePlacesByCategory } from "./google-client";
-import { collectInstagramFromWebsite } from "@/lib/collector/site-collector";
+import { collectInstagramFromWebsite, discoverInstagramByName } from "@/lib/collector/site-collector";
 
 export class GoogleProvider implements SearchProvider {
 
@@ -21,7 +21,7 @@ export class GoogleProvider implements SearchProvider {
 
       console.log("[GOOGLE PROVIDER] Places encontrados:", places.length);
 
-      const instagrams = await this.collectInstagrams(places);
+      const instagrams = await this.collectInstagrams(places, city);
 
       return places.map((place, index) => ({
         name: place.name,
@@ -50,17 +50,31 @@ export class GoogleProvider implements SearchProvider {
   }
 
   private async collectInstagrams(
-    places: { id: string; website?: string }[]
+    places: { id: string; name: string; website?: string }[],
+    city: string
   ): Promise<Map<string, string | undefined>> {
     const result = new Map<string, string | undefined>();
 
-    const tasks = places.map(async (place) => {
+    const collectFromWebsite = async (place: { id: string; website?: string }) => {
       if (!place.website) return;
       const instagram = await collectInstagramFromWebsite(place.website);
       if (instagram) result.set(place.id, instagram);
-    });
+    };
 
-    await Promise.all(tasks);
+    await Promise.all(places.map(collectFromWebsite));
+
+    let discovered = 0;
+    for (const place of places) {
+      if (result.has(place.id)) continue;
+      if (discovered >= 10) break;
+
+      const byName = await discoverInstagramByName(place.name, city);
+      if (byName) {
+        result.set(place.id, byName);
+        discovered += 1;
+      }
+      await new Promise((res) => setTimeout(res, 350));
+    }
 
     return result;
   }

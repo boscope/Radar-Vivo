@@ -300,3 +300,151 @@ export async function collectWebsite(
     };
   }
 }
+
+function normalizeUsername(name: string): string {
+  return name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/&/g, "e")
+    .replace(/[^a-z0-9_.]/g, "")
+    .replace(/_+/g, "_")
+    .replace(/\.+/g, ".")
+    .replace(/^[_.]+|[_.]+$/g, "")
+    .slice(0, 30);
+}
+
+function decodeDuckDuckGo(link: string): string | undefined {
+  const m = link.match(/uddg=([^&]+)/);
+  if (!m) return undefined;
+  try {
+    return decodeURIComponent(m[1]);
+  } catch {
+    return undefined;
+  }
+}
+
+async function fetchDuckDuckGoSource(
+  source: "html" | "lite",
+  query: string
+): Promise<string | null> {
+  const url =
+    source === "html"
+      ? `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`
+      : `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(query)}`;
+
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6000);
+  try {
+    const res = await fetch(url, {
+      signal: controller.signal,
+      headers: {
+        "User-Agent": USER_AGENT,
+        "Accept-Language": "pt-BR,pt;q=0.9",
+      },
+    });
+    const body = await res.text();
+    const marker = source === "html" ? "result__a" : "snippet";
+    return body.includes(marker) ? body : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function extractInstagramLinks(
+  source: "html" | "lite",
+  body: string
+): string[] {
+  if (source === "html") {
+    return [...body.matchAll(/class="result__a"[^>]*href="([^"]+)"/g)]
+      .map((m) => decodeDuckDuckGo(m[1]))
+      .filter((u): u is string => !!u);
+  }
+
+  return [...body.matchAll(/href="([^"]+)"/g)]
+    .map((m) => m[1])
+    .map((u) => (u.startsWith("//") ? `https:${u}` : u))
+    .map((u) => decodeDuckDuckGo(u))
+    .filter((u): u is string => !!u && /instagram\.com/i.test(u));
+}
+
+export async function discoverInstagramByName(
+  name: string,
+  city?: string
+): Promise<string | undefined> {
+  const username = normalizeUsername(name);
+
+  if (username.length < 4) return undefined;
+
+  const candidate = `https://www.instagram.com/${username}`;
+
+  const localityQuery = name
+    .split(/\s+/)
+    .filter((w) => w.length >= 3)
+    .slice(0, 3)
+    .join(" ");
+
+  const queries = [
+    `"${localityQuery}" instagram ${city ?? ""}`.trim(),
+    `"${name}" instagram`,
+    `${username} instagram`,
+  ];
+
+  const sources: ("html" | "lite")[] = ["html", "lite"];
+
+  for (const query of queries) {
+    for (const source of sources) {
+      try {
+        let body = await fetchDuckDuckGoSource(source, query);
+        if (!body && source === "html") {
+          await new Promise((res) => setTimeout(res, 500));
+          body = await fetchDuckDuckGoSource("lite", query);
+        }
+
+        if (!body) continue;
+
+        const links = extractInstagramLinks(
+          body.includes("result__a") ? "html" : "lite",
+          body
+        );
+
+        for (const link of links) {
+          const match = link.match(
+            /instagram\.com\/(?:p\/|reel\/|stories\/|[a-zA-Z0-9._]+)/
+          );
+          if (!match) continue;
+
+          const user = match[0].split("/").pop()?.replace(/^@/, "");
+          if (!user) continue;
+
+          if (
+            ["p", "reel", "stories", "accounts", "explore", "discover", "login", "share"].includes(user)
+          ) {
+            continue;
+          }
+
+          if (user.toLowerCase() === username.toLowerCase()) {
+            return candidate;
+          }
+
+          const normalizedUser = normalizeUsername(user);
+          if (
+            normalizedUser === username ||
+            normalizedUser.includes(username) ||
+            username.includes(normalizedUser)
+          ) {
+            return `https://www.instagram.com/${user}`;
+          }
+        }
+      } catch {
+        continue;
+      }
+    }
+    await new Promise((res) => setTimeout(res, 400));
+  }
+
+  return undefined;
+}
+

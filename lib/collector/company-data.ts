@@ -23,7 +23,7 @@ import {
   mapsLinkToSearch,
 } from "./maps-parser";
 
-import { collectWebsite } from "./site-collector";
+import { collectWebsite, discoverInstagramByName } from "./site-collector";
 
 import {
   analyzeCompany,
@@ -369,6 +369,16 @@ export async function collectCompanyData(
     extractInstagramFromUrl(websiteUrl) ??
     websiteData.instagram;
 
+  const instagramDiscovered =
+    !instagramFromWebsite && !googleData.instagram
+      ? await discoverInstagramByName(company, googleData.city ?? undefined)
+      : undefined;
+
+  const instagram =
+    instagramFromWebsite ??
+    googleData.instagram ??
+    instagramDiscovered;
+
   const companyName =
     googleData.companyName ?? company;
 
@@ -378,7 +388,7 @@ export async function collectCompanyData(
     category: googleData.category ?? "Empresa",
     website: websiteData.website,
     googleBusiness: !!googleData.googleMapsUrl,
-    instagram: instagramFromWebsite ?? googleData.instagram,
+    instagram,
     facebook: websiteData.facebook ?? googleData.facebook,
     hasWhatsapp:
       websiteData.hasWhatsapp ?? googleData.hasWhatsapp ?? false,
