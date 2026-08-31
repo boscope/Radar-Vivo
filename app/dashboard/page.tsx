@@ -592,7 +592,7 @@ export default function DashboardPage() {
               disabled={buscaLoading}
               className="mt-5 w-full bg-green-500 hover:bg-green-400 transition text-black font-bold py-3.5 rounded-lg text-lg disabled:opacity-60"
             >
-              {buscaLoading ? "Buscando... (até 30s)" : "🔍 Buscar Oportunidades"}
+              {buscaLoading ? "Buscando... (até 45s)" : "🔍 Buscar Oportunidades"}
             </button>
 
             {buscaLoading && (

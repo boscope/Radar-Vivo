@@ -221,7 +221,7 @@ export default function BuscaMassaPage() {
             className="mt-8 w-full bg-green-500 hover:bg-green-400 transition text-black font-bold py-4 rounded-lg text-xl disabled:opacity-60"
           >
             {carregando
-              ? "Buscando empresas... (pode levar até 30s)"
+              ? "Buscando empresas... (pode levar até 45s)"
               : "🔍 Buscar Oportunidades"}
           </button>
 
@@ -229,7 +229,7 @@ export default function BuscaMassaPage() {
 
         {carregando && (
           <div className="mt-8">
-            <RadarLoader text="Buscando empresas na região... (pode levar até 30s)" />
+            <RadarLoader text="Buscando empresas na região... (pode levar até 45s)" />
           </div>
         )}
 
