@@ -334,7 +334,7 @@ async function fetchDuckDuckGoSource(
       : `https://lite.duckduckgo.com/lite/?q=${encodeURIComponent(query)}`;
 
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 6000);
+  const timer = setTimeout(() => controller.abort(), 3500);
   try {
     const res = await fetch(url, {
       signal: controller.signal,
@@ -389,60 +389,53 @@ export async function discoverInstagramByName(
   const queries = [
     `"${localityQuery}" instagram ${city ?? ""}`.trim(),
     `"${name}" instagram`,
-    `${username} instagram`,
   ];
 
-  const sources: ("html" | "lite")[] = ["html", "lite"];
-
   for (const query of queries) {
-    for (const source of sources) {
-      try {
-        let body = await fetchDuckDuckGoSource(source, query);
-        if (!body && source === "html") {
-          await new Promise((res) => setTimeout(res, 500));
-          body = await fetchDuckDuckGoSource("lite", query);
-        }
+    const [htmlBody, liteBody] = await Promise.all([
+      fetchDuckDuckGoSource("html", query),
+      fetchDuckDuckGoSource("lite", query),
+    ]);
 
-        if (!body) continue;
+    for (const body of [htmlBody, liteBody]) {
+      if (!body) continue;
 
-        const links = extractInstagramLinks(
-          body.includes("result__a") ? "html" : "lite",
-          body
+      const links = extractInstagramLinks(
+        body.includes("result__a") ? "html" : "lite",
+        body
+      );
+
+      for (const link of links) {
+        const match = link.match(
+          /instagram\.com\/(?:p\/|reel\/|stories\/|[a-zA-Z0-9._]+)/
         );
+        if (!match) continue;
 
-        for (const link of links) {
-          const match = link.match(
-            /instagram\.com\/(?:p\/|reel\/|stories\/|[a-zA-Z0-9._]+)/
-          );
-          if (!match) continue;
+        const user = match[0].split("/").pop()?.replace(/^@/, "");
+        if (!user) continue;
 
-          const user = match[0].split("/").pop()?.replace(/^@/, "");
-          if (!user) continue;
-
-          if (
-            ["p", "reel", "stories", "accounts", "explore", "discover", "login", "share"].includes(user)
-          ) {
-            continue;
-          }
-
-          if (user.toLowerCase() === username.toLowerCase()) {
-            return candidate;
-          }
-
-          const normalizedUser = normalizeUsername(user);
-          if (
-            normalizedUser === username ||
-            normalizedUser.includes(username) ||
-            username.includes(normalizedUser)
-          ) {
-            return `https://www.instagram.com/${user}`;
-          }
+        if (
+          ["p", "reel", "stories", "accounts", "explore", "discover", "login", "share"].includes(user)
+        ) {
+          continue;
         }
-      } catch {
-        continue;
+
+        if (user.toLowerCase() === username.toLowerCase()) {
+          return candidate;
+        }
+
+        const normalizedUser = normalizeUsername(user);
+        if (
+          normalizedUser === username ||
+          normalizedUser.includes(username) ||
+          username.includes(normalizedUser)
+        ) {
+          return `https://www.instagram.com/${user}`;
+        }
       }
     }
-    await new Promise((res) => setTimeout(res, 400));
+
+    await new Promise((res) => setTimeout(res, 200));
   }
 
   return undefined;

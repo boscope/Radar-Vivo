@@ -55,26 +55,39 @@ export class GoogleProvider implements SearchProvider {
   ): Promise<Map<string, string | undefined>> {
     const result = new Map<string, string | undefined>();
 
-    const collectFromWebsite = async (place: { id: string; website?: string }) => {
-      if (!place.website) return;
-      const instagram = await collectInstagramFromWebsite(place.website);
-      if (instagram) result.set(place.id, instagram);
-    };
+    await Promise.all(
+      places.map(async (place) => {
+        if (!place.website) return;
+        const instagram = await collectInstagramFromWebsite(place.website);
+        if (instagram) result.set(place.id, instagram);
+      })
+    );
 
-    await Promise.all(places.map(collectFromWebsite));
+    const start = Date.now();
+    const BUDGET_MS = 10_000;
 
-    let discovered = 0;
-    for (const place of places) {
-      if (result.has(place.id)) continue;
-      if (discovered >= 10) break;
+    const pending = places.filter(
+      (place) => !result.has(place.id)
+    );
 
-      const byName = await discoverInstagramByName(place.name, city);
-      if (byName) {
-        result.set(place.id, byName);
-        discovered += 1;
+    let next = 0;
+    const workers = Array.from({ length: 3 }, async () => {
+      while (next < pending.length) {
+        if (Date.now() - start > BUDGET_MS) break;
+
+        const place = pending[next];
+        next += 1;
+
+        const byName = await discoverInstagramByName(place.name, city);
+        if (byName) result.set(place.id, byName);
       }
-      await new Promise((res) => setTimeout(res, 350));
-    }
+    });
+
+    await Promise.all(
+      workers.map((w) =>
+        Promise.race([w, new Promise((r) => setTimeout(r, 12_000))])
+      )
+    );
 
     return result;
   }
