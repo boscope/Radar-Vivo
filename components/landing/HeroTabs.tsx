@@ -142,12 +142,26 @@ export default function HeroTabs() {
               )}
 
               {buscaResults && (
-                <div className="mt-4 max-h-64 overflow-y-auto space-y-2">
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <p className="text-neutral-400 text-xs">
+                      {buscaResults.length} empresas encontradas
+                    </p>
+                    {buscaResults.length > 0 && (
+                      <a
+                        href={`/busca?state=${encodeURIComponent(buscaState || "")}&city=${encodeURIComponent(buscaCity || "")}&category=${encodeURIComponent(buscaCategory || "")}`}
+                        className="text-green-400 hover:text-green-300 text-xs font-semibold"
+                      >
+                        Ver todas ({buscaResults.length}) →
+                      </a>
+                    )}
+                  </div>
+
+                  <div className="max-h-[28rem] overflow-y-auto space-y-2 pr-1">
                   {buscaResults.length === 0 ? (
                     <p className="text-neutral-500 text-sm text-center py-4">Nenhuma empresa encontrada.</p>
                   ) : (
                     <>
-                      <p className="text-neutral-400 text-xs mb-2">{buscaResults.length} empresas encontradas</p>
                       {buscaResults.map((c: any, i: number) => (
                         <div key={i} className="bg-neutral-800 border border-neutral-700 rounded-lg p-3">
                           <div className="flex items-center justify-between">
@@ -197,6 +211,7 @@ export default function HeroTabs() {
                       ))}
                     </>
                   )}
+                  </div>
                 </div>
               )}
             </div>

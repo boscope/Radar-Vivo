@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
 import SearchLimitBanner from "@/components/SearchLimitBanner";
 import RadarLoader from "@/components/ui/RadarLoader";
@@ -24,11 +25,13 @@ type Company = {
 export default function BuscaMassaPage() {
 
   const { blocked, incrementAndCheck, remaining, isLogged } = useFreeSearchLimit();
-  const [state, setState] = useState("PE");
+  const searchParams = useSearchParams();
 
-  const [city, setCity] = useState("");
+  const [state, setState] = useState(searchParams.get("state") || "PE");
 
-  const [category, setCategory] = useState("Dentista");
+  const [city, setCity] = useState(searchParams.get("city") || "");
+
+  const [category, setCategory] = useState(searchParams.get("category") || "Dentista");
 
   const [carregando, setCarregando] = useState(false);
 
@@ -87,6 +90,16 @@ export default function BuscaMassaPage() {
     }
 
   }
+
+  useEffect(() => {
+    const urlState = searchParams.get("state");
+    const urlCity = searchParams.get("city");
+    const urlCategory = searchParams.get("category");
+    if ((urlCity || urlState) && urlCategory) {
+      buscar();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   async function salvarNoPipeline(company: Company) {
 
