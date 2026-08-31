@@ -334,7 +334,9 @@ export default function BuscaMassaPage() {
                         </p>
                       ) : (
                         <p className="text-zinc-600">
-                          Telefone não disponível
+                          {company.instagram
+                            ? "WhatsApp não visível — confira na bio do Instagram"
+                            : "Telefone não disponível"}
                         </p>
                       )}
 

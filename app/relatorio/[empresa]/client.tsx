@@ -197,6 +197,17 @@ export default function RelatorioPublicoClient({
               </a>
             )}
           </div>
+
+          {company.instagram && !company.phone && (
+            <p className="mt-3 text-sm text-amber-400/80">
+              📸 O WhatsApp não aparece nos dados públicos — confira na bio do Instagram acima.
+            </p>
+          )}
+          {!company.instagram && !company.phone && (
+            <p className="mt-3 text-sm text-neutral-500">
+              🔍 Nenhum canal de contato público foi localizado nos dados abertos.
+            </p>
+          )}
         </div>
 
         <div className="mt-12 grid md:grid-cols-3 gap-6">
