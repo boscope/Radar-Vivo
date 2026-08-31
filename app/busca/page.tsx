@@ -285,6 +285,10 @@ export default function BuscaMassaPage() {
 
             )}
 
+            <h3 className="text-xl font-bold text-zinc-300 mb-4">
+              Todas as oportunidades ({resultado.companies.length})
+            </h3>
+
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
 
               {resultado.companies.map((company, index) => {
