@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
 import SearchLimitBanner from "@/components/SearchLimitBanner";
@@ -23,6 +23,20 @@ type Company = {
 };
 
 export default function BuscaMassaPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-screen bg-black text-white flex items-center justify-center">
+          <RadarLoader text="Carregando busca..." />
+        </main>
+      }
+    >
+      <BuscaMassaContent />
+    </Suspense>
+  );
+}
+
+function BuscaMassaContent() {
 
   const { blocked, incrementAndCheck, remaining, isLogged } = useFreeSearchLimit();
   const searchParams = useSearchParams();
