@@ -494,16 +494,19 @@ export default function DashboardPage() {
             value={data.stats.activeLeads}
             icon="📋"
             trend={data.stats.activeLeads > 0 ? "+" + data.stats.activeLeads : undefined}
+            scrollTo="pipeline"
           />
           <StatCard
             label="Total de leads"
             value={data.stats.totalLeads}
             icon="📊"
+            scrollTo="pipeline"
           />
           <StatCard
             label="Empresas"
             value={data.stats.capturedCompanies}
             icon="🏢"
+            scrollTo="empresas"
           />
           <StatCard
             label="Score médio"
@@ -692,7 +695,7 @@ export default function DashboardPage() {
 
         {/* Pipeline */}
         {data.leads.length > 0 && (
-          <section className="mb-8">
+          <section id="pipeline" className="mb-8">
             <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
               <span>📊 Status do Pipeline</span>
               <span className="text-sm font-normal text-neutral-500">({data.stats.totalLeads} leads)</span>
@@ -804,7 +807,7 @@ export default function DashboardPage() {
         </section>
 
         {/* Empresas no Radar */}
-        <section>
+        <section id="empresas">
           <h2 className="text-lg font-bold mb-4">🏢 Empresas no Radar</h2>
           <p className="text-neutral-500 text-sm mb-4">Empresas já encontradas nas buscas — não aparecem mais duplicadas.</p>
           {data.companies.length === 0 ? (
@@ -865,19 +868,26 @@ export default function DashboardPage() {
   );
 }
 
-function StatCard({ label, value, icon, trend, accent }: {
+function StatCard({ label, value, icon, trend, accent, scrollTo }: {
   label: string;
   value: number;
   icon: string;
   trend?: string;
   accent?: boolean;
+  scrollTo?: string;
 }) {
-  return (
-    <div className={`rounded-2xl p-5 border transition hover:scale-[1.02] ${
-      accent
-        ? "bg-green-500/5 border-green-500/20"
-        : "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
-    }`}>
+  const base = `rounded-2xl p-5 border transition ${
+    accent
+      ? "bg-green-500/5 border-green-500/20"
+      : "bg-neutral-900/50 border-neutral-800 hover:border-neutral-700"
+  } ${
+    scrollTo
+      ? "cursor-pointer hover:scale-[1.02] text-left"
+      : "hover:scale-[1.02]"
+  }`;
+
+  const content = (
+    <>
       <div className="flex items-center justify-between mb-3">
         <span className="text-2xl">{icon}</span>
         {trend && (
@@ -888,6 +898,31 @@ function StatCard({ label, value, icon, trend, accent }: {
       </div>
       <p className="text-3xl font-black">{value}</p>
       <p className="text-neutral-500 text-sm mt-1">{label}</p>
+      {scrollTo && (
+        <p className="text-xs text-neutral-600 mt-2 flex items-center gap-1">
+          Ir para a seção ↓
+        </p>
+      )}
+    </>
+  );
+
+  if (scrollTo) {
+    return (
+      <button
+        type="button"
+        onClick={() => {
+          document.getElementById(scrollTo)?.scrollIntoView({ behavior: "smooth", block: "start" });
+        }}
+        className={base}
+      >
+        {content}
+      </button>
+    );
+  }
+
+  return (
+    <div className={base}>
+      {content}
     </div>
   );
 }
