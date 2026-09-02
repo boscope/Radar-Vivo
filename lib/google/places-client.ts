@@ -245,9 +245,13 @@ export async function searchGooglePlacesByCategory(
     ? `${category} em ${city}, ${state}`
     : `${category} ${city} ${state}`.trim();
 
-  const results = await googleTextSearch(
+  let results = await googleTextSearch(
     query,
     location ?? undefined
+  );
+
+  results = results.filter((place) =>
+    matchesState(place, state, city)
   );
 
   const limited = results.slice(0, limit);
@@ -274,6 +278,32 @@ export async function searchGooglePlacesByCategory(
   }
 
   return full;
+}
+
+const BR_STATES =
+  /(?:^|[\s-])(AC|AL|AP|AM|BA|CE|DF|ES|GO|MA|MT|MS|MG|PA|PB|PR|PE|PI|RJ|RN|RS|RO|RR|SC|SP|SE|TO)(?=[\s,.]|$)/i;
+
+function stateFromAddress(address: string): string | null {
+  if (!address) return null;
+  const match = address.match(BR_STATES);
+  return match ? match[1].toUpperCase() : null;
+}
+
+function matchesState(
+  place: GooglePlaceBasic,
+  state: string,
+  _city: string
+): boolean {
+  if (!state) return true;
+  const wanted = state.toUpperCase();
+
+  if (!BR_STATES.test(wanted)) return true;
+
+  const found = stateFromAddress(place.address ?? "");
+
+  if (found == null) return true;
+
+  return found === wanted;
 }
 
 function cityToCoordinates(
