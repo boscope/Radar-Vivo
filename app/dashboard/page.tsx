@@ -611,13 +611,13 @@ export default function DashboardPage() {
             )}
 
             {buscaResults && (
-              <div className="mt-4 max-h-64 overflow-y-auto space-y-2">
+              <div className="mt-4 max-h-[28rem] overflow-y-auto space-y-2 pr-1">
                 {buscaResults.length === 0 ? (
                   <p className="text-neutral-500 text-sm text-center py-4">Nenhuma empresa encontrada.</p>
                 ) : (
                   <>
                     <p className="text-neutral-400 text-xs mb-2">{buscaResults.length} empresas encontradas</p>
-                    {buscaResults.slice(0, 10).map((c: any, i: number) => (
+                    {buscaResults.map((c: any, i: number) => (
                       <div key={i} className="bg-neutral-800 border border-neutral-700 rounded-lg p-3">
                         <div className="flex items-center justify-between">
                           <div className="min-w-0">
