@@ -24,6 +24,8 @@ export default function HeroTabs() {
       setBuscaError("Informe a categoria.");
       return;
     }
+    if (blocked) return;
+    if (incrementAndCheck()) return;
     setBuscaLoading(true);
     setBuscaError(null);
     setBuscaResults(null);
