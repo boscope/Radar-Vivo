@@ -441,3 +441,169 @@ export async function discoverInstagramByName(
   return undefined;
 }
 
+const NON_OFFICIAL_DOMAINS = new Set([
+  "instagram.com", "facebook.com", "facebook.net", "linkedin.com", "twitter.com",
+  "x.com", "youtube.com", "youtu.be", "whatsapp.com", "wa.me", "tiktok.com",
+  "google.com", "google.com.br", "maps.google.com", "g1.globo.com",
+  "globo.com", "uol.com.br", "terra.com.br", "folha.uol.com.br",
+  "mercadolivre.com", "olx.com.br", "gupy.io", "vagas.com.br", "indeed.com.br",
+  "wikipedia.org", "guiamais.com.br", "apontador.com.br",
+  "api.whatsapp.com", "youtube.com.br", "taplink.cc", "linktr.ee",
+  "beacons.ai", "msha.ke",
+]);
+
+function extractWebsiteLinks(
+  source: "html" | "lite",
+  body: string
+): string[] {
+  if (source === "html") {
+    return [...body.matchAll(/class="result__a"[^>]*href="([^"]+)"/g)]
+      .map((m) => decodeDuckDuckGo(m[1]))
+      .filter((u): u is string => !!u);
+  }
+
+  return [...body.matchAll(/href="([^"]+)"/g)]
+    .map((m) => m[1])
+    .map((u) => (u.startsWith("//") ? `https:${u}` : u))
+    .map((u) => decodeDuckDuckGo(u))
+    .filter((u): u is string => !!u);
+}
+
+function normalizeDomain(d: string): string {
+  return d
+    .toLowerCase()
+    .replace(/^https?:\/\//, "")
+    .replace(/^www\./, "")
+    .replace(/\/.*$/, "")
+    .split(":")[0]
+    .trim();
+}
+
+function isNonOfficialDomain(domain: string): boolean {
+  for (const bad of NON_OFFICIAL_DOMAINS) {
+    if (domain.includes(bad)) return true;
+  }
+  return /\.(gov|edu)\.br$/.test(domain);
+}
+
+export async function discoverWebsiteByName(
+  name: string,
+  city?: string
+): Promise<string | undefined> {
+  const localityQuery = name
+    .split(/\s+/)
+    .filter((w) => w.length >= 3)
+    .slice(0, 3)
+    .join(" ");
+
+  const queries = [
+    `"${localityQuery}" ${city ?? ""} --instagram --facebook`.trim(),
+    `"${name}" ${city ?? ""}`.trim(),
+  ];
+
+  for (const query of queries) {
+    const [htmlBody, liteBody] = await Promise.all([
+      fetchDuckDuckGoSource("html", query),
+      fetchDuckDuckGoSource("lite", query),
+    ]);
+
+    const body = htmlBody || liteBody;
+    if (body) {
+      const links = extractWebsiteLinks(
+        body.includes("result__a") ? "html" : "lite",
+        body
+      );
+
+      const official = links
+        .map((u) => u.split("?")[0])
+        .find((u) => {
+          const domain = normalizeDomain(u);
+          if (!domain || !domain.includes(".")) return false;
+          if (isNonOfficialDomain(domain)) return false;
+          return true;
+        });
+
+      if (official) return official;
+    }
+
+    await new Promise((res) => setTimeout(res, 200));
+  }
+
+  return undefined;
+}
+
+function findCoreToken(name: string): string {
+  const raw = name
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+
+  const words = raw.split(/\s+/).filter((w) => w.length >= 3);
+
+  const genericWords = [
+    "supermercado", "restaurante", "padaria", "farmacia", "clinica",
+    "loja", "mercado", "escola", "salao", "barbearia", "oficina",
+    "hospital", "academia", "igreja", "advocacia", "pizzaria", "confeitaria",
+    "agencia", "editora", "comercio", "distribuidora", "transporte",
+  ];
+
+  const distinct = words.filter(
+    (w) => !genericWords.includes(w) && w !== "supermercados"
+  );
+
+  const source = distinct.length ? distinct : words;
+
+  return source.slice(0, 2).join("");
+}
+
+function domainCandidates(name: string): string[] {
+  const core = findCoreToken(name);
+  if (core.length < 4) return [];
+  const withCity = core; // núcleo já suficiente
+  const tlds = ["com.br", "com", "net.br", "net"];
+  const out: string[] = [];
+  for (const tld of tlds) {
+    out.push(`${core}.${tld}`);
+    out.push(`www.${core}.${tld}`);
+  }
+  return out;
+}
+
+async function domainResponds(url: string, timeoutMs = 6000): Promise<boolean> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      method: "HEAD",
+      signal: controller.signal,
+      headers: { "User-Agent": USER_AGENT },
+      redirect: "follow",
+    });
+    return res.status < 500;
+  } catch {
+    return false;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+export async function discoverWebsiteByDomain(
+  name: string
+): Promise<string | undefined> {
+  const candidates = domainCandidates(name);
+
+  const tested = await Promise.all(
+    candidates.map(async (candidate) => {
+      const ok = await domainResponds(`https://${candidate}`);
+      return { candidate, ok };
+    })
+  );
+
+  const first = tested.find((t) => t.ok);
+  if (first) return `https://${first.candidate}`;
+
+  return undefined;
+}
+
