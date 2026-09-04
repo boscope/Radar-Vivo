@@ -337,8 +337,19 @@ async function collectFromMapsLink(
     }
   }
 
+  if (parsed.latitude && parsed.longitude) {
+    const byName = await collectFromName(search ?? `${parsed.latitude},${parsed.longitude}`);
+    if (byName.googleMapsUrl || byName.category !== "Empresa") {
+      return { ...byName, googleMapsUrl: url };
+    }
+  }
+
+  const resolvido = parsed.placeName ?? parsed.query;
+
   return {
-    companyName: parsed.placeName ?? parsed.query ?? url,
+    companyName: resolvido ?? (parsed.cid
+      ? "Não foi possível identificar a empresa pelo link"
+      : url),
     city: "Cidade não identificada",
     category: "Empresa",
     googleMapsUrl: url,
