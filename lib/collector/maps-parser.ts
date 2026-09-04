@@ -4,6 +4,7 @@ export interface MapsLinkData {
   latitude?: number;
   longitude?: number;
   cid?: string;
+  placeId?: string;
 }
 
 const COORDS_RE = /@(-?\d+\.\d+),(-?\d+\.\d+)/;
@@ -61,6 +62,7 @@ export async function parseMapsLink(
   if (cid && !data.placeName && !data.query) {
     const resolved = await resolveCidPlaceName(cid[1]);
     if (resolved?.placeName) data.placeName = resolved.placeName;
+    if (resolved?.placeId) data.placeId = resolved.placeId;
   }
 
   return data;
@@ -82,16 +84,36 @@ async function resolveCidPlaceName(
     const html = await response.text();
 
     let placeName: string | undefined;
+    let placeId: string | undefined;
+
     const og = html.match(/property="og:title"\s+content="([^"]+)"/);
     if (og) placeName = og[1];
+
     if (!placeName) {
       const title = html.match(/<title>([^<]+)<\/title>/);
       if (title && !/google maps/i.test(title[1])) placeName = title[1].trim();
     }
 
-    let placeId: string | undefined;
-    const cidFallback = html.match(/place_id:['"]([^'"]+)['"]/);
-    if (cidFallback) placeId = cidFallback[1];
+    if (!placeName) {
+      const placeTag = html.match(
+        /\["0x([0-9a-f]+:0x[0-9a-f]+)","((?:[^"\\]|\\.)*?)",\[(-?[\d.]+),(-?[\d.]+)\],"(-?\d+)"\]/
+      );
+      if (placeTag) {
+        const nameWithAddress = placeTag[2];
+        const firstPart = nameWithAddress.split(" - ")[0]?.trim();
+        if (firstPart && !/^(?:Av|Rua|R\.|Est|Rod|Praça|Praca)\b/i.test(firstPart)) {
+          placeName = firstPart;
+        } else {
+          placeName = nameWithAddress;
+        }
+        if (!placeId) placeId = placeTag[1];
+      }
+    }
+
+    if (!placeId) {
+      const cidFallback = html.match(/place_id:['"]([^'"]+)['"]/);
+      if (cidFallback) placeId = cidFallback[1];
+    }
 
     return { placeName, placeId };
   } catch {

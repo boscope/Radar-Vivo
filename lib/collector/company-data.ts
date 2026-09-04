@@ -329,7 +329,9 @@ async function collectFromMapsLink(
   const search = mapsLinkToSearch(parsed);
 
   if (search) {
-    const byName = await collectFromName(search);
+    const byName = await collectFromName(search, {
+      placeId: parsed.placeId,
+    });
     if (byName.googleMapsUrl || byName.category !== "Empresa") {
       return { ...byName, googleMapsUrl: url };
     }
