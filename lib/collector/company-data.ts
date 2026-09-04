@@ -119,7 +119,7 @@ async function collectFromGooglePlaces(
     ? `${name} ${locationHint.city} ${locationHint.state || ""}`
     : name;
 
-  const place = await searchGooglePlace(query);
+  const place = await searchGooglePlace(query, undefined, name);
 
   if (!place) return null;
 

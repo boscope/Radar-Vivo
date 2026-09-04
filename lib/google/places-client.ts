@@ -208,13 +208,14 @@ export async function googlePlaceDetails(
 
 export async function searchGooglePlace(
   query: string,
-  location?: { lat: number; lng: number }
+  location?: { lat: number; lng: number },
+  matchName?: string
 ): Promise<GooglePlaceFull | null> {
   const results = await googleTextSearch(query, location);
 
   if (!results.length) return null;
 
-  const top = results[0];
+  const top = pickBestMatch(matchName ?? query, results);
 
   const details = await googlePlaceDetails(top.id);
 
@@ -231,6 +232,50 @@ export async function searchGooglePlace(
     types: top.types,
     businessStatus: top.businessStatus,
   };
+}
+
+const STOPWORDS = new Set([
+  "supermercado", "restaurante", "padaria", "farmacia", "clinica", "loja",
+  "mercado", "escola", "salão", "salao", "barbearia", "oficina",
+  "advocacia", "em", "de", "da", "do", "das", "dos", "e",
+]);
+
+function normalizeToken(s: string): string {
+  return s
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]/g, " ");
+}
+
+function pickBestMatch(
+  query: string,
+  results: GooglePlaceBasic[]
+): GooglePlaceBasic {
+  const q = normalizeToken(query);
+  const tokens = q
+    .split(/\s+/)
+    .filter((t) => t.length >= 3 && !STOPWORDS.has(t) && !/^\d+$/.test(t));
+
+  if (!tokens.length) return results[0];
+
+  let best: GooglePlaceBasic = results[0];
+  let bestScore = -1;
+
+  for (const place of results) {
+    const name = normalizeToken(place.name);
+    const nameTokens = name.split(/\s+/).filter((t) => t.length >= 3);
+    let score = 0;
+    for (const t of tokens) {
+      if (nameTokens.includes(t) || name.includes(t)) score += 2;
+    }
+    if (score > bestScore) {
+      bestScore = score;
+      best = place;
+    }
+  }
+
+  return best;
 }
 
 export async function searchGooglePlacesByCategory(
