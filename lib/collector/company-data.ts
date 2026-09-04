@@ -10,7 +10,7 @@ import { collectReceitaWS } from "./receita-collector";
 
 import { searchOSMBusiness } from "./osm-collector";
 
-import { searchGooglePlace, googlePlaceDetails } from "@/lib/google/places-client";
+import { searchGooglePlace, googlePlaceDetails, resolveCityCoordinates } from "@/lib/google/places-client";
 
 import {
   canUseGoogle,
@@ -23,7 +23,7 @@ import {
   mapsLinkToSearch,
 } from "./maps-parser";
 
-import { collectWebsite, discoverInstagramByName, discoverWebsiteByName, discoverWebsiteByDomain } from "./site-collector";
+import { collectWebsite, discoverInstagramByName, discoverWebsiteByName, discoverWebsiteByDomain, isRealBusinessWebsite } from "./site-collector";
 
 import {
   analyzeCompany,
@@ -119,7 +119,18 @@ async function collectFromGooglePlaces(
     ? `${name} ${locationHint.city} ${locationHint.state || ""}`
     : name;
 
-  const place = await searchGooglePlace(query, undefined, name);
+  const location = locationHint?.city
+    ? await resolveCityCoordinates(
+        locationHint.city,
+        locationHint.state
+      )
+    : null;
+
+  const place = await searchGooglePlace(
+    query,
+    location ?? undefined,
+    name
+  );
 
   if (!place) return null;
 
@@ -365,7 +376,7 @@ export async function collectCompanyData(
     await collectWebsite(websiteUrl);
 
   const discoveredWebsite =
-    !websiteData.website && type !== "site"
+    !isRealBusinessWebsite(websiteData.website) && type !== "site"
       ? (await discoverWebsiteByName(company, googleData.city ?? undefined)) ??
         (await discoverWebsiteByDomain(company))
       : undefined;

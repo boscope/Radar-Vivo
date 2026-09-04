@@ -284,7 +284,7 @@ export async function searchGooglePlacesByCategory(
   state: string,
   limit = 20
 ): Promise<GooglePlaceFull[]> {
-  const location = cityToCoordinates(city, state);
+  const location = await resolveCityCoordinates(city, state);
 
   const query = location
     ? `${category} em ${city}, ${state}`
@@ -351,12 +351,7 @@ function matchesState(
   return found === wanted;
 }
 
-function cityToCoordinates(
-  city: string,
-  state: string
-): { lat: number; lng: number } | null {
-  const key = `${city}|${state}`.toLowerCase().trim();
-  const map: Record<string, { lat: number; lng: number }> = {
+const MANUAL_COORDS: Record<string, { lat: number; lng: number }> = {
     "londrina|pr": { lat: -23.3045, lng: -51.1696 },
     "londrina|parana": { lat: -23.3045, lng: -51.1696 },
     "são paulo|sp": { lat: -23.5505, lng: -46.6333 },
@@ -373,6 +368,64 @@ function cityToCoordinates(
     "manaus|am": { lat: -3.119, lng: -60.0217 },
     "florianopolis|sc": { lat: -27.5954, lng: -48.548 },
     "cuiaba|mt": { lat: -15.6014, lng: -56.0979 },
+    "carpina|pe": { lat: -7.8486, lng: -35.2523 },
   };
-  return map[key] ?? null;
+
+const coordsCache = new Map<string, { lat: number; lng: number }>();
+
+function cityToCoordinates(
+  city: string,
+  state: string
+): { lat: number; lng: number } | null {
+  const key = `${city}|${state}`.toLowerCase().trim();
+  return MANUAL_COORDS[key] ?? null;
+}
+
+export async function resolveCityCoordinates(
+  city?: string,
+  state?: string
+): Promise<{ lat: number; lng: number } | null> {
+  if (!city) return null;
+
+  const cached = cityToCoordinates(city, state ?? "");
+  if (cached) return cached;
+
+  const cacheKey = `${city}|${state}`.toLowerCase().trim();
+  const inMem = coordsCache.get(cacheKey);
+  if (inMem) return inMem;
+
+  try {
+    const q = state
+      ? `${city}, ${state.toUpperCase()}, Brasil`
+      : `${city}, Brasil`;
+
+    const response = await fetch(
+      `https://nominatim.openstreetmap.org/search` +
+        `?q=${encodeURIComponent(q)}` +
+        `&format=json&limit=1&countrycodes=br`,
+      {
+        headers: {
+          "Accept": "application/json",
+          "User-Agent": "RadarVivo/1.0 (www.radarvivo.com.br)",
+        },
+      }
+    );
+
+    if (!response.ok) return null;
+
+    const results: any[] = await response.json();
+    const first = results[0];
+    if (!first) return null;
+
+    const coords = {
+      lat: parseFloat(first.lat),
+      lng: parseFloat(first.lon),
+    };
+    if (isNaN(coords.lat) || isNaN(coords.lng)) return null;
+
+    coordsCache.set(cacheKey, coords);
+    return coords;
+  } catch {
+    return null;
+  }
 }

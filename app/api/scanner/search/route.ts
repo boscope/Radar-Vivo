@@ -6,6 +6,7 @@ import {
   upsertCompany,
 } from "@/lib/services/company-db-service";
 import { createClient } from "@supabase/supabase-js";
+import { isRealBusinessWebsite } from "@/lib/collector/site-collector";
 
 export const dynamic = "force-dynamic";
 
@@ -66,7 +67,7 @@ export async function POST(request: NextRequest) {
       })
       .map((company: any) => {
 
-        const semSite = !company.url;
+        const semSite = !isRealBusinessWebsite(company.url);
         const semTelefone = !company.phone;
 
         let score = 30;

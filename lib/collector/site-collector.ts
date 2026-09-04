@@ -168,6 +168,14 @@ export async function collectWebsite(
     };
   }
 
+  if (!isRealBusinessWebsite(website)) {
+    return {
+      website,
+      hasWebsite: false,
+      hasSeo: false,
+    };
+  }
+
   try {
     const response = await fetchWithTimeout(website);
 
@@ -449,7 +457,10 @@ const NON_OFFICIAL_DOMAINS = new Set([
   "mercadolivre.com", "olx.com.br", "gupy.io", "vagas.com.br", "indeed.com.br",
   "wikipedia.org", "guiamais.com.br", "apontador.com.br",
   "api.whatsapp.com", "youtube.com.br", "taplink.cc", "linktr.ee",
-  "beacons.ai", "msha.ke",
+  "beacons.ai", "msha.ke", "workana.com", "airgo.bio", "meudoutor.com",
+  "linkbio.co", "bio.link", "tr.ee", "l.instagram.com", "s.team",
+  "manychat.com", "direct.me", "linkk.bio", "cutt.ly", "wa.link",
+  "clicagenda.com.br", "singsis.com.br", "atenasagenda.com.br",
 ]);
 
 function extractWebsiteLinks(
@@ -484,6 +495,19 @@ function isNonOfficialDomain(domain: string): boolean {
     if (domain.includes(bad)) return true;
   }
   return /\.(gov|edu)\.br$/.test(domain);
+}
+
+export function isRealBusinessWebsite(
+  url?: string | null
+): boolean {
+  if (!url) return false;
+
+  const domain = normalizeDomain(url);
+  if (!domain || !domain.includes(".")) return false;
+
+  if (isNonOfficialDomain(domain)) return false;
+
+  return true;
 }
 
 export async function discoverWebsiteByName(
