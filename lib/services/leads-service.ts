@@ -8,8 +8,10 @@ const supabase = createClient(
 
 export const PIPELINE_STAGES = [
   "Novo",
+  "Contato",
   "Contato feito",
   "Reunião",
+  "Proposta",
   "Proposta enviada",
   "Fechado",
   "Perdido",
@@ -65,14 +67,15 @@ export async function createLead(
 }
 
 export async function listLeads(ownerId?: string) {
+  if (!ownerId) {
+    return [];
+  }
+
   let query = supabase
     .from("leads")
     .select("*")
+    .eq("owner_id", ownerId)
     .order("created_at", { ascending: false });
-
-  if (ownerId) {
-    query = query.eq("owner_id", ownerId);
-  }
 
   const { data, error } = await query;
 
@@ -82,6 +85,21 @@ export async function listLeads(ownerId?: string) {
   }
 
   return data ?? [];
+}
+
+export async function getLead(id: string) {
+  const { data, error } = await supabase
+    .from("leads")
+    .select("id, owner_id, external_id")
+    .eq("id", id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("[LEADS] Erro ao buscar lead:", error);
+    return null;
+  }
+
+  return data;
 }
 
 export async function updateLeadStatus(

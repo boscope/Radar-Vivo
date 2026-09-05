@@ -20,7 +20,14 @@ export async function GET() {
       data: { user },
     } = await supabase.auth.getUser();
 
-    const leads = await listLeads(user?.id);
+    if (!user) {
+      return NextResponse.json(
+        { error: "Faça login para exportar seus leads." },
+        { status: 401 }
+      );
+    }
+
+    const leads = await listLeads(user.id);
 
     const headers = [
       "Nome",

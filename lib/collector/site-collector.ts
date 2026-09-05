@@ -297,10 +297,11 @@ export async function collectWebsite(
   } catch {
     return {
       website,
-      hasWebsite: true,
+      hasWebsite: false,
+      websiteDown: true,
       hasSeo: false,
       seoScore: 0,
-      hasSSL: website.startsWith("https://"),
+      hasSSL: false,
       isResponsive: false,
       technologies: [],
       hasGoogleAds: false,

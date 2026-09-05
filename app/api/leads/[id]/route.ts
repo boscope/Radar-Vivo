@@ -1,18 +1,42 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import {
   PIPELINE_STAGES,
   updateLeadStatus,
   deleteLead,
+  getLead,
 } from "@/lib/services/leads-service";
+import { getAuthUser, isAdmin } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 export async function PATCH(
-  request: Request,
+  request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await context.params;
+
+    const user = await getAuthUser(request);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Faça login para atualizar o status." },
+        { status: 401 }
+      );
+    }
+
+    const lead = await getLead(id);
+
+    if (!lead) {
+      return NextResponse.json({ error: "Lead não encontrado." }, { status: 404 });
+    }
+
+    if (lead.owner_id !== user.id && !(await isAdmin(user.id))) {
+      return NextResponse.json(
+        { error: "Este lead pertence a outro usuário." },
+        { status: 403 }
+      );
+    }
 
     const body = await request.json();
 
@@ -26,9 +50,9 @@ export async function PATCH(
       );
     }
 
-    const lead = await updateLeadStatus(id, status as any, externalId);
+    const updated = await updateLeadStatus(id, status as any, externalId);
 
-    return NextResponse.json({ success: true, lead });
+    return NextResponse.json({ success: true, lead: updated });
   } catch (error) {
     console.error("[API LEAD STATUS]", error);
 
@@ -40,11 +64,33 @@ export async function PATCH(
 }
 
 export async function DELETE(
-  request: Request,
+  request: NextRequest,
   context: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await context.params;
+
+    const user = await getAuthUser(request);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Faça login para excluir o lead." },
+        { status: 401 }
+      );
+    }
+
+    const lead = await getLead(id);
+
+    if (!lead) {
+      return NextResponse.json({ error: "Lead não encontrado." }, { status: 404 });
+    }
+
+    if (lead.owner_id !== user.id && !(await isAdmin(user.id))) {
+      return NextResponse.json(
+        { error: "Este lead pertence a outro usuário." },
+        { status: 403 }
+      );
+    }
 
     const body = await request.json().catch(() => ({}));
 

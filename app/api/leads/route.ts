@@ -1,32 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createLead, listLeads } from "@/lib/services/leads-service";
 import { markCaptured } from "@/lib/services/company-db-service";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
-import { createClient } from "@supabase/supabase-js";
+import { getAuthUser } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
 function normalizeWhatsapp(value: string): string {
   return value.replace(/\D/g, "").replace(/^0+/, "");
-}
-
-async function getAuthUser(request: NextRequest) {
-  const authHeader = request.headers.get("authorization");
-  const token = authHeader?.replace("Bearer ", "");
-
-  if (token) {
-    const sb = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      { global: { headers: { Authorization: `Bearer ${token}` } } }
-    );
-    const { data: { user } } = await sb.auth.getUser();
-    if (user) return user;
-  }
-
-  const serverClient = await createSupabaseServerClient();
-  const { data: { user } } = await serverClient.auth.getUser();
-  return user;
 }
 
 export async function POST(request: NextRequest) {
@@ -95,7 +75,15 @@ export async function POST(request: NextRequest) {
 export async function GET(request: NextRequest) {
   try {
     const user = await getAuthUser(request);
-    const leads = await listLeads(user?.id);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Faça login para ver seus leads." },
+        { status: 401 }
+      );
+    }
+
+    const leads = await listLeads(user.id);
 
     return NextResponse.json({ leads });
   } catch (error) {

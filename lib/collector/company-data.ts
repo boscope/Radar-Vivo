@@ -49,6 +49,22 @@ function extractInstagramFromUrl(url?: string | null): string | undefined {
   return `https://www.instagram.com/${user}`;
 }
 
+function isMobileNumber(raw?: string | null): boolean {
+  if (!raw) return false;
+
+  const digits = raw.replace(/\D/g, "").replace(/^0+/, "");
+
+  if (digits.length === 11) return digits[2] === "9";
+  if (digits.length === 10) return digits[2] === "9";
+  if (digits.length === 9) return digits[0] === "9";
+
+  return false;
+}
+
+function hasRealGooglePresence(g: GoogleData): boolean {
+  return Boolean(g.googlePlaceId || g.googleRating || g.googleReviews);
+}
+
 import {
   enrichCompanyIntelligence,
 } from "@/lib/intelligence/core/company-intelligence";
@@ -77,7 +93,7 @@ async function collectFromCnpj(
     category: data.categoria ?? "Empresa",
     phone: data.telefone,
     email: data.email,
-    hasWhatsapp: !!data.telefone,
+    hasWhatsapp: isMobileNumber(data.telefone),
     cnpj: data.cnpj ?? cnpj,
     googleMapsUrl: undefined,
     googleRating: undefined,
@@ -109,7 +125,7 @@ async function collectFromGooglePlaces(
         googleMapsUrl: place.mapsUrl,
         googleRating: place.rating,
         googleReviews: place.reviews,
-        hasWhatsapp: !!place.phone,
+        hasWhatsapp: isMobileNumber(place.phone),
         googlePlaceId: place.id,
       };
     }
@@ -145,7 +161,7 @@ async function collectFromGooglePlaces(
     googleMapsUrl: place.mapsUrl,
     googleRating: place.rating,
     googleReviews: place.reviews,
-    hasWhatsapp: !!place.phone,
+    hasWhatsapp: isMobileNumber(place.phone),
     googlePlaceId: place.id,
   };
 }
@@ -221,7 +237,7 @@ async function collectFromCache(
         : undefined,
       googleRating: cache.rating ?? undefined,
       googleReviews: cache.reviews ?? undefined,
-      hasWhatsapp: !!cache.phone,
+      hasWhatsapp: isMobileNumber(cache.phone),
       googlePlaceId: cache.google_place_id ?? undefined,
     };
   } catch (error) {
@@ -422,7 +438,7 @@ export async function collectCompanyData(
     city: googleData.city ?? "Cidade não identificada",
     category: googleData.category ?? "Empresa",
     website: websiteData.website,
-    googleBusiness: !!googleData.googleMapsUrl,
+    googleBusiness: hasRealGooglePresence(googleData),
     instagram,
     facebook: websiteData.facebook ?? googleData.facebook,
     hasWhatsapp:
@@ -454,7 +470,7 @@ export async function collectCompanyData(
     googleReviews: googleData.googleReviews,
     hasWebsite: websiteData.hasWebsite ?? false,
     hasSeo: websiteData.hasSeo ?? false,
-    hasGoogle: !!googleData.googleMapsUrl || !!googleData.googlePlaceId || !!googleData.googleRating,
+    hasGoogle: hasRealGooglePresence(googleData),
     hasWhatsapp: analysis.hasWhatsapp,
     hasGoogleAds: websiteData.hasGoogleAds ?? false,
     hasMetaAds: websiteData.hasMetaPixel ?? false,

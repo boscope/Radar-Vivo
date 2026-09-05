@@ -46,6 +46,8 @@ export interface WebsiteData {
 
   hasWebsite: boolean;
 
+  websiteDown?: boolean;
+
   hasSeo: boolean;
 
   seoScore?: number;
