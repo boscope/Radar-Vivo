@@ -32,7 +32,7 @@ export async function getUserProfile(userId: string) {
   const { data, error } = await serviceRoleClient()
     .from("profiles")
     .select(
-      "id, plan, role, subscription_status, subscription_current_period_end"
+      "id, plan, role, subscription_status, subscription_current_period_end, created_at"
     )
     .eq("id", userId)
     .maybeSingle();

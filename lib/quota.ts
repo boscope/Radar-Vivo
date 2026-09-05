@@ -29,10 +29,15 @@ export async function checkSearchQuota(
       if (profile.subscription_status === "trialing") {
         return { ok: true };
       }
+    }
 
-      const createdAt = new Date(user.created_at ?? Date.now()).getTime();
-      const emTrial = profile.plan === "free" &&
-        Date.now() < createdAt + TRIAL_DAYS * 24 * 60 * 60 * 1000;
+    const createdAtRaw = user.created_at ?? profile?.created_at ?? null;
+
+    if (createdAtRaw) {
+      const createdMs = new Date(createdAtRaw).getTime();
+      const emTrial =
+        Number.isFinite(createdMs) &&
+        Date.now() < createdMs + TRIAL_DAYS * 24 * 60 * 60 * 1000;
 
       if (emTrial) {
         return { ok: true };
