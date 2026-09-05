@@ -7,6 +7,7 @@ import {
 } from "@/lib/services/company-db-service";
 import { createClient } from "@supabase/supabase-js";
 import { isRealBusinessWebsite } from "@/lib/collector/site-collector";
+import { checkSearchQuota } from "@/lib/quota";
 
 export const dynamic = "force-dynamic";
 
@@ -43,6 +44,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "Informe a categoria (ex.: Dentista, Barbearia, Restaurante)." },
         { status: 400 }
+      );
+    }
+
+    const quota = await checkSearchQuota(request);
+
+    if (!quota.ok) {
+      return NextResponse.json(
+        { error: quota.error, needUpgrade: true },
+        { status: quota.status }
       );
     }
 

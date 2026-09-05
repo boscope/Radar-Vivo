@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { collectCompanyData } from "@/lib/collector";
+import { checkSearchQuota } from "@/lib/quota";
 
 export const dynamic = "force-dynamic";
 
@@ -17,6 +18,15 @@ export async function POST(request: Request) {
       return NextResponse.json(
         { error: "Informe uma empresa, CNPJ, site ou link do Google Maps." },
         { status: 400 }
+      );
+    }
+
+    const quota = await checkSearchQuota(request as any);
+
+    if (!quota.ok) {
+      return NextResponse.json(
+        { error: quota.error, needUpgrade: true },
+        { status: quota.status }
       );
     }
 
