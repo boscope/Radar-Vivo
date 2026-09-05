@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe } from "@/lib/stripe";
 import { createClient } from "@supabase/supabase-js";
+import { getAuthUser } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const { userId } = await request.json();
+    const user = await getAuthUser(request);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Faça login para abrir o portal." },
+        { status: 401 }
+      );
+    }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,7 +22,7 @@ export async function POST(request: NextRequest) {
     const { data: profile } = await supabase
       .from("profiles")
       .select("stripe_customer_id")
-      .eq("id", userId)
+      .eq("id", user.id)
       .single();
 
     if (!profile?.stripe_customer_id) {

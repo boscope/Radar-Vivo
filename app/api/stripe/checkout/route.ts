@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getStripe, PLANS, type PlanKey } from "@/lib/stripe";
 import { createClient } from "@supabase/supabase-js";
+import { getAuthUser } from "@/lib/auth";
 
 export async function POST(request: NextRequest) {
   try {
-    const { plan, userId, email } = await request.json();
+    const body = await request.json();
+    const { plan } = body;
 
     if (!plan || !PLANS[plan as PlanKey]) {
       return NextResponse.json({ error: "Plano inválido" }, { status: 400 });
@@ -16,6 +18,18 @@ export async function POST(request: NextRequest) {
     if (plan === "free") {
       return NextResponse.json({ url: null, message: "Teste grátis ativado" });
     }
+
+    const user = await getAuthUser(request);
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "Faça login para assinar." },
+        { status: 401 }
+      );
+    }
+
+    const userId = user.id;
+    const email = user.email ?? body.email;
 
     if (!planConfig.stripePriceId) {
       return NextResponse.json(
