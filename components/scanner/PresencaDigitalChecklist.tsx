@@ -42,19 +42,19 @@ export default function PresencaDigitalChecklist({
       explicacao: "Ficha da empresa, avaliações e horários",
     },
     {
-      nome: "Google Ads",
+      nome: "Google Ads (indício de anúncio)",
       presente: !!hasGoogleAds,
-      explicacao: "Inviste em anúncios pagos no Google",
+      explicacao: "Alguma tag/pixel de Google Ads encontrada no site",
     },
     {
-      nome: "Meta Ads (Facebook/Instagram)",
+      nome: "Meta Ads (indício de anúncio)",
       presente: !!hasMetaAds,
-      explicacao: "Inviste em anúncios no Facebook e Instagram",
+      explicacao: "Alguma tag/pixel da Meta encontrada no site",
     },
     {
       nome: "Automação comercial",
       presente: !!hasAutomation,
-      explicacao: automationTool ? `Utiliza ${automationTool}` : "Ferramentas de automação de marketing",
+      explicacao: automationTool ? `Indício de ${automationTool} no site` : "Indício de ferramenta de automação no site",
     },
   ];
 

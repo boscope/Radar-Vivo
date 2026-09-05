@@ -76,7 +76,8 @@ export default function TermosPage() {
             <ul className="list-disc list-inside space-y-2">
               <li>
                 <strong className="text-white">Teste Grátis:</strong> 3 dias de acesso
-                completo sem custo. Após o período, o acesso é suspenso até assinatura.
+                completo sem custo. Após o período, o plano grátis continua com
+                3 buscas por dia.
               </li>
               <li>
                 <strong className="text-white">Plano Pro (R$ 197/mês):</strong> acesso

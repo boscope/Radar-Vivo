@@ -240,7 +240,7 @@ export default function HeroTabs() {
               </div>
               <p className="mt-3 text-neutral-500 text-sm">
                 {isLogged
-                  ? "Buscas ilimitadas. Aproveite o Radar Vivo!"
+                  ? "Você tem até 3 dias de teste grátis com acesso total. Depois, 3 buscas por dia no plano grátis."
                   : remaining() > 0
                   ? `${remaining()} busca${remaining() > 1 ? "s" : ""} grátis restante${remaining() > 1 ? "s" : ""}. Depois, teste 3 dias grátis.`
                   : "Crie sua conta para continuar analisando."}

@@ -13,10 +13,10 @@ const plans = [
     badge: null,
     highlight: false,
     icon: "🧪",
-    description: "Acesso total por 3 dias. Sem cartão.",
+    description: "Acesso total por 3 dias. Sem cartão. Depois do teste, o plano grátis continua com 3 buscas por dia.",
     features: [
-      { text: "Buscas ilimitadas por 3 dias", included: true },
-      { text: "Análise completa de empresas", included: true },
+      { text: "Buscas ilimitadas durante os 3 dias de teste", included: true },
+      { text: "Análise completa de empresas (3 buscas/dia depois do teste)", included: true },
       { text: "Scripts de abordagem prontos", included: true },
       { text: "Pipeline de leads", included: true },
       { text: "Relatório público compartilhável", included: true },

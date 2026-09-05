@@ -12,7 +12,7 @@ const faqs = [
   {
     question: "É realmente gratuito?",
     answer:
-      "Sim! A análise básica é 100% gratuita e sem compromisso. Você pode analisar empresas, ver o diagnóstico completo e compartilhar o relatório. Para recursos avançados como pipeline de leads, relatórios white-label e multi-cliente, temos os planos Pro (R$197/mês) e Agência (R$397/mês).",
+      "Sim! Criando uma conta, você tem 3 dias de acesso total ao Radar Vivo, sem cartão. Depois do teste, a conta grátis continua funcionando com 3 buscas por dia. Para buscas e análises ilimitadas, temos os planos Pro (R$197/mês) e Agência (R$397/mês).",
   },
   {
     question: "Como funciona a análise?",
@@ -22,7 +22,7 @@ const faqs = [
   {
     question: "Preciso ter conta para usar?",
     answer:
-      "Não. Qualquer pessoa pode analisar uma empresa sem criar conta. Porém, ao criar uma conta gratuita, você desbloqueia buscas ilimitadas e acesso ao dashboard com pipeline de leads e histórico.",
+      "Não. Qualquer pessoa pode analisar uma empresa sem criar conta — são 3 buscas por dia. Ao criar uma conta gratuita, você desbloqueia 3 dias de acesso total e o dashboard com pipeline de leads e histórico.",
   },
   {
     question: "O que está incluído no plano Pro?",
