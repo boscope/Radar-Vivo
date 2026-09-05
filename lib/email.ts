@@ -117,7 +117,7 @@ export function trialEndingEmailTemplate(fullName: string, daysLeft: number) {
       </p>
 
       <div style="text-align:center;margin:32px 0;">
-        <a href="https://www.radarvivo.com.br/dashboard/billing"
+        <a href="https://www.radarvivo.com.br/dashboard"
            style="background:#22c55e;color:#000000;text-decoration:none;font-weight:bold;padding:14px 32px;border-radius:10px;display:inline-block;font-size:15px;">
           Garantir meu acesso
         </a>
