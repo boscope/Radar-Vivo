@@ -92,6 +92,76 @@ function firstSocial(
   return match?.[0] || undefined;
 }
 
+const PARKED_MARKERS = [
+  "this domain is for sale",
+  "buy this domain",
+  "está à venda",
+  "está a venda",
+  "domínio está à venda",
+  "dominio esta a venda",
+  "forsale.godaddy.com",
+  "godaddy.com/forsale",
+  "sedo.com/deals",
+  "afternic.com/domain",
+  "dan.com/buy",
+  "domainmarket.com",
+  "hugedomains.com/domain_profile",
+  "parkingcrew.com",
+  "bodis.com",
+  "above.com",
+  "<title>access denied</title>",
+];
+
+function isParkedPage(html: string): boolean {
+  const text = html.slice(0, 300_000).toLowerCase();
+  return PARKED_MARKERS.some((marker) => text.includes(marker));
+}
+
+function resolveRedirectTarget(
+  html: string,
+  baseUrl: string
+): string | null {
+  const match = html.match(
+    /(?:window\.)?location\.(?:href\s*=\s*|replace\s*\(\s*)["']([^"']+)["']/i
+  );
+
+  if (!match) return null;
+
+  try {
+    return new URL(match[1], baseUrl).href;
+  } catch {
+    return null;
+  }
+}
+
+async function fetchPageWithJsRedirects(
+  url: string
+): Promise<{ finalUrl: string; html: string }> {
+  const visited = new Set<string>();
+  let currentUrl = url;
+  let finalUrl = url;
+  let html = "";
+
+  for (let depth = 0; depth < 3 && !visited.has(currentUrl); depth++) {
+    visited.add(currentUrl);
+
+    const response = await fetchWithTimeout(currentUrl);
+    finalUrl = response.url || currentUrl;
+    html = (await response.text()).slice(0, 2_000_000);
+
+    if (isParkedPage(html)) {
+      return { finalUrl, html };
+    }
+
+    const target = resolveRedirectTarget(html, finalUrl);
+    if (!target || target === finalUrl) break;
+
+    currentUrl = target;
+  }
+
+  return { finalUrl, html };
+}
+
 function extractTechnologies(
   html: string
 ): string[] {
@@ -177,15 +247,26 @@ export async function collectWebsite(
   }
 
   try {
-    const response = await fetchWithTimeout(website);
+    const { finalUrl: finalUrlResolved, html: pageHtml } =
+      await fetchPageWithJsRedirects(website);
 
-    const finalUrl = response.url || website;
+    if (isParkedPage(pageHtml)) {
+      return {
+        website,
+        hasWebsite: false,
+        hasSeo: false,
+        seoScore: 0,
+        hasSSL: false,
+        isResponsive: false,
+        technologies: [],
+        hasGoogleAds: false,
+        hasAutomation: false,
+      };
+    }
 
-    const text = await response.text();
+    const html = pageHtml;
 
-    const html = text.slice(0, 2_000_000);
-
-    const hasSSL = finalUrl.startsWith("https://");
+    const hasSSL = finalUrlResolved.startsWith("https://");
 
     const instagram =
       firstSocial(html, /https:\/\/www\.instagram\.com\/[a-zA-Z0-9._]+/i) ??
@@ -269,7 +350,7 @@ export async function collectWebsite(
     );
 
     return {
-      website: finalUrl,
+      website: finalUrlResolved,
       hasWebsite: true,
       hasSeo: seoScore >= 40,
       seoScore,
@@ -333,6 +414,64 @@ function decodeDuckDuckGo(link: string): string | undefined {
   }
 }
 
+async function fetchBingSearch(query: string): Promise<string | null> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 6000);
+
+  try {
+    const res = await fetch(
+      `https://www.bing.com/search?q=${encodeURIComponent(query)}&setlang=pt-br&cc=br`,
+      {
+        signal: controller.signal,
+        headers: {
+          "User-Agent": USER_AGENT,
+          "Accept-Language": "pt-BR,pt;q=0.9",
+          "Accept": "text/html",
+        },
+      }
+    );
+
+    if (res.status !== 200) return null;
+
+    const body = await res.text();
+    return body.includes("b_algo") ? body : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+const SOCIAL_STOP = new Set([
+  "p", "reel", "reels", "stories", "accounts", "explore", "discover",
+  "login", "share", "sharer", "groups", "pages", "photos", "video",
+  "videos", "story", "popular", "tags", "posts", "settings", "messages",
+  "developers", "download", "sharing", "sent", "media",
+]);
+
+function socialUsersFromLinks(links: string[], domain: string): string[] {
+  const users: string[] = [];
+
+  for (const link of links) {
+    const match = link.match(
+      new RegExp(`${domain}\/([a-zA-Z0-9._]+)`)
+    );
+    if (!match) continue;
+
+    const user = match[1].replace(/^@/, "");
+
+    if (!user || SOCIAL_STOP.has(user.toLowerCase())) continue;
+
+    users.push(user);
+  }
+
+  return users;
+}
+
+function bingResultBlocks(body: string): string[] {
+  return body.match(/<li class="b_algo"[\s\S]*?<\/li>/g) ?? [];
+}
+
 async function fetchDuckDuckGoSource(
   source: "html" | "lite",
   query: string
@@ -362,32 +501,13 @@ async function fetchDuckDuckGoSource(
   }
 }
 
-function extractInstagramLinks(
-  source: "html" | "lite",
-  body: string
-): string[] {
-  if (source === "html") {
-    return [...body.matchAll(/class="result__a"[^>]*href="([^"]+)"/g)]
-      .map((m) => decodeDuckDuckGo(m[1]))
-      .filter((u): u is string => !!u);
-  }
-
-  return [...body.matchAll(/href="([^"]+)"/g)]
-    .map((m) => m[1])
-    .map((u) => (u.startsWith("//") ? `https:${u}` : u))
-    .map((u) => decodeDuckDuckGo(u))
-    .filter((u): u is string => !!u && /instagram\.com/i.test(u));
-}
-
-export async function discoverInstagramByName(
+export async function discoverSocialByName(
   name: string,
   city?: string
-): Promise<string | undefined> {
+): Promise<{ instagram?: string; facebook?: string }> {
   const username = normalizeUsername(name);
 
-  if (username.length < 4) return undefined;
-
-  const candidate = `https://www.instagram.com/${username}`;
+  if (username.length < 4) return {};
 
   const localityQuery = name
     .split(/\s+/)
@@ -395,59 +515,118 @@ export async function discoverInstagramByName(
     .slice(0, 3)
     .join(" ");
 
-  const queries = [
-    `"${localityQuery}" instagram ${city ?? ""}`.trim(),
-    `"${name}" instagram`,
+  const networks: Array<{
+    domain: string;
+    key: "instagram" | "facebook";
+    queries: string[];
+  }> = [
+    {
+      domain: "instagram.com",
+      key: "instagram",
+      queries: [
+        `"${localityQuery}" instagram ${city ?? ""}`.trim(),
+        `"${name}" instagram`,
+      ],
+    },
+    {
+      domain: "facebook.com",
+      key: "facebook",
+      queries: [
+        `"${localityQuery}" facebook ${city ?? ""}`.trim(),
+        `"${name}" facebook`,
+      ],
+    },
   ];
 
-  for (const query of queries) {
-    const [htmlBody, liteBody] = await Promise.all([
-      fetchDuckDuckGoSource("html", query),
-      fetchDuckDuckGoSource("lite", query),
-    ]);
+  const result: { instagram?: string; facebook?: string } = {};
 
-    for (const body of [htmlBody, liteBody]) {
-      if (!body) continue;
+  for (const network of networks) {
+    for (const query of network.queries) {
+      if (result[network.key]) break;
 
-      const links = extractInstagramLinks(
-        body.includes("result__a") ? "html" : "lite",
-        body
-      );
+      const [htmlBody, liteBody] = await Promise.all([
+        fetchDuckDuckGoSource("html", query),
+        fetchDuckDuckGoSource("lite", query),
+      ]);
 
-      for (const link of links) {
-        const match = link.match(
-          /instagram\.com\/(?:p\/|reel\/|stories\/|[a-zA-Z0-9._]+)/
-        );
-        if (!match) continue;
+      const sources = [
+        { type: htmlBody?.includes("result__a") ? "html" : "lite", body: htmlBody },
+        { type: liteBody?.includes("result__a") ? "html" : "lite", body: liteBody },
+      ];
 
-        const user = match[0].split("/").pop()?.replace(/^@/, "");
-        if (!user) continue;
+      for (const { type, body } of sources) {
+        if (!body) continue;
 
-        if (
-          ["p", "reel", "stories", "accounts", "explore", "discover", "login", "share"].includes(user)
-        ) {
-          continue;
+        const links = extractWebsiteLinks(type as "html" | "lite", body);
+
+        for (const user of socialUsersFromLinks(links, network.domain)) {
+          if (usernameMatches(normalizeUsername(user), username)) {
+            result[network.key] = `https://www.${network.domain}/${user}`;
+            break;
+          }
         }
 
-        if (user.toLowerCase() === username.toLowerCase()) {
-          return candidate;
-        }
+        if (result[network.key]) break;
+      }
 
-        const normalizedUser = normalizeUsername(user);
-        if (
-          normalizedUser === username ||
-          normalizedUser.includes(username) ||
-          username.includes(normalizedUser)
-        ) {
-          return `https://www.instagram.com/${user}`;
+      if (result[network.key]) continue;
+
+      const bingBody = await fetchBingSearch(query);
+
+      if (bingBody) {
+        for (const block of bingResultBlocks(bingBody)) {
+          for (const user of socialUsersFromLinks([block], network.domain)) {
+            if (usernameMatches(normalizeUsername(user), username)) {
+              result[network.key] = `https://www.${network.domain}/${user}`;
+              break;
+            }
+          }
+
+          if (result[network.key]) break;
         }
       }
-    }
 
-    await new Promise((res) => setTimeout(res, 200));
+      await new Promise((res) => setTimeout(res, 200));
+    }
   }
 
-  return undefined;
+  return result;
+}
+
+export async function discoverInstagramByName(
+  name: string,
+  city?: string
+): Promise<string | undefined> {
+  return (await discoverSocialByName(name, city)).instagram;
+}
+
+export async function discoverFacebookByName(
+  name: string,
+  city?: string
+): Promise<string | undefined> {
+  return (await discoverSocialByName(name, city)).facebook;
+}
+
+function usernameMatches(
+  candidate: string,
+  username: string
+): boolean {
+  if (!candidate || !username) return false;
+
+  if (candidate === username) return true;
+
+  if (username.length >= 4) {
+    if (
+      candidate.startsWith(`${username}.`) ||
+      candidate.startsWith(`${username}_`) ||
+      candidate.endsWith(`.${username}`) ||
+      candidate.endsWith(`_${username}`)
+    ) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
 const NON_OFFICIAL_DOMAINS = new Set([
@@ -532,14 +711,19 @@ export async function discoverWebsiteByName(
       fetchDuckDuckGoSource("lite", query),
     ]);
 
-    const body = htmlBody || liteBody;
-    if (body) {
-      const links = extractWebsiteLinks(
-        body.includes("result__a") ? "html" : "lite",
-        body
-      );
+    const sources = [
+      { type: htmlBody?.includes("result__a") ? "html" : "lite", body: htmlBody },
+      { type: liteBody?.includes("result__a") ? "html" : "lite", body: liteBody },
+    ];
 
-      const official = links
+    let official: string | undefined;
+
+    for (const { type, body } of sources) {
+      if (!body) continue;
+
+      const links = extractWebsiteLinks(type as "html" | "lite", body);
+
+      official = links
         .map((u) => u.split("?")[0])
         .find((u) => {
           const domain = normalizeDomain(u);
@@ -549,6 +733,27 @@ export async function discoverWebsiteByName(
         });
 
       if (official) return official;
+    }
+
+    if (!official) {
+      const bingBody = await fetchBingSearch(query);
+
+      if (bingBody) {
+        const upper = bingResultBlocks(bingBody)
+          .flatMap((block) => [
+            ...block.matchAll(/href="(https?:\/\/[^"]+)"/g),
+          ])
+          .map((m) => m[1])
+          .map((u) => u.split("?")[0])
+          .find((u) => {
+            const domain = normalizeDomain(u);
+            if (!domain || !domain.includes(".")) return false;
+            if (isNonOfficialDomain(domain)) return false;
+            return true;
+          });
+
+        if (upper) return upper;
+      }
     }
 
     await new Promise((res) => setTimeout(res, 200));

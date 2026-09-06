@@ -23,7 +23,7 @@ import {
   mapsLinkToSearch,
 } from "./maps-parser";
 
-import { collectWebsite, discoverInstagramByName, discoverWebsiteByName, discoverWebsiteByDomain, isRealBusinessWebsite } from "./site-collector";
+import { collectWebsite, discoverSocialByName, discoverWebsiteByName, discoverWebsiteByDomain, isRealBusinessWebsite } from "./site-collector";
 
 import {
   analyzeCompany,
@@ -420,15 +420,20 @@ export async function collectCompanyData(
     extractInstagramFromUrl(websiteUrl) ??
     websiteData.instagram;
 
-  const instagramDiscovered =
-    !instagramFromWebsite && !googleData.instagram
-      ? await discoverInstagramByName(company, googleData.city ?? undefined)
-      : undefined;
+  const { instagram: instagramDiscovered, facebook: facebookDiscovered } =
+    !instagramFromWebsite && !googleData.instagram && !websiteData.facebook
+      ? await discoverSocialByName(company, googleData.city ?? undefined)
+      : { instagram: undefined, facebook: undefined };
 
   const instagram =
     instagramFromWebsite ??
     googleData.instagram ??
     instagramDiscovered;
+
+  const facebook =
+    websiteData.facebook ??
+    googleData.facebook ??
+    facebookDiscovered;
 
   const companyName =
     googleData.companyName ?? company;
@@ -440,7 +445,7 @@ export async function collectCompanyData(
     website: websiteData.website,
     googleBusiness: hasRealGooglePresence(googleData),
     instagram,
-    facebook: websiteData.facebook ?? googleData.facebook,
+    facebook,
     hasWhatsapp:
       websiteData.hasWhatsapp ?? googleData.hasWhatsapp ?? false,
     hasSeo: websiteData.hasSeo ?? false,
