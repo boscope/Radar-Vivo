@@ -680,6 +680,12 @@ function usernameMatches(
     }
   }
 
+  if (candidate.length >= 8 && username.length >= 10) {
+    if (username.startsWith(candidate)) {
+      return true;
+    }
+  }
+
   return false;
 }
 

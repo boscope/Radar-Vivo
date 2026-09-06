@@ -10,6 +10,8 @@ export interface CompanyAnalysis {
 
   website?: string;
 
+  hasWebsite?: boolean;
+
   googleBusiness?: boolean;
 
   instagram?: string;

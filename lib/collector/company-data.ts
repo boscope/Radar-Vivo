@@ -443,6 +443,7 @@ export async function collectCompanyData(
     city: googleData.city ?? "Cidade não identificada",
     category: googleData.category ?? "Empresa",
     website: websiteData.website,
+    hasWebsite: websiteData.hasWebsite ?? false,
     googleBusiness: hasRealGooglePresence(googleData),
     instagram,
     facebook,

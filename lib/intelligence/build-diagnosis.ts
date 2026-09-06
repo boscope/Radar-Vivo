@@ -18,7 +18,7 @@ export function buildDiagnosis(
   // Pontos fortes
   //--------------------------------------------------
 
-  if (company.website)
+  if (company.website && company.hasWebsite !== false)
     strengths.push("Possui website profissional.");
 
   if (company.googleBusiness)
