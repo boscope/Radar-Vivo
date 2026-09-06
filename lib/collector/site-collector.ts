@@ -556,6 +556,21 @@ async function fetchDuckDuckGoSource(
   }
 }
 
+async function fetchDuckDuckGoResilient(
+  query: string
+): Promise<string | null> {
+  for (const retry of [0, 1]) {
+    for (const source of ["html", "lite"] as const) {
+      const body = await fetchDuckDuckGoSource(source, query);
+      if (body) return body;
+      await new Promise((res) => setTimeout(res, 350 + retry * 250));
+    }
+    await new Promise((res) => setTimeout(res, 1200));
+  }
+
+  return null;
+}
+
 export async function discoverSocialByName(
   name: string,
   city?: string
@@ -599,20 +614,13 @@ export async function discoverSocialByName(
     for (const query of network.queries) {
       if (result[network.key]) break;
 
-      const [htmlBody, liteBody] = await Promise.all([
-        fetchDuckDuckGoSource("html", query),
-        fetchDuckDuckGoSource("lite", query),
-      ]);
+      const body = await fetchDuckDuckGoResilient(query);
 
-      const sources = [
-        { type: htmlBody?.includes("result__a") ? "html" : "lite", body: htmlBody },
-        { type: liteBody?.includes("result__a") ? "html" : "lite", body: liteBody },
-      ];
-
-      for (const { type, body } of sources) {
-        if (!body) continue;
-
-        const links = extractWebsiteLinks(type as "html" | "lite", body);
+      if (body) {
+        const links = extractWebsiteLinks(
+          body.includes("result__a") ? "html" : "lite",
+          body
+        );
 
         for (const user of socialUsersFromLinks(links, network.domain)) {
           if (usernameMatches(normalizeUsername(user), username)) {
@@ -620,8 +628,6 @@ export async function discoverSocialByName(
             break;
           }
         }
-
-        if (result[network.key]) break;
       }
 
       if (result[network.key]) continue;
@@ -766,22 +772,15 @@ export async function discoverWebsiteByName(
   ];
 
   for (const query of queries) {
-    const [htmlBody, liteBody] = await Promise.all([
-      fetchDuckDuckGoSource("html", query),
-      fetchDuckDuckGoSource("lite", query),
-    ]);
-
-    const sources = [
-      { type: htmlBody?.includes("result__a") ? "html" : "lite", body: htmlBody },
-      { type: liteBody?.includes("result__a") ? "html" : "lite", body: liteBody },
-    ];
+    const body = await fetchDuckDuckGoResilient(query);
 
     let official: string | undefined;
 
-    for (const { type, body } of sources) {
-      if (!body) continue;
-
-      const links = extractWebsiteLinks(type as "html" | "lite", body);
+    if (body) {
+      const links = extractWebsiteLinks(
+        body.includes("result__a") ? "html" : "lite",
+        body
+      );
 
       official = links
         .map((u) => u.split("?")[0])
