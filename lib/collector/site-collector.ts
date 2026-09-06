@@ -468,6 +468,61 @@ function socialUsersFromLinks(links: string[], domain: string): string[] {
   return users;
 }
 
+function decodeBingRedirect(href: string): string | undefined {
+  if (!href.includes("bing.com/ck/a")) return href;
+
+  const match = href.match(/[?&]u=(a1[^&]+)/);
+  if (!match) return undefined;
+
+  try {
+    const b64 = match[1].replace(/-/g, "+").replace(/_/g, "/");
+    return Buffer.from(b64, "base64").toString("utf-8");
+  } catch {
+    return undefined;
+  }
+}
+
+function bingBlockLinks(blocks: string[]): string[] {
+  const seen = new Set<string>();
+  const out: string[] = [];
+
+  for (const block of blocks) {
+    for (const m of block.matchAll(/href="([^"]+)"/g)) {
+      const raw = m[1];
+      const decoded = decodeBingRedirect(raw);
+      if (!decoded || seen.has(decoded)) continue;
+      seen.add(decoded);
+      out.push(decoded);
+    }
+  }
+
+  return out;
+}
+
+function isUsableWebsiteUrl(url: string): boolean {
+  let u: URL;
+  try {
+    u = new URL(url);
+  } catch {
+    return false;
+  }
+
+  const domain = normalizeDomain(url);
+  if (!domain || !domain.includes(".")) return false;
+  if (isNonOfficialDomain(domain)) return false;
+
+  const host = u.hostname.toLowerCase();
+  if (host === "r.bing.com" || host === "www.bing.com" || host.endsWith(".bing.com")) {
+    return false;
+  }
+
+  if (/\.(css|js|png|jpe?g|ico|svg|gif|webp|json|xml|woff2?|ttf|map|txt)$/i.test(u.pathname)) {
+    return false;
+  }
+
+  return true;
+}
+
 function bingResultBlocks(body: string): string[] {
   return body.match(/<li class="b_algo"[\s\S]*?<\/li>/g) ?? [];
 }
@@ -574,15 +629,14 @@ export async function discoverSocialByName(
       const bingBody = await fetchBingSearch(query);
 
       if (bingBody) {
-        for (const block of bingResultBlocks(bingBody)) {
-          for (const user of socialUsersFromLinks([block], network.domain)) {
-            if (usernameMatches(normalizeUsername(user), username)) {
-              result[network.key] = `https://www.${network.domain}/${user}`;
-              break;
-            }
+        for (const user of socialUsersFromLinks(
+          bingBlockLinks(bingResultBlocks(bingBody)),
+          network.domain
+        )) {
+          if (usernameMatches(normalizeUsername(user), username)) {
+            result[network.key] = `https://www.${network.domain}/${user}`;
+            break;
           }
-
-          if (result[network.key]) break;
         }
       }
 
@@ -739,18 +793,8 @@ export async function discoverWebsiteByName(
       const bingBody = await fetchBingSearch(query);
 
       if (bingBody) {
-        const upper = bingResultBlocks(bingBody)
-          .flatMap((block) => [
-            ...block.matchAll(/href="(https?:\/\/[^"]+)"/g),
-          ])
-          .map((m) => m[1])
-          .map((u) => u.split("?")[0])
-          .find((u) => {
-            const domain = normalizeDomain(u);
-            if (!domain || !domain.includes(".")) return false;
-            if (isNonOfficialDomain(domain)) return false;
-            return true;
-          });
+        const upper = bingBlockLinks(bingResultBlocks(bingBody))
+          .find(isUsableWebsiteUrl);
 
         if (upper) return upper;
       }
