@@ -1,4 +1,5 @@
 import type { WebsiteData } from "./types";
+import { isMobilePhoneNumber } from "./phone-utils";
 
 const USER_AGENT =
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 RadarVivo/1.0";
@@ -277,9 +278,23 @@ export async function collectWebsite(
       firstSocial(html, /https:\/\/facebook\.com\/[a-zA-Z0-9._]+/i);
 
     const whatsappRegex =
-      /(https:\/\/wa\.me\/\d+|https:\/\/api\.whatsapp\.com\/send\?phone=\d+|https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+)/i;
+      /(https:\/\/wa\.me\/\d+|https:\/\/api\.whatsapp\.com\/send\?phone=\d+|https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+|whatsapp:\/\/send\?phone=\d+)/i;
 
     const whatsappMatch = html.match(whatsappRegex);
+
+    const toldPhones = [...html.matchAll(/href=["']tel:([^"'<>]+)/gi)]
+      .map((m) => m[1])
+      .filter(isMobilePhoneNumber);
+
+    const hasMobilePhoneMention =
+      /\(\d{2,3}\)\s*9\d{4}[\s-]?\d{4}|\b9\d{4}[\s-]?\d{4}\b/.test(html);
+
+    const whatAppTextMention = /whatsapp|whats\s?app|zap\b|falar com atendente|chat on line/i.test(html);
+
+    const hasWhatsapp =
+      !!whatsappMatch ||
+      toldPhones.length > 0 ||
+      (hasMobilePhoneMention && whatAppTextMention);
 
     const hasOpenGraph = /og:image|og:title/.test(html);
 
@@ -330,8 +345,6 @@ export async function collectWebsite(
 
     const isResponsive = /<meta[^>]+name=["']viewport["']/i.test(html);
 
-    const hasWhatsapp = !!whatsappMatch;
-
     const technologies = extractTechnologies(html);
 
     const seoSignals = [
@@ -373,7 +386,7 @@ export async function collectWebsite(
       hasWhatsapp,
       instagram,
       facebook,
-      whatsapp: whatsappMatch?.[0],
+      whatsapp: whatsappMatch?.[0] ?? toldPhones[0],
     };
   } catch {
     return {

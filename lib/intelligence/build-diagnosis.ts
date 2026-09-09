@@ -68,13 +68,13 @@ export function buildDiagnosis(
     weaknesses.push("Não encontramos indícios de automação comercial no site.");
 
   if (!company.instagram)
-    weaknesses.push("Não possui presença relevante no Instagram.");
+    weaknesses.push("Não identificamos perfil no Instagram.");
 
   if (!company.facebook)
-    weaknesses.push("Não possui página profissional no Facebook.");
+    weaknesses.push("Não identificamos página no Facebook.");
 
   if (!company.hasWhatsapp)
-    weaknesses.push("Não utiliza WhatsApp para atendimento.");
+    weaknesses.push("Não identificamos WhatsApp no site ou no telefone do Google.");
 
   const aiPoints =
     (company.website ? 30 : 0) +

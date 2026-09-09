@@ -50,20 +50,14 @@ function extractInstagramFromUrl(url?: string | null): string | undefined {
 }
 
 function isMobileNumber(raw?: string | null): boolean {
-  if (!raw) return false;
-
-  const digits = raw.replace(/\D/g, "").replace(/^0+/, "");
-
-  if (digits.length === 11) return digits[2] === "9";
-  if (digits.length === 10) return digits[2] === "9";
-  if (digits.length === 9) return digits[0] === "9";
-
-  return false;
+  return isMobilePhoneNumber(raw);
 }
 
 function hasRealGooglePresence(g: GoogleData): boolean {
   return Boolean(g.googlePlaceId || g.googleRating || g.googleReviews);
 }
+
+import { isMobilePhoneNumber } from "./phone-utils";
 
 import {
   enrichCompanyIntelligence,
