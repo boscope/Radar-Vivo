@@ -138,7 +138,6 @@ export default function DemoPersonalizadaPage({ params }: Props) {
           <PresencaDigitalChecklist
             hasWebsite={company.hasWebsite}
             hasSeo={company.hasSeo}
-            hasWhatsapp={company.hasWhatsapp}
             hasGoogle={Boolean(company.googleMapsUrl)}
             hasGoogleAds={company.hasGoogleAds}
             hasMetaAds={company.hasMetaAds}
@@ -232,7 +231,6 @@ export default function DemoPersonalizadaPage({ params }: Props) {
               checks: [
                 { label: "Site próprio", ok: company.hasWebsite },
                 { label: "SEO otimizado", ok: company.hasSeo },
-                { label: "WhatsApp comercial", ok: company.hasWhatsapp },
                 { label: "Google Meu Negócio", ok: Boolean(company.googleMapsUrl) },
                 { label: "Google Ads", ok: company.hasGoogleAds },
                 { label: "Meta Ads", ok: company.hasMetaAds },

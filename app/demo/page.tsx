@@ -12,7 +12,6 @@ const demoCompany = {
   category: "Dentista",
   hasWebsite: false,
   hasSeo: false,
-  hasWhatsapp: true,
   hasGoogleAds: false,
   hasMetaAds: true,
   hasAutomation: false,
@@ -140,7 +139,6 @@ export default function DemoPage() {
                 { label: "Site profissional", ok: demoCompany.hasWebsite },
                 { label: "SEO local", ok: demoCompany.hasSeo },
                 { label: "Google Meu Negócio / Maps", ok: Boolean(demoCompany.googleMapsUrl) },
-                { label: "WhatsApp comercial", ok: demoCompany.hasWhatsapp },
                 { label: "Google Ads", ok: false },
                 { label: "Meta Ads (Instagram/Facebook)", ok: true },
                 { label: "Automação de atendimento", ok: false },
@@ -175,7 +173,6 @@ export default function DemoPage() {
             <PresencaDigitalChecklist
               hasWebsite={demoCompany.hasWebsite}
               hasSeo={demoCompany.hasSeo}
-              hasWhatsapp={demoCompany.hasWhatsapp}
               hasGoogle={Boolean(demoCompany.googleMapsUrl)}
               hasGoogleAds={demoCompany.hasGoogleAds}
               hasMetaAds={demoCompany.hasMetaAds}

@@ -28,7 +28,6 @@ type AnaliseData = {
   hasWebsite: boolean;
   hasSeo: boolean;
   hasGoogle?: boolean;
-  hasWhatsapp: boolean;
   hasGoogleAds?: boolean;
   hasMetaAds?: boolean;
   hasAutomation?: boolean;
@@ -252,7 +251,6 @@ export default function RelatorioPublicoClient({
                 { label: "Site profissional", ok: company.hasWebsite },
                 { label: "SEO local", ok: company.hasSeo },
                 { label: "Google Meu Negócio / Maps", ok: company.hasGoogle ?? Boolean(company.googleMapsUrl) },
-                { label: "WhatsApp comercial", ok: company.hasWhatsapp },
                 { label: "Google Ads", ok: Boolean(company.hasGoogleAds) },
                 { label: "Meta Ads (Instagram/Facebook)", ok: Boolean(company.hasMetaAds) },
                 { label: "Automação de atendimento", ok: Boolean(company.hasAutomation) },
@@ -276,7 +274,6 @@ export default function RelatorioPublicoClient({
             <PresencaDigitalChecklist
               hasWebsite={company.hasWebsite}
               hasSeo={company.hasSeo}
-              hasWhatsapp={company.hasWhatsapp}
               hasGoogle={company.hasGoogle ?? Boolean(company.googleMapsUrl)}
               hasGoogleAds={company.hasGoogleAds}
               hasMetaAds={company.hasMetaAds}

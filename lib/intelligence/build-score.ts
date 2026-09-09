@@ -7,7 +7,6 @@ function detectGaps(company: CompanyAnalysis) {
   return {
     website: !company.website,
     seo: !company.hasSeo,
-    whatsapp: !company.hasWhatsapp,
     googleBusiness: !company.googleBusiness,
     instagram: !company.instagram,
     facebook: !company.facebook,
@@ -58,9 +57,6 @@ export function buildScore(
   // Atendimento e Automação (25 pontos)
   //--------------------------------------------------
 
-  if (gaps.whatsapp)
-    score -= 5;
-
   if (gaps.automation)
     score -= 10;
 
@@ -93,7 +89,6 @@ export function buildScore(
   const sinaisFavoraveis =
     Number(gaps.website) +
     Number(gaps.seo) +
-    Number(gaps.whatsapp) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
     Number(gaps.facebook) +
@@ -138,7 +133,6 @@ export function buildScore(
   const itensFaltantes =
     Number(gaps.website) +
     Number(gaps.seo) +
-    Number(gaps.whatsapp) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
     Number(gaps.facebook) +

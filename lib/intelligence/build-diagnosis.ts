@@ -73,9 +73,6 @@ export function buildDiagnosis(
   if (!company.facebook)
     weaknesses.push("Não identificamos página no Facebook.");
 
-  if (!company.hasWhatsapp)
-    weaknesses.push("Não identificamos WhatsApp no site ou no telefone do Google.");
-
   const aiPoints =
     (company.website ? 30 : 0) +
     (company.hasSeo ? 25 : 0) +

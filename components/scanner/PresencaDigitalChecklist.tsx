@@ -1,7 +1,6 @@
 type Props = {
   hasWebsite: boolean;
   hasSeo: boolean;
-  hasWhatsapp: boolean;
   hasGoogle: boolean;
   hasGoogleAds?: boolean;
   hasMetaAds?: boolean;
@@ -12,7 +11,6 @@ type Props = {
 export default function PresencaDigitalChecklist({
   hasWebsite,
   hasSeo,
-  hasWhatsapp,
   hasGoogle,
   hasGoogleAds,
   hasMetaAds,
@@ -30,11 +28,6 @@ export default function PresencaDigitalChecklist({
       nome: "SEO (aparece nas buscas)",
       presente: hasSeo,
       explicacao: "É encontrado por quem procura no Google",
-    },
-    {
-      nome: "WhatsApp Business",
-      presente: hasWhatsapp,
-      explicacao: "Cliente chama e recebe resposta rápida",
     },
     {
       nome: "Presença no Google",
