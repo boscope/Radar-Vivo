@@ -12,7 +12,7 @@ description:"Priorize quem realmente possui perfil para comprar."
 
 {
 title:"Relatórios profissionais",
-description:"Apresente análises completas em poucos segundos."
+description:"Apresente análises completas com apenas alguns cliques."
 },
 
 {

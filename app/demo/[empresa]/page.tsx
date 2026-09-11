@@ -247,7 +247,7 @@ export default function DemoPersonalizadaPage({ params }: Props) {
         <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30 rounded-2xl p-8 text-center mb-10">
           <h2 className="text-2xl font-bold mb-3">Essa análise foi automatizada pelo Radar Vivo</h2>
           <p className="text-neutral-400 mb-6 max-w-xl mx-auto">
-            Em menos de 1 minuto, o Radar Vivo identificou {weaknesses.length} pontos fracos que estão fazendo {company.companyName} perder clientes pra concorrência.
+            Em cerca de 2 minutos, o Radar Vivo identificou {weaknesses.length} pontos fracos que estão fazendo {company.companyName} perder clientes pra concorrência.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

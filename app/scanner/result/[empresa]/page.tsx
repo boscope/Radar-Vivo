@@ -221,7 +221,7 @@ export default function ScannerResultPage({
     return (
 
       <main className="min-h-screen bg-black text-white flex items-center justify-center">
-        <RadarLoader text="Analisando empresa..." />
+        <RadarLoader text="Coletando dados e gerando relatório (cerca de 2 min)..." />
       </main>
 
     );

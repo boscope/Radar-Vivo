@@ -7,7 +7,7 @@ const faqs = [
   {
     question: "O que é o Radar Vivo?",
     answer:
-      "O Radar Vivo é uma plataforma de análise de presença digital que usa inteligência artificial para avaliar como empresas locais estão aparecendo no Google e outras plataformas online. Em segundos, você descobre o score de presença digital, os pontos fracos e quanto pode estar perdendo em vendas.",
+      "O Radar Vivo é uma plataforma de análise de presença digital que usa inteligência artificial para avaliar como empresas locais estão aparecendo no Google e outras plataformas online. Em segundos você encontra as empresas; o relatório completo de cada uma sai em cerca de 2 minutos, mostrando o score de presença digital, os pontos fracos e quanto pode estar perdendo em vendas.",
   },
   {
     question: "É realmente gratuito?",

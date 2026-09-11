@@ -23,7 +23,7 @@ export default function InstagramPage() {
           Quanto sua empresa está <span className="text-red-400">perdendo</span> no Google?
         </h1>
         <p className="text-neutral-400 text-base mb-8">
-          Descubra em 60 segundos. Análise gratuita com inteligência artificial.
+          Descubra em cerca de 2 minutos. Análise gratuita com inteligência artificial.
         </p>
 
         {/* Score preview */}
@@ -59,7 +59,7 @@ export default function InstagramPage() {
         </Link>
 
         <p className="text-neutral-500 text-xs mb-8">
-          Sem cadastro · Resultado em 60 segundos · 100% gratuito
+          Sem cadastro · Resultado em cerca de 2 minutos · 100% gratuito
         </p>
 
         {/* Benefícios rápidos */}

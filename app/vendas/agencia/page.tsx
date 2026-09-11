@@ -31,7 +31,7 @@ export default function VendasAgenciaPage() {
             Feche <span className="text-green-400">3x mais contratos</span> com relatórios que provam a dor
           </h1>
           <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-8">
-            O Radar Vivo analisa a presença digital de qualquer empresa em 60 segundos e gera um relatório profissional que fecha contratos na hora.
+            O Radar Vivo analisa a presença digital de qualquer empresa em cerca de 2 minutos e gera um relatório profissional que fecha contratos na hora.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/scanner" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 py-4 rounded-xl text-lg transition">
@@ -119,7 +119,7 @@ export default function VendasAgenciaPage() {
             <div className="grid md:grid-cols-2 gap-10 items-center">
               <div>
                 <p className="text-neutral-300 mb-6">
-                  Em 60 segundos, o Radar Scanner analisa a presença digital completa de qualquer empresa e gera um relatório que <strong className="text-white">prova a dor do cliente</strong>:
+                  Em cerca de 2 minutos, o Radar Scanner analisa a presença digital completa de qualquer empresa e gera um relatório que <strong className="text-white">prova a dor do cliente</strong>:
                 </p>
                 <ul className="space-y-3">
                   {[
@@ -180,7 +180,7 @@ export default function VendasAgenciaPage() {
               <div className="w-14 h-14 bg-green-500/20 border border-green-500/30 rounded-2xl flex items-center justify-center mx-auto mb-3">
                 <span className="text-xl font-black text-green-400">2</span>
               </div>
-              <h3 className="font-bold text-sm mb-1">Analise em 60s</h3>
+              <h3 className="font-bold text-sm mb-1">Analise em ~2 min</h3>
               <p className="text-neutral-500 text-xs">O Scanner gera o diagnóstico completo</p>
             </div>
             <div className="text-center">
@@ -237,7 +237,7 @@ export default function VendasAgenciaPage() {
           </h2>
           <p className="text-neutral-400 text-center max-w-xl mx-auto mb-8">
             Digite o nome de uma empresa da sua região no Scanner e veja o relatório completo
-            que você enviaria ao cliente. Leva 60 segundos.
+            que você enviaria ao cliente. Leva cerca de 2 minutos.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/scanner" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 py-4 rounded-xl text-lg transition">

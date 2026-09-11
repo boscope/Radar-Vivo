@@ -31,7 +31,7 @@ export default function ScannerPage() {
         </h1>
 
         <p className="text-zinc-400 mb-10">
-          Analise qualquer empresa em poucos segundos.
+          Encontre empresas em segundos e gere o relatório completo em cerca de 2 minutos.
         </p>
 
         <div className="bg-zinc-900 rounded-xl p-8">

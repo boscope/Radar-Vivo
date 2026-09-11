@@ -524,7 +524,7 @@ export default function DashboardPage() {
             <h2 className="text-lg font-bold mb-1 flex items-center gap-2">
               <span>🔎</span> Radar Scanner
             </h2>
-            <p className="text-neutral-500 text-sm mb-5">Analise qualquer empresa em poucos segundos.</p>
+            <p className="text-neutral-500 text-sm mb-5">Encontre empresas em segundos e gere o relatório completo em cerca de 2 minutos.</p>
 
             <label className="block text-neutral-300 text-sm mb-2">
               Nome da empresa, CNPJ, Site ou Google Maps
@@ -547,7 +547,7 @@ export default function DashboardPage() {
 
             {scannerLoading && (
               <div className="mt-4 flex justify-center">
-                <RadarLoader text="Analisando empresa..." />
+                <RadarLoader text="Analisando empresa (cerca de 2 min)..." />
               </div>
             )}
           </div>

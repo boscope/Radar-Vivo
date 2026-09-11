@@ -84,7 +84,7 @@ export default function ScriptVendasPage() {
             <p className="text-amber-300 text-sm mb-2">
               <strong className="font-bold">💡 A chave:</strong> agência não paga pra analisar a própria empresa.
               Ela paga pra <strong>fechar contratos</strong>. Então nunca venda "análise de presença digital" —
-              venda <strong>"a ferramenta que fecha 3x mais contratos com um relatório de 60 segundos"</strong>.
+              venda <strong>"a ferramenta que fecha 3x mais contratos com um relatório em cerca de 2 minutos"</strong>.
             </p>
             <p className="text-amber-300 text-sm">
               <strong className="font-bold">🎯 O movimento matador:</strong> antes de falar com a agência,
@@ -113,7 +113,7 @@ Antes de te mostrar o relatório — você prospecta esse tipo de empresa pra fe
 
 Olha o Radar Score e o impacto financeiro. Isso é o tipo de empresa que fecha contrato de R$ 500+ por mês com você.
 
-Só pra te contextualizar: com o Radar Vivo você GERA esse relatório em 60 segundos pra QUALQUER empresa da sua região. Sem fazer diagnóstico manual, sem gastar horas.
+Só pra te contextualizar: com o Radar Vivo você GERA esse relatório em cerca de 2 minutos pra QUALQUER empresa da sua região. Sem fazer diagnóstico manual, sem gastar horas.
 
 Quer ver uma versão com o nome da SUA agência no relatório?`}
             />
@@ -122,7 +122,7 @@ Quer ver uma versão com o nome da SUA agência no relatório?`}
               title="Ligação — Script agência (30 segundos)"
               text={`"Oi [DONO DA AGÊNCIA], tudo bem? Aqui é o [SEU NOME], da Radar Vivo.
 
-A gente tem uma ferramenta que analisa qualquer empresa em 60 segundos e gera um relatório com score, impacto financeiro e plano de ação. Basicamente, a prova pronta que falta pra fechar contrato.
+A gente tem uma ferramenta que analisa qualquer empresa em cerca de 2 minutos e gera um relatório com score, impacto financeiro e plano de ação. Basicamente, a prova pronta que falta pra fechar contrato.
 
 Já analisei a [NOME DA EMPRESA] aqui da sua cidade — ela tá perdendo R$ [VALOR]/mês no Google. Se você prospecta esse tipo de empresa, vale 2 minutos da sua atenção?
 
@@ -285,7 +285,7 @@ Topa começar hoje? Eu configuro tudo pra vocês."`}
             <div className="bg-amber-950 border border-amber-800 rounded-xl p-6">
               <p className="text-amber-400 font-bold mb-2">❌ Agência: &ldquo;Já tenho minhas ferramentas&rdquo;</p>
               <p className="text-neutral-300 text-sm mb-2">
-                <strong className="text-green-400">Resposta:</strong> &ldquo;Legal! E suas ferramentas geram um relatório com score, impacto financeiro e plano de ação em 60 segundos pra qualquer empresa da região? O Radar Vivo não substitui sua stack — ele é a PONTAPÉ que fecha o contrato antes das outras ferramentas entrarem. É a arma de prospecção.&rdquo;
+                <strong className="text-green-400">Resposta:</strong> &ldquo;Legal! E suas ferramentas geram um relatório com score, impacto financeiro e plano de ação em cerca de 2 minutos pra qualquer empresa da região? O Radar Vivo não substitui sua stack — ele é a PONTAPÉ que fecha o contrato antes das outras ferramentas entrarem. É a arma de prospecção.&rdquo;
               </p>
             </div>
 

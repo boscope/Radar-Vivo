@@ -131,7 +131,7 @@ export default function RelatorioPublicoClient({
     return (
       <main className="min-h-screen bg-black text-white flex items-center justify-center">
         <div className="text-center">
-          <RadarLoader text="Gerando análise..." />
+          <RadarLoader text="Gerando análise completa (cerca de 2 min)..." />
         </div>
       </main>
     );

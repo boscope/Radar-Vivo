@@ -31,7 +31,7 @@ export default function VendasConsultorPage() {
             Chega de <span className="text-red-400">achar clientes</span>. Deixe o Radar Vivo trazê-los pra você
           </h1>
           <p className="text-neutral-400 text-lg max-w-2xl mx-auto mb-8">
-            Como consultor, você sabe que o maior desafio não é entregar resultado — é provar que o cliente precisa de você. O Radar Vivo faz essa prova em 60 segundos.
+            Como consultor, você sabe que o maior desafio não é entregar resultado — é provar que o cliente precisa de você. O Radar Vivo faz essa prova em cerca de 2 minutos.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/scanner" className="bg-green-500 hover:bg-green-400 text-black font-bold px-8 py-4 rounded-xl text-lg transition">
@@ -119,7 +119,7 @@ export default function VendasConsultorPage() {
             <div className="grid md:grid-cols-2 gap-10 items-center">
               <div>
                 <p className="text-neutral-300 mb-6">
-                  O Radar Scanner faz o diagnóstico que você fazia em horas, em <strong className="text-white">60 segundos</strong>. E gera um relatório que o cliente leva a sério:
+                  O Radar Scanner faz o diagnóstico que você fazia em horas, em <strong className="text-white">cerca de 2 minutos</strong>. E gera um relatório que o cliente leva a sério:
                 </p>
                 <ul className="space-y-3">
                   {[
@@ -146,7 +146,7 @@ export default function VendasConsultorPage() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-neutral-400">
                     <span>Tempo de diagnóstico:</span>
-                    <span className="text-green-400 font-bold">60 segundos</span>
+                    <span className="text-green-400 font-bold">cerca de 2 minutos</span>
                   </div>
                   <div className="flex justify-between text-neutral-400">
                     <span>Taxa de fechamento:</span>

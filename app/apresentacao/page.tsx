@@ -31,7 +31,7 @@ export default function ApresentacaoPage() {
             Pare de <span className="text-red-400">perder clientes</span> por falta de presença digital
           </h1>
           <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-            O Radar Vivo analisa a presença digital de qualquer empresa em 60 segundos e mostra exatamente o que fazer para atrair mais clientes.
+            O Radar Vivo analisa a presença digital de qualquer empresa em cerca de 2 minutos e mostra exatamente o que fazer para atrair mais clientes.
           </p>
         </div>
 
@@ -69,7 +69,7 @@ export default function ApresentacaoPage() {
               <div>
                 <h3 className="text-2xl font-bold mb-4">Radar Scanner</h3>
                 <p className="text-neutral-400 mb-6">
-                  Em 60 segundos, o Radar Vivo analisa a presença digital completa de qualquer empresa e gera um relatório profissional com:
+                  Em cerca de 2 minutos, o Radar Vivo analisa a presença digital completa de qualquer empresa e gera um relatório profissional com:
                 </p>
                 <ul className="space-y-3">
                   {[
@@ -112,7 +112,7 @@ export default function ApresentacaoPage() {
                 <span className="text-2xl font-black text-green-400">1</span>
               </div>
               <h3 className="font-bold text-lg mb-2">Analise a empresa</h3>
-              <p className="text-neutral-400 text-sm">Digite o nome da empresa no Radar Scanner. Em 60 segundos você tem o diagnóstico completo.</p>
+              <p className="text-neutral-400 text-sm">Digite o nome da empresa no Radar Scanner. Em cerca de 2 minutos você tem o diagnóstico completo.</p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-green-500/20 border border-green-500/30 rounded-2xl flex items-center justify-center mx-auto mb-4">

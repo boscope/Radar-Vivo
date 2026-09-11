@@ -21,7 +21,7 @@ export default function HeroSection(){
                     O Radar Vivo analisa empresas automaticamente,
                     identifica oportunidades comerciais,
                     calcula o potencial de compra
-                    e entrega relatórios executivos em poucos segundos.
+                    e entrega relatórios executivos em cerca de 2 minutos.
 
                 </p>
 
