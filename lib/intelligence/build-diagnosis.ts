@@ -37,13 +37,13 @@ export function buildDiagnosis(
     strengths.push("Utiliza WhatsApp para atendimento.");
 
   if (company.hasGoogleAds)
-    strengths.push("Encontramos indício de anúncio no Google (tag/pixel de Google Ads no site).");
+    strengths.push("Encontramos tag/pixel de Google Ads no site.");
 
   if (company.hasMetaAds)
-    strengths.push("Encontramos indício de anúncio no Instagram/Facebook (tag/pixel da Meta no site).");
+    strengths.push("Encontramos tag/pixel da Meta (Instagram/Facebook) no site.");
 
   if (company.hasAutomation)
-    strengths.push(`Encontramos indício de automação comercial (${company.automationTool ?? "ferramenta identificada no site"}).`);
+    strengths.push(`Encontramos indício de automação comercial (${company.automationTool ?? "ferramenta identificada"}).`);
 
   //--------------------------------------------------
   // Pontos fracos
@@ -57,15 +57,6 @@ export function buildDiagnosis(
 
   if (!company.hasSeo)
     weaknesses.push("SEO praticamente inexistente.");
-
-  if (!company.hasGoogleAds)
-    weaknesses.push("Não encontramos indícios de anúncio pago no Google (Google Ads).");
-
-  if (!company.hasMetaAds)
-    weaknesses.push("Não encontramos indícios de anúncio pago no Instagram/Facebook (Meta Ads).");
-
-  if (!company.hasAutomation)
-    weaknesses.push("Não encontramos indícios de automação comercial no site.");
 
   if (!company.instagram)
     weaknesses.push("Não identificamos perfil no Instagram.");

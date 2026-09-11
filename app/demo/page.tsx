@@ -28,8 +28,8 @@ const demoScore = {
 const demoWeaknesses = [
   "Não tem site próprio — quem procura 'dentista em Carpina' encontra só o perfil do Google",
   "Nenhuma estratégia de SEO local — aparece apenas quando pesquisam o nome exato",
-  "Não investe em Google Ads enquanto 3 concorrentes aparecem nos anúncios patrocinados",
-  "Sem automação de WhatsApp — cada agendamento depende de resposta manual",
+  "Ficha do Google sem fotos do consultório e sem respostas às avaliações",
+  "Site sem página de depoimentos — quem chega não encontra prova social",
 ];
 
 const demoStrengths = [
@@ -139,9 +139,6 @@ export default function DemoPage() {
                 { label: "Site profissional", ok: demoCompany.hasWebsite },
                 { label: "SEO local", ok: demoCompany.hasSeo },
                 { label: "Google Meu Negócio / Maps", ok: Boolean(demoCompany.googleMapsUrl) },
-                { label: "Google Ads", ok: false },
-                { label: "Meta Ads (Instagram/Facebook)", ok: true },
-                { label: "Automação de atendimento", ok: false },
               ],
               weaknesses: demoWeaknesses,
               strengths: demoStrengths,

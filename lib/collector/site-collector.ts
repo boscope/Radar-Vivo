@@ -309,11 +309,11 @@ export async function collectWebsite(
 
     const hasTagManager = /googletagmanager|GTM-/.test(html);
 
-    const hasMetaPixel = /fbevents\.js|fbq\(|facebook\.net\/en_US\/fbevents/i.test(html);
+    const hasMetaPixel = /fbevents\.js|fbq\(|facebook\.net\/en_US\/fbevents|facebook\.com\/tr|_fbp|mctrace/i.test(html);
 
     const hasGoogleAds =
-      /googlesyndication\.com|google_ads_conversion|gtag\(\s*['"]config['"]\s*['"]AW-/i.test(html) ||
-      /AW-\d+/.test(html);
+      /googlesyndication\.com|googleadservices\.com|google_ads_conversion|adsbygoogle|aw_conversion|doubleclick\.net\/pagead|gtag\(\s*['"]config['"]\s*['"]AW-/i.test(html) ||
+      /\bAW-\d{6,}\b/.test(html);
 
     const automationMarkers: Array<[string, RegExp]> = [
       ["HubSpot", /hubspot\.com|hs-scripts|_hsq/i],
@@ -330,6 +330,11 @@ export async function collectWebsite(
       ["Zendesk", /zendesk\.com/i],
       ["Intercom", /intercom\.com/i],
       ["Tidio", /tidio\.com/i],
+      ["Typebot", /typebot\.io|typebot\.xyz/i],
+      ["Chatwoot", /chatwoot\.com|chatwoot/i],
+      ["Rocket.Chat", /rocket\.chat|rocketchat/i],
+      ["Zapier", /zapier\.com/i],
+      ["Blip (Take)", /blip\.ai|take\.blip/i],
     ];
 
     let hasAutomation = false;

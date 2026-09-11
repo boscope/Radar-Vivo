@@ -5,6 +5,8 @@ import type {
   RadarScore,
 } from "./types";
 
+import { isDigitalServiceProvider } from "./digital-provider";
+
 export function buildCommercial(
   company: CompanyAnalysis,
   score: RadarScore,
@@ -19,14 +21,16 @@ export function buildCommercial(
   if (!company.hasSeo)
     recommendedServices.push("SEO Local");
 
-  if (!company.hasAutomation)
-    recommendedServices.push("Automação de WhatsApp");
+  if (!isDigitalServiceProvider(company.category)) {
+    if (!company.hasAutomation)
+      recommendedServices.push("Automação de WhatsApp");
 
-  if (!company.hasGoogleAds)
-    recommendedServices.push("Google Ads");
+    if (!company.hasGoogleAds)
+      recommendedServices.push("Google Ads");
 
-  if (!company.hasMetaAds)
-    recommendedServices.push("Meta Ads");
+    if (!company.hasMetaAds)
+      recommendedServices.push("Meta Ads");
+  }
 
   if (!company.googleBusiness)
     recommendedServices.push("Google Business");

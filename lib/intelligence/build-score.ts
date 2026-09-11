@@ -10,9 +10,6 @@ function detectGaps(company: CompanyAnalysis) {
     googleBusiness: !company.googleBusiness,
     instagram: !company.instagram,
     facebook: !company.facebook,
-    googleAds: !company.hasGoogleAds,
-    metaAds: !company.hasMetaAds,
-    automation: !company.hasAutomation,
   };
 }
 
@@ -47,19 +44,6 @@ export function buildScore(
   if (gaps.seo)
     score -= 15;
 
-  if (gaps.googleAds)
-    score -= 8;
-
-  if (gaps.metaAds)
-    score -= 7;
-
-  //--------------------------------------------------
-  // Atendimento e Automação (25 pontos)
-  //--------------------------------------------------
-
-  if (gaps.automation)
-    score -= 10;
-
   //--------------------------------------------------
   // Limites
   //--------------------------------------------------
@@ -91,10 +75,7 @@ export function buildScore(
     Number(gaps.seo) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
-    Number(gaps.facebook) +
-    Number(gaps.googleAds) +
-    Number(gaps.metaAds) +
-    Number(gaps.automation);
+    Number(gaps.facebook);
 
   const closingProbability = Math.min(
     85,
@@ -135,13 +116,10 @@ export function buildScore(
     Number(gaps.seo) +
     Number(gaps.googleBusiness) +
     Number(gaps.instagram) +
-    Number(gaps.facebook) +
-    Number(gaps.googleAds) +
-    Number(gaps.metaAds) +
-    Number(gaps.automation);
+    Number(gaps.facebook);
 
   const estimatedRevenue =
-    Math.round((baseRevenue * itensFaltantes) / 9 / 100) * 100;
+    Math.round((baseRevenue * itensFaltantes) / 6 / 100) * 100;
 
   return {
     score,

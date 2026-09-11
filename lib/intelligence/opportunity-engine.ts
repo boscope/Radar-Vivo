@@ -3,11 +3,15 @@ import type {
   Opportunity,
 } from "./types";
 
+import { isDigitalServiceProvider } from "./digital-provider";
+
 export function detectOpportunities(
   analysis: CompanyAnalysis
 ): Opportunity[] {
 
   const opportunities: Opportunity[] = [];
+
+  const provedorDigital = isDigitalServiceProvider(analysis.category);
 
   if (!analysis.website) {
 
@@ -39,7 +43,7 @@ export function detectOpportunities(
 
   }
 
-  if (!analysis.hasAutomation) {
+  if (!provedorDigital && !analysis.hasAutomation) {
 
     opportunities.push({
 
@@ -54,7 +58,7 @@ export function detectOpportunities(
 
   }
 
-  if (!analysis.hasGoogleAds) {
+  if (!provedorDigital && !analysis.hasGoogleAds) {
 
     opportunities.push({
 
@@ -69,7 +73,7 @@ export function detectOpportunities(
 
   }
 
-  if (!analysis.hasMetaAds) {
+  if (!provedorDigital && !analysis.hasMetaAds) {
 
     opportunities.push({
 

@@ -251,9 +251,6 @@ export default function RelatorioPublicoClient({
                 { label: "Site profissional", ok: company.hasWebsite },
                 { label: "SEO local", ok: company.hasSeo },
                 { label: "Google Meu Negócio / Maps", ok: company.hasGoogle ?? Boolean(company.googleMapsUrl) },
-                { label: "Google Ads", ok: Boolean(company.hasGoogleAds) },
-                { label: "Meta Ads (Instagram/Facebook)", ok: Boolean(company.hasMetaAds) },
-                { label: "Automação de atendimento", ok: Boolean(company.hasAutomation) },
               ],
               weaknesses: company.intelligence.diagnosis.weaknesses.filter(
                 (w) => !w.startsWith("Invisível nas IAs")

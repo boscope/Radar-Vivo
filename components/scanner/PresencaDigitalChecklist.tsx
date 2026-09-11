@@ -1,3 +1,5 @@
+"use client";
+
 type Props = {
   hasWebsite: boolean;
   hasSeo: boolean;
@@ -18,7 +20,7 @@ export default function PresencaDigitalChecklist({
   automationTool,
 }: Props) {
 
-  const items = [
+  const itens = [
     {
       nome: "Site próprio",
       presente: hasWebsite,
@@ -34,25 +36,28 @@ export default function PresencaDigitalChecklist({
       presente: hasGoogle,
       explicacao: "Ficha da empresa, avaliações e horários",
     },
+  ];
+
+  const indícios = [
     {
-      nome: "Google Ads (indício de anúncio)",
+      nome: "Google Ads",
       presente: !!hasGoogleAds,
-      explicacao: "Alguma tag/pixel de Google Ads encontrada no site",
+      explicacao: "Tag/pixel de Google Ads",
     },
     {
-      nome: "Meta Ads (indício de anúncio)",
+      nome: "Meta Ads (Instagram/Facebook)",
       presente: !!hasMetaAds,
-      explicacao: "Alguma tag/pixel da Meta encontrada no site",
+      explicacao: "Tag/pixel da Meta",
     },
     {
       nome: "Automação comercial",
       presente: !!hasAutomation,
-      explicacao: automationTool ? `Indício de ${automationTool} no site` : "Indício de ferramenta de automação no site",
+      explicacao: automationTool ? `Ferramenta identificada: ${automationTool}` : "Ferramenta de automação",
     },
   ];
 
-  const presentes = items.filter((item) => item.presente).length;
-  const total = items.length;
+  const presentes = itens.filter((item) => item.presente).length;
+  const total = itens.length;
 
   return (
 
@@ -72,7 +77,7 @@ export default function PresencaDigitalChecklist({
 
       <div className="space-y-4">
 
-        {items.map((item) => (
+        {itens.map((item) => (
 
           <div key={item.nome} className="flex items-center justify-between gap-3 flex-wrap bg-zinc-800/50 rounded-xl p-4">
 
@@ -98,6 +103,44 @@ export default function PresencaDigitalChecklist({
           </div>
 
         ))}
+
+      </div>
+
+      <div className="mt-6 rounded-xl bg-neutral-800/60 border border-neutral-700 p-5">
+
+        <p className="text-neutral-300 font-bold text-sm mb-1">
+          Indícios de anúncios e automação
+        </p>
+
+        <div className="space-y-3">
+          {indícios.map((item) => (
+            <div key={item.nome} className="flex items-center justify-between gap-3 flex-wrap">
+              <div className="min-w-0">
+                <p className="text-sm font-semibold text-neutral-200">
+                  {item.nome}
+                </p>
+                <p className="text-xs text-neutral-500">
+                  {item.explicacao}
+                </p>
+              </div>
+              {item.presente ? (
+                <span className="text-green-400 font-bold text-sm shrink-0">
+                  ✅ Indício encontrado
+                </span>
+              ) : (
+                <span className="text-neutral-400 font-bold text-sm shrink-0">
+                  ◇ Não verificado
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <p className="text-xs text-neutral-500 mt-4 leading-relaxed">
+          A ausência de tag de anúncio ou automação no site <strong>não significa</strong> que a
+          empresa não anuncia ou não automatiza — esses rastreios costumam ficar em páginas de
+          campanha, no Gerenciador de Tags (GTM) ou em plataformas externas.
+        </p>
 
       </div>
 
