@@ -71,6 +71,10 @@ export default function RelatorioPublicoClient({
     google_rating: number | null;
   }>>([]);
   const accentColor = brand?.color || "#22c55e";
+  const [confirmando, setConfirmando] = useState(false);
+  const [wppInput, setWppInput] = useState("");
+  const [igInput, setIgInput] = useState("");
+  const [temConfirmacao, setTemConfirmacao] = useState(false);
 
   useEffect(() => {
     async function carregar() {
@@ -86,6 +90,7 @@ export default function RelatorioPublicoClient({
       const wpp = sp.get("whatsapp") || "";
       const ig = sp.get("instagram") || "";
       const ownerId = sp.get("ownerId") || "";
+      setTemConfirmacao(Boolean(sp.get("whatsapp") || sp.get("instagram")));
 
       if (ownerId) {
         try {
@@ -215,6 +220,64 @@ export default function RelatorioPublicoClient({
             </p>
           )}
         </div>
+
+        {temConfirmacao && (
+          <div className="mt-4 text-sm text-green-400 bg-green-950/40 border border-green-800/60 rounded-xl p-4">
+            ✓ WhatsApp e/ou Instagram confirmados pelo proprietário.
+          </div>
+        )}
+
+        {(!company.phone || !company.instagram) && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              if (confirmando) return;
+              setConfirmando(true);
+              const sp = new URLSearchParams(window.location.search);
+              if (!company.phone && wppInput.trim())
+                sp.set("whatsapp", wppInput.replace(/\D/g, ""));
+              if (!company.instagram && igInput.trim())
+                sp.set("instagram", igInput.replace(/^@/, ""));
+              const qs = sp.toString();
+              window.location.href = window.location.pathname + (qs ? `?${qs}` : "");
+            }}
+            className="mt-6 bg-neutral-950 border border-neutral-700 rounded-2xl p-6"
+          >
+            <h3 className="font-bold text-white">
+              📲 Seus canais não apareceram nos dados públicos
+            </h3>
+            <p className="text-neutral-400 text-sm mt-1 mb-4">
+              O Google não expõe WhatsApp/Instagram de muitos perfis. Se você
+              é o(a) dono(a), confirme abaixo para um diagnóstico justo — e o
+              relatório passa a ser impossível de desmentir.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3">
+              {!company.phone && (
+                <input
+                  value={wppInput}
+                  onChange={(e) => setWppInput(e.target.value)}
+                  placeholder="WhatsApp — ex: (81) 91194-974"
+                  className="flex-1 p-3 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-sm outline-none focus:border-green-400 transition"
+                />
+              )}
+              {!company.instagram && (
+                <input
+                  value={igInput}
+                  onChange={(e) => setIgInput(e.target.value)}
+                  placeholder="Instagram — ex: baratocarveiculos"
+                  className="flex-1 p-3 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-sm outline-none focus:border-green-400 transition"
+                />
+              )}
+              <button
+                type="submit"
+                disabled={confirmando}
+                className="bg-green-500 hover:bg-green-400 transition text-black font-bold px-6 py-3 rounded-xl disabled:opacity-60 whitespace-nowrap"
+              >
+                {confirmando ? "⏳ Regenerando (cerca de 1 min)..." : "✓ Confirmar canais"}
+              </button>
+            </div>
+          </form>
+        )}
 
         <div className="mt-12 grid md:grid-cols-3 gap-6">
           <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-8 text-center">
