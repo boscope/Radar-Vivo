@@ -6,6 +6,8 @@ import SearchLimitBanner from "@/components/SearchLimitBanner";
 
 export default function HeroSearch() {
   const [empresa, setEmpresa] = useState("");
+  const [whatsapp, setWhatsapp] = useState("");
+  const [instagram, setInstagram] = useState("");
   const { blocked, incrementAndCheck, remaining, isLogged } = useFreeSearchLimit();
 
   function analisar() {
@@ -14,8 +16,14 @@ export default function HeroSearch() {
     const isBlocked = incrementAndCheck();
     if (isBlocked) return;
 
+    const qs = new URLSearchParams();
+    const wpp = whatsapp.trim();
+    const ig = instagram.trim();
+    if (wpp) qs.set("whatsapp", wpp.replace(/\D/g, ""));
+    if (ig) qs.set("instagram", ig.replace(/^@/, ""));
+
     window.open(
-      "/scanner/result/" + encodeURIComponent(empresa.trim()),
+      "/scanner/result/" + encodeURIComponent(empresa.trim()) + (qs.toString() ? `?${qs}` : ""),
       "_blank",
       "noopener,noreferrer"
     );
@@ -48,7 +56,28 @@ export default function HeroSearch() {
           </button>
         </div>
 
-        <p className="mt-4 text-neutral-500 text-sm">
+        <div className="mt-4 flex flex-col sm:flex-row gap-3">
+          <input
+            value={whatsapp}
+            onChange={(e) => setWhatsapp(e.target.value)}
+            placeholder="WhatsApp (opcional) — ex: (81) 91194-974"
+            className="flex-1 p-3 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-sm outline-none focus:border-green-400 transition"
+          />
+          <input
+            value={instagram}
+            onChange={(e) => setInstagram(e.target.value)}
+            placeholder="Instagram (opcional) — ex: baratocarveiculos"
+            className="flex-1 p-3 rounded-xl bg-neutral-900 border border-neutral-700 text-white text-sm outline-none focus:border-green-400 transition"
+          />
+        </div>
+
+        <p className="mt-3 text-neutral-500 text-xs">
+          Se você for o dono, confirme seus canais acima — o Google não
+          expõe WhatsApp/Instagram de muitos perfis, e a confirmação garante
+          um diagnóstico justo.
+        </p>
+
+        <p className="mt-2 text-neutral-500 text-sm">
           {isLogged
             ? "Você tem até 3 dias de teste grátis com acesso total. Depois, 3 buscas por dia no plano grátis."
             : remaining() > 0

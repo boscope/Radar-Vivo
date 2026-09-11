@@ -69,10 +69,14 @@ export function buildDiagnosis(
   }
 
   if (!company.instagram)
-    weaknesses.push("Não identificamos perfil no Instagram.");
+    weaknesses.push(
+      "Não localizamos perfil público no Instagram nos dados abertos."
+    );
 
   if (!company.facebook)
-    weaknesses.push("Não identificamos página no Facebook.");
+    weaknesses.push(
+      "Não localizamos página pública no Facebook nos dados abertos."
+    );
 
   const aiPoints =
     (company.website ? 30 : 0) +

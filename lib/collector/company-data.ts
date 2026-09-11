@@ -394,12 +394,14 @@ function hostnameOf(url?: string | null): string {
   }
 }
 
+const GEO_CATEGORIA =
+  /locality|country|administrative|natural feature|colloquial|neighbourhood|neighborhood|region|continent|political/i;
+
 function mismatchSuspeito(
   category: string | undefined,
   websiteUrl?: string | null
 ): boolean {
-  if (/locality|country|administrative|natural feature/i.test(category ?? ""))
-    return true;
+  if (GEO_CATEGORIA.test(category ?? "")) return true;
 
   const host = hostnameOf(websiteUrl);
   if (!host) return false;
@@ -410,8 +412,7 @@ function mismatchSuspeito(
 function limparMarca(title?: string): string | undefined {
   if (!title) return undefined;
   const limpa = title
-    .replace(/\s*\|.*$/i, "")
-    .replace(/\s*-{1,2}.*$/i, "")
+    .replace(/\s*[|—–-]{1,3}\s*.*$/i, "")
     .trim();
   return limpa.length >= 3 ? limpa : undefined;
 }
@@ -454,8 +455,11 @@ async function enrichSiteIdentity(
 
     const place = await searchGooglePlace(brand, undefined, brand);
 
+    const placeTypes = (place?.types ?? []).join(" ");
+
     if (
       place &&
+      !GEO_CATEGORIA.test(placeTypes) &&
       place.website &&
       hostnameOf(place.website) === hostnameOf(websiteData.website)
     ) {
@@ -483,12 +487,39 @@ async function enrichSiteIdentity(
     /* enriquecimento opcional */
   }
 
+  const marcaFallback = limparMarca(
+    websiteData.pageTitle ?? websiteData.h1 ?? googleData.companyName
+  );
+
+  const viaSite =
+    marcaFallback && websiteData.website &&
+    hostnameOf(googleData.website ?? "") !== hostnameOf(websiteData.website);
+
+  if (viaSite) {
+    return {
+      ...googleData,
+      companyName: marcaFallback,
+      website: websiteData.website ?? googleData.website,
+      category: GEO_CATEGORIA.test(googleData.category ?? "")
+        ? "Empresa"
+        : googleData.category,
+      googleFresh: googleData.googleFresh,
+    };
+  }
+
   return googleData;
 }
 
 export async function collectCompanyData(
   company: string,
-  locationHint?: { city?: string; state?: string; category?: string; placeId?: string }
+  locationHint?: {
+    city?: string;
+    state?: string;
+    category?: string;
+    placeId?: string;
+    whatsapp?: string;
+    instagram?: string;
+  }
 ): Promise<CompanyData> {
   const { type, value } = parseInput(company);
 
@@ -585,6 +616,21 @@ export async function collectCompanyData(
     performanceScore: websiteData.performanceScore,
   };
 
+  const whatsappConfirmado = (locationHint?.whatsapp ?? "")
+    .replace(/\D/g, "")
+    .trim();
+
+  if (whatsappConfirmado.length >= 10) {
+    analysis.hasWhatsapp = true;
+  }
+
+  if (locationHint?.instagram?.trim()) {
+    const ig = locationHint.instagram.trim();
+    analysis.instagram = ig.startsWith("http")
+      ? ig
+      : `https://www.instagram.com/${ig.replace(/^@/, "")}`;
+  }
+
   const intelligence = analyzeCompany(analysis);
 
   const companyData: CompanyData = {
@@ -594,7 +640,8 @@ export async function collectCompanyData(
     googleMapsUrl: googleData.googleMapsUrl,
     city: googleData.city ?? "Cidade não identificada",
     category: googleData.category ?? "Empresa",
-    phone: googleData.phone,
+    phone:
+      whatsappConfirmado.length >= 10 ? whatsappConfirmado : googleData.phone,
     email: googleData.email,
     instagram: analysis.instagram,
     facebook: analysis.facebook,

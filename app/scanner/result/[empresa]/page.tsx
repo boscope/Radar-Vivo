@@ -70,6 +70,8 @@ export default function ScannerResultPage({
       const state = searchParams.get("state") || "";
       const category = searchParams.get("category") || "";
       const placeId = searchParams.get("placeId") || "";
+      const wpp = searchParams.get("whatsapp") || "";
+      const ig = searchParams.get("instagram") || "";
       const oid = searchParams.get("ownerId") || "";
       if (oid) {
         setOwnerId(oid);
@@ -96,6 +98,8 @@ export default function ScannerResultPage({
                 state,
                 category,
                 placeId,
+                whatsapp: wpp,
+                instagram: ig,
               }),
             }
           );

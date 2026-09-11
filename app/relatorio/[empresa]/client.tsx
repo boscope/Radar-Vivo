@@ -65,6 +65,11 @@ export default function RelatorioPublicoClient({
   const [company, setCompany] = useState<AnaliseData | null>(null);
   const [erro, setErro] = useState<string | null>(null);
   const [brand, setBrand] = useState<AgencyBrand | null>(null);
+  const [pdfCompetitors, setPdfCompetitors] = useState<Array<{
+    name: string;
+    radar_score: number | null;
+    google_rating: number | null;
+  }>>([]);
   const accentColor = brand?.color || "#22c55e";
 
   useEffect(() => {
@@ -78,6 +83,8 @@ export default function RelatorioPublicoClient({
       const state = sp.get("state") || "";
       const category = sp.get("category") || "";
       const placeId = sp.get("placeId") || "";
+      const wpp = sp.get("whatsapp") || "";
+      const ig = sp.get("instagram") || "";
       const ownerId = sp.get("ownerId") || "";
 
       if (ownerId) {
@@ -92,7 +99,7 @@ export default function RelatorioPublicoClient({
         const response = await fetch("/api/analyze", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ input: nomeEmpresa, city, state, category, placeId }),
+          body: JSON.stringify({ input: nomeEmpresa, city, state, category, placeId, whatsapp: wpp, instagram: ig }),
         });
 
         if (!response.ok) {
@@ -258,6 +265,7 @@ export default function RelatorioPublicoClient({
               strengths: company.intelligence.diagnosis.strengths ?? [],
               services: company.intelligence.commercial.recommendedServices,
               aiPresence: company.intelligence.aiPresence,
+              competitors: pdfCompetitors,
             }}
           />
         </div>
@@ -303,6 +311,7 @@ export default function RelatorioPublicoClient({
             category={company.category}
             currentScore={score.score}
             accentColor={accentColor}
+            onLoaded={setPdfCompetitors}
           />
         )}
 
@@ -403,12 +412,18 @@ function CompetitorComparison({
   category,
   currentScore,
   accentColor,
+  onLoaded,
 }: {
   companyName: string;
   city: string;
   category: string;
   currentScore: number;
   accentColor: string;
+  onLoaded?: (competitors: Array<{
+    name: string;
+    radar_score: number | null;
+    google_rating: number | null;
+  }>) => void;
 }) {
   const [competitors, setCompetitors] = useState<Array<{
     name: string;
@@ -422,6 +437,7 @@ function CompetitorComparison({
       .then(r => r.json())
       .then(data => {
         setCompetitors(data.competitors ?? []);
+        onLoaded?.(data.competitors ?? []);
         setLoading(false);
       })
       .catch(() => setLoading(false));

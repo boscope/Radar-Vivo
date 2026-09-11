@@ -19,6 +19,11 @@ export type ReportPdfData = {
     summary: string;
     detail: string;
   };
+  competitors?: Array<{
+    name: string;
+    radar_score: number | null;
+    google_rating: number | null;
+  }>;
 };
 
 const GREEN: [number, number, number] = [34, 197, 94];
@@ -235,6 +240,92 @@ export function generateReportPdf(data: ReportPdfData) {
     doc.text(lines, M + 9, y);
     y += lines.length * 5 + 3;
   });
+
+  // Comparativo com concorrentes
+  if (data.competitors !== undefined && data.competitors.length > 0) {
+    sectionHeader(doc, "Comparativo com concorrentes", y, ensureSpace);
+    y += 12;
+    doc.setTextColor(...GRAY);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text(
+      `Sua empresa vs outras empresas de ${data.category ?? "seu segmento"} em ${data.city ?? ""}`.trim(),
+      M,
+      y
+    );
+    y += 8;
+
+    const row = (label: string, meta: string, value: string, highlight: boolean, danger?: boolean) => {
+      ensureSpace(10);
+      doc.setFillColor(...CARD);
+      doc.setDrawColor(...(highlight ? GREEN : BORDER));
+      doc.setLineWidth(0.5);
+      doc.roundedRect(M, y - 4.5, CONTENT_W, 9, 1.5, 1.5, "FD");
+      doc.setTextColor(...(highlight ? GREEN : LIGHT));
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.5);
+      doc.text(label, M + 3, y);
+      if (meta) {
+        doc.setTextColor(...GRAY);
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(8.5);
+        doc.text(meta, M + 3, y + 6);
+      }
+      doc.setTextColor(...(danger ? RED : highlight ? GREEN : WHITE));
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(11);
+      doc.text(value, PAGE_W - M - 3, y, { align: "right" });
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(9);
+      y += 12;
+    };
+
+    row(
+      `${data.companyName} (sua empresa)`,
+      "",
+      String(data.score),
+      true
+    );
+
+    data.competitors.forEach((c) => {
+      const danger = (c.radar_score ?? 0) > data.score;
+      row(
+        c.name,
+        c.google_rating ? `⭐ ${c.google_rating}` : "",
+        c.radar_score === null ? "—" : String(c.radar_score),
+        false,
+        danger
+      );
+    });
+
+    const betterCount = data.competitors.filter(
+      (c) => (c.radar_score ?? 0) > data.score
+    ).length;
+
+    if (betterCount > 0) {
+      ensureSpace(16);
+      doc.setFillColor(255, 230, 230);
+      doc.setDrawColor(...RED);
+      doc.setLineWidth(0.4);
+      doc.roundedRect(M, y - 4, CONTENT_W, 12, 1.5, 1.5, "FD");
+      doc.setTextColor(...RED);
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(9.5);
+      doc.text(
+        `⚠️ ${betterCount} concorrente${betterCount > 1 ? "s" : ""} à frente de você`,
+        M + 3,
+        y
+      );
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8.5);
+      doc.text(
+        "Estes concorrentes estão aparecendo mais no Google e atraindo mais clientes.",
+        M + 3,
+        y + 5.5
+      );
+      y += 14;
+    }
+  }
 
   addFooter(doc);
 
