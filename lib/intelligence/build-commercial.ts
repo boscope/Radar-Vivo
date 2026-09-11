@@ -22,7 +22,7 @@ export function buildCommercial(
     recommendedServices.push("SEO Local");
 
   if (!isDigitalServiceProvider(company.category)) {
-    if (!company.hasAutomation)
+    if (!company.hasAutomation && company.hasWhatsapp)
       recommendedServices.push("Automação de WhatsApp");
 
     if (!company.hasGoogleAds)

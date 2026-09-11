@@ -55,7 +55,7 @@ export function buildOpportunities(
   // Automação
   //--------------------------------------------------
 
-  if (!provedorDigital && !company.hasAutomation) {
+  if (!provedorDigital && !company.hasAutomation && company.hasWhatsapp) {
 
     opportunities.push({
 

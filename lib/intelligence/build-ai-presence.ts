@@ -34,16 +34,28 @@ export function buildAiPresence(
   let summary: string;
   let detail: string;
 
+  const pilares: string[] = [];
+
+  if (company.website) pilares.push("site profissional");
+  if (company.hasSeo) pilares.push("SEO estruturado");
+  if (company.googleBusiness) pilares.push("ficha no Google");
+  if (company.instagram || company.facebook) pilares.push("redes sociais ativas");
+
+  const base =
+    pilares.length
+      ? `Com ${pilares.join(", ")}`
+      : "Sem os sinais básicos que as IAs consultam";
+
   if (visibilityScore >= 60) {
     status = "visivel";
     summary = "Presença forte — provavelmente aparece nas recomendações de IAs.";
     detail =
-      "Com site otimizado, Google e redes ativas, assistentes como ChatGPT e Gemini conseguem encontrar e recomendar esta empresa quando clientes pedem indicações.";
+      `${base}, assistentes como ChatGPT e Gemini conseguem encontrar e recomendar esta empresa quando clientes pedem indicações.`;
   } else if (visibilityScore >= 30) {
     status = "parcial";
     summary = "Presença parcial — aparece em algumas buscas, mas não é prioridade nas indicações.";
     detail =
-      "A empresa tem alguns sinais digitais, mas faltam pilares (site estruturado, SEO local ou perfil completo no Google) para as IAs confiarem nela como recomendação principal. Concorrentes com presença mais completa são citados antes.";
+      `A empresa tem alguns sinais digitais, mas faltam pilares (site estruturado, SEO local ou perfil completo no Google) para as IAs confiarem nela como recomendação principal. Concorrentes com presença mais completa são citados antes.`;
   } else {
     status = "invisivel";
     summary = "Invisível para as IAs — quando pedem uma indicação, outra empresa é citada.";
