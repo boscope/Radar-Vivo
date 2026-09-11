@@ -385,6 +385,107 @@ async function collectFromMapsLink(
   };
 }
 
+function hostnameOf(url?: string | null): string {
+  if (!url) return "";
+  try {
+    return new URL(url).hostname.replace(/^www\./i, "").toLowerCase();
+  } catch {
+    return "";
+  }
+}
+
+function mismatchSuspeito(
+  category: string | undefined,
+  websiteUrl?: string | null
+): boolean {
+  if (/locality|country|administrative|natural feature/i.test(category ?? ""))
+    return true;
+
+  const host = hostnameOf(websiteUrl);
+  if (!host) return false;
+
+  return /\.(gov|gov\.br|mil|edu|us|uk|ca|au)(\/|$)/.test(host);
+}
+
+function limparMarca(title?: string): string | undefined {
+  if (!title) return undefined;
+  const limpa = title
+    .replace(/\s*\|.*$/i, "")
+    .replace(/\s*-{1,2}.*$/i, "")
+    .trim();
+  return limpa.length >= 3 ? limpa : undefined;
+}
+
+async function enrichSiteIdentity(
+  googleData: GoogleData,
+  websiteData: WebsiteData,
+  enable: boolean
+): Promise<GoogleData> {
+  if (!enable || !websiteData.website) return googleData;
+
+  const status = await canUseGoogle();
+  if (!status.ok) return googleData;
+
+  try {
+    if (websiteData.cnpj) {
+      const receita = await collectReceitaWS(websiteData.cnpj);
+      if (receita?.cnpj) {
+        return {
+          ...googleData,
+          companyName:
+            receita.nomeFantasia ?? receita.razaoSocial ?? googleData.companyName,
+          city: receita.cidade ?? googleData.city,
+          category: receita.categoria ?? googleData.category,
+          phone: receita.telefone ?? googleData.phone,
+          email: receita.email ?? googleData.email,
+          hasWhatsapp:
+            isMobileNumber(receita.telefone) || googleData.hasWhatsapp,
+          cnpj: receita.cnpj ?? websiteData.cnpj,
+          googleFresh: googleData.googleFresh,
+        };
+      }
+    }
+
+    const brand = limparMarca(
+      websiteData.pageTitle ?? websiteData.h1 ?? googleData.companyName
+    );
+
+    if (!brand) return googleData;
+
+    const place = await searchGooglePlace(brand, undefined, brand);
+
+    if (
+      place &&
+      place.website &&
+      hostnameOf(place.website) === hostnameOf(websiteData.website)
+    ) {
+      return {
+        ...googleData,
+        companyName: place.name ?? googleData.companyName,
+        city: place.address
+          ? extrairCidade(place.address)
+          : googleData.city,
+        category: place.types?.length
+          ? mapGoogleTypes(place.types)
+          : googleData.category,
+        phone: place.phone ?? googleData.phone,
+        website: place.website ?? googleData.website,
+        googleMapsUrl: place.mapsUrl ?? googleData.googleMapsUrl,
+        googleRating: place.rating ?? googleData.googleRating,
+        googleReviews: place.reviews ?? googleData.googleReviews,
+        hasWhatsapp:
+          isMobileNumber(place.phone) || googleData.hasWhatsapp,
+        googlePlaceId: place.id ?? googleData.googlePlaceId,
+        googleFresh: googleData.googleFresh,
+      };
+    }
+  } catch {
+    /* enriquecimento opcional */
+  }
+
+  return googleData;
+}
+
 export async function collectCompanyData(
   company: string,
   locationHint?: { city?: string; state?: string; category?: string; placeId?: string }
@@ -415,15 +516,31 @@ export async function collectCompanyData(
   let websiteData: WebsiteData =
     await collectWebsite(websiteUrl);
 
+  const resultadoIncompativel =
+    type === "nome" &&
+    mismatchSuspeito(googleData.category, websiteData.website);
+
   const discoveredWebsite =
-    !isRealBusinessWebsite(websiteData.website) && type !== "site"
+    (resultadoIncompativel || !isRealBusinessWebsite(websiteData.website)) &&
+    type !== "site"
       ? (await discoverWebsiteByName(company, googleData.city ?? undefined)) ??
         (await discoverWebsiteByDomain(company))
       : undefined;
 
-  if (discoveredWebsite && discoveredWebsite !== websiteUrl) {
+  const usouDescoberta =
+    !!discoveredWebsite && discoveredWebsite !== websiteUrl;
+
+  if (usouDescoberta) {
     websiteUrl = discoveredWebsite;
     websiteData = await collectWebsite(websiteUrl);
+  }
+
+  if (type === "site" || resultadoIncompativel || usouDescoberta) {
+    googleData = await enrichSiteIdentity(
+      googleData,
+      websiteData,
+      true
+    );
   }
 
   const instagramFromWebsite =
@@ -473,7 +590,7 @@ export async function collectCompanyData(
   const companyData: CompanyData = {
     companyName,
     website: websiteData.website,
-    cnpj: googleData.cnpj,
+    cnpj: googleData.cnpj ?? websiteData.cnpj,
     googleMapsUrl: googleData.googleMapsUrl,
     city: googleData.city ?? "Cidade não identificada",
     category: googleData.category ?? "Empresa",
