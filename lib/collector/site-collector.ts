@@ -1,5 +1,7 @@
 import type { WebsiteData } from "./types";
 import { isMobilePhoneNumber } from "./phone-utils";
+// @ts-ignore - node runtime types
+import { promises as dns } from "node:dns";
 
 const USER_AGENT =
   "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36 RadarVivo/1.0";
@@ -315,6 +317,70 @@ export async function collectInstagramFromWebsite(
   }
 }
 
+const SPF_MARKETING = new Set([
+  "SendGrid", "Amazon SES", "Mailgun", "Mailchimp",
+  "Klaviyo", "Brevo", "MailerLite", "Constant Contact",
+]);
+
+const SPF_PROVIDERS: Array<[RegExp, string]> = [
+  [/sendgrid\.net/i, "SendGrid"],
+  [/amazonses\.com/i, "Amazon SES"],
+  [/mailgun\.org/i, "Mailgun"],
+  [/mcsv\.net|mandrillapp\.com|mailchimp/i, "Mailchimp"],
+  [/klaviyo\.com/i, "Klaviyo"],
+  [/sendinblue\.com|brevo\.com/i, "Brevo"],
+  [/(mailerlite\.com)/i, "MailerLite"],
+  [/constantcontact\.com/i, "Constant Contact"],
+  [/spf\.protection\.outlook\.com|microsoft\.com/i, "Microsoft 365"],
+  [/_spf\.google\.com/i, "Google Workspace"],
+  [/zoho\.com/i, "Zoho"],
+];
+
+async function detectEmailMarketingDns(hostname: string) {
+  try {
+    const root = hostname.replace(/^www\./i, "");
+    const records = await dns.resolveTxt(root);
+    const spf = records
+      .map((p) => p.join(""))
+      .find((r) => r.toLowerCase().startsWith("v=spf1")) ?? "";
+    const marketing: string[] = [];
+    let professional = false;
+    for (const [re, name] of SPF_PROVIDERS) {
+      if (re.test(spf)) {
+        if (SPF_MARKETING.has(name)) marketing.push(name);
+        else professional = true;
+      }
+    }
+    return { marketing: [...new Set(marketing)], professional };
+  } catch {
+    return { marketing: [], professional: false };
+  }
+}
+
+async function fetchPageSpeedProbe(url: string) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), 25000);
+  try {
+    const target = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=performance`;
+    const res = await fetch(target, {
+      signal: controller.signal,
+      headers: { "Accept": "application/json" },
+    });
+    if (!res.ok) return undefined;
+    const data = await res.json();
+    const perf = data?.lighthouseResult?.categories?.performance?.score;
+    if (typeof perf !== "number") return undefined;
+    return {
+      performance: Math.round(perf * 100),
+      crux: data?.loadingExperience?.overall_category as string | undefined,
+    };
+  } catch {
+    return undefined;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 export async function collectWebsite(
   website?: string | null
 ): Promise<WebsiteData> {
@@ -366,6 +432,31 @@ export async function collectWebsite(
     );
 
     const deteccaoHtml = `${pageHtml}\n${deepHtml}`.slice(0, 3_500_000);
+
+    let hostname = "";
+    try {
+      hostname = new URL(finalUrlResolved).hostname;
+    } catch {
+      /* ignore */
+    }
+
+    const [emailDNS, psProbe] = hostname
+      ? await Promise.allSettled([
+          detectEmailMarketingDns(hostname),
+          fetchPageSpeedProbe(finalUrlResolved),
+        ])
+      : await Promise.allSettled([
+          Promise.resolve({ marketing: [], professional: false }) as Promise<{ marketing: string[]; professional: boolean }>,
+          Promise.resolve(undefined) as Promise<undefined>,
+        ]);
+
+    const emailResult =
+      emailDNS.status === "fulfilled"
+        ? emailDNS.value
+        : { marketing: [], professional: false };
+
+    const performanceData =
+      psProbe.status === "fulfilled" ? psProbe.value : undefined;
 
     const hasSSL = finalUrlResolved.startsWith("https://");
 
@@ -419,6 +510,9 @@ export async function collectWebsite(
       ["HubSpot", /hubspot\.com|hs-scripts|_hsq/i],
       ["RD Station", /rdstation\.com|rdstation/i],
       ["Mailchimp", /mailchimp\.com|list-manage\.com|mc\.us/i],
+      ["Brevo/Sendinblue", /sendinblue\.com|\bbrevo\b/i],
+      ["MailerLite", /mailerlite\.com/i],
+      ["Klaviyo", /klaviyo\.com/i],
       ["ActiveCampaign", /activecampaign\.com|track\.hc/i],
       ["ConvertKit", /convertkit\.com/i],
       ["ManyChat", /manychat\.com/i],
@@ -427,6 +521,13 @@ export async function collectWebsite(
       ["Microsoft Clarity", /clarity\.ms/i],
       ["Calendly", /calendly\.com/i],
       ["Tawk", /tawk\.to/i],
+      ["Crisp", /crisp\.chat|client\.crisp\.chat/i],
+      ["Drift", /drift\.com|js\.drift/i],
+      ["Freshchat", /freshchat\.com|wchat\.freshchat/i],
+      ["LiveChat", /livechatinc\.com|livechat\.com/i],
+      ["JivoChat", /jivosite\.com|jivo\.chat/i],
+      ["Smartsupp", /smartsupp\.com/i],
+      ["Typeform", /typeform\.com/i],
       ["Zendesk", /zendesk\.com/i],
       ["Intercom", /intercom\.com/i],
       ["Tidio", /tidio\.com/i],
@@ -435,6 +536,7 @@ export async function collectWebsite(
       ["Rocket.Chat", /rocket\.chat|rocketchat/i],
       ["Zapier", /zapier\.com/i],
       ["Blip (Take)", /blip\.ai|take\.blip/i],
+      ["Facebook Messenger", /fb-customerchat|m\.me\/|facebook\.com\/plugins\/messenger/i],
     ];
 
     let hasAutomation = false;
@@ -447,6 +549,20 @@ export async function collectWebsite(
         break;
       }
     }
+
+    if (!hasAutomation && emailResult.marketing.length) {
+      hasAutomation = true;
+      automationTool = `E-mail marketing (${emailResult.marketing[0]})`;
+    }
+
+    const isEcommerce =
+      /vtexassets|vtexwebsite|vtex\.com|woocommerce|_nuvemshop|nuvemshop\.com|tiendanube|lojaintegrada|magento|bigcommerce|tray\.com\.br|tray\.technology|shopify\.com\/s/i.test(
+        deteccaoHtml
+      );
+
+    const cnpjSite =
+      deteccaoHtml.match(/\b\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}\b/)?.[0] ??
+      undefined;
 
     const isResponsive = /<meta[^>]+name=["']viewport["']/i.test(html);
 
@@ -492,6 +608,16 @@ export async function collectWebsite(
       instagram,
       facebook,
       whatsapp: whatsappMatch?.[0] ?? toldPhones[0],
+      isEcommerce,
+      cnpj: cnpjSite,
+      emailMarketing: emailResult.marketing,
+      professionalEmail: emailResult.professional,
+      performanceScore: performanceData?.performance,
+      cruxRating: performanceData?.crux as
+        | "FAST"
+        | "AVERAGE"
+        | "SLOW"
+        | undefined,
     };
   } catch {
     return {

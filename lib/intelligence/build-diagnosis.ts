@@ -58,6 +58,16 @@ export function buildDiagnosis(
   if (!company.hasSeo)
     weaknesses.push("SEO praticamente inexistente.");
 
+  if (company.hasWebsite !== false && company.performanceScore !== undefined) {
+    if (company.performanceScore >= 85) {
+      strengths.push(`O site carrega rápido no celular (PageSpeed ${company.performanceScore}/100).`);
+    } else if (company.performanceScore < 50) {
+      weaknesses.push(
+        `O site é lento no celular (PageSpeed ${company.performanceScore}/100) — isso afasta clientes e piora o ranking no Google.`
+      );
+    }
+  }
+
   if (!company.instagram)
     weaknesses.push("Não identificamos perfil no Instagram.");
 

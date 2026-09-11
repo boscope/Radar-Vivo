@@ -465,6 +465,7 @@ export async function collectCompanyData(
     hasMetaAds: websiteData.hasMetaPixel ?? false,
     hasAutomation: websiteData.hasAutomation ?? false,
     automationTool: websiteData.automationTool,
+    performanceScore: websiteData.performanceScore,
   };
 
   const intelligence = analyzeCompany(analysis);

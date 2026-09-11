@@ -22,6 +22,8 @@ export interface CompanyAnalysis {
 
   hasSeo?: boolean;
 
+  performanceScore?: number;
+
   hasGoogleAds?: boolean;
 
   hasMetaAds?: boolean;

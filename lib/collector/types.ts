@@ -90,6 +90,16 @@ export interface WebsiteData {
 
   performanceScore?: number;
 
+  isEcommerce?: boolean;
+
+  cnpj?: string;
+
+  emailMarketing?: string[];
+
+  professionalEmail?: boolean;
+
+  cruxRating?: "FAST" | "AVERAGE" | "SLOW";
+
   hasWhatsapp?: boolean;
 
   instagram?: string;
