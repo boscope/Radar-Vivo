@@ -163,6 +163,99 @@ async function fetchPageWithJsRedirects(
   return { finalUrl, html };
 }
 
+const DEEP_URL_IGNORED =
+  /\.(css|js|png|jpe?g|gif|svg|webp|ico|pdf|txt|woff2?|ttf|eot|mp4|webm|zip|xml)$/i;
+
+const DEEP_URL_ROTA_IGNORADA =
+  /\/?(login|logout|cadastro|carrinho|checkout|cesta|api|feed|rss|wp-admin|wp-json|wp-content|admin)(\/|$)/i;
+
+function linkInterno(url: string, base: string): string | null {
+  try {
+    const u = new URL(url, base);
+    const b = new URL(base);
+    if (!/^https?:$/.test(u.protocol)) return null;
+    if (u.hostname !== b.hostname) return null;
+    if (DEEP_URL_IGNORED.test(u.pathname)) return null;
+    if (DEEP_URL_ROTA_IGNORADA.test(u.pathname)) return null;
+    return `${u.pathname}${u.search}`.replace(/\/+$/, "") || "/";
+  } catch {
+    return null;
+  }
+}
+
+function internalLinksFromHtml(base: string, homeHtml: string): string[] {
+  const found: string[] = [];
+
+  const regex = /href=["']([^"']+)/gi;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(homeHtml)) !== null) {
+    const camiho = linkInterno(match[1], base);
+    if (camiho) found.push(camiho);
+  }
+
+  return [...new Set(found)].slice(0, 12);
+}
+
+async function sitemapLinks(base: string): Promise<string[]> {
+  try {
+    const origin = new URL(base).origin;
+
+    for (const caminho of ["/sitemap.xml", "/sitemap_index.xml", "/sitemap-index.xml"]) {
+      const response = await fetchWithTimeout(`${origin}${caminho}`, 5000);
+      if (!response.ok) continue;
+
+      const corpo = (await response.text()).slice(0, 500_000);
+      const urls = [...corpo.matchAll(/<loc>\s*([^<\s]+?)\s*<\/loc>/gi)]
+        .map((mm) => mm[1])
+        .filter((u) => linkInterno(u, base) !== null)
+        .filter((u) => !DEEP_URL_IGNORED.test(u.split("?")[0]));
+
+      if (urls.length) return [...new Set(urls)].slice(0, 10);
+    }
+  } catch {
+    /* sitemap indisponível */
+  }
+
+  return [];
+}
+
+async function collectDeepPageHtml(
+  base: string,
+  homeHtml: string
+): Promise<string> {
+  try {
+    const candidatos = [
+      ...internalLinksFromHtml(base, homeHtml),
+      ...(await sitemapLinks(base)),
+    ];
+
+    const unicos = [...new Set(candidatos)].slice(0, 10);
+    if (!unicos.length) return "";
+
+    const paginas = await Promise.allSettled(
+      unicos.map(async (caminho) => {
+        const response = await fetchWithTimeout(
+          `${new URL(base).origin}${caminho}`,
+          6000
+        );
+        return (await response.text()).slice(0, 800_000);
+      })
+    );
+
+    return paginas
+      .filter(
+        (r): r is PromiseFulfilledResult<string> => r.status === "fulfilled"
+      )
+      .map((r) => (isParkedPage(r.value) ? "" : r.value))
+      .filter((h) => h.length > 0)
+      .join("\n")
+      .slice(0, 1_500_000);
+  } catch {
+    return "";
+  }
+}
+
 function extractTechnologies(
   html: string
 ): string[] {
@@ -267,29 +360,36 @@ export async function collectWebsite(
 
     const html = pageHtml;
 
+    const deepHtml = await collectDeepPageHtml(
+      finalUrlResolved,
+      pageHtml
+    );
+
+    const deteccaoHtml = `${pageHtml}\n${deepHtml}`.slice(0, 3_500_000);
+
     const hasSSL = finalUrlResolved.startsWith("https://");
 
     const instagram =
-      firstSocial(html, /https:\/\/www\.instagram\.com\/[a-zA-Z0-9._]+/i) ??
-      firstSocial(html, /https:\/\/instagram\.com\/[a-zA-Z0-9._]+/i);
+      firstSocial(deteccaoHtml, /https:\/\/www\.instagram\.com\/[a-zA-Z0-9._]+/i) ??
+      firstSocial(deteccaoHtml, /https:\/\/instagram\.com\/[a-zA-Z0-9._]+/i);
 
     const facebook =
-      firstSocial(html, /https:\/\/www\.facebook\.com\/[a-zA-Z0-9._]+/i) ??
-      firstSocial(html, /https:\/\/facebook\.com\/[a-zA-Z0-9._]+/i);
+      firstSocial(deteccaoHtml, /https:\/\/www\.facebook\.com\/[a-zA-Z0-9._]+/i) ??
+      firstSocial(deteccaoHtml, /https:\/\/facebook\.com\/[a-zA-Z0-9._]+/i);
 
     const whatsappRegex =
       /(https:\/\/wa\.me\/\d+|https:\/\/api\.whatsapp\.com\/send\?phone=\d+|https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+|whatsapp:\/\/send\?phone=\d+)/i;
 
-    const whatsappMatch = html.match(whatsappRegex);
+    const whatsappMatch = deteccaoHtml.match(whatsappRegex);
 
-    const toldPhones = [...html.matchAll(/href=["']tel:([^"'<>]+)/gi)]
+    const toldPhones = [...deteccaoHtml.matchAll(/href=["']tel:([^"'<>]+)/gi)]
       .map((m) => m[1])
       .filter(isMobilePhoneNumber);
 
     const hasMobilePhoneMention =
-      /\(\d{2,3}\)\s*9\d{4}[\s-]?\d{4}|\b9\d{4}[\s-]?\d{4}\b/.test(html);
+      /\(\d{2,3}\)\s*9\d{4}[\s-]?\d{4}|\b9\d{4}[\s-]?\d{4}\b/.test(deteccaoHtml);
 
-    const whatAppTextMention = /whatsapp|whats\s?app|zap\b|falar com atendente|chat on line/i.test(html);
+    const whatAppTextMention = /whatsapp|whats\s?app|zap\b|falar com atendente|chat on line/i.test(deteccaoHtml);
 
     const hasWhatsapp =
       !!whatsappMatch ||
@@ -305,15 +405,15 @@ export async function collectWebsite(
     const hasSchema = /application\/ld\+json/.test(html);
 
     const hasAnalytics =
-      /google-analytics|googletagmanager|gtag\(|analytics\.google/i.test(html);
+      /google-analytics|googletagmanager|gtag\(|analytics\.google/i.test(deteccaoHtml);
 
-    const hasTagManager = /googletagmanager|GTM-/.test(html);
+    const hasTagManager = /googletagmanager|GTM-/.test(deteccaoHtml);
 
-    const hasMetaPixel = /fbevents\.js|fbq\(|facebook\.net\/en_US\/fbevents|facebook\.com\/tr|_fbp|mctrace/i.test(html);
+    const hasMetaPixel = /fbevents\.js|fbq\(|facebook\.net\/en_US\/fbevents|facebook\.com\/tr|_fbp|mctrace/i.test(deteccaoHtml);
 
     const hasGoogleAds =
-      /googlesyndication\.com|googleadservices\.com|google_ads_conversion|adsbygoogle|aw_conversion|doubleclick\.net\/pagead|gtag\(\s*['"]config['"]\s*['"]AW-/i.test(html) ||
-      /\bAW-\d{6,}\b/.test(html);
+      /googlesyndication\.com|googleadservices\.com|google_ads_conversion|adsbygoogle|aw_conversion|doubleclick\.net\/pagead|gtag\(\s*['"]config['"]\s*['"]AW-/i.test(deteccaoHtml) ||
+      /\bAW-\d{6,}\b/.test(deteccaoHtml);
 
     const automationMarkers: Array<[string, RegExp]> = [
       ["HubSpot", /hubspot\.com|hs-scripts|_hsq/i],
@@ -341,7 +441,7 @@ export async function collectWebsite(
     let automationTool: string | undefined;
 
     for (const [name, pattern] of automationMarkers) {
-      if (pattern.test(html)) {
+      if (pattern.test(deteccaoHtml)) {
         hasAutomation = true;
         automationTool = name;
         break;
