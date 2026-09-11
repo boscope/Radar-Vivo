@@ -38,6 +38,8 @@ export interface GoogleData {
 
   googlePlaceId?: string;
 
+  googleFresh?: boolean;
+
 }
 
 export interface WebsiteData {

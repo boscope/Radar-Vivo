@@ -121,6 +121,7 @@ async function collectFromGooglePlaces(
         googleReviews: place.reviews,
         hasWhatsapp: isMobileNumber(place.phone),
         googlePlaceId: place.id,
+        googleFresh: true,
       };
     }
   }
@@ -157,8 +158,11 @@ async function collectFromGooglePlaces(
     googleReviews: place.reviews,
     hasWhatsapp: isMobileNumber(place.phone),
     googlePlaceId: place.id,
+    googleFresh: true,
   };
 }
+
+const GOOGLE_CACHE_FRESHNESS_MS = 7 * 24 * 60 * 60 * 1000;
 
 async function collectFromCache(
   name: string,
@@ -181,7 +185,7 @@ async function collectFromCache(
     let query = supabase
       .from("companies")
       .select(
-        "name, city, category, phone, website, rating, reviews, google_place_id, lat, lon"
+        "name, city, category, phone, website, rating, reviews, google_place_id, lat, lon, last_checked_at"
       )
       .or(
         primeirasPalavras
@@ -199,14 +203,16 @@ async function collectFromCache(
       return c.google_place_id && (c.phone || c.website || c.rating);
     });
 
+    const linha = linhas.find((c: any) => {
+      const nomeCache = (c.name ?? "")
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+      return palavras.every((p) => nomeCache.includes(p));
+    });
+
     const cache =
-      linhas.find((c: any) => {
-        const nomeCache = (c.name ?? "")
-          .toLowerCase()
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-        return palavras.every((p) => nomeCache.includes(p));
-      }) ??
+      linha ??
       linhas.find((c: any) => {
         const nomeCache = (c.name ?? "")
           .toLowerCase()
@@ -219,6 +225,16 @@ async function collectFromCache(
       });
 
     if (!cache) return null;
+
+    const verificadaEm = new Date(
+      cache.last_checked_at ?? ""
+    ).getTime();
+
+    const cacheFresco =
+      Number.isFinite(verificadaEm) &&
+      Date.now() - verificadaEm < GOOGLE_CACHE_FRESHNESS_MS;
+
+    if (!cacheFresco) return null;
 
     return {
       companyName: cache.name ?? name,
@@ -233,6 +249,7 @@ async function collectFromCache(
       googleReviews: cache.reviews ?? undefined,
       hasWhatsapp: isMobileNumber(cache.phone),
       googlePlaceId: cache.google_place_id ?? undefined,
+      googleFresh: false,
     };
   } catch (error) {
     console.error("[GOOGLE] Erro ao ler cache:", error);
@@ -482,7 +499,7 @@ export async function collectCompanyData(
 
   const cachedResult = await enrichCompanyIntelligence(companyData);
 
-  if (type !== "site") {
+  if (type !== "site" && googleData.googleFresh) {
     const externalId = makeExternalId(
       cachedResult.companyName,
       cachedResult.city,
