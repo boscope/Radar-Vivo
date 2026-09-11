@@ -359,22 +359,38 @@ async function detectEmailMarketingDns(hostname: string) {
 
 async function fetchPageSpeedProbe(url: string) {
   const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), 25000);
+  const timer = setTimeout(() => controller.abort(), 30000);
+  const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
   try {
     const target = `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(url)}&strategy=mobile&category=performance`;
-    const res = await fetch(target, {
-      signal: controller.signal,
-      headers: { "Accept": "application/json" },
-    });
-    if (!res.ok) return undefined;
-    const data = await res.json();
-    const perf = data?.lighthouseResult?.categories?.performance?.score;
-    if (typeof perf !== "number") return undefined;
-    return {
-      performance: Math.round(perf * 100),
-      crux: data?.loadingExperience?.overall_category as string | undefined,
-    };
-  } catch {
+    for (let tentativa = 0; tentativa < 2; tentativa++) {
+      try {
+        const res = await fetch(target, {
+          signal: controller.signal,
+          headers: { "Accept": "application/json" },
+        });
+        if (!res.ok) {
+          if (tentativa === 0 && (res.status === 429 || res.status >= 500)) {
+            await sleep(4000);
+            continue;
+          }
+          return undefined;
+        }
+        const data = await res.json();
+        const perf = data?.lighthouseResult?.categories?.performance?.score;
+        if (typeof perf !== "number") return undefined;
+        return {
+          performance: Math.round(perf * 100),
+          crux: data?.loadingExperience?.overall_category as string | undefined,
+        };
+      } catch {
+        if (tentativa === 0) {
+          await sleep(3000);
+          continue;
+        }
+        return undefined;
+      }
+    }
     return undefined;
   } finally {
     clearTimeout(timer);
