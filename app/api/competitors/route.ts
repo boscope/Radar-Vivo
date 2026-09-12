@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     .ilike("city", `%${city}%`)
     .ilike("category", `%${category}%`)
     .neq("name", companyName ?? "")
-    .limit(50);
+    .limit(30);
 
   if (error) {
     console.error("[COMPETITORS]", error.message);

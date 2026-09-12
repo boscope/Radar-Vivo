@@ -35,6 +35,10 @@ type AnaliseData = {
   googleMapsUrl?: string;
   phone?: string;
   instagram?: string;
+  googleStatus?: {
+    status: "ok" | "partial" | "unavailable";
+    reason?: string;
+  };
   intelligence: {
     score: {
       score: number;
@@ -224,6 +228,17 @@ export default function RelatorioPublicoClient({
         {temConfirmacao && (
           <div className="mt-4 text-sm text-green-400 bg-green-950/40 border border-green-800/60 rounded-xl p-4">
             ✓ WhatsApp e/ou Instagram confirmados pelo proprietário.
+          </div>
+        )}
+
+        {company.googleStatus && company.googleStatus.status !== "ok" && (
+          <div className="mt-4 text-sm text-amber-400 bg-amber-950/40 border border-amber-800/60 rounded-xl p-4">
+            ⚠️ Google indisponível nesta análise
+            {company.googleStatus.reason
+              ? ` (${company.googleStatus.reason})`
+              : ""}
+            . Alguns dados podem estar incompletos — se você é o dono,
+            confirme seus canais acima para um diagnóstico justo.
           </div>
         )}
 

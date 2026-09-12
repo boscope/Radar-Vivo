@@ -2,6 +2,10 @@ import {
   canUseGoogle,
   recordGoogleUsage,
 } from "@/lib/collector/google-usage";
+import {
+  googleOk,
+  googleFail,
+} from "@/lib/collector/google-status";
 
 const GOOGLE_API_KEY =
   process.env.GOOGLE_API_KEY ?? "";
@@ -87,6 +91,7 @@ export async function googleTextSearch(
   const status = await canUseGoogle();
   if (!status.ok) {
     console.warn("[GOOGLE PLACES] Trava:", status.reason);
+    googleFail(status.reason);
     return [];
   }
 
@@ -124,12 +129,14 @@ export async function googleTextSearch(
         response.status,
         text.slice(0, 300)
       );
+      googleFail(`TextSearch HTTP ${response.status}`);
       return [];
     }
 
     const json = await response.json();
 
     await recordGoogleUsage("text_search");
+    googleOk();
 
     return ((json.places ?? []) as any[]).map((p: any) => ({
       id: p.id,
@@ -144,6 +151,7 @@ export async function googleTextSearch(
     }));
   } catch (error) {
     console.error("[GOOGLE PLACES] Erro TextSearch:", error);
+    googleFail("TextSearch (rede)");
     return [];
   }
 }
@@ -154,6 +162,7 @@ export async function googlePlaceDetails(
   const status = await canUseGoogle();
   if (!status.ok) {
     console.warn("[GOOGLE PLACES] Trava:", status.reason);
+    googleFail(status.reason);
     return null;
   }
 
@@ -178,12 +187,14 @@ export async function googlePlaceDetails(
         response.status,
         text.slice(0, 300)
       );
+      googleFail(`Details HTTP ${response.status}`);
       return null;
     }
 
     const json = await response.json();
 
     await recordGoogleUsage("details");
+    googleOk();
 
     const p = json;
     return {
@@ -202,6 +213,7 @@ export async function googlePlaceDetails(
     };
   } catch (error) {
     console.error("[GOOGLE PLACES] Erro Details:", error);
+    googleFail("Details (rede)");
     return null;
   }
 }

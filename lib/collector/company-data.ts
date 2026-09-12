@@ -29,6 +29,11 @@ import {
   analyzeCompany,
 } from "@/lib/intelligence";
 
+import {
+  resetGoogleStatus,
+  getGoogleStatus,
+} from "./google-status";
+
 function extractInstagramFromUrl(url?: string | null): string | undefined {
   if (!url) return undefined;
 
@@ -523,6 +528,8 @@ export async function collectCompanyData(
 ): Promise<CompanyData> {
   const { type, value } = parseInput(company);
 
+  resetGoogleStatus();
+
   let googleData: GoogleData;
 
   if (type === "cnpj") {
@@ -660,6 +667,7 @@ export async function collectCompanyData(
     automationTool: websiteData.automationTool,
     intelligence,
     websiteData,
+    googleStatus: getGoogleStatus(),
   };
 
   const cachedResult = await enrichCompanyIntelligence(companyData);

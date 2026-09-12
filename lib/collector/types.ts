@@ -162,4 +162,9 @@ export interface CompanyData {
 
   websiteData?: WebsiteData;
 
+  googleStatus?: {
+    status: "ok" | "partial" | "unavailable";
+    reason?: string;
+  };
+
 }

@@ -1,8 +1,6 @@
 import { supabase } from "@/lib/supabase";
 
-export const GOOGLE_TEXT_SEARCH_FREE = 5000;
 export const GOOGLE_TEXT_SEARCH_PRICE_USD = 32;
-export const GOOGLE_DETAILS_FREE = 10000;
 export const GOOGLE_DETAILS_PRICE_USD = 5;
 export const USD_TO_BRL = 5.5;
 
@@ -28,18 +26,9 @@ export function estimateCostBrl(
   textCalls: number,
   detailsCalls: number
 ): number {
-  const textExtra = Math.max(
-    0,
-    textCalls - GOOGLE_TEXT_SEARCH_FREE
-  );
-  const detailsExtra = Math.max(
-    0,
-    detailsCalls - GOOGLE_DETAILS_FREE
-  );
-
   const usd =
-    (textExtra / 1000) * GOOGLE_TEXT_SEARCH_PRICE_USD +
-    (detailsExtra / 1000) * GOOGLE_DETAILS_PRICE_USD;
+    (textCalls / 1000) * GOOGLE_TEXT_SEARCH_PRICE_USD +
+    (detailsCalls / 1000) * GOOGLE_DETAILS_PRICE_USD;
 
   return Math.round(usd * USD_TO_BRL * 100) / 100;
 }
@@ -138,7 +127,5 @@ export async function getGoogleUsageStatus() {
     estimatedCostBrl: row?.estimated_cost_brl ?? 0,
     budgetBrl: MONTHLY_BUDGET_BRL,
     blocked: row?.blocked ?? false,
-    freeTextSearch: GOOGLE_TEXT_SEARCH_FREE,
-    freeDetails: GOOGLE_DETAILS_FREE,
   };
 }
