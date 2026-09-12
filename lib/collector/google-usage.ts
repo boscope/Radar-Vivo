@@ -1,7 +1,9 @@
 import { supabase } from "@/lib/supabase";
 
+export const GOOGLE_TEXT_SEARCH_FREE = 5000;
 export const GOOGLE_TEXT_SEARCH_PRICE_USD = 32;
-export const GOOGLE_DETAILS_PRICE_USD = 5;
+export const GOOGLE_DETAILS_FREE = 1000;
+export const GOOGLE_DETAILS_PRICE_USD = 20;
 export const USD_TO_BRL = 5.5;
 
 export const MONTHLY_BUDGET_BRL = Number(
@@ -26,9 +28,11 @@ export function estimateCostBrl(
   textCalls: number,
   detailsCalls: number
 ): number {
+  const textExtra = Math.max(0, textCalls - GOOGLE_TEXT_SEARCH_FREE);
+  const detailsExtra = Math.max(0, detailsCalls - GOOGLE_DETAILS_FREE);
   const usd =
-    (textCalls / 1000) * GOOGLE_TEXT_SEARCH_PRICE_USD +
-    (detailsCalls / 1000) * GOOGLE_DETAILS_PRICE_USD;
+    (textExtra / 1000) * GOOGLE_TEXT_SEARCH_PRICE_USD +
+    (detailsExtra / 1000) * GOOGLE_DETAILS_PRICE_USD;
 
   return Math.round(usd * USD_TO_BRL * 100) / 100;
 }
