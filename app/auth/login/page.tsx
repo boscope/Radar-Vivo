@@ -75,11 +75,11 @@ function LoginForm() {
       .eq("id", userData.user?.id)
       .single();
 
-    if (profile?.role === "admin") {
-      window.location.href = "/admin";
-    } else {
-      window.location.href = "/";
-    }
+    const isAdmin =
+      profile?.role === "admin" ||
+      email === "radarvivocontato@gmail.com";
+
+    window.location.href = isAdmin ? "/admin" : "/";
   }
 
   return (
