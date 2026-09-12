@@ -127,7 +127,7 @@ export default function AdminGoogleCostsPage() {
                     nota e site) — depois ≈ R$ 0,11 cada.
                   </li>
                   <li>
-                    Esse total > R$ 50 (ou o valor da variável{" "}
+                    Esse total ultrapassar R$ 50 (ou o valor da variável{" "}
                     <code className="text-green-400">GOOGLE_MONTHLY_BUDGET_BRL</code> na Vercel) → trava
                     automática.
                   </li>
