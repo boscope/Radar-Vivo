@@ -458,6 +458,13 @@ async function enrichSiteIdentity(
 
     if (!brand) return googleData;
 
+    const hostMatches =
+      !!googleData.website &&
+      !!websiteData.website &&
+      hostnameOf(googleData.website) === hostnameOf(websiteData.website);
+
+    if (hostMatches) return googleData;
+
     const place = await searchGooglePlace(brand, undefined, brand);
 
     const placeTypes = (place?.types ?? []).join(" ");

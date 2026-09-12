@@ -156,9 +156,20 @@ export async function googleTextSearch(
   }
 }
 
+const detailsCache = new Map<
+  string,
+  { at: number; data: GooglePlaceFull | null }
+>();
+const DETAILS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+
 export async function googlePlaceDetails(
   placeId: string
 ): Promise<GooglePlaceFull | null> {
+  const cached = detailsCache.get(placeId);
+  if (cached && Date.now() - cached.at < DETAILS_CACHE_TTL_MS) {
+    return cached.data;
+  }
+
   const status = await canUseGoogle();
   if (!status.ok) {
     console.warn("[GOOGLE PLACES] Trava:", status.reason);
@@ -197,7 +208,7 @@ export async function googlePlaceDetails(
     googleOk();
 
     const p = json;
-    return {
+    const result: GooglePlaceFull | null = {
       id: p.id ?? placeId,
       name: p.displayName?.text ?? "",
       address: p.formattedAddress ?? "",
@@ -211,6 +222,8 @@ export async function googlePlaceDetails(
       website: p.websiteUri,
       mapsUrl: p.googleMapsUri,
     };
+    detailsCache.set(placeId, { at: Date.now(), data: result });
+    return result;
   } catch (error) {
     console.error("[GOOGLE PLACES] Erro Details:", error);
     googleFail("Details (rede)");

@@ -16,7 +16,7 @@ export class GoogleProvider implements SearchProvider {
         category,
         city,
         state,
-        20
+        12
       );
 
       console.log("[GOOGLE PROVIDER] Places encontrados:", places.length);
