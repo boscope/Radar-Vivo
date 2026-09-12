@@ -6,6 +6,7 @@ import {
   googleOk,
   googleFail,
 } from "@/lib/collector/google-status";
+import { supabase } from "@/lib/supabase";
 
 const GOOGLE_API_KEY =
   process.env.GOOGLE_API_KEY ?? "";
@@ -161,6 +162,72 @@ const detailsCache = new Map<
   { at: number; data: GooglePlaceFull | null }
 >();
 const DETAILS_CACHE_TTL_MS = 24 * 60 * 60 * 1000;
+const DB_CACHE_FRESHNESS_MS = 7 * 24 * 60 * 60 * 1000;
+
+type CachedPlaceRow = {
+  name: string | null;
+  city: string | null;
+  phone: string | null;
+  website: string | null;
+  rating: number | null;
+  reviews: number | null;
+  lat: number | null;
+  lon: number | null;
+  google_place_id: string;
+  last_checked_at: string | null;
+};
+
+function rowToPlaceFull(row: CachedPlaceRow): GooglePlaceFull {
+  return {
+    id: row.google_place_id,
+    name: row.name ?? "",
+    address: "",
+    city: row.city ?? undefined,
+    latitude: row.lat ?? undefined,
+    longitude: row.lon ?? undefined,
+    rating: row.rating ?? undefined,
+    reviews: row.reviews ?? undefined,
+    types: [],
+    phone: row.phone ?? undefined,
+    website: row.website ?? undefined,
+    mapsUrl:
+      row.lat != null && row.lon != null
+        ? `https://www.google.com/maps?q=${row.lat},${row.lon}`
+        : undefined,
+  };
+}
+
+async function loadCachedPlaces(
+  placeIds: string[]
+): Promise<Map<string, GooglePlaceFull>> {
+  const map = new Map<string, GooglePlaceFull>();
+  if (!placeIds.length) return map;
+
+  try {
+    const { data } = await supabase
+      .from("companies")
+      .select(
+        "name, city, phone, website, rating, reviews, lat, lon, google_place_id, last_checked_at"
+      )
+      .in("google_place_id", placeIds);
+
+    const cutoff = Date.now() - DB_CACHE_FRESHNESS_MS;
+
+    for (const row of (data ?? []) as CachedPlaceRow[]) {
+      if (!row.google_place_id) continue;
+      const checked = new Date(row.last_checked_at ?? "").getTime();
+      const fresh = Number.isFinite(checked) && checked > cutoff;
+      const hasData = !!(row.phone || row.website || row.rating);
+      if (fresh && hasData) {
+        map.set(row.google_place_id, rowToPlaceFull(row));
+      }
+    }
+  } catch (error) {
+    console.error("[GOOGLE PLACES] Erro cache DB:", error);
+  }
+
+  return map;
+}
 
 export async function googlePlaceDetails(
   placeId: string
@@ -168,6 +235,12 @@ export async function googlePlaceDetails(
   const cached = detailsCache.get(placeId);
   if (cached && Date.now() - cached.at < DETAILS_CACHE_TTL_MS) {
     return cached.data;
+  }
+
+  const fromDb = (await loadCachedPlaces([placeId])).get(placeId);
+  if (fromDb) {
+    detailsCache.set(placeId, { at: Date.now(), data: fromDb });
+    return fromDb;
   }
 
   const status = await canUseGoogle();
@@ -244,7 +317,12 @@ export async function searchGooglePlace(
 
   const details = await googlePlaceDetails(top.id);
 
-  if (details) return details;
+  if (details) {
+    return {
+      ...details,
+      types: details.types?.length ? details.types : top.types,
+    };
+  }
 
   return {
     id: top.id,
@@ -328,7 +406,19 @@ export async function searchGooglePlacesByCategory(
 
   const full: GooglePlaceFull[] = [];
 
+  const cachedMap = await loadCachedPlaces(limited.map((p) => p.id));
+
   for (const place of limited) {
+    const cached = cachedMap.get(place.id);
+
+    if (cached) {
+      full.push({
+        ...cached,
+        types: cached.types?.length ? cached.types : place.types,
+      });
+      continue;
+    }
+
     const details = await googlePlaceDetails(place.id);
     if (details) {
       full.push(details);
