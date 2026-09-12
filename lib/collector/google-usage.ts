@@ -110,11 +110,17 @@ export async function canUseGoogle(): Promise<{
   const mes = currentMonth();
   const row = await getUsageRow(mes);
 
-  if (row?.blocked) {
-    return {
-      ok: false,
-      reason: `Orçamento mensal de R$ ${MONTHLY_BUDGET_BRL} atingido.`,
-    };
+  if (row) {
+    const costNow = estimateCostBrl(
+      row.text_search_calls,
+      row.details_calls
+    );
+    if (costNow >= MONTHLY_BUDGET_BRL) {
+      return {
+        ok: false,
+        reason: `Orçamento mensal de R$ ${MONTHLY_BUDGET_BRL} atingido.`,
+      };
+    }
   }
 
   return { ok: true, reason: "ok" };
@@ -124,12 +130,16 @@ export async function getGoogleUsageStatus() {
   const mes = currentMonth();
   const row = await getUsageRow(mes);
 
+  const textCalls = row?.text_search_calls ?? 0;
+  const detailsCalls = row?.details_calls ?? 0;
+  const cost = estimateCostBrl(textCalls, detailsCalls);
+
   return {
     mes,
-    textSearchCalls: row?.text_search_calls ?? 0,
-    detailsCalls: row?.details_calls ?? 0,
-    estimatedCostBrl: row?.estimated_cost_brl ?? 0,
+    textSearchCalls: textCalls,
+    detailsCalls,
+    estimatedCostBrl: cost,
     budgetBrl: MONTHLY_BUDGET_BRL,
-    blocked: row?.blocked ?? false,
+    blocked: cost >= MONTHLY_BUDGET_BRL,
   };
 }
