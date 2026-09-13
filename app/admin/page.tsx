@@ -1,5 +1,6 @@
 import AdminSidebar from "@/components/admin/AdminSidebar";
 import { createClient } from "@supabase/supabase-js";
+import { getGoogleUsageStatus } from "@/lib/collector/google-usage";
 
 export const dynamic = "force-dynamic";
 
@@ -8,6 +9,8 @@ export default async function AdminPage() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   );
+
+  const usage = await getGoogleUsageStatus();
 
   const [
     { count: totalUsers },
@@ -112,6 +115,34 @@ export default async function AdminPage() {
               <div className="text-xs text-neutral-500 mt-1">Free → Pago</div>
             </div>
           </div>
+
+          {/* Google usage card */}
+          <a
+            href="/admin/google"
+            className="block bg-neutral-900 border border-neutral-800 hover:border-neutral-600 rounded-2xl p-5 mb-6 transition"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <div className="text-sm text-neutral-400 mb-1">Custo Google · {usage.mes}</div>
+                <div className="text-3xl font-extrabold text-yellow-400">
+                  R$ {usage.estimatedCostBrl.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
+                </div>
+                <div className="text-xs text-neutral-500 mt-1">
+                  {usage.textSearchCalls.toLocaleString("pt-BR")} buscas ·{" "}
+                  {usage.detailsCalls.toLocaleString("pt-BR")} detalhes · orçamento R${" "}
+                  {usage.budgetBrl.toLocaleString("pt-BR", { minimumFractionDigits: 2 })} ·{" "}
+                  {usage.blocked ? (
+                    <span className="text-red-400 font-bold">trava ativa</span>
+                  ) : (
+                    <span className="text-green-400">liberado</span>
+                  )}
+                </div>
+              </div>
+              <span className="bg-neutral-800 hover:bg-neutral-700 text-neutral-200 text-sm font-semibold px-4 py-2 rounded-lg whitespace-nowrap">
+                Ver detalhes →
+              </span>
+            </div>
+          </a>
 
           {/* Plan Distribution + Growth */}
           <div className="grid lg:grid-cols-2 gap-6 mb-6">

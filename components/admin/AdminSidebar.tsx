@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { createBrowserClient } from "@supabase/ssr";
@@ -21,6 +22,13 @@ type Props = {
 export default function AdminSidebar({ open, onClose }: Props) {
   const pathname = usePathname();
   const router = useRouter();
+  const [internalOpen, setInternalOpen] = useState(false);
+
+  const isOpen = open ?? internalOpen;
+  const close = () => {
+    setInternalOpen(false);
+    onClose?.();
+  };
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -47,13 +55,15 @@ export default function AdminSidebar({ open, onClose }: Props) {
             <div className="text-xs text-neutral-500">Admin</div>
           </div>
         </Link>
-        {onClose && (
-          <button onClick={onClose} className="lg:hidden text-neutral-400 hover:text-white p-1">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
+        <button
+          onClick={close}
+          className="lg:hidden text-neutral-400 hover:text-white p-1"
+          aria-label="Fechar menu"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
       <nav className="flex-1 p-4 space-y-1">
@@ -63,7 +73,7 @@ export default function AdminSidebar({ open, onClose }: Props) {
             <Link
               key={href}
               href={href}
-              onClick={onClose}
+              onClick={close}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition text-sm font-medium ${
                 isActive
                   ? "bg-green-500/10 text-green-400 border border-green-500/20"
@@ -99,12 +109,24 @@ export default function AdminSidebar({ open, onClose }: Props) {
 
   return (
     <>
+      {/* Botão hambúrguer só no mobile */}
+      <button
+        onClick={() => setInternalOpen(true)}
+        className="lg:hidden fixed top-4 left-4 z-50 bg-neutral-900 border border-neutral-800 text-neutral-200 p-3 rounded-xl hover:text-white transition"
+        aria-label="Abrir menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
       {/* Desktop */}
       <div className="hidden lg:block">{sidebarContent}</div>
+
       {/* Mobile overlay */}
-      {open && (
-        <div className="fixed inset-0 z-50 lg:hidden">
-          <div className="absolute inset-0 bg-black/60" onClick={onClose} />
+      {isOpen && (
+        <div className="fixed inset-0 z-40 lg:hidden">
+          <div className="absolute inset-0 bg-black/60" onClick={close} />
           <div className="relative">{sidebarContent}</div>
         </div>
       )}
