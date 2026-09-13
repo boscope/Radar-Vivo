@@ -1,16 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import AdminSidebar from "@/components/admin/AdminSidebar";
+import { getGoogleUsageStatus } from "@/lib/collector/google-usage";
 
-type UsageStatus = {
-  mes: string;
-  textSearchCalls: number;
-  detailsCalls: number;
-  estimatedCostBrl: number;
-  budgetBrl: number;
-  blocked: boolean;
-};
+export const dynamic = "force-dynamic";
 
 function formatBRL(value: number) {
   return value.toLocaleString("pt-BR", {
@@ -19,25 +10,18 @@ function formatBRL(value: number) {
   });
 }
 
-export default function AdminGoogleCostsPage() {
-  const [status, setStatus] = useState<UsageStatus | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+export default async function AdminGoogleCostsPage() {
+  let status: Awaited<ReturnType<typeof getGoogleUsageStatus>> | null = null;
 
-  useEffect(() => {
-    fetch("/api/google/usage")
-      .then((r) => r.json())
-      .then((data) => {
-        setStatus(data);
-        setLoading(false);
-      })
-      .catch(() => {
-        setError("Não foi possível carregar os custos de uso do Google.");
-        setLoading(false);
-      });
-  }, []);
+  try {
+    status = await getGoogleUsageStatus();
+  } catch (error) {
+    console.error("[ADMIN GOOGLE] Erro ao ler uso:", error);
+  }
 
-  const usedPercent = status ? Math.min(100, (status.estimatedCostBrl / status.budgetBrl) * 100) : 0;
+  const cost = status?.estimatedCostBrl ?? 0;
+  const budget = status?.budgetBrl ?? 50;
+  const usedPercent = status ? Math.min(100, (cost / budget) * 100) : 0;
 
   return (
     <main className="min-h-screen bg-black flex">
@@ -50,31 +34,25 @@ export default function AdminGoogleCostsPage() {
             <span className="text-white font-semibold">{status?.mes ?? "..."}</span>
           </p>
 
-          {error && (
+          {!status && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl p-6 mb-6">
-              {error}
+              Não foi possível carregar os custos de uso do Google.
             </div>
           )}
 
-          {loading && (
-            <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-6 text-neutral-400">
-              Carregando...
-            </div>
-          )}
-
-          {status && !loading && (
+          {status && (
             <>
               {/* Big numbers */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
                   <div className="text-xs text-neutral-500 mb-1">Custo estimado</div>
-                  <div className={`text-2xl font-bold ${status.estimatedCostBrl > 0 ? "text-yellow-400" : "text-green-400"}`}>
-                    {formatBRL(status.estimatedCostBrl)}
+                  <div className={`text-2xl font-bold ${cost > 0 ? "text-yellow-400" : "text-green-400"}`}>
+                    {formatBRL(cost)}
                   </div>
                 </div>
                 <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
                   <div className="text-xs text-neutral-500 mb-1">Orçamento</div>
-                  <div className="text-2xl font-bold text-white">{formatBRL(status.budgetBrl)}</div>
+                  <div className="text-2xl font-bold text-white">{formatBRL(budget)}</div>
                 </div>
                 <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
                   <div className="text-xs text-neutral-500 mb-1">Buscas</div>
@@ -102,14 +80,14 @@ export default function AdminGoogleCostsPage() {
                 </div>
                 {status.blocked ? (
                   <p className="mt-4 text-red-400 text-sm">
-                    ⚠️ Orçamento de {formatBRL(status.budgetBrl)} atingido. O Radar está{" "}
+                    ⚠️ Orçamento de {formatBRL(budget)} atingido. O Radar está{" "}
                     <strong>bloqueando novas consultas ao Google</strong> até o mês virar (a trava é por
                     mês-calendário).
                   </p>
                 ) : (
                   <p className="mt-4 text-neutral-500 text-sm">
                     Google liberado para consultas. A trava reativa automaticamente quando o custo
-                    estimado alcançar {formatBRL(status.budgetBrl)}.
+                    estimado alcançar {formatBRL(budget)}.
                   </p>
                 )}
               </div>
