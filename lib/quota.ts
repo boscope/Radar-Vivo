@@ -2,6 +2,7 @@ import { NextRequest } from "next/server";
 import { getAuthUser, getUserProfile, serviceRoleClient } from "@/lib/auth";
 
 export const FREE_DAILY_LIMIT = 3;
+export const FREE_ANON_DAILY_LIMIT = 1;
 export const TRIAL_DAYS = 3;
 
 type QuotaResult =
@@ -67,10 +68,12 @@ export async function checkSearchQuota(
 
   const used = (data?.count as number) ?? 0;
 
-  if (used >= FREE_DAILY_LIMIT) {
+  const limit = user ? FREE_DAILY_LIMIT : FREE_ANON_DAILY_LIMIT;
+
+  if (used >= limit) {
     const mensagem = user
       ? "Seu teste grátis de 3 dias terminou. Assine agora para continuar com buscas ilimitadas."
-      : "Você atingiu o limite de buscas grátis de hoje. Crie sua conta grátis e aproveite o teste de 3 dias — ou assine para buscas ilimitadas.";
+      : "Você usou sua busca grátis. Crie sua conta grátis e aproveite o teste de 3 dias — ou assine para buscas ilimitadas.";
 
     return {
       ok: false,

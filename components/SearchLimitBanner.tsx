@@ -16,10 +16,10 @@ export default function SearchLimitBanner({ remaining, isLogged }: Props) {
       <div className="bg-neutral-900 border border-neutral-700 rounded-2xl p-8 max-w-md w-full text-center">
         <div className="text-5xl mb-4">🔒</div>
         <h2 className="text-xl font-bold text-white mb-2">
-          Buscas grátis esgotadas
+          Busca grátis utilizada
         </h2>
         <p className="text-neutral-400 text-sm mb-6 leading-relaxed">
-          Você usou suas buscas grátis. Crie sua conta e teste{" "}
+          Você usou sua <strong>1 busca grátis</strong>. Faça login e teste{" "}
           <strong className="text-green-400">grátis por 3 dias</strong> com
           buscas ilimitadas.
         </p>

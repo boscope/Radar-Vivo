@@ -22,7 +22,7 @@ const faqs = [
   {
     question: "Preciso ter conta para usar?",
     answer:
-      "Não. Qualquer pessoa pode analisar uma empresa sem criar conta — são 3 buscas por dia. Ao criar uma conta gratuita, você desbloqueia 3 dias de acesso total e o dashboard com pipeline de leads e histórico.",
+      "Não. Qualquer pessoa pode analisar uma empresa sem criar conta — é 1 busca grátis. Ao criar uma conta gratuita, você desbloqueia 3 dias de acesso total e o dashboard com pipeline de leads e histórico.",
   },
   {
     question: "O que está incluído no plano Pro?",

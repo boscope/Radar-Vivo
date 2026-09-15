@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { createBrowserClient } from "@supabase/ssr";
 
-const MAX_FREE_SEARCHES = 3;
+const MAX_FREE_SEARCHES = 1;
 const STORAGE_KEY = "rv_free_searches";
 
 export function useFreeSearchLimit() {
