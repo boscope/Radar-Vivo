@@ -45,6 +45,12 @@ export default function ScannerResultPage({
   const [copied, setCopied] = useState(false);
   const [shortLink, setShortLink] = useState("");
 
+  const [pdfCompetitors, setPdfCompetitors] = useState<Array<{
+    name: string;
+    radar_score: number | null;
+    google_rating: number | null;
+  }>>([]);
+
   const [brand, setBrand] = useState<AgencyBrand | null>(null);
   const [ownerId, setOwnerId] = useState("");
 
@@ -122,6 +128,14 @@ export default function ScannerResultPage({
           await response.json();
 
         setCompany(data);
+
+        if (data.city && data.category) {
+          try {
+            const compRes = await fetch(`/api/competitors?city=${encodeURIComponent(data.city)}&category=${encodeURIComponent(data.category)}&company=${encodeURIComponent(data.companyName)}`);
+            const compData = await compRes.json();
+            setPdfCompetitors(compData.competitors ?? []);
+          } catch {}
+        }
 
         try {
           const fullUrl = `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${oid ? `&ownerId=${oid}` : ""}`;
@@ -416,6 +430,7 @@ export default function ScannerResultPage({
                 strengths: company.intelligence.diagnosis.strengths ?? [],
                 services: company.intelligence.commercial.recommendedServices ?? [],
                 aiPresence: company.intelligence.aiPresence,
+                competitors: pdfCompetitors,
               }}
             />
             <a

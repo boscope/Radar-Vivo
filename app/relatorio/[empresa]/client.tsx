@@ -521,9 +521,27 @@ function CompetitorComparison({
       .catch(() => setLoading(false));
   }, [city, category, companyName]);
 
-  if (loading || competitors.length === 0) return null;
+  if (loading) return null;
 
   const betterCount = competitors.filter(c => (c.radar_score ?? 0) > currentScore).length;
+
+  if (competitors.length === 0) {
+    return (
+      <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">
+        <h2 className="text-2xl font-bold mb-2">Comparativo com concorrentes</h2>
+        <p className="text-neutral-400 text-sm mb-4">
+          Sua empresa vs outras empresas de {category} em {city}
+        </p>
+        <div className="p-5 bg-neutral-800/40 border border-neutral-700 rounded-xl">
+          <p className="text-neutral-300 text-sm leading-relaxed">
+            Nenhum concorrente com dados públicos foi localizado nesta região
+            para comparação. Para um comparativo completo, esta e outras
+            empresas de {category} em {city} precisam ser analisadas pelo Radar.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="mt-10 bg-neutral-900 border border-neutral-800 rounded-3xl p-8">

@@ -143,6 +143,7 @@ export default function DemoPage() {
               weaknesses: demoWeaknesses,
               strengths: demoStrengths,
               services: demoServices,
+              competitors: demoCompetitors,
               aiPresence: {
                 visibilityScore: 12,
                 status: "invisivel",

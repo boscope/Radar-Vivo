@@ -242,9 +242,32 @@ export function generateReportPdf(data: ReportPdfData) {
   });
 
   // Comparativo com concorrentes
-  if (data.competitors !== undefined && data.competitors.length > 0) {
-    sectionHeader(doc, "Comparativo com concorrentes", y, ensureSpace);
-    y += 12;
+  sectionHeader(doc, "Comparativo com concorrentes", y, ensureSpace);
+  y += 12;
+
+  if (data.competitors === undefined) {
+    doc.setTextColor(...GRAY);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    const semInfo = doc.splitTextToSize(
+      "Os concorrentes desta empresa não foram informados nesta análise.",
+      CONTENT_W
+    );
+    doc.text(semInfo, M, y);
+    y += semInfo.length * 5 + 4;
+  } else if (data.competitors.length === 0) {
+    doc.setTextColor(...GRAY);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9.5);
+    const semConcorrentes = doc.splitTextToSize(
+      `Nenhum concorrente com dados públicos foi localizado ${
+        data.city ? `em ${data.city}${data.state ? `, ${data.state}` : ""} ` : ""
+      }para ${data.category ? `a categoria ${data.category}` : "este segmento"}. Para um comparativo, as empresas da região precisam ser analisadas pelo Radar.`,
+      CONTENT_W
+    );
+    doc.text(semConcorrentes, M, y);
+    y += semConcorrentes.length * 5 + 4;
+  } else {
     doc.setTextColor(...GRAY);
     doc.setFont("helvetica", "normal");
     doc.setFontSize(9);

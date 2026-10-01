@@ -177,9 +177,9 @@ export default function DemoPersonalizadaPage({ params }: Props) {
         )}
 
         {/* Concorrentes */}
-        {competitors.length > 0 && (
-          <div className="mb-10">
-            <h2 className="text-2xl font-bold mb-4">Comparativo com Concorrentes</h2>
+        <div className="mb-10">
+          <h2 className="text-2xl font-bold mb-4">Comparativo com Concorrentes</h2>
+          {competitors.length > 0 ? (
             <div className="space-y-3">
               {competitors.map((c: any, i: number) => (
                 <div key={i} className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 flex items-center justify-between">
@@ -198,8 +198,14 @@ export default function DemoPersonalizadaPage({ params }: Props) {
                 </div>
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 text-neutral-400 text-sm leading-relaxed">
+              Nenhum concorrente com dados públicos foi localizado nesta região
+              para comparação. Para um comparativo completo, as empresas do
+              segmento precisam ser analisadas pelo Radar.
+            </div>
+          )}
+        </div>
 
         {/* Serviços Recomendados */}
         {services.length > 0 && (
@@ -236,6 +242,7 @@ export default function DemoPersonalizadaPage({ params }: Props) {
               weaknesses,
               strengths,
               services,
+              competitors,
             }}
           />
         </div>
