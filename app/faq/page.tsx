@@ -20,6 +20,11 @@ const faqs = [
       "O Radar Vivo coleta dados públicos da empresa no Google Maps, no site e outras fontes. Com isso, calcula um score de presença digital de 0 a 100, identifica o que falta (SEO, Google Ads, WhatsApp, etc.) e estima quanto a empresa pode estar perdendo em receita.",
   },
   {
+    question: "O Radar entrega leads qualificados?",
+    answer:
+      "Sim, no sentido em que o Radar qualifica: cada oportunidade é uma empresa com presença digital fraca, confirmada por um diagnóstico (score, pontos de atenção e estimativa de quanto perde em vendas). Não é uma lista de 'clientes prontos para comprar' — a empresa ainda não foi contatada, então o primeiro contato é frio, porém com argumento pronto e prova na mão. Para agências e consultores de presença digital, esse é justamente o cenário ideal: você aborda com a análise pronta e fecha pela necessidade comprovada.",
+  },
+  {
     question: "Preciso ter conta para usar?",
     answer:
       "Não. Qualquer pessoa pode analisar 1 empresa grátis, sem criar conta. Para análises ilimitadas e o dashboard com pipeline de leads e histórico, basta assinar um dos planos.",

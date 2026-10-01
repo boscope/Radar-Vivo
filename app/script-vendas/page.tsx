@@ -69,6 +69,20 @@ export default function ScriptVendasPage() {
           </p>
         </div>
 
+        {/* PROMESSA HONESTA */}
+        <div className="rounded-xl border border-green-500/30 bg-green-950 p-5 mb-16">
+          <p className="text-green-300 text-sm leading-relaxed">
+            <strong className="font-bold">🛡️ A promessa certa:</strong> o Radar entrega
+            <strong> oportunidades qualificadas pelo diagnóstico</strong> — empresas que
+            claramente precisam do seu serviço (presença digital fraca, com score e
+            estimativa de perda em vendas). Ele <strong>não</strong> entrega "clientes prontos
+            para comprar": a empresa ainda não foi abordada, então o primeiro contato é
+            frio — porém com argumento pronto e prova na mão. Venda sempre essa promessa,
+            sem falar em "hot leads" ou "empresas esperando você bater na porta". Isso
+            protege sua reputação, evita frustração de cliente e chargeback.
+          </p>
+        </div>
+
         {/* PASSO 0 - ABORDAGEM PARA AGÊNCIAS E CONSULTORES */}
         <section className="mb-16">
           <div className="flex items-center gap-4 mb-2">

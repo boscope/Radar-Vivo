@@ -83,7 +83,7 @@ export default async function HomePage() {
 
             <h1 className="mt-6 text-3xl md:text-4xl font-extrabold leading-snug max-w-3xl mx-auto">
 
-              Encontre Empresas Prontas antes da concorrência — e transforme oportunidades escondidas em novos clientes todos os meses.
+              Encontre Empresas que precisam de você antes da concorrência — e transforme oportunidades diagnosticadas em novos clientes todos os meses.
 
             </h1>
 
@@ -132,7 +132,7 @@ export default async function HomePage() {
                 </p>
 
                 <p className="text-neutral-500 mt-1 text-sm">
-                  Oportunidades mapeadas
+                  Oportunidades qualificadas
                 </p>
 
               </div>
