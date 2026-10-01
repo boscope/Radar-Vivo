@@ -41,9 +41,69 @@ const PAGE_H = 297;
 const M = 16;
 const CONTENT_W = PAGE_W - M * 2;
 
+// jsPDF (fonte Helvetica padrão) não tem glifos de emoji:
+// troca os ícones comuns por texto e remove os demais caracteres fora da
+// codificação WinAnsi (senão viram quadradinhos no PDF).
+const EMOJI_TO_TEXT: Record<string, string> = {
+  "🚀": "",
+  "⚠️": "Atenção: ",
+  "⚠": "Atenção: ",
+  "⏰": "",
+  "📞": "",
+  "📸": "",
+  "📷": "",
+  "🎯": "",
+  "🏆": "",
+  "💡": "",
+  "✅": "",
+  "❌": "",
+  "⚡": "",
+  "🔍": "",
+  "📊": "",
+  "📋": "",
+  "💰": "",
+  "🔒": "",
+  "🔓": "",
+  "💳": "",
+  "↩️": "",
+  "★": "",
+};
+
+function cleanPdfText(value: string): string {
+  let out = value;
+  for (const [emoji, text] of Object.entries(EMOJI_TO_TEXT)) {
+    out = out.split(emoji).join(text);
+  }
+  return out
+    .replace(/[\u{1F000}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE00}-\u{FE0F}\u{200D}]/gu, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+}
+
 export function generateReportPdf(data: ReportPdfData) {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   let y = M;
+
+  // Sanitiza textos vindos dos dados (emojis não renderizam na fonte padrão)
+  data.companyName = cleanPdfText(data.companyName);
+  if (data.city) data.city = cleanPdfText(data.city);
+  if (data.state) data.state = cleanPdfText(data.state);
+  if (data.category) data.category = cleanPdfText(data.category);
+  if (data.priority) data.priority = cleanPdfText(data.priority);
+  data.checks = data.checks.map((c) => ({ ...c, label: cleanPdfText(c.label) }));
+  data.weaknesses = data.weaknesses.map(cleanPdfText);
+  data.strengths = data.strengths.map(cleanPdfText);
+  data.services = data.services.map(cleanPdfText);
+  if (data.aiPresence) {
+    data.aiPresence = {
+      ...data.aiPresence,
+      summary: cleanPdfText(data.aiPresence.summary),
+      detail: cleanPdfText(data.aiPresence.detail),
+    };
+  }
+  if (data.competitors) {
+    data.competitors = data.competitors.map((c) => ({ ...c, name: cleanPdfText(c.name) }));
+  }
 
   const paintBackground = () => {
     doc.setFillColor(...BG);
@@ -151,16 +211,14 @@ export function generateReportPdf(data: ReportPdfData) {
     doc.setLineWidth(0.3);
     doc.roundedRect(M, y - 4.5, CONTENT_W, 8, 1.5, 1.5, "FD");
     if (check.ok) {
-      doc.setTextColor(...GREEN);
-      doc.setFont("helvetica", "bold");
-      doc.text("✓", M + 3, y);
+      doc.setFillColor(...GREEN);
+      doc.circle(M + 3, y - 1, 1.6, "F");
       doc.setTextColor(...WHITE);
       doc.setFont("helvetica", "normal");
     } else {
-      doc.setTextColor(...RED);
-      doc.setFont("helvetica", "bold");
-      doc.text("✗", M + 3, y);
-      doc.setTextColor(...LIGHT);
+      doc.setFillColor(...RED);
+      doc.circle(M + 3, y - 1, 1.6, "F");
+      doc.setTextColor(...WHITE);
       doc.setFont("helvetica", "normal");
     }
     doc.setFontSize(10);
@@ -314,7 +372,7 @@ export function generateReportPdf(data: ReportPdfData) {
       const danger = (c.radar_score ?? 0) > data.score;
       row(
         c.name,
-        c.google_rating ? `⭐ ${c.google_rating}` : "",
+        c.google_rating ? `Avaliação: ${c.google_rating}` : "",
         c.radar_score === null ? "—" : String(c.radar_score),
         false,
         danger
@@ -335,7 +393,7 @@ export function generateReportPdf(data: ReportPdfData) {
       doc.setFont("helvetica", "bold");
       doc.setFontSize(9.5);
       doc.text(
-        `⚠️ ${betterCount} concorrente${betterCount > 1 ? "s" : ""} à frente de você`,
+        `Atenção: ${betterCount} concorrente${betterCount > 1 ? "s" : ""} à frente de você`,
         M + 3,
         y
       );

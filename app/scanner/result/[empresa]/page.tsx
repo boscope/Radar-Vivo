@@ -517,6 +517,75 @@ export default function ScannerResultPage({
 
         </div>
 
+        {/* Comparativo com concorrentes */}
+        {company.city && company.category && (
+          <div className="bg-zinc-900 rounded-xl p-8 mt-10">
+
+            <h2 className="text-2xl font-bold mb-2">
+
+              Comparativo com concorrentes
+
+            </h2>
+
+            <p className="text-zinc-400 text-sm mb-6">
+
+              Sua empresa vs outras empresas de {company.category} em {company.city}
+
+            </p>
+
+            {pdfCompetitors.length === 0 ? (
+              <div className="p-5 bg-zinc-800/40 border border-zinc-700 rounded-xl">
+                <p className="text-zinc-300 text-sm leading-relaxed">
+                  Nenhum concorrente com dados públicos foi localizado nesta região
+                  para comparação. Para um comparativo completo, esta e outras
+                  empresas de {company.category} em {company.city} precisam ser
+                  analisadas pelo Radar.
+                </p>
+              </div>
+            ) : (
+              <>
+                <div className="space-y-3">
+
+                  <div className="flex items-center justify-between p-4 rounded-xl bg-green-500/15 border border-green-500">
+
+                    <span className="font-bold">{company.companyName} (sua empresa)</span>
+
+                    <span className="text-2xl font-extrabold text-green-400">{company.intelligence.score.score}</span>
+
+                  </div>
+
+                  {pdfCompetitors.map((c) => (
+                    <div key={c.name} className="flex items-center justify-between gap-3 p-4 bg-zinc-800/50 rounded-xl">
+                      <div className="flex items-center gap-3 min-w-0">
+                        <span className="text-zinc-500">🏪</span>
+                        <span className="text-zinc-300 break-words">{c.name}</span>
+                      </div>
+                      <div className="flex items-center gap-4 shrink-0">
+                        {c.google_rating && (
+                          <span className="text-sm text-zinc-400">⭐ {c.google_rating}</span>
+                        )}
+                        <span className={`text-lg font-bold ${(c.radar_score ?? 0) > company.intelligence.score.score ? "text-red-400" : "text-green-400"}`}>
+                          {c.radar_score ?? "—"}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                {pdfCompetitors.filter((c) => (c.radar_score ?? 0) > company.intelligence.score.score).length > 0 && (
+                  <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl">
+                    <p className="text-red-400 font-bold">
+                      ⚠️ {pdfCompetitors.filter((c) => (c.radar_score ?? 0) > company.intelligence.score.score).length} concorrente{pdfCompetitors.filter((c) => (c.radar_score ?? 0) > company.intelligence.score.score).length > 1 ? "s" : ""} à frente de você
+                    </p>
+                    <p className="text-red-400/70 text-sm mt-1">
+                      Estes concorrentes estão aparecendo mais no Google e atraindo mais clientes.
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
       </div>
 
     </main>
