@@ -176,7 +176,7 @@ export default function AdminUsersPage() {
               className="bg-neutral-900 border border-neutral-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-green-400"
             >
               <option value="">Todos os planos</option>
-              <option value="free">Teste Grátis</option>
+              <option value="free">Grátis</option>
               <option value="pro">Pro</option>
               <option value="agency">Agência</option>
             </select>

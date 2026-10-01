@@ -19,16 +19,16 @@ export default function SearchLimitBanner({ remaining, isLogged }: Props) {
           Busca grátis utilizada
         </h2>
         <p className="text-neutral-400 text-sm mb-6 leading-relaxed">
-          Você usou sua <strong>1 busca grátis</strong>. Faça login e teste{" "}
-          <strong className="text-green-400">grátis por 3 dias</strong> com
-          buscas ilimitadas.
+          Você usou sua <strong>1 busca grátis</strong>. Assine agora e tenha{" "}
+          <strong className="text-green-400">buscas ilimitadas</strong> para
+          fechar mais vendas.
         </p>
 
         <Link
-          href="/auth/cadastro"
+          href="/auth/cadastro?plan=pro"
           className="block w-full bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg px-4 py-3 transition mb-3"
         >
-          Criar conta grátis
+          Assinar agora
         </Link>
 
         <Link

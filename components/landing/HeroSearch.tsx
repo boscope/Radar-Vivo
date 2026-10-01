@@ -79,10 +79,10 @@ export default function HeroSearch() {
 
         <p className="mt-2 text-neutral-500 text-sm">
           {isLogged
-            ? "Você tem até 3 dias de teste grátis com acesso total. Depois, 3 buscas por dia no plano grátis."
+            ? "Plano grátis: 1 busca por dia. Assine para buscas ilimitadas."
             : remaining() > 0
-            ? `${remaining()} busca${remaining() > 1 ? "s" : ""} grátis restante${remaining() > 1 ? "s" : ""}. Depois, teste 3 dias grátis.`
-            : "Crie sua conta para continuar analisando."}
+            ? "1 busca grátis. Depois, assine para continuar analisando."
+            : "Sua busca grátis acabou. Assine para continuar analisando."}
         </p>
       </div>
 

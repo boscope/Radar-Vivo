@@ -13,9 +13,8 @@ export function getStripe(): Stripe {
 
 export const PLANS = {
   free: {
-    name: "Teste Grátis",
+    name: "Grátis",
     price: 0,
-    trialDays: 3,
     stripePriceId: null,
   },
   pro: {

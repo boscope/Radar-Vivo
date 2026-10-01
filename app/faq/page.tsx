@@ -12,7 +12,7 @@ const faqs = [
   {
     question: "É realmente gratuito?",
     answer:
-      "Sim! Criando uma conta, você tem 3 dias de acesso total ao Radar Vivo, sem cartão. Depois do teste, a conta grátis continua funcionando com 3 buscas por dia. Para buscas e análises ilimitadas, temos os planos Pro (R$197/mês) e Agência (R$397/mês).",
+      "Sim! Você faz 1 análise completa grátis, sem cartão. Depois, para buscas e análises ilimitadas, temos os planos Pro (R$197/mês) e Agência (R$397/mês).",
   },
   {
     question: "Como funciona a análise?",
@@ -22,7 +22,7 @@ const faqs = [
   {
     question: "Preciso ter conta para usar?",
     answer:
-      "Não. Qualquer pessoa pode analisar uma empresa sem criar conta — é 1 busca grátis. Ao criar uma conta gratuita, você desbloqueia 3 dias de acesso total e o dashboard com pipeline de leads e histórico.",
+      "Não. Qualquer pessoa pode analisar 1 empresa grátis, sem criar conta. Para análises ilimitadas e o dashboard com pipeline de leads e histórico, basta assinar um dos planos.",
   },
   {
     question: "O que está incluído no plano Pro?",

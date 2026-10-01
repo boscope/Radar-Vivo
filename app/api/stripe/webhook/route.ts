@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       const userId = subscription.metadata?.userId;
 
       const mapStatus = (s: string) => {
-        if (s === "active" || s === "trialing") return "active";
+        if (s === "active") return "active";
         if (s === "past_due") return "past_due";
         return "canceled";
       };
@@ -70,10 +70,6 @@ export async function POST(request: NextRequest) {
             ? new Date(periodEnd * 1000).toISOString()
             : null,
         };
-
-        if (subscription.status === "trialing") {
-          update.plan = subscription.metadata?.plan || "pro";
-        }
 
         if (subscription.status === "active") {
           update.plan = subscription.metadata?.plan || "pro";

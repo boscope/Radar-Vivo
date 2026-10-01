@@ -59,7 +59,7 @@ const statusIcons: Record<string, string> = {
 };
 
 const planNames: Record<string, string> = {
-  free: "Teste Grátis",
+  free: "Grátis",
   pro: "Pro",
   agency: "Agência",
 };
@@ -336,11 +336,9 @@ export default function DashboardPage() {
 
   if (!data) return null;
 
-  const isTrial = data.profile?.subscription_status === "active" && data.profile?.plan === "free";
   const isActive = data.profile?.subscription_status === "active";
   const isInactive = !isActive && data.profile?.subscription_status !== "active";
   const plan = data.profile?.plan ?? "free";
-  const periodEnd = data.profile?.subscription_current_period_end;
 
   const pipelineStatuses = ["Novo", "Contato", "Proposta", "Fechado"];
   const pipelineCounts = pipelineStatuses.map(status => ({
@@ -467,23 +465,6 @@ export default function DashboardPage() {
                 Ver planos →
               </Link>
             </div>
-          </div>
-        )}
-
-        {/* Trial Banner */}
-        {isTrial && (
-          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4 mb-8 flex flex-wrap items-center gap-3">
-            <span className="text-2xl">⏰</span>
-            <div className="flex-1 min-w-[150px]">
-              <p className="text-amber-400 font-semibold">Período de teste ativo</p>
-              <p className="text-amber-400/60 text-sm">
-                Aproveite todos os recursos gratuitamente.
-                {periodEnd && ` Expira em ${new Date(periodEnd).toLocaleDateString("pt-BR")}.`}
-              </p>
-            </div>
-            <Link href="/#precos" className="text-sm text-amber-400 hover:text-amber-300 font-bold whitespace-nowrap shrink-0">
-              Assinar agora →
-            </Link>
           </div>
         )}
 

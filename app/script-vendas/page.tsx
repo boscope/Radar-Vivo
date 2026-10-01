@@ -137,7 +137,7 @@ Com R$ 197/mês no Radar Vivo, você gera relatórios ilimitados que fecham cont
 
 Se fechar 1 contrato extra de R$ 500/mês por mês, o Radar se pagou 2,5x. O resto é lucro.
 
-Sem fidelidade. Testa 3 dias grátis. Se não gostar, cancela.
+Sem fidelidade. Analisa a primeira empresa grátis. Se não gostar, cancela.
 
 Quero te mostrar como funciona na prática — me dá 15 minutos?`}
             />

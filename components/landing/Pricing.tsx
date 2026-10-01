@@ -7,16 +7,15 @@ import { useRouter } from "next/navigation";
 const plans = [
   {
     key: "free",
-    name: "Teste Grátis",
+    name: "Grátis",
     price: "0",
-    period: "3 dias",
+    period: "/1 busca",
     badge: null,
     highlight: false,
-    icon: "🧪",
-    description: "Acesso total por 3 dias. Sem cartão. Depois do teste, o plano grátis continua com 3 buscas por dia.",
+    icon: "🆓",
+    description: "Análise completa de 1 empresa, sem cartão. Se gostar, assine a partir de R$ 197/mês.",
     features: [
-      { text: "Buscas ilimitadas durante os 3 dias de teste", included: true },
-      { text: "Análise completa de empresas (3 buscas/dia depois do teste)", included: true },
+      { text: "1 análise completa de empresa por dia", included: true },
       { text: "Scripts de abordagem prontos", included: true },
       { text: "Pipeline de leads", included: true },
       { text: "Relatório público compartilhável", included: true },
@@ -24,7 +23,7 @@ const plans = [
       { text: "Mensagem WhatsApp automática", included: false },
       { text: "Suporte prioritário", included: false },
     ],
-    cta: "Começar grátis",
+    cta: "Analisar grátis",
     ctaStyle: "border border-neutral-600 hover:bg-neutral-900 text-white",
   },
   {
@@ -132,7 +131,7 @@ export default function Pricing() {
           Planos simples, <span className="text-green-400">preço justo</span>
         </h2>
         <p className="text-neutral-400 mt-4 max-w-2xl mx-auto text-lg">
-          Comece com 3 dias grátis. Um único site vendido já paga meses de assinatura.
+          Comece com 1 análise grátis. Um único site vendido já paga meses de assinatura.
         </p>
 
         {/* ROI Callout */}

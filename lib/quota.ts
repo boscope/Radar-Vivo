@@ -1,9 +1,7 @@
 import { NextRequest } from "next/server";
 import { getAuthUser, getUserProfile, serviceRoleClient } from "@/lib/auth";
 
-export const FREE_DAILY_LIMIT = 3;
-export const FREE_ANON_DAILY_LIMIT = 1;
-export const TRIAL_DAYS = 3;
+export const FREE_DAILY_LIMIT = 1;
 
 type QuotaResult =
   | { ok: true }
@@ -24,23 +22,6 @@ export async function checkSearchQuota(
         profile.subscription_status === "active";
 
       if (paid || profile.role === "admin") {
-        return { ok: true };
-      }
-
-      if (profile.subscription_status === "trialing") {
-        return { ok: true };
-      }
-    }
-
-    const createdAtRaw = user.created_at ?? profile?.created_at ?? null;
-
-    if (createdAtRaw) {
-      const createdMs = new Date(createdAtRaw).getTime();
-      const emTrial =
-        Number.isFinite(createdMs) &&
-        Date.now() < createdMs + TRIAL_DAYS * 24 * 60 * 60 * 1000;
-
-      if (emTrial) {
         return { ok: true };
       }
     }
@@ -68,16 +49,11 @@ export async function checkSearchQuota(
 
   const used = (data?.count as number) ?? 0;
 
-  const limit = user ? FREE_DAILY_LIMIT : FREE_ANON_DAILY_LIMIT;
-
-  if (used >= limit) {
-    const mensagem = user
-      ? "Seu teste grátis de 3 dias terminou. Assine agora para continuar com buscas ilimitadas."
-      : "Você usou sua busca grátis. Crie sua conta grátis e aproveite o teste de 3 dias — ou assine para buscas ilimitadas.";
-
+  if (used >= FREE_DAILY_LIMIT) {
     return {
       ok: false,
-      error: mensagem,
+      error:
+        "Você usou sua 1 busca grátis. Assine agora para continuar com buscas ilimitadas.",
       status: 429,
       needUpgrade: true,
     };

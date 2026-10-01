@@ -152,7 +152,7 @@ export default async function AdminPage() {
               <h2 className="text-lg font-bold text-white mb-4">Distribuição por Plano</h2>
               <div className="space-y-4">
                 {[
-                  { label: "Teste Grátis", count: planCounts.free, active: activeCounts.free, color: "bg-neutral-500", textColor: "text-neutral-400" },
+                  { label: "Grátis", count: planCounts.free, active: activeCounts.free, color: "bg-neutral-500", textColor: "text-neutral-400" },
                   { label: "Pro", count: planCounts.pro, active: activeCounts.pro, color: "bg-green-500", textColor: "text-green-400" },
                   { label: "Agência", count: planCounts.agency, active: activeCounts.agency, color: "bg-amber-500", textColor: "text-amber-400" },
                 ].map(({ label, count, active, color, textColor }) => (

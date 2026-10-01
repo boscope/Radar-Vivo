@@ -126,7 +126,7 @@ function CadastroForm() {
           <p className="text-neutral-400 text-sm mt-1">
             {plan === "pro" || plan === "agency"
               ? "Crie sua conta para prosseguir com a assinatura"
-              : "Teste grátis por 3 dias, sem cartão de crédito"}
+              : "Crie sua conta grátis e analise empresas"}
           </p>
         </div>
 
@@ -216,7 +216,7 @@ function CadastroForm() {
               ? "Criando conta..."
               : plan === "pro" || plan === "agency"
               ? "Criar conta e assinar"
-              : "Começar teste grátis"}
+              : "Criar conta"}
           </button>
         </form>
 

@@ -14,9 +14,9 @@ export async function POST(request: NextRequest) {
 
     const planConfig = PLANS[plan as PlanKey];
 
-    // Teste grátis não precisa de checkout
+    // Plano grátis não precisa de checkout
     if (plan === "free") {
-      return NextResponse.json({ url: null, message: "Teste grátis ativado" });
+      return NextResponse.json({ url: null, message: "1 busca grátis disponível" });
     }
 
     const user = await getAuthUser(request);
