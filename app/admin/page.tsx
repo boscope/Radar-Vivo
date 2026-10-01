@@ -123,7 +123,7 @@ export default async function AdminPage() {
           >
             <div className="flex items-center justify-between gap-4">
               <div>
-                <div className="text-sm text-neutral-400 mb-1">Custo Google · {usage.mes}</div>
+                <div className="text-sm text-neutral-400 mb-1">Consumo Google (estimado) · {usage.mes}</div>
                 <div className="text-3xl font-extrabold text-yellow-400">
                   R$ {usage.estimatedCostBrl.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}
                 </div>

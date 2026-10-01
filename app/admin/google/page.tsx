@@ -30,9 +30,23 @@ export default async function AdminGoogleCostsPage() {
         <div className="max-w-3xl mx-auto">
           <h1 className="text-3xl font-bold text-white mb-1">Custos Google</h1>
           <p className="text-neutral-400 text-sm mb-8">
-            Consumo da minha chave de produção (Places API) no mês de{" "}
+            Estimativa de consumo do Radar na minha chave de produção (Places
+            API) no mês de{" "}
             <span className="text-white font-semibold">{status?.mes ?? "..."}</span>
           </p>
+
+          <div className="bg-blue-500/10 border border-blue-500/30 rounded-2xl p-6 mb-6">
+            <p className="text-blue-300 text-sm leading-relaxed">
+              ⛅ Isso <strong className="text-blue-200">não é uma dívida</strong> — é o consumo
+              estimado pelo Radar. Sua conta do Google está no{" "}
+              <strong className="text-blue-200">teste gratuito</strong> com{" "}
+              <strong className="text-blue-200">R$ 1.745 em créditos</strong> (R$ 194 usados,
+              expira em 15/11/2026): as chamadas desta chave são abatidas dos créditos e nada é
+              cobrado enquanto eles durarem. A cobrança real aparece apenas no{" "}
+              <strong className="text-blue-200">Cloud Billing</strong> (console.cloud.google.com →
+              Billing).
+            </p>
+          </div>
 
           {!status && (
             <div className="bg-red-500/10 border border-red-500/30 text-red-400 rounded-2xl p-6 mb-6">
@@ -45,7 +59,7 @@ export default async function AdminGoogleCostsPage() {
               {/* Big numbers */}
               <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 <div className="bg-neutral-900 border border-neutral-800 rounded-2xl p-5">
-                  <div className="text-xs text-neutral-500 mb-1">Custo estimado</div>
+                  <div className="text-xs text-neutral-500 mb-1">Consumo estimado</div>
                   <div className={`text-2xl font-bold ${cost > 0 ? "text-yellow-400" : "text-green-400"}`}>
                     {formatBRL(cost)}
                   </div>
