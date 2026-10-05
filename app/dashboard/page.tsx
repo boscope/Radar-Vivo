@@ -6,6 +6,7 @@ import { createBrowserClient } from "@supabase/ssr";
 import Link from "next/link";
 import RadarLoader from "@/components/ui/RadarLoader";
 import { useAuth } from "@/lib/auth-context";
+import GerarAbordagem from "@/components/opportunity/GerarAbordagem";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -636,6 +637,15 @@ export default function DashboardPage() {
                                   ? "..."
                                   : "📥 Salvar"}
                             </button>
+                            <GerarAbordagem
+                              compact
+                              companyName={c.name}
+                              city={c.city}
+                              state={c.state}
+                              category={c.category}
+                              placeId={c.googlePlaceId}
+                              phone={c.phone}
+                            />
                           </div>
                         </div>
                       </div>

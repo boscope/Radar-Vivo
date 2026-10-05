@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useFreeSearchLimit } from "@/lib/hooks/useFreeSearchLimit";
 import SearchLimitBanner from "@/components/SearchLimitBanner";
 import RadarLoader from "@/components/ui/RadarLoader";
+import GerarAbordagem from "@/components/opportunity/GerarAbordagem";
 
 type Company = {
   name: string;
@@ -441,6 +442,15 @@ function BuscaMassaContent() {
                             ? "Salvando..."
                             : "📥 Salvar no pipeline"}
                       </button>
+
+                      <GerarAbordagem
+                        companyName={company.name}
+                        city={company.city}
+                        state={company.state}
+                        category={company.category}
+                        placeId={company.googlePlaceId}
+                        phone={company.phone}
+                      />
 
                     </div>
 
