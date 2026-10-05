@@ -8,6 +8,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "ownerId obrigatório" }, { status: 400 });
   }
 
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  if (!uuidRegex.test(ownerId)) {
+    return NextResponse.json({ branding: null }, { status: 200 });
+  }
+
   const adminSupabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -19,10 +25,11 @@ export async function GET(request: NextRequest) {
       "agency_name, agency_logo_url, agency_color, agency_whatsapp, agency_website"
     )
     .eq("id", ownerId)
-    .single();
+    .maybeSingle();
 
-  if (error) return NextResponse.json({ error: error.message }, { status: 500 });
-  if (!data) return NextResponse.json({ error: "Agência não encontrada" }, { status: 404 });
+  // Sem perfil ou sem marca configurada: sem marca (não é erro).
+  if (error) return NextResponse.json({ branding: null }, { status: 200 });
+  if (!data) return NextResponse.json({ branding: null }, { status: 200 });
 
   return NextResponse.json({
     branding: {
