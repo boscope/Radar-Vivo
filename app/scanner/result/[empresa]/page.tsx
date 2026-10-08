@@ -10,7 +10,6 @@ import LeadCapture from "@/components/scanner/LeadCapture";
 
 import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
 import ExportPdfButton from "@/components/scanner/ExportPdfButton";
-import GerarAbordagem from "@/components/opportunity/GerarAbordagem";
 import RadarLoader from "@/components/ui/RadarLoader";
 
 import type {
@@ -139,7 +138,13 @@ export default function ScannerResultPage({
         }
 
         try {
-          const fullUrl = `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${window.location.search}${oid ? `&ownerId=${oid}` : ""}`;
+          const alvo = new URLSearchParams(window.location.search);
+          // Não envia a cidade-placeholder como se fosse real.
+          if (/^cidade n/i.test(alvo.get("city") || "")) alvo.delete("city");
+          if (/^cidade n/i.test(alvo.get("state") || "")) alvo.delete("state");
+          if (oid) alvo.set("ownerId", oid);
+          const qs = alvo.toString();
+          const fullUrl = `${window.location.origin}/relatorio/${encodeURIComponent(empresa)}${qs ? `?${qs}` : ""}`;
           const res = await fetch("/api/short-link", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -442,12 +447,6 @@ export default function ScannerResultPage({
             >
               👁️ Ver relatório completo
             </a>
-            <GerarAbordagem
-              companyName={company.companyName}
-              city={company.city}
-              category={company.category}
-              phone={company.phone}
-            />
           </div>
 
         </div>

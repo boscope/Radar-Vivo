@@ -66,20 +66,36 @@ export default function GerarAbordagem({
       setLogado(false);
     }
 
+    // Nunca envia a cidade-placeholder como se fosse real.
+    const cidadeValida =
+      city && !/^cidade n/i.test(city.trim()) ? city : "";
+
     const params = new URLSearchParams();
-    if (city) params.set("city", city);
-    if (state) params.set("state", state);
+    if (cidadeValida) params.set("city", cidadeValida);
+    if (state && !/^cidade n/i.test(state.trim())) params.set("state", state);
     if (category) params.set("category", category);
     if (placeId) params.set("placeId", placeId);
     if (ownerId) params.set("ownerId", ownerId);
 
     const qs = params.toString();
-    const url = `${window.location.origin}/relatorio/${encodeURIComponent(
+    const urlAlvo = `${window.location.origin}/relatorio/${encodeURIComponent(
       companyName
     )}${qs ? `?${qs}` : ""}`;
 
-    setLink(url);
-    setMensagem(mensagemPadrao(companyName, url, city));
+    // Tenta encurtar via /api/short-link (link /r/... é mais curto e robusto).
+    let linkFinal = urlAlvo;
+    try {
+      const res = await fetch("/api/short-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ url: urlAlvo }),
+      });
+      const data = await res.json();
+      if (data.shortUrl) linkFinal = data.shortUrl;
+    } catch {}
+
+    setLink(linkFinal);
+    setMensagem(mensagemPadrao(companyName, linkFinal, cidadeValida));
     setCopiado(null);
     setAberto(true);
   }
