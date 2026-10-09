@@ -779,6 +779,7 @@ export default function DashboardPage() {
                           >
                             Analisar
                           </a>
+                          <GerarAbordagem compact companyName={lead.company} />
                           <button
                             onClick={() => excluirLead(lead.id)}
                             disabled={deletando === lead.id}
@@ -847,6 +848,12 @@ export default function DashboardPage() {
                       >
                         {deletando === company.id ? "..." : "🗑️"}
                       </button>
+                      <GerarAbordagem
+                        compact
+                        companyName={company.name}
+                        city={company.city}
+                        category={company.category}
+                      />
                     </div>
                   </div>
                 </div>

@@ -10,6 +10,7 @@ import LeadCapture from "@/components/scanner/LeadCapture";
 
 import PresencaDigitalChecklist from "@/components/scanner/PresencaDigitalChecklist";
 import ExportPdfButton from "@/components/scanner/ExportPdfButton";
+import GerarAbordagem from "@/components/opportunity/GerarAbordagem";
 import RadarLoader from "@/components/ui/RadarLoader";
 
 import type {
@@ -447,6 +448,12 @@ export default function ScannerResultPage({
             >
               👁️ Ver relatório completo
             </a>
+            <GerarAbordagem
+              companyName={company.companyName}
+              city={company.city}
+              category={company.category}
+              phone={company.phone}
+            />
           </div>
 
         </div>
